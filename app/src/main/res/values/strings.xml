@@ -1,0 +1,122 @@
+<resources>
+    <string name="app_name">LOS</string>
+    <!--    <string name="app_name">LEAD</string>-->
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+
+    <string-array name="spinner_loan_type">
+        <item>Select Loan Type</item>
+        <item>JLG</item>
+        <item>Individual Loan</item>
+        <item>MSME</item>
+        <item>TW</item>
+    </string-array>
+
+    <string-array name="lead_sort_by_date">
+        <item>Sort By Date</item>
+        <item>ASC</item>
+        <item>DESC</item>
+    </string-array>
+
+    <string-array name="spinner_absent_reason">
+        <item>Select absent reason</item>
+        <item>Leave</item>
+        <item>Member Death</item>
+        <item>Migration</item>
+        <item>Natural Calamity</item>
+        <item>Sick/Not Well</item>
+        <item>Social Event</item>
+        <item>Work</item>
+    </string-array>
+
+    <string-array name="spinner_details_reason">
+        <item>Select arrear reason</item>
+        <item>Business Loss</item>
+        <item>Center Commission</item>
+        <item>Center Leader Problem</item>
+        <item>Family Function</item>
+        <item>Festival</item>
+        <item>Husband Death</item>
+        <item>Medical</item>
+        <item>Member Death</item>
+        <item>Migration</item>
+        <item>Natural Calamity</item>
+        <item>Other Agent Commission</item>
+        <item>Out Of Village</item>
+        <item>Staff Fraud</item>
+        <item>Willful Defaulter</item>
+    </string-array>
+
+    <string-array name="spinner_cgt_absent_reason">
+        <item>Select absent reason</item>
+        <item>Business Loss</item>
+        <item>Center Commission</item>
+        <item>Center Leader Problem</item>
+        <item>Family Function</item>
+        <item>Festival</item>
+        <item>Husband Death</item>
+        <item>Medical</item>
+        <item>Member Death</item>
+        <item>Migration</item>
+        <item>Natural Calamity</item>
+        <item>Other Agent Commission</item>
+        <item>Out Of Village</item>
+        <item>Staff Fraud</item>
+        <item>Willful Defaulter</item>
+    </string-array>
+
+
+    <string-array name="lead_sort_by_application_stage">
+        <item>Sort By Application Stage</item>
+    </string-array>
+
+    <string-array name="user_roles">
+        <item>Select Role</item>
+    </string-array>
+
+
+    <string-array name="lead_sort_by_alphabetical_order">
+        <item>Sort By Alphabet</item>
+        <item>ASCENDING</item>
+        <item>DESCENDING</item>
+    </string-array>
+    <string-array name="lead_sort_by_loan_type">
+        <item>Sort By Loan Type</item>
+        <item>Affordable Housing Loan</item>
+        <item>Consumer Durable Loan</item>
+        <item>Individual Loan</item>
+        <item>JLG</item>
+        <item>Loan against property</item>
+        <item>Two Wheeler</item>
+        <item>MSME/Business loan</item>
+        <item>All</item>
+    </string-array>
+    <string-array name="lead_sort_by_interested_or_not">
+        <item>Sort By Interested Loan</item>
+        <item>Interested</item>
+        <item>Not Interested</item>
+        <item>All</item>
+    </string-array>
+    <string-array name="purpose_of_visit">
+        <item>Select purpose of visit</item>
+        <item>Cold calling</item>
+        <item>Lead Generation</item>
+        <item>Application</item>
+        <item>Pre-PD</item>
+        <item>PD</item>
+        <item>Document Clearance</item>
+        <item>Collection</item>
+    </string-array>
+    <string name="forgotpassword"> &lt;u>Forgot your password?&lt;/u></string>
+    <string name="version">Version</string>
+    <string name="details">&lt;u>Details&lt;/u></string>
+    <string name="yes_or_no">&lt;u>Yes/No&lt;/u></string>
+
+
+    <string name="sod">SOD </string>
+    <string name="eod">EOD </string>
+    <string name="ldap">LDAP </string>
+</resources>

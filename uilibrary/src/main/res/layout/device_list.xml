@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/title_paired_devices"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/rfs_green"
+        android:textColor="@android:color/white"
+        android:padding="@dimen/_5sdp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="@dimen/_11ssp"
+        android:text="Paired Devices" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/paired_devices"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_paired_devices"
+        android:layout_above="@id/btn_cancel"
+        android:padding="@dimen/_2sdp"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/btn_cancel"
+        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+        android:text="Cancel"
+        android:textSize="@dimen/_12ssp"
+        android:textStyle="bold"
+        android:textColor="@android:color/holo_red_light"/>
+
+
+</RelativeLayout>

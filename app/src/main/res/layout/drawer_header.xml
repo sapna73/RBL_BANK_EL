@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_120sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/primaryLightColor"
+    android:orientation="vertical">
+
+    <!--<ImageView
+        android:id="@+id/iv_staff_image"
+        android:layout_width="@dimen/_55sdp"
+        android:layout_height="@dimen/_55sdp"
+        android:background="@drawable/passport_photo"
+        android:padding="@dimen/_10sdp"
+        android:cropToPadding="true"
+        android:scaleType="centerCrop"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_gravity="center"/>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/tv_app_version"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:textColor="@color/white"
+            android:text="APP VERSION : 1.0 "
+            android:visibility="gone"
+            android:gravity="start"
+            android:textStyle="bold"/>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_7sdp"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/iv_staff_image"
+            android:layout_width="@dimen/_55sdp"
+            android:layout_height="@dimen/_55sdp"
+            android:cropToPadding="true"
+            android:scaleType="centerCrop"
+            android:background="@drawable/ic_person_white_24dp"/>
+
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/tv_staff_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:textColor="@color/white"
+        android:text="STAFF ID : "
+        android:gravity="center"
+        android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/tv_staff_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="STAFF NAME : "
+        android:gravity="center"
+        android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/tv_sod_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="SOD DATE : "
+        android:gravity="center"
+        android:textStyle="bold"/>
+
+    </LinearLayout>
+
+</LinearLayout>

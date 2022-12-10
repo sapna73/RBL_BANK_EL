@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    android:id="@+id/drawer_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ProductActivity"
+    android:background="#fcfcfc">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/_5sdp"
+        android:padding="@dimen/_5sdp"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_2sdp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/CustomRadioBtnLblStyle"
+                android:layout_gravity="center"
+                android:text="Loan Type :"
+                android:layout_weight="1"/>
+
+            <LinearLayout
+                android:id="@+id/ll_loan_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_custom_border"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <com.bfil.uilibrary.widgets.customSpinner.SearchableSpinner
+                    android:id="@+id/spn_loan_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_20sdp"
+                    android:tag="@string/MANDATORY_TAG"
+                    android:entries="@array/spinner_loan_type"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+<com.google.android.material.navigation.NavigationView
+    android:id="@+id/navigation_view"
+    app:headerLayout="@layout/drawer_header"
+    android:layout_width="@dimen/_180sdp"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    app:itemTextColor="@color/primaryDarkColor"
+    app:itemIconTint="@color/primaryDarkColor"
+    app:menu="@menu/drawermenu"
+    android:layout_gravity="start">
+
+</com.google.android.material.navigation.NavigationView>
+
+</androidx.drawerlayout.widget.DrawerLayout>

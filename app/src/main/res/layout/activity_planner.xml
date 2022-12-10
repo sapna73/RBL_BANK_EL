@@ -1,0 +1,754 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    android:id="@+id/drawer_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ProductActivity"
+    android:background="#fcfcfc">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray_background"
+        android:fitsSystemWindows="true">
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:toolbarId="@+id/toolbar">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_collapseMode="pin"
+                android:background="@color/white"
+                app:popupTheme="@style/AppTheme.PopupOverlay" >
+
+                <include layout="@layout/custom_toolbar_layout"/>
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <LinearLayout
+            android:layout_marginBottom="@dimen/_35sdp"
+            android:layout_marginTop="@dimen/_35sdp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/gray_background">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray_background"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/gray_background"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/ll_parentView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginBottom="@dimen/_15sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:background="@drawable/rounded_background_product"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_2sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/_1sdp"
+                                android:gravity="center"
+                                android:layout_marginTop="@dimen/_12sdp"
+                                android:text="Planner"
+                                android:textColor="@color/dark_gray"
+                                android:textSize="@dimen/_10ssp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_1sdp"
+                            android:background="@color/graylight" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_weight="1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="EMP ID"
+                                    android:textColor="@color/reminder_number"
+                                    android:textSize="@dimen/_8sdp"
+                                    android:textStyle="bold" />
+                                <TextView
+                                    android:id="@+id/tv_userid"
+                                    android:layout_marginTop="@dimen/_1sdp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="SIF1004141"
+                                    android:textColor="@color/color_text_gray"
+                                    android:textSize="@dimen/_8sdp" />
+
+                                <TextView
+                                    android:id="@+id/tv_planner_date"
+                                    android:layout_marginTop="@dimen/_3sdp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="13/05/2020"
+                                    android:textColor="@color/color_text_gray"
+                                    android:textSize="@dimen/_8sdp"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:gravity="end"
+                                android:layout_weight="1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Branch name"
+                                    android:textColor="@color/reminder_number"
+                                    android:textSize="@dimen/_8sdp"
+                                    android:textStyle="bold" />
+                                <TextView
+                                    android:id="@+id/tv_branch_name"
+                                    android:layout_marginTop="@dimen/_1sdp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Hyderabad"
+                                    android:textColor="@color/color_text_gray"
+                                    android:textSize="@dimen/_8sdp" />
+
+                                <TextView
+                                    android:id="@+id/tv_current_time"
+                                    android:layout_marginTop="@dimen/_3sdp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="02:00 PM"
+                                    android:textColor="@color/color_text_gray"
+                                    android:textSize="@dimen/_8sdp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_1sdp"
+                            android:background="@color/graylight" />
+                        <LinearLayout
+                            android:layout_gravity="center_horizontal"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_label_purposeofvisit"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/_3sdp"
+                                    android:gravity="left"
+                                    android:text="Purpose of Visit:"
+                                    android:textColor="@color/color_text_gray"
+                                    android:textSize="@dimen/_8ssp" />
+
+                                <androidx.cardview.widget.CardView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/_2sdp"
+                                    app:cardBackgroundColor="@color/white"
+                                    app:cardCornerRadius="@dimen/_2sdp"
+                                    app:cardElevation="@dimen/_2sdp">
+
+                                    <LinearLayout
+                                        android:paddingBottom="@dimen/_2sdp"
+                                        android:paddingTop="@dimen/_3sdp"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+                                        <RelativeLayout
+                                            android:id="@+id/rl_purpose_of_visit"
+                                            android:layout_weight="1"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content">
+
+                                            <com.google.android.material.textfield.TextInputEditText
+                                                android:id="@+id/et_purpose_of_visit"
+                                                android:visibility="gone"
+                                                style="@style/CustomEditTextPadding5dp"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:hint="Select purpose of visit"
+                                                android:textColorHint="@color/color_text_gray"
+                                                android:backgroundTint="@android:color/transparent"
+                                                android:enabled="false"
+                                                android:tag="@string/MANDATORY_TAG" />
+
+                                            <androidx.appcompat.widget.AppCompatSpinner
+                                                android:id="@+id/sp_purpose_of_visit"
+                                                android:entries="@array/purpose_of_visit"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content">
+                                            </androidx.appcompat.widget.AppCompatSpinner>
+                                        </RelativeLayout>
+
+                                        <ImageView
+                                            android:visibility="gone"
+                                            android:layout_width="@dimen/_10sdp"
+                                            android:layout_height="@dimen/_10sdp"
+                                            android:layout_gravity="center"
+                                            android:layout_marginRight="@dimen/_1sdp"
+                                            android:src="@drawable/downarrow" />
+                                    </LinearLayout>
+                                </androidx.cardview.widget.CardView>
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_marginLeft="@dimen/_3sdp"
+                                android:layout_marginRight="@dimen/_3sdp"
+                                android:layout_width="@dimen/_1sdp"
+                                android:layout_height="match_parent"
+                                android:background="@color/graylight" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_label_shop"
+                                    android:layout_marginBottom="@dimen/_3sdp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/white"
+                                    android:gravity="left"
+                                    android:text="Shop Name:"
+                                    android:textColor="@color/color_text_gray"
+                                    android:textSize="@dimen/_8ssp" />
+
+                                <androidx.cardview.widget.CardView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/_2sdp"
+                                    app:cardBackgroundColor="@color/white"
+                                    app:cardCornerRadius="@dimen/_3sdp"
+                                    app:cardElevation="@dimen/_2sdp">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/et_shopName"
+                                        style="@style/CustomEditTextPadding5dp"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:backgroundTint="@android:color/transparent"
+                                        android:tag="@string/MANDATORY_TAG" />
+
+                                </androidx.cardview.widget.CardView>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ll_applicationid"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_label_applicationid"
+                                    android:layout_marginBottom="@dimen/_3sdp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/white"
+                                    android:gravity="left"
+                                    android:text="Select Application ID:"
+                                    android:textColor="@color/color_text_gray"
+                                    android:textSize="@dimen/_8ssp" />
+
+                                <androidx.cardview.widget.CardView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/_2sdp"
+                                    app:cardBackgroundColor="@color/white"
+                                    app:cardCornerRadius="@dimen/_3sdp"
+                                    app:cardElevation="@dimen/_2sdp">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/et_applicationid"
+                                        style="@style/CustomEditTextPadding5dp"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:focusable="false"
+                                        android:clickable="true"
+                                        android:backgroundTint="@android:color/transparent"
+                                        android:tag="@string/MANDATORY_TAG" />
+
+                                </androidx.cardview.widget.CardView>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_gravity="center_horizontal"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_label_alongstaff"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Along with staff:"
+                                    android:layout_marginBottom="@dimen/_3sdp"
+                                    android:textColor="@color/color_text_gray"
+                                    android:textSize="@dimen/_8ssp" />
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+                                    <RadioGroup
+                                        android:id="@+id/rg_along_with_staff"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <RadioButton
+                                            android:buttonTint="@color/reminder_number"
+                                            android:id="@+id/rb_along_with_staff_yes"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="@dimen/_2sdp"
+                                            android:textSize="@dimen/_8ssp"
+                                            android:text="Yes" />
+
+                                        <RadioButton
+                                            android:buttonTint="@color/reminder_number"
+                                            android:id="@+id/rb_along_with_staff_no"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="@dimen/_2sdp"
+                                            android:textSize="@dimen/_8ssp"
+                                            android:text="No" />
+
+                                    </RadioGroup>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_marginLeft="@dimen/_3sdp"
+                                android:layout_marginRight="@dimen/_3sdp"
+                                android:layout_width="@dimen/_1sdp"
+                                android:layout_height="match_parent"
+                                android:background="@color/graylight" />
+
+                            <LinearLayout
+                                android:id="@+id/ll_empid"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_label_empid"
+                                    android:layout_marginBottom="@dimen/_3sdp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Employee ID:"
+                                    android:textColor="@color/color_text_gray"
+                                    android:textSize="@dimen/_8ssp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <androidx.cardview.widget.CardView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="@dimen/_2sdp"
+                                        android:layout_weight="1"
+                                        app:cardBackgroundColor="@color/white"
+                                        app:cardCornerRadius="@dimen/_2sdp"
+                                        app:cardElevation="@dimen/_2sdp">
+
+                                        <com.google.android.material.textfield.TextInputEditText
+                                            style="@style/CustomEditTextPadding5dp"
+                                            android:id="@+id/et_empid"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:maxLength="12"
+                                            android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789"
+                                            android:backgroundTint="@android:color/transparent"
+                                            android:tag="@string/MANDATORY_TAG" />
+
+                                    </androidx.cardview.widget.CardView>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ll_other_emp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_label_empname"
+                                    android:layout_marginBottom="@dimen/_3sdp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Employee NAME:"
+                                    android:textColor="@color/color_text_gray"
+                                    android:textSize="@dimen/_8ssp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <androidx.cardview.widget.CardView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="@dimen/_2sdp"
+                                        android:layout_weight="1"
+                                        app:cardBackgroundColor="@color/white"
+                                        app:cardCornerRadius="@dimen/_2sdp"
+                                        app:cardElevation="@dimen/_2sdp">
+
+                                        <com.google.android.material.textfield.TextInputEditText
+                                            android:id="@+id/et_empName"
+                                            style="@style/CustomEditTextPadding5dp"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:inputType="text"
+                                            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                                            android:backgroundTint="@android:color/transparent"
+                                            android:tag="@string/MANDATORY_TAG" />
+
+                                    </androidx.cardview.widget.CardView>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_marginLeft="@dimen/_3sdp"
+                                android:layout_marginRight="@dimen/_3sdp"
+                                android:layout_width="@dimen/_1sdp"
+                                android:layout_height="match_parent"
+                                android:background="@color/graylight" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_label_designation"
+                                    android:layout_marginBottom="@dimen/_3sdp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Designation:"
+                                    android:textColor="@color/color_text_gray"
+                                    android:textSize="@dimen/_8ssp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <androidx.cardview.widget.CardView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="@dimen/_2sdp"
+                                        android:layout_weight="1"
+                                        app:cardBackgroundColor="@color/white"
+                                        app:cardCornerRadius="@dimen/_2sdp"
+                                        app:cardElevation="@dimen/_2sdp">
+
+                                        <com.google.android.material.textfield.TextInputEditText
+                                            android:id="@+id/et_designation"
+                                            style="@style/CustomEditTextPadding5dp"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ. "
+                                            android:backgroundTint="@android:color/transparent"
+                                            android:tag="@string/MANDATORY_TAG" />
+
+                                    </androidx.cardview.widget.CardView>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_gravity="center_horizontal"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_label_travel"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Travel with own Vehicle:"
+                                    android:layout_marginBottom="@dimen/_3sdp"
+                                    android:textColor="@color/color_text_gray"
+                                    android:textSize="@dimen/_8ssp" />
+
+
+                                <LinearLayout
+
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+                                    <RadioGroup
+                                        android:id="@+id/rg_travel_with_own_vehicle"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <RadioButton
+                                            android:buttonTint="@color/reminder_number"
+                                            android:id="@+id/rb_own_vehicle_yes"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="@dimen/_2sdp"
+                                            android:textSize="@dimen/_8ssp"
+                                            android:text="Yes" />
+
+                                        <RadioButton
+                                            android:buttonTint="@color/reminder_number"
+                                            android:id="@+id/rb_own_vehicle_no"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="@dimen/_2sdp"
+                                            android:textSize="@dimen/_8ssp"
+                                            android:text="No" />
+
+                                    </RadioGroup>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_marginLeft="@dimen/_3sdp"
+                                android:layout_marginRight="@dimen/_3sdp"
+                                android:layout_width="@dimen/_1sdp"
+                                android:layout_height="match_parent"
+                                android:background="@color/graylight" />
+
+                            <LinearLayout
+                                android:id="@+id/ll_vehicle_type"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_label_vehicletype"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Vehicle Type:"
+                                    android:layout_marginBottom="@dimen/_3sdp"
+                                    android:textColor="@color/color_text_gray"
+                                    android:textSize="@dimen/_8ssp" />
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+                                    <RadioGroup
+                                        android:id="@+id/rg_vehicle_type"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <RadioButton
+                                            android:buttonTint="@color/reminder_number"
+                                            android:id="@+id/rb_vehicle_type_TW"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="@dimen/_2sdp"
+                                            android:textSize="@dimen/_8ssp"
+                                            android:text="Tw" />
+
+                                        <RadioButton
+                                            android:buttonTint="@color/reminder_number"
+                                            android:id="@+id/rb_vehicle_type_FW"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="@dimen/_2sdp"
+                                            android:textSize="@dimen/_8ssp"
+                                            android:text="Fw" />
+
+                                    </RadioGroup>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_gravity="center_horizontal"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:enabled="true"
+                                android:id="@+id/btn_start_visit"
+                                android:text="Start Visit"
+                                style="@style/CustomBtnStylePd"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:layout_weight="1"
+                                android:background="@drawable/bg_userid_ui_reject"
+                                android:paddingRight="@dimen/_3sdp" />
+
+                            <Button
+                                android:visibility="gone"
+                                android:enabled="false"
+                                android:id="@+id/btn_end_visit"
+                                style="@style/CustomBtnStylePd"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_3sdp"
+                                android:layout_weight="1"
+                                android:background="@drawable/bg_userid_ui_save"
+                                android:paddingLeft="@dimen/_3sdp"
+                                android:text="End Visit" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/planner_icon" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view"
+        app:headerLayout="@layout/drawer_header"
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        app:itemTextColor="@color/primaryDarkColor"
+        app:itemIconTint="@color/primaryDarkColor"
+        app:theme="@style/ThemeOverlay.AppCompat.navTheme"
+        app:menu="@menu/drawer_lead_menu"
+        android:layout_gravity="start">
+
+    </com.google.android.material.navigation.NavigationView>
+</androidx.drawerlayout.widget.DrawerLayout>

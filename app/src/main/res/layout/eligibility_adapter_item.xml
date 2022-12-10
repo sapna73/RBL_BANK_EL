@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="@dimen/_2sdp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_margin="@dimen/_2sdp"
+        android:id="@+id/cv_lead"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        app:cardElevation="@dimen/_4sdp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/_5sdp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:background="@color/gray_background"
+                android:layout_gravity="center"
+                android:layout_weight="1">
+
+                 <TextView
+                     android:layout_weight="1"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:textSize="@dimen/_9ssp"
+                     android:gravity="start"
+                     android:layout_margin="@dimen/_5sdp"
+                     android:textColor="@color/black"
+                     android:textStyle="bold"
+                     android:text="Group"/>
+
+                <TextView
+                    android:layout_weight="0.4"
+                    android:id="@+id/tv_group_code_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_9ssp"
+                    android:gravity="start"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorRed"
+                    android:text="group code"/>
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/btn_arrow"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    app:srcCompat="@drawable/ic_keyboard_arrow_down_black_24dp"/>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_eligibility_group_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_weight="1">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_eligibility_group_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="vertical"
+                    android:scrollingCache="true">
+                </androidx.recyclerview.widget.RecyclerView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

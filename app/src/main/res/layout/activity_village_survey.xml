@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    android:id="@+id/drawer_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ProductActivity"
+    android:background="#fcfcfc">
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:toolbarId="@+id/toolbar">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_collapseMode="pin"
+            android:background="@color/white"
+            app:popupTheme="@style/AppTheme.PopupOverlay" >
+
+            <include layout="@layout/custom_toolbar_layout"/>
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/graylight">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="@dimen/_280sdp"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:elevation="@dimen/_8sdp"
+            app:cardCornerRadius="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_55sdp"
+            android:layout_marginBottom="@dimen/_25sdp">
+
+            <androidx.core.widget.NestedScrollView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/cell_shape"
+                        android:orientation="horizontal">
+
+                        <com.bfil.uilibrary.widgets.CustomTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            style="@style/report_summary_header"
+                            android:text="VILLAGE SURVEY"
+                            android:textSize="@dimen/_12ssp"
+                            android:layout_weight="1"
+                            app:fontName="SourceSansPro-Bold.otf"/>
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.SearchView
+                        android:layoutDirection="rtl"
+                        android:id="@+id/sv_phone_no"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:outlineSpotShadowColor="@color/white"
+                        android:outlineAmbientShadowColor="@color/white"
+                        android:background="@color/white"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        app:queryHint="search by village name">
+                    </androidx.appcompat.widget.SearchView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:padding="@dimen/_5sdp"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatSpinner
+                            android:id="@+id/sp_sort_by_date"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:entries="@array/lead_sort_by_date"
+                            android:layout_height="wrap_content">
+                        </androidx.appcompat.widget.AppCompatSpinner>
+
+
+                        <androidx.appcompat.widget.AppCompatSpinner
+                            android:id="@+id/sp_sort_by_alphabetical_order"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:entries="@array/lead_sort_by_alphabetical_order"
+                            android:layout_height="wrap_content">
+                        </androidx.appcompat.widget.AppCompatSpinner>
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_lead_details"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scrollbars="vertical">
+                        </androidx.recyclerview.widget.RecyclerView>
+
+                        <RelativeLayout
+                            android:id="@+id/rl_no_leads"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <ImageView
+                                android:id="@+id/iv_no_leads"
+                                android:layout_width="@dimen/_70sdp"
+                                android:layout_height="@dimen/_70sdp"
+                                android:layout_marginTop="@dimen/_20sdp"
+                                app:srcCompat="@drawable/emptybox"
+                                android:layout_centerInParent="true" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="NO VILLAGE DETAILS"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/_14ssp"
+                                android:layout_below="@+id/iv_no_leads"
+                                android:gravity="center"
+                                android:layout_marginTop="@dimen/_30sdp"/>
+                        </RelativeLayout>
+
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+
+            </androidx.core.widget.NestedScrollView>
+
+
+        </androidx.cardview.widget.CardView>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fb_add_target_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/_20sdp"
+            app:srcCompat="@drawable/ic_add"/>
+    </RelativeLayout>
+
+</LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view"
+        app:headerLayout="@layout/drawer_header"
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        app:itemTextColor="@color/primaryDarkColor"
+        app:itemIconTint="@color/primaryDarkColor"
+        app:theme="@style/ThemeOverlay.AppCompat.navTheme"
+        app:menu="@menu/drawer_lead_menu"
+        android:layout_gravity="start">
+
+    </com.google.android.material.navigation.NavigationView>
+</androidx.drawerlayout.widget.DrawerLayout>

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "455828833749",
+    "firebase_url": "https://losapp-afae6.firebaseio.com",
+    "project_id": "losapp-afae6",
+    "storage_bucket": "losapp-afae6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:455828833749:android:51d6728ea62957b669e95c",
+        "android_client_info": {
+          "package_name": "com.swadhaar.los"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "455828833749-imv3ssho7u72v3lqqhkrntj24jt56ivf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAT9va3sH7zvOhL55j3qUBrqiXiGWH1dD0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "455828833749-imv3ssho7u72v3lqqhkrntj24jt56ivf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

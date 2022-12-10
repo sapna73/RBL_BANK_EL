@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/graylight"
+    android:elevation="@dimen/_5sdp"
+    android:clickable="true"
+    android:paddingBottom="@dimen/_10sdp"
+    android:paddingLeft="@dimen/_16sdp"
+    android:paddingRight="@dimen/_16sdp"
+    android:paddingTop="@dimen/_10sdp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_lead"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        app:cardElevation="@dimen/_4sdp"
+        android:layout_margin="@dimen/_5sdp"
+        app:cardCornerRadius="@dimen/_5sdp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/iv_lead_sync_status"
+                android:layout_width="@dimen/_23sdp"
+                android:layout_height="@dimen/_23sdp"
+                android:layout_centerInParent="true"
+                app:srcCompat="@mipmap/sync_pd" />
+            
+
+            <!-- <TextView
+                 android:layout_alignParentRight="true"
+                 android:id="@+id/textView_separator"
+                 android:layout_width="@dimen/_1sdp"
+                 android:layout_height="match_parent"
+                 android:background="@color/gray_bg" />-->
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:orientation="vertical"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.5"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                       >
+
+                        <LinearLayout
+                            android:id="@+id/ll_lead_summary_values"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                           android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_alignParentRight="true"
+                                    android:id="@+id/textView_separator"
+                                    android:layout_width="@dimen/_1sdp"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/graylight" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                              >
+
+
+                                <TextView
+
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/_3sdp"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="Name:"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:textColor="@color/contact_name"
+                                    android:textSize="@dimen/_8ssp" />
+
+                                <TextView
+                                    android:id="@+id/tv_lead_name_value"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:text="ALI HUSSAIN"
+                                    android:layout_weight="1.5"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:textColor="@color/contact_name"
+                                    android:textSize="@dimen/_8ssp" />
+
+                            </LinearLayout>
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_alignParentRight="true"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_1sdp"
+                                android:background="@color/graylight"
+                              />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_alignParentRight="true"
+                                android:layout_width="@dimen/_1sdp"
+                                android:layout_height="match_parent"
+                                android:background="@color/graylight" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                               >
+                                <TextView
+                                    android:layout_margin="@dimen/_3sdp"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="ID:"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+
+                                    android:fontFamily="sans-serif-medium"
+                                    android:textColor="@color/contact_name"
+                                    android:textSize="@dimen/_8ssp" />
+                                <TextView
+                                    android:id="@+id/tv_lead_clientid_value"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="8056195511ddddddddddd"
+                                    android:layout_weight="1.5"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:textColor="@color/contact_name"
+                                    android:textSize="@dimen/_8ssp" />
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                            <TextView
+                                android:layout_alignParentRight="true"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_1sdp"
+                                android:background="@color/graylight"
+                               />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_alignParentRight="true"
+                                    android:layout_width="@dimen/_1sdp"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/graylight" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                  >
+
+                                    <TextView
+
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:text="Mob No:"
+                                        android:layout_weight="1"
+                                        android:layout_gravity="center"
+
+                                        android:layout_margin="@dimen/_3sdp"
+                                        android:fontFamily="sans-serif-medium"
+                                        android:textColor="@color/contact_name"
+                                        android:textSize="@dimen/_8ssp"  />
+                                    <TextView
+                                        android:id="@+id/tv_lead_phone_value"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:text="9542313928"
+                                        android:layout_weight="1.5"
+                                        android:layout_gravity="center"
+                                        android:fontFamily="sans-serif-medium"
+                                        android:textColor="@color/contact_name"
+                                        android:textSize="@dimen/_8ssp"  />
+
+
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_alignParentRight="true"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_1sdp"
+                                android:background="@color/graylight"
+                                />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_alignParentRight="true"
+                                android:layout_width="@dimen/_1sdp"
+                                android:layout_height="match_parent"
+                                android:background="@color/graylight" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                               >
+
+                                <TextView
+
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Loan Type:"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:layout_margin="@dimen/_3sdp"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:textColor="@color/contact_name"
+                                    android:textSize="@dimen/_8ssp"  />
+
+                                <TextView
+                                    android:id="@+id/tv_lead_loantype_value"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="MSME"
+                                    android:layout_weight="1.5"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:textColor="@color/contact_name"
+                                    android:textSize="@dimen/_8ssp"  />
+
+                            </LinearLayout>
+                        </LinearLayout>
+                            <TextView
+                                android:layout_alignParentRight="true"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_1sdp"
+                                android:background="@color/graylight"
+                               />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_alignParentRight="true"
+                                android:layout_width="@dimen/_1sdp"
+                                android:layout_height="match_parent"
+                                android:background="@color/graylight" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                >
+
+                                <TextView
+
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Loan Amount:"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+
+                                    android:layout_margin="@dimen/_3sdp"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:textColor="@color/contact_name"
+                                    android:textSize="@dimen/_8ssp"  />
+
+                                <TextView
+                                    android:id="@+id/tv_lead_amount_value"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="100000"
+                                    android:layout_weight="1.5"
+                                    android:layout_gravity="center"
+                                    android:gravity="left"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:textColor="@color/contact_name"
+                                    android:textSize="@dimen/_8ssp"  />
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                            <TextView
+                                android:layout_alignParentRight="true"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_1sdp"
+                                android:background="@color/graylight"
+                              />
+
+
+                        </LinearLayout>
+
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_approve_or_reject"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:orientation="horizontal"
+                    android:paddingRight="@dimen/_10sdp">
+
+                    <Button
+                        android:id="@+id/btn_approve"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="APPROVE"
+                        android:layout_margin="@dimen/_2sdp"
+                        style="@style/CustomBtnStylePd"
+                        android:background="@drawable/bg_userid_ui"
+                        android:backgroundTint="@color/colorGreen1"/>
+                    <Button
+                        android:id="@+id/btn_reject"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="REJECT"
+                        android:layout_margin="@dimen/_2sdp"
+                        style="@style/CustomBtnStylePd"
+                        android:background="@drawable/bg_userid_ui"
+                        android:backgroundTint="@color/colorRed"/>
+                    <Button
+                        android:id="@+id/btn_send_back"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="SEND BACK"
+                        android:layout_margin="@dimen/_2sdp"
+                        style="@style/CustomBtnStylePd"
+                       android:layout_gravity="top"
+                        android:background="@drawable/bg_userid_ui"
+                        android:backgroundTint="@color/colorFlowerDark"/>
+                    <Button
+                        android:id="@+id/btn_final_status"
+                        android:layout_weight="1"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="DONE"
+                        android:enabled="false"
+                        android:layout_margin="@dimen/_2sdp"
+                        style="@style/CustomBtnStylePd"
+                        android:background="@drawable/bg_userid_ui"
+                        android:backgroundTint="@color/colorGreenLight"/>
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

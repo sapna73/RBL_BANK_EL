@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/CustomHeaderLabel"
+        android:text="Address Details"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/_10sdp"
+        android:paddingBottom="@dimen/_10sdp"
+        android:orientation="vertical">
+
+        <com.bfil.uilibrary.widgets.textInputLayout.CustomTextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Address"
+            android:tag="@string/MANDATORY_TAG"
+            android:id="@+id/til_ekyc_address"
+            style="@style/CustomTextInputLayout"
+            app:errorTextAppearance="@style/TextInputLayoutErrorColor">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/CustomEditText"/>
+
+        </com.bfil.uilibrary.widgets.textInputLayout.CustomTextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.bfil.uilibrary.widgets.textInputLayout.CustomTextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Landmark"
+                android:id="@+id/til_ekyc_landmark"
+                android:layout_weight="1"
+                style="@style/CustomTextInputLayout"
+                app:errorTextAppearance="@style/TextInputLayoutErrorColor">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/CustomEditText"/>
+
+            </com.bfil.uilibrary.widgets.textInputLayout.CustomTextInputLayout>
+
+            <com.bfil.uilibrary.widgets.textInputLayout.CustomTextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="District"
+                android:tag="@string/MANDATORY_TAG"
+                android:id="@+id/til_ekyc_district"
+                android:layout_weight="1"
+                style="@style/CustomTextInputLayout"
+                app:errorTextAppearance="@style/TextInputLayoutErrorColor">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                    style="@style/CustomEditText"/>
+
+            </com.bfil.uilibrary.widgets.textInputLayout.CustomTextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.bfil.uilibrary.widgets.textInputLayout.CustomTextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="State"
+                android:tag="@string/MANDATORY_TAG"
+                android:id="@+id/til_ekyc_state"
+                android:layout_weight="1"
+                style="@style/CustomTextInputLayout"
+                app:errorTextAppearance="@style/TextInputLayoutErrorColor">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                    style="@style/CustomEditText"/>
+
+            </com.bfil.uilibrary.widgets.textInputLayout.CustomTextInputLayout>
+
+            <com.bfil.uilibrary.widgets.textInputLayout.CustomTextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Pincode"
+                android:tag="@string/MANDATORY_TAG"
+                android:id="@+id/til_ekyc_pincode"
+                android:layout_weight="1"
+                style="@style/CustomTextInputLayout"
+                app:errorTextAppearance="@style/TextInputLayoutErrorColor">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/CustomEditText"
+                    android:inputType="number"
+                    android:maxLength="6"/>
+
+            </com.bfil.uilibrary.widgets.textInputLayout.CustomTextInputLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

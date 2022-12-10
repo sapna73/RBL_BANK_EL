@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/graylight"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/_8sdp"
+        app:cardElevation="@dimen/_2sdp"
+        app:cardCornerRadius="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginLeft="@dimen/_2sdp"
+        android:layout_marginRight="@dimen/_2sdp"
+        android:layout_marginBottom="@dimen/_5sdp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/iv_lead_call"
+                    android:layout_width="@dimen/_43sdp"
+                    android:layout_height="@dimen/_43sdp"
+                    android:layout_centerInParent="true"
+                    app:srcCompat="@drawable/mobile_icon" />
+
+                <TextView
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/textView_separator"
+                    android:layout_width="@dimen/_1sdp"
+                    android:layout_height="match_parent"
+                    android:background="@color/gray_bg" />
+
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3.25"
+                android:orientation="vertical"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.7"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="NAME"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:padding="@dimen/_5sdp"
+                            android:textSize="@dimen/_10ssp"/>
+                        <TextView
+                            android:id="@+id/tv_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Test"
+
+                            android:padding="@dimen/_5sdp"
+                            android:textSize="@dimen/_8ssp"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.7"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:textColor="@color/black"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="MOBILE NUMBER"
+                            android:textStyle="bold"
+                            android:padding="@dimen/_5sdp"
+                            android:textSize="@dimen/_10ssp"/>
+                        <TextView
+                            android:id="@+id/tv_mobile_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="9999999999"
+                            android:padding="@dimen/_5sdp"
+                            android:textSize="@dimen/_8ssp"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:background="@color/gray_bg"/>
+
+                <LinearLayout
+                    android:id="@+id/ll_verification_success"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:layout_marginLeft="@dimen/_5ssp"
+                    android:layout_marginRight="@dimen/_5ssp"
+                    android:layout_marginBottom="@dimen/_5ssp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_5sdp"
+                        android:textColor="@color/white"
+                        android:src="@drawable/checked"/>
+                    <TextView
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="@dimen/_5sdp"
+                        android:paddingBottom="@dimen/_5sdp"
+                        android:paddingTop="@dimen/_5sdp"
+                        android:textColor="@color/c11b86b"
+                        android:textSize="@dimen/_8ssp"
+                        android:text="OTP Verified Successfully"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_generate_otp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginRight="@dimen/_5ssp"
+                    android:layout_marginLeft="@dimen/_5ssp"
+                    android:layout_marginBottom="@dimen/_5ssp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_generate_otp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_5sdp"
+                        android:textColor="@color/white"
+                        android:background="@drawable/bg_ui_red"
+                        android:text="GENERATE OTP"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_otp_verify"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:paddingRight="@dimen/_3sdp"
+                            android:textStyle="bold"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:textSize="@dimen/_10ssp"
+                            android:text="ENTER OTP"
+                            android:layout_weight="1"/>
+
+                        <com.chaos.view.PinView
+                            android:id="@+id/pv_enter_otp"
+                            style="@style/PinWidget.PinView"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:cursorVisible="true"
+                            android:hint="Enter OTP"
+                            android:inputType="number"
+                            android:layout_marginRight="@dimen/_5sdp"
+                            android:textColor="@color/colorGrapeFruitDark"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:cursorColor="@color/line_selected"
+                            app:cursorWidth="@dimen/_1sdp"
+                            app:hideLineWhenFilled="true"
+                            app:itemCount="6"
+                            app:itemHeight="@dimen/_25sdp"
+                            app:itemRadius="@dimen/_2sdp"
+                            app:itemSpacing="0dp"
+                            app:itemWidth="@dimen/_25sdp"
+                            app:lineColor="@color/colorGrapeFruit"
+                            app:lineWidth="@dimen/_1sdp"
+                            app:viewType="rectangle"
+                            android:layout_weight="4"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/tv_timer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/_10sdp"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:layout_weight="1"
+                            android:text="00:00"
+                            android:textColor="@color/c11b86b"
+                            android:gravity="center"/>
+                        <TextView
+                            android:id="@+id/tv_re_generate_otp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/_2sdp"
+                            android:gravity="right"
+                            android:layout_weight="1"
+                            android:textStyle="bold"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:textColor="@color/colorGrapeFruitDark"
+                            android:text="RE GENERATE OTP"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <!--  <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="horizontal"
+                  android:layout_weight="1"
+                  android:layout_margin="@dimen/_5sdp">
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_weight="0.7"
+                      android:orientation="vertical">
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Mobile Number"
+                      android:textStyle="bold"
+                      android:padding="@dimen/_5sdp"
+                      android:textSize="@dimen/_10ssp"/>
+                      <TextView
+                          android:id="@+id/tv_mobile_number"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="9999999999"
+                          android:textStyle="bold"
+                          android:padding="@dimen/_5sdp"
+                          android:textSize="@dimen/_10ssp"/>
+
+                  </LinearLayout>
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_weight="0.7"
+                      android:orientation="vertical">
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Name"
+                      android:textStyle="bold"
+                      android:padding="@dimen/_5sdp"
+                      android:textSize="@dimen/_10ssp"/>
+                      <TextView
+                          android:id="@+id/tv_name"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="Test"
+                          android:textStyle="bold"
+                          android:padding="@dimen/_5sdp"
+                          android:textSize="@dimen/_10ssp"/>
+
+                  </LinearLayout>
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:orientation="horizontal"
+                      android:layout_weight="1"
+                      android:gravity="center"
+                      android:layout_margin="@dimen/_5sdp">
+
+                  <ImageView
+                      android:layout_width="@dimen/_40sdp"
+                      android:layout_height="@dimen/_40sdp"
+                      android:background="@drawable/mobile"/>
+
+              </LinearLayout>
+              </LinearLayout>
+
+              <LinearLayout
+                  android:id="@+id/ll_verification_success"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:gravity="center"
+                  android:layout_margin="@dimen/_12ssp"
+                  android:orientation="vertical">
+
+                  <ImageView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:padding="@dimen/_5sdp"
+                      android:textColor="@color/white"
+                      android:src="@drawable/success_tick"/>
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:padding="@dimen/_5sdp"
+                      android:textStyle="bold"
+                      android:text="OTP Verified Successfully"/>
+
+              </LinearLayout>
+              <LinearLayout
+                  android:id="@+id/ll_generate_otp"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:gravity="center"
+                  android:layout_margin="@dimen/_12ssp"
+                  android:orientation="horizontal">
+
+                  <Button
+                      android:id="@+id/btn_generate_otp"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:padding="@dimen/_5sdp"
+                      android:textColor="@color/white"
+                      android:background="@drawable/bg_ui_red"
+                      android:text="GENERATE OTP"/>
+
+              </LinearLayout>
+
+              <LinearLayout
+                  android:id="@+id/ll_otp_verify"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical">
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal">
+
+                      <TextView
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_weight="1"
+                          android:padding="@dimen/_5sdp"
+                          android:textStyle="bold"
+                          android:layout_margin="@dimen/_5sdp"
+                          android:textSize="@dimen/_10ssp"
+                          android:text="ENTER OTP"/>
+                      <TextView
+                          android:id="@+id/tv_re_generate_otp"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:padding="@dimen/_5sdp"
+                          android:gravity="center"
+                          android:layout_weight="1"
+                          android:textStyle="bold"
+                          android:layout_margin="@dimen/_5sdp"
+                          android:textColor="@color/colorGrapeFruitDark"
+                          android:text="RE GENERATE OTP"/>
+
+                  </LinearLayout>
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:gravity="center"
+                      android:orientation="horizontal">
+
+                      <com.chaos.view.PinView
+                          android:id="@+id/pv_enter_otp"
+                          style="@style/PinWidget.PinView"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:cursorVisible="true"
+                          android:hint="Enter OTP"
+                          android:inputType="number"
+                          android:padding="@dimen/_5sdp"
+                          android:textColor="@color/colorGrapeFruitDark"
+                          android:textSize="18sp"
+                          android:textStyle="bold"
+                          app:cursorColor="@color/line_selected"
+                          app:cursorWidth="2dp"
+                          app:hideLineWhenFilled="true"
+                          app:itemCount="6"
+                          app:itemHeight="48dp"
+                          app:itemRadius="4dp"
+                          app:itemSpacing="0dp"
+                          app:itemWidth="48dp"
+                          app:lineColor="@color/colorGrapeFruit"
+                          app:lineWidth="2dp"
+                          app:viewType="rectangle" />
+
+                  </LinearLayout>
+              </LinearLayout>
+
+          </LinearLayout>-->
+
+
+    </androidx.cardview.widget.CardView>
+
+
+</LinearLayout>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:padding="@dimen/_7sdp"
+    android:gravity="end">
+
+    <Button
+        android:id="@+id/btn_common"
+        style="@style/CustomBtnStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search"
+        android:background="@drawable/bg_userid_ui"
+        android:theme="@style/CustomBlueBtnTheme" />
+
+</LinearLayout>

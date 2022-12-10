@@ -1,0 +1,22 @@
+<resources>
+
+    <string name="str_captureSuccess">CAPTURE SUCCESS</string>
+    <string name="str_captureFailed">capture failed</string>
+    <string name="str_CaptureTimeout">capture time out</string>
+    <string name="str_Capturing">capturing...</string>
+    <string name="str_processing">processing..</string>
+    <string name="str_noScanner">No scanner found</string>
+    <string name="str_connectionTimeout">Connection timeout try again</string>
+    <string name="str_collectionSuccess">Collection is successful</string>
+    <string name="str_ImageQualityButton">IMAGE QUALITY</string>
+    <string name="str_ProcessingTransaction">Processing Transaction...</string>
+    <string name="str_PleaseWait">PLEASE WAIT</string>
+    <string name="str_BadImageQuality">Bad Image Quality</string>
+    <string name="str_PlaceYourFinger">PLACE YOUR FINGER ON SCANNER</string>
+    <string name="str_ExportingLogButton">EXPORTING LOG</string>
+
+    <string name="TransactionSuccess">Transaction Success</string>
+    <string name="str_cancel">Cancel</string>
+
+    <string name="str_NetworkUnavailable">Network Unavailable</string>
+</resources>

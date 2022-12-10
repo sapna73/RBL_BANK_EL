@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_lead"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        app:cardBackgroundColor="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@drawable/bg_border_gray_light"
+                android:layout_gravity="center"
+                android:padding="0.5dp"
+                android:layout_weight="0.8">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/gray_background"
+                android:layout_gravity="center">
+
+                 <TextView
+                     android:id="@+id/tv_center_name_value"
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     android:textSize="@dimen/_8ssp"
+                     android:layout_gravity="center"
+                     android:gravity="center"
+                     android:textColor="@color/black"
+                     android:text="Center Name"/>
+
+
+
+            </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bg_border_gray_light"
+                android:orientation="vertical">
+
+               <TextView
+                   android:id="@+id/tv_center_due"
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:gravity="center"
+                   android:textSize="@dimen/_7ssp"
+                   android:textStyle="bold"
+                   android:textColor="@color/black"
+                   android:text="center due"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bg_border_gray_light"
+                android:orientation="vertical">
+
+               <TextView
+                   android:id="@+id/tv_cash_collection"
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:gravity="center"
+                   android:textSize="@dimen/_7ssp"
+                   android:textStyle="bold"
+                   android:textColor="@color/black"
+                   android:text="cash collection"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bg_border_gray_light"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_savings_collection"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textSize="@dimen/_7ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:text="savings collection"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bg_border_gray_light"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/tv_total_collection"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textSize="@dimen/_7ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:text="total collection"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bg_border_gray_light"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <CheckBox
+                        android:id="@+id/cb_confirm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_centerHorizontal="true"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

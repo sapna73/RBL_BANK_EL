@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!--Set application-wide security config using base-config tag.-->
+    <base-config cleartextTrafficPermitted="true"/>
+    <domain-config>
+        <domain includeSubdomains="true">losservices.rblfinserve.com</domain>
+        <pin-set>
+            <pin digest="SHA-256">yIECk6MVQIgvJdhI/iEPXSDLYkjf5WS8syeVnPbZOPI=</pin>
+        </pin-set>
+    </domain-config>
+    <domain-config>
+        <domain includeSubdomains="true">besure.rblfinserve.com</domain>
+        <pin-set>
+            <pin digest="SHA-256">yIECk6MVQIgvJdhI/iEPXSDLYkjf5WS8syeVnPbZOPI=</pin>
+        </pin-set>
+    </domain-config>
+    <domain-config>
+        <domain includeSubdomains="true">rfs1.rblfinserve.com</domain>
+        <pin-set>
+            <pin digest="SHA-256">yIECk6MVQIgvJdhI/iEPXSDLYkjf5WS8syeVnPbZOPI=</pin>
+        </pin-set>
+    </domain-config>
+    <domain-config>
+        <domain includeSubdomains="true">104.211.103.21</domain>
+        <pin-set>
+            <pin digest="SHA-256">yIECk6MVQIgvJdhI/iEPXSDLYkjf5WS8syeVnPbZOPI=</pin>
+        </pin-set>
+    </domain-config>
+</network-security-config>

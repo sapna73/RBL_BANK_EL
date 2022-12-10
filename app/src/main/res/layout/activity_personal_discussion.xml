@@ -1,0 +1,832 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_bg"
+    tools:context=".activities.PersonalDiscussionActivity"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:background="@color/gray_bg"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_35sdp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:padding="@dimen/_8sdp"
+                android:text="PERSONAL DISCUSSION"
+                android:textAlignment="center"
+                android:textColor="@color/color_text_gray"
+                android:textSize="@dimen/_10ssp"
+                android:textStyle="bold" />
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_marginRight="@dimen/_18sdp"
+                android:layout_marginLeft="@dimen/_18sdp"
+                android:padding="@dimen/_8sdp"
+                android:background="@drawable/rounded_background"
+                android:orientation="vertical">
+
+                //main layout
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_8sdp">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cv_application"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:layout_marginBottom="@dimen/_3sdp"
+                        android:layout_marginRight="@dimen/_4sdp"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        app:cardBackgroundColor="@color/gray_background"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardElevation="@dimen/_1sdp">
+
+                        <LinearLayout
+                            android:id="@+id/ll_application"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@color/gray_background"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/_48sdp"
+                                    android:layout_gravity="center"
+                                    app:srcCompat="@drawable/application_pd" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.5"
+                                android:background="@color/white"
+                                android:gravity="center"
+                                android:padding="@dimen/_3sdp"
+                                android:text="APPLICATION"
+                                android:textColor="@color/black"
+                                />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cv_credit_bureau"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:layout_marginBottom="@dimen/_3sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:layout_marginLeft="@dimen/_5sdp"
+
+                        app:cardBackgroundColor="@color/gray_background"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardElevation="@dimen/_1sdp">
+
+                        <LinearLayout
+                            android:id="@+id/ll_credit_bureau"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@color/gray_background"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/_48sdp"
+                                    android:layout_gravity="center"
+                                    app:srcCompat="@drawable/c_bureau" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.5"
+                                android:background="@color/white"
+                                android:gravity="center"
+                                android:padding="@dimen/_3sdp"
+                                android:text="CREDIT BUREAU"
+                                android:textColor="@color/black"
+                                />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_8sdp">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cv_balance_sheet"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:layout_marginBottom="@dimen/_3sdp"
+                        android:layout_marginRight="@dimen/_4sdp"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        app:cardBackgroundColor="@color/gray_background"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardElevation="@dimen/_1sdp">
+
+                        <LinearLayout
+                            android:id="@+id/ll_balance_sheet"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@color/gray_background"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/_48sdp"
+                                    android:layout_gravity="center"
+                                    app:srcCompat="@drawable/balance_sheet_pd" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.5"
+                                android:background="@color/white"
+                                android:gravity="center"
+                                android:padding="@dimen/_3sdp"
+                                android:text="BALANCE SHEET"
+                                android:textColor="@color/black"
+                                />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cv_income_assessment"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:layout_marginBottom="@dimen/_3sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:layout_marginLeft="@dimen/_5sdp"
+
+                        app:cardBackgroundColor="@color/gray_background"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardElevation="@dimen/_1sdp">
+
+                        <LinearLayout
+                            android:id="@+id/ll_income_assessment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@color/gray_background"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/_48sdp"
+                                    android:layout_gravity="center"
+                                    app:srcCompat="@drawable/income_assessment" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.5"
+                                android:background="@color/white"
+                                android:gravity="center"
+                                android:padding="@dimen/_3sdp"
+                                android:text="INCOME ASSESSMENT"
+                                android:textColor="@color/black"
+                                />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_8sdp">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cv_references"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:layout_marginBottom="@dimen/_3sdp"
+                        android:layout_marginRight="@dimen/_4sdp"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        app:cardBackgroundColor="@color/gray_background"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardElevation="@dimen/_1sdp">
+
+                        <LinearLayout
+                            android:id="@+id/ll_references"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@color/gray_background"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/_48sdp"
+                                    android:layout_gravity="center"
+                                    app:srcCompat="@drawable/references"/>
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.5"
+                                android:background="@color/white"
+                                android:gravity="center"
+                                android:padding="@dimen/_3sdp"
+                                android:text="REFERENCES"
+                                android:textColor="@color/black"
+                                />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cv_decisions"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:layout_marginBottom="@dimen/_3sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        app:cardBackgroundColor="@color/gray_background"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardElevation="@dimen/_1sdp">
+
+                        <LinearLayout
+                            android:id="@+id/ll_decisions"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@color/gray_background"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/_48sdp"
+                                    android:layout_gravity="center"
+                                    app:srcCompat="@drawable/decisions_pd"/>
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.5"
+                                android:background="@color/white"
+                                android:gravity="center"
+                                android:padding="@dimen/_3sdp"
+                                android:text="DECISIONS"
+                                android:textColor="@color/black"
+                                />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_8sdp">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cv_documents"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:layout_marginBottom="@dimen/_3sdp"
+                        android:layout_marginRight="@dimen/_4sdp"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        app:cardBackgroundColor="@color/gray_background"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardElevation="@dimen/_1sdp">
+
+                        <LinearLayout
+                            android:id="@+id/ll_documents"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@color/gray_background"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/_48sdp"
+                                    android:layout_gravity="center"
+                                    app:srcCompat="@drawable/document_pd" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.5"
+                                android:background="@color/white"
+                                android:gravity="center"
+                                android:padding="@dimen/_3sdp"
+                                android:text="DOCUMENT"
+                                android:textColor="@color/black"
+                                />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cv_loan_proposal"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:layout_marginBottom="@dimen/_3sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        app:cardBackgroundColor="@color/gray_background"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardElevation="@dimen/_1sdp">
+
+                        <LinearLayout
+                            android:id="@+id/ll_loan_proposal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@color/gray_background"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/_48sdp"
+                                    android:layout_gravity="center"
+                                    app:srcCompat="@drawable/loan_proposal_pd"/>
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.5"
+                                android:background="@color/white"
+                                android:gravity="center"
+                                android:padding="@dimen/_3sdp"
+                                android:text="LOAN PROPOSAL"
+                                android:textColor="@color/black"
+                                />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <!--  <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:layout_marginLeft="@dimen/_50sdp"
+                  android:layout_marginRight="@dimen/_50sdp"
+                  android:layout_marginTop="@dimen/_8sdp"
+                  android:layout_marginBottom="@dimen/_8sdp">
+
+                  <LinearLayout
+                      android:id="@+id/ll_application"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_weight="1"
+                      android:orientation="vertical"
+                      android:layout_margin="@dimen/_5sdp"
+                      android:background="@color/colorGrapeFruit">
+
+                      <ImageView
+                          android:layout_width="@dimen/_35sdp"
+                          android:layout_height="@dimen/_35sdp"
+                          android:tint="@color/white"
+                          android:layout_marginTop="@dimen/_10sdp"
+                          android:layout_gravity="center"
+                          app:srcCompat="@drawable/ic_account_box_black_24dp"/>
+
+                      <TextView
+                          android:layout_width="match_parent"
+                          android:layout_height="match_parent"
+                          android:padding="@dimen/_5sdp"
+                          android:layout_marginTop="@dimen/_10sdp"
+                          android:gravity="center"
+                          android:textStyle="bold"
+                          android:background="@color/colorGrapeFruitDark"
+                          android:textColor="@color/white"
+                          android:text="APPLICATION"/>
+
+                  </LinearLayout>
+                  <LinearLayout
+                      android:id="@+id/ll_balance_sheet"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:orientation="vertical"
+                      android:layout_margin="@dimen/_5sdp"
+                      android:background="@color/colorBitterSweet">
+
+                      <ImageView
+                          android:layout_width="@dimen/_35sdp"
+                          android:layout_height="@dimen/_35sdp"
+                          android:tint="@color/white"
+                          android:layout_marginTop="@dimen/_10sdp"
+                          android:layout_gravity="center"
+                          app:srcCompat="@drawable/ic_playlist_add_check_black_24dp"/>
+
+                      <TextView
+                          android:layout_width="match_parent"
+                          android:layout_height="match_parent"
+                          android:padding="@dimen/_5sdp"
+                          android:layout_marginTop="@dimen/_10sdp"
+                          android:gravity="center"
+                          android:textStyle="bold"
+                          android:background="@color/colorBitterSweetDark"
+                          android:textColor="@color/white"
+                          android:text="BALANCE SHEET"/>
+
+                  </LinearLayout>
+
+
+              </LinearLayout>
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:layout_marginLeft="@dimen/_50sdp"
+                  android:layout_marginRight="@dimen/_50sdp"
+                  android:layout_marginBottom="@dimen/_8sdp">
+
+
+                  <LinearLayout
+                      android:id="@+id/ll_credit_bureau"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:orientation="vertical"
+                      android:layout_margin="@dimen/_5sdp"
+                      android:background="@color/colorFlower">
+
+                      <ImageView
+                          android:layout_width="@dimen/_35sdp"
+                          android:layout_height="@dimen/_35sdp"
+                          android:tint="@color/white"
+                          android:layout_marginTop="@dimen/_10sdp"
+                          android:layout_gravity="center"
+                          app:srcCompat="@drawable/ic_verified_user_black_24dp"/>
+
+                      <TextView
+                          android:layout_width="match_parent"
+                          android:layout_height="match_parent"
+                          android:padding="@dimen/_5sdp"
+                          android:layout_marginTop="@dimen/_10sdp"
+                          android:gravity="center"
+                          android:textStyle="bold"
+                          android:background="@color/colorFlowerDark"
+                          android:textColor="@color/white"
+                          android:text="CREDIT BUREAU"/>
+
+                  </LinearLayout>
+                  <LinearLayout
+                      android:id="@+id/ll_references"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:orientation="vertical"
+                      android:layout_margin="@dimen/_5sdp"
+                      android:background="@color/colorGrass">
+
+                      <ImageView
+                          android:layout_width="@dimen/_35sdp"
+                          android:layout_height="@dimen/_35sdp"
+                          android:tint="@color/white"
+                          android:layout_marginTop="@dimen/_10sdp"
+                          android:layout_gravity="center"
+                          app:srcCompat="@drawable/ic_people_black_24dp"/>
+
+                      <TextView
+                          android:layout_width="match_parent"
+                          android:layout_height="match_parent"
+                          android:padding="@dimen/_5sdp"
+                          android:layout_marginTop="@dimen/_10sdp"
+                          android:gravity="center"
+                          android:textStyle="bold"
+                          android:background="@color/colorGrassDark"
+                          android:textColor="@color/white"
+                          android:text="REFERENCES"/>
+
+                  </LinearLayout>
+
+
+              </LinearLayout>
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:layout_marginLeft="@dimen/_50sdp"
+                  android:layout_marginRight="@dimen/_50sdp"
+                  android:layout_marginBottom="@dimen/_8sdp">
+                  <LinearLayout
+                      android:id="@+id/ll_income_assessment"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:orientation="vertical"
+                      android:layout_margin="@dimen/_5sdp"
+                      android:background="@color/colorLavander">
+
+                      <ImageView
+                          android:layout_width="@dimen/_35sdp"
+                          android:layout_height="@dimen/_35sdp"
+                          android:tint="@color/white"
+                          android:layout_marginTop="@dimen/_10sdp"
+                          android:layout_gravity="center"
+                          app:srcCompat="@drawable/ic_monetization_on_black_24dp"/>
+
+                      <TextView
+                          android:layout_width="match_parent"
+                          android:layout_height="match_parent"
+                          android:padding="@dimen/_5sdp"
+                          android:layout_marginTop="@dimen/_10sdp"
+                          android:gravity="center"
+                          android:textStyle="bold"
+                          android:background="@color/colorLavanderDark"
+                          android:textColor="@color/white"
+                          android:text="INCOME ASSESSMENT"/>
+
+                  </LinearLayout>
+
+                  <LinearLayout
+                      android:id="@+id/ll_loan_proposal"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:orientation="vertical"
+                      android:layout_margin="@dimen/_5sdp"
+                      android:background="@color/colorBlueJeans">
+
+                      <ImageView
+                          android:layout_width="@dimen/_35sdp"
+                          android:layout_height="@dimen/_35sdp"
+                          android:tint="@color/white"
+                          android:layout_marginTop="@dimen/_10sdp"
+                          android:layout_gravity="center"
+                          app:srcCompat="@drawable/ic_location_city_black_24dp"/>
+
+                      <TextView
+                          android:layout_width="match_parent"
+                          android:layout_height="match_parent"
+                          android:padding="@dimen/_5sdp"
+                          android:layout_marginTop="@dimen/_10sdp"
+                          android:gravity="center"
+                          android:textStyle="bold"
+                          android:background="@color/colorBlueJeansDark"
+                          android:textColor="@color/white"
+                          android:text="LOAN PROPOSAL"/>
+
+                  </LinearLayout>
+
+
+              </LinearLayout>
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:layout_marginLeft="@dimen/_50sdp"
+                  android:layout_marginRight="@dimen/_50sdp"
+                  android:layout_marginBottom="@dimen/_8sdp">
+
+                  <LinearLayout
+                      android:id="@+id/ll_documents"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:orientation="vertical"
+                      android:layout_margin="@dimen/_5sdp"
+                      android:background="@color/colorAqua">
+
+                      <ImageView
+                          android:layout_width="@dimen/_35sdp"
+                          android:layout_height="@dimen/_35sdp"
+                          android:tint="@color/white"
+                          android:layout_marginTop="@dimen/_10sdp"
+                          android:layout_gravity="center"
+                          app:srcCompat="@drawable/ic_collections_black_24dp"/>
+
+                      <TextView
+                          android:layout_width="match_parent"
+                          android:layout_height="match_parent"
+                          android:padding="@dimen/_5sdp"
+                          android:layout_marginTop="@dimen/_10sdp"
+                          android:gravity="center"
+                          android:textStyle="bold"
+                          android:background="@color/colorAquaDark"
+                          android:textColor="@color/white"
+                          android:text="DOCUMENT"/>
+
+                  </LinearLayout>
+                  <LinearLayout
+                      android:id="@+id/ll_decisions"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_weight="1"
+                      android:orientation="vertical"
+                      android:layout_margin="@dimen/_5sdp"
+                      android:background="@color/colorPinkRose">
+
+                      <ImageView
+                          android:layout_width="@dimen/_35sdp"
+                          android:layout_height="@dimen/_35sdp"
+                          android:tint="@color/white"
+                          android:layout_marginTop="@dimen/_10sdp"
+                          android:layout_gravity="center"
+                          app:srcCompat="@drawable/ic_rate_review_black_24dp"/>
+
+                      <TextView
+                          android:layout_width="match_parent"
+                          android:layout_height="match_parent"
+                          android:padding="@dimen/_5sdp"
+                          android:layout_marginTop="@dimen/_10sdp"
+                          android:gravity="center"
+                          android:textStyle="bold"
+                          android:background="@color/colorPinkRoseDark"
+                          android:textColor="@color/white"
+                          android:text="DECISIONS"/>
+                  </LinearLayout>
+
+              </LinearLayout>
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:layout_marginLeft="@dimen/_50sdp"
+                  android:layout_marginRight="@dimen/_50sdp"
+                  android:layout_marginBottom="@dimen/_8sdp">
+
+              &lt;!&ndash;    <LinearLayout
+                      android:id="@+id/ll_loan_proposal"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_weight="1"
+                      android:orientation="vertical"
+                      android:layout_margin="@dimen/_5sdp"
+                      android:background="@color/colorBlueJeans">
+
+                      <ImageView
+                          android:layout_width="@dimen/_35sdp"
+                          android:layout_height="@dimen/_35sdp"
+                          android:tint="@color/white"
+                          android:layout_marginTop="@dimen/_10sdp"
+                          android:layout_gravity="center"
+                          app:srcCompat="@drawable/ic_location_city_black_24dp"/>
+
+                      <TextView
+                          android:layout_width="match_parent"
+                          android:layout_height="match_parent"
+                          android:padding="@dimen/_5sdp"
+                          android:layout_marginTop="@dimen/_10sdp"
+                          android:gravity="center"
+                          android:textStyle="bold"
+                          android:background="@color/colorBlueJeansDark"
+                          android:textColor="@color/white"
+                          android:text="LOAN PROPOSAL"/>
+
+                  </LinearLayout>
+
+
+              </LinearLayout>-->
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

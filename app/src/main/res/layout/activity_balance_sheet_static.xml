@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_background"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:background="@color/gray_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_35sdp"
+                android:background="@color/white"
+                android:text="BALANCE SHEET"
+                android:textAlignment="center"
+                android:padding="@dimen/_8sdp"
+                android:textSize="@dimen/_10ssp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/color_text_gray"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:layout_marginLeft="@dimen/_18sdp"
+                android:layout_marginRight="@dimen/_18sdp"
+                android:background="@drawable/rounded_background"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:background="@drawable/rounded_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rounded_background"
+                        android:text="HOUSEHOLD"
+                        android:textAlignment="center"
+                        android:padding="@dimen/_10sdp"
+                        android:textSize="@dimen/_10ssp"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:textColor="@color/color_text_gray"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:background="@color/graylight"
+
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_10sdp">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cv_h_assets"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:layout_marginBottom="@dimen/_3sdp"
+                        android:layout_marginRight="@dimen/_4sdp"
+                        android:layout_marginLeft="@dimen/_12sdp"
+                        app:cardBackgroundColor="@color/gray_background"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardElevation="@dimen/_1sdp">
+
+                        <LinearLayout
+                            android:id="@+id/ll_h_assets"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@color/gray_background"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/_50sdp"
+                                    android:layout_gravity="center"
+                                    app:srcCompat="@drawable/b_assets" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.5"
+                                android:background="@color/white"
+                                android:gravity="center"
+                                android:padding="@dimen/_3sdp"
+                                android:text="H-ASSETS"
+                                android:textColor="@color/black"
+                                />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cv_b_income"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:layout_marginBottom="@dimen/_3sdp"
+                        android:layout_marginRight="@dimen/_12sdp"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        app:cardBackgroundColor="@color/gray_background"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardElevation="@dimen/_1sdp">
+
+                        <LinearLayout
+                            android:id="@+id/ll_h_liability"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@color/gray_background"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/_50sdp"
+                                    android:layout_gravity="center"
+                                    app:srcCompat="@drawable/household_liabilities" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.5"
+                                android:background="@color/white"
+                                android:gravity="center"
+                                android:padding="@dimen/_3sdp"
+                                android:text="HOUSEHOLD LIABILITIES"
+                                android:textColor="@color/black"
+                                />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
+                <!--<androidx.cardview.widget.CardView-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerHorizontal="true"-->
+                    <!--android:layout_marginTop="@dimen/_12sdp"-->
+                    <!--android:layout_marginBottom="@dimen/_15sdp"-->
+                    <!--android:layout_marginRight="@dimen/_55sdp"-->
+                    <!--android:layout_marginLeft="@dimen/_55sdp"-->
+                    <!--app:cardBackgroundColor="@color/gray_background"-->
+                    <!--app:cardCornerRadius="@dimen/_5sdp"-->
+                    <!--app:cardElevation="@dimen/_1sdp">-->
+
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:background="@color/gray_background"-->
+                        <!--android:orientation="horizontal">-->
+
+                        <!--<LinearLayout-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_height="match_parent"-->
+                            <!--android:layout_gravity="center"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:gravity="center"-->
+                            <!--android:orientation="horizontal">-->
+
+                            <!--<ImageView-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="@dimen/_50sdp"-->
+                                <!--android:layout_gravity="center"-->
+                                <!--app:srcCompat="@drawable/household_liabilities" />-->
+
+                        <!--</LinearLayout>-->
+
+                        <!--<TextView-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_weight="2"-->
+                            <!--android:layout_height="match_parent"-->
+                            <!--android:background="@color/white"-->
+                            <!--android:gravity="center"-->
+
+                            <!--android:text="HOUSEHOLD LIABILITIES"-->
+                            <!--android:textColor="@color/black"-->
+                             <!--/>-->
+
+                    <!--</LinearLayout>-->
+                <!--</androidx.cardview.widget.CardView>-->
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/gray_transparent"
+                    android:text="BUSINESS"
+                    android:textAlignment="center"
+                    android:padding="@dimen/_8sdp"
+                    android:textSize="@dimen/_10ssp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textColor="@color/color_text_gray"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_10sdp">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cv_b_assets"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:layout_marginBottom="@dimen/_3sdp"
+                        android:layout_marginRight="@dimen/_4sdp"
+                        android:layout_marginLeft="@dimen/_12sdp"
+                        app:cardBackgroundColor="@color/gray_background"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardElevation="@dimen/_1sdp">
+
+                        <LinearLayout
+                            android:id="@+id/ll_b_assets"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@color/gray_background"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/_50sdp"
+                                    android:layout_gravity="center"
+                                    app:srcCompat="@drawable/b_assets" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.5"
+                                android:background="@color/white"
+                                android:gravity="center"
+                                android:padding="@dimen/_3sdp"
+                                android:text="B-ASSETS"
+                                android:textColor="@color/black"
+                                />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cv_b_liability"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:layout_marginBottom="@dimen/_3sdp"
+                        android:layout_marginRight="@dimen/_12sdp"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        app:cardBackgroundColor="@color/gray_background"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        app:cardElevation="@dimen/_1sdp">
+
+                        <LinearLayout
+                            android:id="@+id/ll_b_liability"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@color/gray_background"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/_50sdp"
+                                    android:layout_gravity="center"
+                                    app:srcCompat="@drawable/b_liabilities" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.5"
+                                android:background="@color/white"
+                                android:gravity="center"
+                                android:padding="@dimen/_3sdp"
+                                android:text="B-LIABILITIES"
+                                android:textColor="@color/black"
+                                />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
+<!--
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_3sdp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorMintDark"
+                android:text="BALANCE SHEET"
+                android:textAlignment="center"
+                android:padding="@dimen/_8sdp"
+                android:textSize="@dimen/_10ssp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/white"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_3sdp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorFlowerDark"
+                android:text="HOUSEHOLD"
+                android:textAlignment="center"
+                android:padding="@dimen/_8sdp"
+                android:textSize="@dimen/_10ssp"
+                android:layout_marginLeft="@dimen/_55sdp"
+                android:layout_marginRight="@dimen/_55sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/white"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="@dimen/_50sdp"
+                android:layout_marginRight="@dimen/_50sdp"
+                android:layout_marginBottom="@dimen/_8sdp">
+
+                <LinearLayout
+                    android:id="@+id/ll_h_liability"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@color/colorGrapeFruit">
+
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="@dimen/_35sdp"
+                            android:layout_height="@dimen/_35sdp"
+                            android:tint="@color/white"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/ic_home_black_24dp"/>
+
+
+                        <ImageButton
+                            android:id="@+id/ib_sync_h_liability"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_centerVertical="true"
+                            app:srcCompat="@drawable/ic_sync_black_24dp"
+                            android:background="@color/colorYellow"
+                            android:visibility="gone"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentTop="true" />
+
+                    </RelativeLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/_5sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:background="@color/colorGrapeFruitDark"
+                        android:textColor="@color/white"
+                        android:text="H-LIABILITIES"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_3sdp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAquaDark"
+                android:text="BUSINESS"
+                android:textAlignment="center"
+                android:padding="@dimen/_8sdp"
+                android:textSize="@dimen/_10ssp"
+                android:layout_marginLeft="@dimen/_55sdp"
+                android:layout_marginRight="@dimen/_55sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/white"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="@dimen/_50sdp"
+                android:layout_marginRight="@dimen/_50sdp"
+                android:layout_marginBottom="@dimen/_8sdp">
+
+                <LinearLayout
+                    android:id="@+id/ll_b_assets"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@color/colorPinkRose">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:tint="@color/white"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_gravity="center"
+                        android:layout_centerHorizontal="true"
+                        app:srcCompat="@drawable/ic_business_center_black_24dp"/>
+
+
+                        <ImageButton
+                            android:id="@+id/ib_sync_b_assets"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_centerVertical="true"
+                            app:srcCompat="@drawable/ic_sync_black_24dp"
+                            android:background="@color/colorYellow"
+                            android:visibility="gone"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentTop="true"/>
+
+                    </RelativeLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/_5sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:background="@color/colorPinkRoseDark"
+                        android:textColor="@color/white"
+                        android:text="B-ASSETS"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_b_liability"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@color/colorBitterSweet">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:tint="@color/white"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_gravity="center"
+                        android:layout_centerHorizontal="true"
+                        app:srcCompat="@drawable/ic_location_city_black_24dp"/>
+
+                    <ImageButton
+                        android:id="@+id/ib_sync_b_liabilities"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_centerVertical="true"
+                        app:srcCompat="@drawable/ic_sync_black_24dp"
+                        android:background="@color/colorYellow"
+                        android:visibility="gone"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"/>
+
+                </RelativeLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/_5sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:background="@color/colorBitterSweetDark"
+                        android:textColor="@color/white"
+                        android:text="B-LIABILITIES"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>-->

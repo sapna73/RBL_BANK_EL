@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_5sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ll_lead_details"
+        android:layout_alignParentStart="true"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/iv_txnstatus"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:padding="@dimen/_5sdp"
+            android:background="@color/colorGrass"
+            app:srcCompat="@drawable/ic_person_white_24dp" />
+
+        <Button
+            android:id="@+id/printButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View"
+            style="@style/CustomBtnStyle"
+            android:theme="@style/CustomBlueBtnTheme"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/ll_lead_details"
+        android:minLines="1"
+        android:padding="@dimen/_5sdp"
+        android:singleLine="false"
+        android:text="Name"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12sdp" />
+    <TextView
+        android:id="@+id/tv_lead_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_name"
+        android:layout_toRightOf="@id/ll_lead_details"
+        android:minLines="1"
+        android:padding="@dimen/_5sdp"
+        android:singleLine="false"
+        android:text="254264677"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12sdp" />
+   <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_lead_id"
+        android:layout_toRightOf="@id/ll_lead_details"
+        android:minLines="1"
+        android:padding="@dimen/_5sdp"
+        android:singleLine="false"
+        android:text="Status"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12sdp" />
+
+</RelativeLayout>

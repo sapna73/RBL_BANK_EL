@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<color name="bfil_green">#3f8008</color>
+    <color name="bfil_orange">#fe5722</color>
+    <color name="bfil_blue">#3F51B5</color>
+    <color name="bfil_blue_overlay">#bb3F51B5</color>
+
+    <color name="error">#FF0000</color>
+    <color name="success">#52be80</color>
+    <color name="alert">#FFC300</color>-->
+
+    <!--SWADHAAR-->
+    <color name="rfs_green">#3f8008</color>
+    <color name="rfs_orange">#fe5722</color>
+    <color name="rfs_blue">#3F51B5</color>
+    <color name="rfs_blue_overlay">#bb3F51B5</color>
+
+    <color name="error">#C93B48</color>
+    <color name="success">#0F9795</color>
+    <color name="alert">#CC7832</color>
+
+    <color name="colorPrimary">#424242</color>
+    <color name="colorPrimaryDark">#212121</color>
+    <color name="colorAccent">#808080</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="dark_red">#C93B48</color>
+
+    <color name="rbl_blue">#232784</color>
+    <color name="rbl_red">#de2c1b</color>
+
+    <!-- Dialog colors -->
+   
+    <color name="colorRed">#ff3943</color>
+    <color name="colorRed_light_background">#fdc2bf</color>
+    <color name="colorRedLight">#E57373</color>
+    <color name="colorRedDark">#801b20</color>
+    <color name="colorYellow">#FFD600</color>
+    <color name="colorYellowLight">#FFFF8D</color>
+    <color name="colorYellowDark">#F9A825</color>
+    <color name="colorBlue">#1A237E</color>
+    <color name="colorBlueLight">#8C9EFF</color>
+    <color name="colorBlueDark">#1A237E</color>
+    <color name="colorGreenLight">#abffc0</color>
+    <color name="colorGreen">#247b37</color>
+    <color name="colorGreen1">#3eb959</color>
+    <color name="dark_white">#ffffff</color>
+    <color name="colorDialogPrimary">#848cb7</color>
+    <color name="colorDialogPrimaryDark">#6d749f</color>
+    <color name="colorDialogAccent">#ff4081</color>
+    <color name="ce1fbfd">#e1fbfd</color>
+    <color name="app_bg">#f8f8f8</color>
+    <color name="c2899c0">#2899c0</color>
+    <color name="cd82c1c">#d82c1c</color>
+    <color name="c11b86b">#11b86b</color>
+    <color name="cf1ab00">#f1ab00</color>
+    <color name="cfceecc">#fceecc</color>
+    <color name="gray_background">#efeded</color>
+    <color name="color_orange">#ff7000</color>
+    <color name="color_text_gray">#4f4d4e</color>
+    <color name="color_icon_background">#f6f6f6</color>
+    <color name="color_red_text">#d92c1b</color>
+
+    <color name="red_500">#ff0040</color>
+
+    <color name="colorDarkBlue">#272C4F</color>
+    <color name="colorDarkBlue2">#42456f</color>
+    <color name="colorDarkBlue3">#565A7B</color>
+
+    <color name="colorDark">#1A000000</color>
+    <color name="grey_90">#263238</color>
+    <color name="grey_40">#bcbcbc</color>
+    <color name="colorPurple">#6702ff</color>
+
+    <color name="colorWhite">#FFF</color>
+    <color name="blue_300">#0088ff</color>
+</resources>

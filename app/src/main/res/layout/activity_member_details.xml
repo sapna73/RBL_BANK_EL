@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/app_bg"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_client_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fafafa"
+                android:text="MEMBER DETAILS"
+                android:textAlignment="center"
+                android:padding="@dimen/_8sdp"
+                android:textSize="@dimen/_10ssp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="#454546"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_3sdp"
+
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:layout_marginRight="@dimen/_2sdp"
+                    android:layout_marginBottom="@dimen/_10sdp">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_5sdp"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        android:elevation="@dimen/_5sdp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            >
+
+                            <LinearLayout
+                                android:id="@+id/ll_applicant"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical"
+                                    android:background="@drawable/bg_ui_white_box_red">
+
+                                    <ImageView
+                                        android:layout_width="@dimen/_35sdp"
+                                        android:layout_height="@dimen/_35sdp"
+                                        android:tint="@color/white"
+                                        android:layout_marginTop="@dimen/_10sdp"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/people_profile_user_icon"/>
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:padding="@dimen/_5sdp"
+                                        android:layout_marginTop="@dimen/_10sdp"
+                                        android:gravity="center"
+                                        android:textStyle="bold"
+                                        android:textSize="@dimen/_8ssp"
+                                        android:background="@color/colorBitterSweetDark"
+                                        android:textColor="@color/white"
+                                        android:text="MEMBER"/>
+
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="0.35"
+                                    android:orientation="vertical"
+                                    android:background="@drawable/bg_ui_white_rightside">
+
+                                    <RelativeLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        >
+
+                                        <androidx.recyclerview.widget.RecyclerView
+                                            android:id="@+id/rv_add_applicant"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:clipToPadding="false"
+                                            android:scrollbars="vertical"
+                                            android:layout_toLeftOf="@+id/ib_add_applicant"
+                                            android:padding="@dimen/_5sdp">
+                                        </androidx.recyclerview.widget.RecyclerView>
+
+                                        <ImageView
+                                            android:id="@+id/iv_add_applicant"
+                                            android:layout_width="@dimen/_35sdp"
+                                            android:layout_height="@dimen/_35sdp"
+                                            android:layout_marginTop="@dimen/_8sdp"
+                                            
+                                            android:layout_centerHorizontal="true"
+                                            app:srcCompat="@drawable/iconfinder_entoni_dropbox"/>
+
+                                        <TextView
+                                            android:id="@+id/tv_add_applicant"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_below="@+id/iv_add_applicant"
+                                            android:padding="@dimen/_5sdp"
+                                            android:layout_marginTop="@dimen/_5sdp"
+                                            android:gravity="center"
+                                            android:textStyle="bold"
+
+                                            android:text="ADD MEMBER DETAILS"/>
+
+                                        <androidx.appcompat.widget.AppCompatImageButton
+                                            android:id="@+id/ib_add_applicant"
+                                            android:visibility="gone"
+                                            android:layout_width="@dimen/_20sdp"
+                                            android:layout_height="@dimen/_20sdp"
+                                            android:layout_alignParentEnd="true"
+                                            android:layout_alignParentBottom="true"
+                                            android:tint="@color/white"
+                                            android:background="@color/colorBitterSweet"
+                                            app:srcCompat="@drawable/ic_add"/>
+
+                                    </RelativeLayout>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+                        </FrameLayout>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:layout_margin="@dimen/_5sdp"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        android:elevation="@dimen/_5sdp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:id="@+id/ll_loan_proposal_with_nominee"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical"
+                                    android:background="@drawable/bg_ui_white_box_red">
+
+                                    <ImageView
+                                        android:layout_width="@dimen/_35sdp"
+                                        android:layout_height="@dimen/_35sdp"
+                                        android:tint="@color/white"
+                                        android:layout_marginTop="@dimen/_10sdp"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/user_icon"/>
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:padding="@dimen/_5sdp"
+                                        android:layout_marginTop="@dimen/_10sdp"
+                                        android:gravity="center"
+                                        android:textStyle="bold"
+                                        android:textSize="@dimen/_8ssp"
+                                        android:background="@color/colorBitterSweetDark"
+                                        android:textColor="@color/white"
+                                        android:text="LOAN PROPOSAL"/>
+
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="0.35"
+                                    android:orientation="vertical"
+                                    android:background="@drawable/bg_ui_white_rightside">
+
+                                    <RelativeLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+
+                                        <androidx.recyclerview.widget.RecyclerView
+                                            android:id="@+id/rv_add_loan_proposal"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:clipToPadding="false"
+                                            android:scrollbars="vertical"
+                                            android:layout_toLeftOf="@+id/ib_add_reference"
+                                            android:padding="@dimen/_5sdp">
+                                        </androidx.recyclerview.widget.RecyclerView>
+
+                                        <ImageView
+                                            android:id="@+id/iv_add_loan_proposal"
+                                            android:layout_width="@dimen/_35sdp"
+                                            android:layout_height="@dimen/_35sdp"
+                                            android:layout_marginTop="@dimen/_8sdp"
+                                            android:layout_centerHorizontal="true"
+                                            app:srcCompat="@drawable/iconfinder_entoni_dropbox"/>
+
+                                        <TextView
+                                            android:id="@+id/tv_add_loan_proposal"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_below="@+id/iv_add_loan_proposal"
+                                            android:padding="@dimen/_5sdp"
+                                            android:layout_marginTop="@dimen/_5sdp"
+                                            android:gravity="center"
+                                            android:textStyle="bold"
+                                            android:text="ADD LOAN PROPOSAL DETAILS"/>
+
+                                        <androidx.appcompat.widget.AppCompatImageButton
+                                            android:id="@+id/ib_add_loan_proposal"
+                                            android:visibility="gone"
+                                            android:layout_width="@dimen/_20sdp"
+                                            android:layout_height="@dimen/_20sdp"
+                                            android:layout_alignParentEnd="true"
+                                            android:layout_alignParentBottom="true"
+                                            android:background="@color/colorGrass"
+                                            android:tint="@color/white"
+                                            app:srcCompat="@drawable/ic_add" />
+
+                                    </RelativeLayout>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+                        </FrameLayout>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:layout_margin="@dimen/_5sdp"
+                        app:cardCornerRadius="@dimen/_5sdp"
+                        android:elevation="@dimen/_5sdp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:id="@+id/ll_document_upload"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical"
+                                    android:background="@color/colorBitterSweetDark">
+
+                                    <ImageView
+                                        android:layout_width="@dimen/_35sdp"
+                                        android:layout_height="@dimen/_35sdp"
+                                        android:tint="@color/white"
+                                        android:layout_marginTop="@dimen/_10sdp"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/page_paper_icon"/>
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:padding="@dimen/_5sdp"
+                                        android:layout_marginTop="@dimen/_10sdp"
+                                        android:gravity="center"
+                                        android:textStyle="bold"
+                                        android:textSize="@dimen/_8ssp"
+                                        android:background="@color/colorBitterSweetDark"
+                                        android:textColor="@color/white"
+                                        android:text="DOCUMENTS"/>
+
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="0.35"
+                                    android:orientation="vertical"
+                                    android:background="@drawable/bg_ui_white_rightside">
+
+                                    <RelativeLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+
+                                        <androidx.recyclerview.widget.RecyclerView
+                                            android:id="@+id/rv_add_document"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:clipToPadding="false"
+                                            android:scrollbars="vertical"
+                                            android:layout_toLeftOf="@+id/ib_add_document"
+                                            android:padding="@dimen/_5sdp">
+                                        </androidx.recyclerview.widget.RecyclerView>
+
+                                        <ImageView
+                                            android:id="@+id/iv_add_document"
+                                            android:layout_width="@dimen/_35sdp"
+                                            android:layout_height="@dimen/_35sdp"
+                                            android:layout_marginTop="@dimen/_8sdp"
+                                            android:layout_centerHorizontal="true"
+                                            app:srcCompat="@drawable/iconfinder_entoni_dropbox"/>
+
+                                        <TextView
+                                            android:id="@+id/tv_add_document"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_below="@+id/iv_add_document"
+                                            android:padding="@dimen/_5sdp"
+                                            android:layout_marginTop="@dimen/_5sdp"
+                                            android:gravity="center"
+                                            android:textStyle="bold"
+                                            android:text="ADD DOCUMENTS"/>
+
+                                        <androidx.appcompat.widget.AppCompatImageButton
+                                            android:id="@+id/ib_add_document"
+                                            android:visibility="gone"
+                                            android:layout_width="@dimen/_20sdp"
+                                            android:layout_height="@dimen/_20sdp"
+                                            android:layout_alignParentEnd="true"
+                                            android:layout_alignParentBottom="true"
+                                            android:tint="@color/white"
+                                            android:background="@color/colorLavander"
+                                            app:srcCompat="@drawable/ic_add"/>
+
+                                    </RelativeLayout>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+                        </FrameLayout>
+                    </androidx.cardview.widget.CardView>
+
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

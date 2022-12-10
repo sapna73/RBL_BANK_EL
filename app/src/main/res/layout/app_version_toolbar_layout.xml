@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:visibility="visible"
+        android:id="@+id/sw_sod"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:theme="@style/SwitchCompatTheme"
+        android:background="@color/gray_transparent"
+        android:scaleX="1"
+        android:scaleY="1"
+        android:text="@string/sod"
+        android:textSize="@dimen/_10ssp"
+        android:textColor="@color/graryDark"
+        />
+
+    <LinearLayout
+        android:gravity="end"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_currentdate"
+            android:layout_marginTop="@dimen/_1sdp"
+            android:layout_marginRight="@dimen/_2sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="13/05/2020"
+            android:textColor="@color/color_text_gray"
+            android:textSize="@dimen/_6sdp" />
+        <TextView
+            android:id="@+id/tv_app_version"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_marginRight="@dimen/_2sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/version"
+            android:textColor="@color/color_text_gray"
+            android:textSize="@dimen/_6sdp"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

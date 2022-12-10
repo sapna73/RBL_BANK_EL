@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_btn_common"
+    android:layout_width="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_centerInParent="true"
+    android:layout_height="wrap_content">
+
+    <ImageButton
+        android:id="@+id/btn_common"
+        android:layout_width="@dimen/_30ssp"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/circle_add_another"
+        app:srcCompat="@drawable/ic_add"/>
+
+    <TextView
+        android:id="@+id/tv_add_button_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_common"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="Add Another"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:gravity="center"/>
+
+</RelativeLayout>

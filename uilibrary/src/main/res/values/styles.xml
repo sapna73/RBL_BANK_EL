@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
+        <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+    <!--</style>-->
+    <!--<style name="AppTheme.NoActionBar" parent="AppTheme">-->
+        <!--<item name="windowActionBar">false</item>-->
+        <!--<item name="windowNoTitle">true</item>-->
+    <!--</style>-->
+    <!--    CARD VIEW STYLING   -->
+    <style name="CustomCardView" parent="Theme.AppCompat.Light">
+        <item name="cardCornerRadius">@dimen/_2sdp</item>
+        <item name="cardElevation">5dp</item>
+        <item name="cardPreventCornerOverlap">false</item>
+        <item name="cardUseCompatPadding">true</item>
+    </style>
+
+    <!--    TEXT INPUT & EDIT TEXT STYLING   -->
+    <style name="TextInputLayoutErrorColor" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#FF0000</item>
+        <item name="android:textSize">@dimen/_6ssp</item>
+    </style>
+    <style name="CustomTextInputLayout">
+        <item name="android:paddingRight">@dimen/_5sdp</item>
+        <item name="android:paddingLeft">@dimen/_5sdp</item>
+        <item name="android:textColorHint">@android:color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/my_font</item>
+    </style>
+    <style name="CustomEditText">
+        <item name="android:paddingTop">@dimen/_10sdp</item>
+        <item name="android:paddingBottom">@dimen/_10sdp</item>
+        <item name="android:textSize">@dimen/_10ssp</item>
+        <item name="android:textColorHint">@android:color/black</item>
+        <item name="android:textColor">@drawable/edt_disabled_color</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="CustomEditTextPadding5dp">
+        <item name="android:paddingTop">@dimen/_5sdp</item>
+        <item name="android:paddingBottom">@dimen/_5sdp</item>
+        <item name="android:textSize">@dimen/_10ssp</item>
+        <item name="android:textColorHint">@android:color/black</item>
+        <item name="android:textColor">@drawable/edt_disabled_color</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!--    HEADERS STYLING   -->
+    <style name="CustomHeaderLabel">
+        <item name="android:padding">@dimen/_5sdp</item>
+        <item name="android:textSize">@dimen/_13ssp</item>
+        <item name="android:background">@color/rfs_green</item>
+        <item name="android:gravity">center|start</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <!--    BUTTON STYLING   -->
+    <style name="CustomBtnStyle" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">@android:color/darker_gray</item>
+        <item name="colorButtonNormal">@color/rfs_blue</item>
+        <item name="android:textSize">@dimen/_11ssp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingLeft">@dimen/_10sdp</item>
+        <item name="android:paddingRight">@dimen/_10sdp</item>
+        <item name="android:paddingTop">@dimen/_7sdp</item>
+        <item name="android:paddingBottom">@dimen/_7sdp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <!--    BUTTON STYLING   -->
+    <style name="CustomBtnStyleMinPadding" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">@android:color/darker_gray</item>
+        <item name="colorButtonNormal">@color/rfs_blue</item>
+        <item name="android:textSize">@dimen/_10ssp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingLeft">@dimen/_3sdp</item>
+        <item name="android:paddingRight">@dimen/_3sdp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="CustomBtnStylePd" parent="Theme.AppCompat.Light">
+        <item name="android:textStyle">bold</item>
+        <item name="colorControlHighlight">@android:color/darker_gray</item>
+        <item name="colorButtonNormal">@color/rfs_blue</item>
+        <item name="android:textSize">@dimen/_8ssp</item>
+       <item name="android:paddingTop">@dimen/_3sdp</item>
+        <item name="android:paddingBottom">@dimen/_3sdp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <!--    RADIO BUTTON STYLING   -->
+    <style name="CustomRadioBtnTheme" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">@color/rfs_blue</item>
+        <item name="colorControlNormal">@color/rfs_blue</item>
+    </style>
+    <style name="CustomRadioBtnStyle">
+        <item name="android:padding">@dimen/_2sdp</item>
+        <item name="android:textSize">@dimen/_10ssp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:checked">false</item>
+        <item name="android:gravity">center|left</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+    <style name="CustomRadioBtnLblStyle">
+        <item name="android:padding">@dimen/_3sdp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/_10sdp</item>
+    </style>
+
+    <!--    CHECK BOX STYLING   -->
+    <style name="CustomCheckBoxTheme" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/rfs_blue</item>
+        <item name="colorControlActivated">@color/rfs_blue</item>
+    </style>
+    <style name="CustomCheckBoxStyle">
+        <item name="android:layout_margin">@dimen/_3sdp</item>
+        <item name="android:padding">@dimen/_3sdp</item>
+        <item name="android:textSize">@dimen/_10ssp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:gravity">center|left</item>
+    </style>
+
+    <!--    PROGRESS BAR STYLING   -->
+    <style name="CircularProgress" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/rfs_blue</item>
+    </style>
+
+    <!--    SWITCH  STYLING   -->
+    <style name="CustomSwitchStyle" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">@color/rfs_blue</item>
+        <item name="colorSwitchThumbNormal">@color/rfs_blue_overlay</item>
+        <item name="android:colorForeground">@android:color/darker_gray</item>
+    </style>
+
+    <!--  CUSTOM FONT STYLE -->
+    <style name="CustomFontStyle"  parent="@android:style/TextAppearance.Small">
+        <item name="android:fontFamily">@font/my_font</item>
+    </style>
+
+</resources>
