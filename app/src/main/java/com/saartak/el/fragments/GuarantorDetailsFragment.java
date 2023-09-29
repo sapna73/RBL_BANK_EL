@@ -1,4 +1,5 @@
 package com.saartak.el.fragments;
+
 import static com.saartak.el.constants.AppConstant.PARAM_CLIENT_ID;
 import static com.saartak.el.constants.AppConstant.PARAM_LOAN_TYPE;
 import static com.saartak.el.constants.AppConstant.PARAM_MODULE_TYPE;
@@ -10,16 +11,17 @@ import static com.saartak.el.constants.AppConstant.PARAM_USER_ID;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.saartak.el.R;
 import com.saartak.el.database.entity.DynamicUITable;
@@ -35,20 +37,18 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.AndroidSupportInjection;
 import dagger.android.support.HasSupportFragmentInjector;
 
-public class ApplicantPANDetailsFragment extends LOSBaseFragment implements LOSBaseFragment.DynamiUIinterfacce, HasSupportFragmentInjector, FragmentInterface {
-    private static final String TAG = ApplicantPANDetailsFragment.class.getCanonicalName();
+public class GuarantorDetailsFragment extends LOSBaseFragment implements LOSBaseFragment.DynamiUIinterfacce, HasSupportFragmentInjector, FragmentInterface {
 
-    private ApplicantPANDetailsFragment.OnFragmentInteractionListener mListener;
-    String leadState = "";
+    private GuarantorDetailsFragment.OnFragmentInteractionListener mListener;
 
-    public ApplicantPANDetailsFragment() {
-
+    public GuarantorDetailsFragment() {
+        // Required empty public constructor
     }
 
     // TODO: Rename and change types and number of parameters
-    public static ApplicantPANDetailsFragment newInstance(String loanType, String clientId, String projectId, String productId,
-                                                            String screenNo, String screenName, String userId, String moduleType) {
-        ApplicantPANDetailsFragment fragment = new ApplicantPANDetailsFragment();
+    public static GuarantorDetailsFragment newInstance(String loanType, String clientId, String projectId, String productId,
+                                                       String screenNo, String screenName, String userId, String moduleType) {
+        GuarantorDetailsFragment fragment = new GuarantorDetailsFragment();
         Bundle args = new Bundle();
         args.putString(PARAM_LOAN_TYPE, loanType);
         args.putString(PARAM_CLIENT_ID, clientId);
@@ -77,22 +77,19 @@ public class ApplicantPANDetailsFragment extends LOSBaseFragment implements LOSB
         }
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_common_layout, container, false);
     }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ll = (LinearLayout) view.findViewById(R.id.ll_content);
-        setDynamiUIinterfacce(ApplicantPANDetailsFragment.this);
+        setDynamiUIinterfacce(GuarantorDetailsFragment.this);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -101,36 +98,12 @@ public class ApplicantPANDetailsFragment extends LOSBaseFragment implements LOSB
 
     @Override
     public void dynamicUICallback(List<DynamicUITable> viewParametersList) {
-        dynamicUI(viewParametersList);
-    }
 
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
-
-    @Inject
-    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
-
-    @Override
-    public AndroidInjector<Fragment> supportFragmentInjector() {
-        return dispatchingAndroidInjector;
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        this.configureDagger();
-        this.configureViewModel();
-    }
-
-    public void configureDagger() {
-        AndroidSupportInjection.inject(this);
-    }
-
-    public void configureViewModel() {
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(DynamicUIViewModel.class);
+    public Fragment getFragment() {
+        return this;
     }
 
     @Override
@@ -151,10 +124,30 @@ public class ApplicantPANDetailsFragment extends LOSBaseFragment implements LOSB
         }
     }
 
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
+    }
+
+    @Inject
+    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return dispatchingAndroidInjector;
+    }
 
     @Override
-    public Fragment getFragment() {
-        return this;
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        this.configureDagger();
+        this.configureViewModel();
+    }
+
+    public void configureDagger() {
+        AndroidSupportInjection.inject(this);
+    }
+
+    public void configureViewModel() {
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(DynamicUIViewModel.class);
     }
 }
-

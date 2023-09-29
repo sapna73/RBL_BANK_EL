@@ -218,7 +218,7 @@ public class NPCIConstantValues {
 				if(requestType.equalsIgnoreCase("AB")) {
 					/*For Mantra Authentication*/
 					captureRequestXML = "<PidOptions ver=\"1.0\">" +
-							"   <Opts env=\"PP\" fCount=\"1\" fType=\"0\" format=\"0\" iCount=\"0\" iType=\"0\" " +
+							"   <Opts env=\"PP\" fCount=\"1\" fType=\"2\" format=\"0\" iCount=\"0\" iType=\"0\" " +
 							"pCount=\"0\" pType=\"0\" pidVer=\"2.0\" posh=\"UNKNOWN\" timeout=\"20000\"/>" +
 							"</PidOptions>";
 				}else if(requestType.equalsIgnoreCase("EB")) {
@@ -226,17 +226,17 @@ public class NPCIConstantValues {
 					if( !TextUtils.isEmpty(env) && env.equalsIgnoreCase(EKYC_UAT_ENVIRONMENT)) {
 						//Mantra Ekyc UAT
 						captureRequestXML = "<PidOptions ver=\"1.0\">" +
-								"   <Opts env=\"PP\" fCount=\"1\" fType=\"0\" format=\"0\" iCount=\"0\" iType=\"0\" " +
+								"   <Opts env=\"PP\" fCount=\"1\" fType=\"2\" format=\"0\" iCount=\"0\" iType=\"0\" " +
 								"pCount=\"0\" pType=\"0\" pidVer=\"2.0\" " +
-								"wadh=\"E0jzJ/P8UopUHAieZn8CKqS4WPMi5ZSYXgfnlfkWjrc=\"" +
+								"wadh=\"TF/lfPuh1n4ZY1xizYpqikIBm+gv65r51MFNek4uwNw=\" " +
 								"posh=\"UNKNOWN\" timeout=\"20000\"/>" +
 								"</PidOptions>";
 					}else {
 						//Mantra Ekyc PROD
 						captureRequestXML = "<PidOptions ver=\"1.0\">" +
-								"   <Opts env=\"P\" fCount=\"1\" fType=\"0\" format=\"0\" iCount=\"0\" iType=\"0\" " +
+								"   <Opts env=\"P\" fCount=\"1\" fType=\"2\" format=\"0\" iCount=\"0\" iType=\"0\" " +
 								"pCount=\"0\" pType=\"0\" pidVer=\"2.0\" " +
-								"wadh=\"E0jzJ/P8UopUHAieZn8CKqS4WPMi5ZSYXgfnlfkWjrc=\"" +
+								"wadh=\"TF/lfPuh1n4ZY1xizYpqikIBm+gv65r51MFNek4uwNw=\" " +
 								"posh=\"UNKNOWN\" timeout=\"20000\"/>" +
 								"</PidOptions>";
 					}

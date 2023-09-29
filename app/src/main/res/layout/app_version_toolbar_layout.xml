@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.SwitchCompat
-        android:visibility="visible"
+        android:visibility="gone"
         android:id="@+id/sw_sod"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -23,7 +23,8 @@ public class AppConstants {
     public static final String REGEX_PATTERN_CONTINEOUS_THREE_CHARACTERS = "([a-zA-Z0-9])\\1\\1+";
 
     //Added by prasanna
-    public static final String IFSC_CODE_VALIDATION="^[A-Za-z]{4}[a-zA-Z0-9]{7}$";
+   // public static final String IFSC_CODE_VALIDATION="^[A-Za-z]{4}[a-zA-Z0-9]{7}$";
+    public static final String IFSC_CODE_VALIDATION="^[A-Z]{4}[0][A-Z0-9]{6}$";
     public static final String ACCOUNT_NUMBER_VALIDATION="^\\d{9,18}$";
 
     public static final String DATE_FORMAT_YYYYMMDD_HHMM= "yyyyMMdd_HHmm";

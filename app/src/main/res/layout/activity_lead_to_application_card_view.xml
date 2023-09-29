@@ -52,7 +52,7 @@
             android:layout_marginTop="@dimen/_55sdp"
             android:layout_marginBottom="@dimen/_25sdp">
 
-            <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white">
@@ -141,13 +141,14 @@
                             android:id="@+id/rl_no_leads"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
+
                             <ImageView
                                 android:id="@+id/iv_no_leads"
                                 android:layout_width="@dimen/_70sdp"
                                 android:layout_height="@dimen/_70sdp"
+                                android:layout_centerInParent="true"
                                 android:layout_marginTop="@dimen/_20sdp"
-                                app:srcCompat="@drawable/emptybox"
-                                android:layout_centerInParent="true" />
+                                app:srcCompat="@drawable/emptybox" />
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"

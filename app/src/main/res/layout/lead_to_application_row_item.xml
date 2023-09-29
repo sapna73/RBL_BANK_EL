@@ -290,6 +290,100 @@
                             android:layout_height="@dimen/_1sdp"
                             android:background="@color/graylight"
                             />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_alignParentRight="true"
+                                android:layout_width="@dimen/_1sdp"
+                                android:layout_height="match_parent"
+                                android:background="@color/graylight" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                >
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/_3sdp"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="Remarks"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:textColor="@color/contact_name"
+                                    android:textSize="@dimen/_8ssp" />
+
+                                <TextView
+                                    android:id="@+id/tv_remarks"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:text=""
+                                    android:layout_weight="1.5"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:textColor="@color/contact_name"
+                                    android:textSize="@dimen/_8ssp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+                        <TextView
+                            android:layout_alignParentRight="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_1sdp"
+                            android:background="@color/graylight"
+                            />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:visibility="gone"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_alignParentRight="true"
+                                android:layout_width="@dimen/_1sdp"
+                                android:layout_height="match_parent"
+                                android:background="@color/graylight" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/linear_vkyc"
+                                android:orientation="horizontal"
+                                >
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/_3sdp"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:text="VKYC"
+                                    android:id="@+id/vkyc_ekyc"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:textColor="@color/contact_name"
+                                    android:textSize="@dimen/_8ssp" />
+
+                                <TextView
+                                    android:id="@+id/tv_current_vkyc_stage_value"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:text=""
+                                    android:layout_weight="1.5"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:textColor="@color/colorRed"
+                                    android:textSize="@dimen/_8ssp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+                        <TextView
+                            android:layout_alignParentRight="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_1sdp"
+                            android:background="@color/graylight"
+                            />
 
                     </LinearLayout>
 
@@ -350,6 +444,17 @@
                         android:visibility="gone" />
 
                 </LinearLayout>
+                <Button
+                    android:id="@+id/vkycInitition"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/_35sdp"
+                    style="@style/CustomBtnStylePd"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:background="@drawable/bg_userid_ui"
+                    android:backgroundTint="@color/colorBlue"
+                    android:visibility="gone"
+                    android:text="INITIATE VCID" />
             </LinearLayout>
 
         </LinearLayout>

@@ -1,14 +1,217 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="vertical">
+
+<Button
+    android:id="@+id/btn_Ramp"
+    style="@style/CustomBtnStyle"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.RampFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:layout_marginTop="@dimen/_10sdp"
+    android:layout_marginBottom="@dimen/_5sdp"
+    android:layout_marginRight="@dimen/_15sdp"
+    android:layout_marginLeft="@dimen/_15sdp"
+    android:background="@drawable/btn_deliquency_posidex"
+    android:padding="@dimen/_5sdp"
+    android:text="RAMP"
+    android:theme="@style/CustomBlueBtnTheme" />
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_10sdp"
+    android:id="@+id/card_ramp_data"
+    android:elevation="5dp">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-</FrameLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Case ID"
+                android:textColor="@color/white"
+                android:background="@color/primaryColor"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:padding="@dimen/_5sdp"
+                android:textSize="@dimen/_10ssp"/>
+            <TextView
+                android:id="@+id/caseId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:padding="@dimen/_5sdp"
+                android:textSize="@dimen/_10ssp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Priority"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:background="@color/primaryColor"
+                android:textStyle="bold"
+                android:padding="@dimen/_5sdp"
+                android:textSize="@dimen/_10ssp"/>
+            <TextView
+                android:id="@+id/priority"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="N/A"
+                android:padding="@dimen/_5sdp"
+                android:textSize="@dimen/_10ssp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:textColor="@color/white"
+                android:background="@color/primaryColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Screened For"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:padding="@dimen/_5sdp"
+                android:textSize="@dimen/_10ssp"/>
+            <TextView
+                android:id="@+id/tv_screened_for"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:padding="@dimen/_5sdp"
+                android:textSize="@dimen/_10ssp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:textColor="@color/white"
+                android:background="@color/primaryColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="User ID"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:padding="@dimen/_5sdp"
+                android:textSize="@dimen/_10ssp"/>
+            <TextView
+                android:id="@+id/tv_userId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:padding="@dimen/_5sdp"
+                android:textSize="@dimen/_10ssp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:textColor="@color/white"
+                android:background="@color/primaryColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Total Result"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:padding="@dimen/_5sdp"
+                android:textSize="@dimen/_10ssp"/>
+            <TextView
+                android:id="@+id/tv_totalresult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:padding="@dimen/_5sdp"
+                android:textSize="@dimen/_10ssp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:textColor="@color/white"
+                android:background="@color/primaryColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Case Status"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:padding="@dimen/_5sdp"
+                android:textSize="@dimen/_10ssp"/>
+            <TextView
+                android:id="@+id/tv_caseStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:padding="@dimen/_5sdp"
+                android:textSize="@dimen/_10ssp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
+
+<TextView
+    android:id="@+id/tv_error_message"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text=""
+    android:textStyle="bold"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:padding="@dimen/_5sdp"
+    android:textSize="@dimen/_10ssp"/>
+</LinearLayout>

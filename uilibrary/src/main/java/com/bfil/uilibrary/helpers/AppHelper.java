@@ -55,9 +55,6 @@ import java.io.InputStream;
 import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -674,6 +671,21 @@ public class AppHelper {
             e.printStackTrace();
         }
         return strCurrDate;
+    }
+
+    public String getDateFromDateofBirth(String dateOfbirth) {
+        String date = null;
+        try {
+            date = dateOfbirth;
+            SimpleDateFormat spf=new SimpleDateFormat("yyyy-mm-ddd");
+            Date newDate= null;
+            newDate = spf.parse(date);
+            spf=new SimpleDateFormat("dd/mm/yyyy");
+            date=spf.format(newDate);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 
 
