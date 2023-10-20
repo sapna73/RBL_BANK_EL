@@ -4,8 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/graylight"
-    android:clickable="true"
-    >
+    android:clickable="true">
 
     <RelativeLayout
 

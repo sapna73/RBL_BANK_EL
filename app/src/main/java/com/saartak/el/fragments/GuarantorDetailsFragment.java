@@ -8,6 +8,14 @@ import static com.saartak.el.constants.AppConstant.PARAM_PROJECT_ID;
 import static com.saartak.el.constants.AppConstant.PARAM_SCREEN_NAME;
 import static com.saartak.el.constants.AppConstant.PARAM_SCREEN_NO;
 import static com.saartak.el.constants.AppConstant.PARAM_USER_ID;
+import static com.saartak.el.dynamicui.constants.ParametersConstant.FIELD_NAME_UPDATE;
+import static com.saartak.el.dynamicui.constants.ParametersConstant.SPINNER_ITEM_FIELD_NAME_AADHAAR;
+import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_GUARANTOR_KYC_DETAILS;
+import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_KYC_ID;
+import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_KYC_TYPE;
+import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_QR_READING_BUTTON;
+import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_RE_ENTER_KYC_ID;
+import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_SAVE_BUTTON;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +26,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,9 +35,13 @@ import android.widget.LinearLayout;
 
 import com.saartak.el.R;
 import com.saartak.el.database.entity.DynamicUITable;
+import com.saartak.el.database.entity.RawDataTable;
 import com.saartak.el.interfce.FragmentInterface;
+import com.saartak.el.models.DataTypeInfo;
 import com.saartak.el.view_models.DynamicUIViewModel;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -83,6 +97,7 @@ public class GuarantorDetailsFragment extends LOSBaseFragment implements LOSBase
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_common_layout, container, false);
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -131,6 +146,7 @@ public class GuarantorDetailsFragment extends LOSBaseFragment implements LOSBase
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
@@ -150,4 +166,189 @@ public class GuarantorDetailsFragment extends LOSBaseFragment implements LOSBase
     public void configureViewModel() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(DynamicUIViewModel.class);
     }
+
+    //Get the aadhaar card drop down here
+    public void getRawData(String screen,List<DynamicUITable> list) {
+        ArrayList<HashMap<String, Object>> hashMapList = new ArrayList<>();
+        try {
+            viewModel.getRawData(screen, CLIENT_ID, MODULE_TYPE);
+            if (viewModel.getRawTableLiveData() != null) {
+                Observer getLeadRawDataObserver = new Observer() {
+                    @Override
+                    public void onChanged(@Nullable Object o) {
+                        List<RawDataTable> rawDataTableList = (List<RawDataTable>) o;
+                        viewModel.getRawTableLiveData().removeObserver(this);
+                        if(rawDataTableList != null && rawDataTableList.size() > 0){
+                            for(RawDataTable rawDataTable:rawDataTableList){
+                                HashMap<String,Object> hashMap= setKeyValueForObject(rawDataTable);
+                                hashMapList.add(hashMap);
+                            }
+                            if(hashMapList != null && hashMapList.size() > 0){
+                                // TODO: Already saved data
+                                HashMap<String,Object> hashMap = hashMapList.get(0);
+                                if (hashMap != null && hashMap.size() > 0) {
+                                    for (DynamicUITable dynamicUITable : list) {
+                                        dynamicUITable.setVisibility(false);
+                                        if (!TextUtils.isEmpty(dynamicUITable.getFieldTag())) {
+                                            if (hashMap.containsKey(dynamicUITable.getFieldTag())) {
+                                                String value = hashMap.get(dynamicUITable.getFieldTag()).toString();
+                                                if (!TextUtils.isEmpty(value)) {
+                                                    dynamicUITable.setValue(value);
+                                                    dynamicUITable.setVisibility(true);
+                                                }
+                                            }
+//                                            else if (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_SAVE_BUTTON)) {
+//                                                dynamicUITable.setVisibility(true);
+//                                                dynamicUITable.setFieldName(FIELD_NAME_UPDATE);
+//                                            }
+                                        }
+                                    }
+                                    updateDynamicUITable(list, SCREEN_ID);
+                                }
+                            }else{
+                                // TODO: Fresh Data
+                                for (DynamicUITable dynamicUITable : list) {
+                                    dynamicUITable.setVisibility(false);
+                                    if (!TextUtils.isEmpty(dynamicUITable.getFieldTag()) &&
+                                            dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_GUARANTOR_KYC_DETAILS)
+                                            || dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_ID)) {
+                                        dynamicUITable.setVisibility(true);
+
+                                        if(dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_GUARANTOR_KYC_DETAILS)){
+                                            dynamicUITable.setValue(SPINNER_ITEM_FIELD_NAME_AADHAAR);
+                                        }
+                                        // TODO: Get kYC Type based on loan
+                       /* if (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE)) {
+                            String[] newSpinnerList = getNewSpinnerList(TAG_NAME_KYC_TYPE, loanType);
+                            dynamicUITable.setParamlist(newSpinnerList);
+                            dynamicUITable.setValue(SPINNER_ITEM_FIELD_NAME_AADHAAR);
+                        }*/
+
+                                        // TODO: NEED TO REMOVE THIS CONDITION
+                                        if (dynamicUITable.getFieldName().equalsIgnoreCase(TAG_NAME_KYC_ID)) {
+                                            DataTypeInfo datatypeInfo = new DataTypeInfo(SPINNER_ITEM_FIELD_NAME_AADHAAR, dynamicUITable);
+                                            // TODO: Only here we need to check with field name
+                                            dynamicUITable.setLength(datatypeInfo.getLength());
+                                            dynamicUITable.setHint(datatypeInfo.getHint());
+                                            dynamicUITable.setDataType(datatypeInfo.getInputType());
+                                            dynamicUITable.setDataEntryType(datatypeInfo.getDataEntryType());
+                                            dynamicUITable.setFieldTag(datatypeInfo.getHintTag());
+                                        }
+                                    }
+                                }
+                                updateDynamicUITable(list, SCREEN_ID);
+                            }
+                        }else{
+                            // TODO: Fresh Data
+                            for (DynamicUITable dynamicUITable : list) {
+                                dynamicUITable.setVisibility(false);
+                                if (!TextUtils.isEmpty(dynamicUITable.getFieldTag()) &&
+                                        dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_GUARANTOR_KYC_DETAILS)
+                                        || dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_ID)) {
+                                    dynamicUITable.setVisibility(true);
+
+                                    if(dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_GUARANTOR_KYC_DETAILS)){
+                                        dynamicUITable.setValue(SPINNER_ITEM_FIELD_NAME_AADHAAR);
+                                    }
+                                    // TODO: Get kYC Type based on loan
+                       /* if (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE)) {
+                            String[] newSpinnerList = getNewSpinnerList(TAG_NAME_KYC_TYPE, loanType);
+                            dynamicUITable.setParamlist(newSpinnerList);
+                            dynamicUITable.setValue(SPINNER_ITEM_FIELD_NAME_AADHAAR);
+                        }*/
+
+                                    // TODO: NEED TO REMOVE THIS CONDITION
+                                    if (dynamicUITable.getFieldName().equalsIgnoreCase(TAG_NAME_KYC_ID)) {
+                                        DataTypeInfo datatypeInfo = new DataTypeInfo(SPINNER_ITEM_FIELD_NAME_AADHAAR, dynamicUITable);
+                                        // TODO: Only here we need to check with field name
+                                        dynamicUITable.setLength(datatypeInfo.getLength());
+                                        dynamicUITable.setHint(datatypeInfo.getHint());
+                                        dynamicUITable.setDataType(datatypeInfo.getInputType());
+                                        dynamicUITable.setDataEntryType(datatypeInfo.getDataEntryType());
+                                        dynamicUITable.setFieldTag(datatypeInfo.getHintTag());
+                                    }
+                                }
+                            }
+                            updateDynamicUITable(list, SCREEN_ID);
+                        }
+                    }
+                };
+                viewModel.getRawTableLiveData().observe(this, getLeadRawDataObserver);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+//    public void getRawData(String screen, List<DynamicUITable> list) {
+//        ArrayList<HashMap<String, Object>> hashMapList = new ArrayList<>();
+//        try {
+//            viewModel.getRawData(screen, CLIENT_ID, MODULE_TYPE);
+//            if(viewModel.getRawTableLiveData() != null){
+//                Observer getLeadRawDataObserver = new Observer() {
+//                    @Override
+//                    public void onChanged(Object o) {
+//                        List<RawDataTable> rawDataTableList = (List<RawDataTable>) o;
+//                        viewModel.getRawTableLiveData().removeObserver(this);
+//                        if(rawDataTableList != null && rawDataTableList.size() > 0){
+//                            for(RawDataTable rawDataTable:rawDataTableList){
+//                                HashMap<String, Object> hashMap= setKeyValueForObject(rawDataTable);
+//                                hashMapList.add(hashMap);
+//                            }
+//                            if(hashMapList != null && hashMapList.size() > 0){
+//                                HashMap<String, Object> hashMap = hashMapList.get(0);
+//                                if(hashMap != null && hashMap.size() > 0){
+//                                    for (DynamicUITable dynamicUITable : list) {
+//                                        dynamicUITable.setVisibility(false);
+//                                        if (!TextUtils.isEmpty(dynamicUITable.getFieldTag())) {
+//                                            if (hashMap.containsKey(dynamicUITable.getFieldTag())) {
+//                                                String value = hashMap.get(dynamicUITable.getFieldTag()).toString();
+//                                                if (!TextUtils.isEmpty(value)) {
+//                                                    dynamicUITable.setValue(value);
+//                                                    dynamicUITable.setVisibility(true);
+//                                                }
+//                                            } else if (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_SAVE_BUTTON)) {
+//                                                dynamicUITable.setVisibility(true);
+//                                                dynamicUITable.setFieldName(FIELD_NAME_UPDATE);
+//                                            }
+//                                        }
+//                                    }
+////                                        initChild(list);
+//                                    updateDynamicUITable(list, SCREEN_ID);
+//                                }
+//                                else{
+//                                    for(DynamicUITable dynamicUITable : list){
+//                                        dynamicUITable.setVisibility(false);
+//                                        if(!TextUtils.isEmpty(dynamicUITable.getFieldTag()) &&
+//                                                dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE)
+//                                                || dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_ID)){
+//                                            dynamicUITable.setVisibility(true);
+//
+//                                            if(dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE)){
+//                                                dynamicUITable.setValue(SPINNER_ITEM_FIELD_NAME_AADHAAR);
+//                                            }
+//                                            if (dynamicUITable.getFieldName().equalsIgnoreCase(TAG_NAME_KYC_ID)) {
+//                                                DataTypeInfo datatypeInfo = new DataTypeInfo(SPINNER_ITEM_FIELD_NAME_AADHAAR, dynamicUITable);
+//                                                // TODO: Only here we need to check with field name
+//                                                dynamicUITable.setLength(datatypeInfo.getLength());
+//                                                dynamicUITable.setHint(datatypeInfo.getHint());
+//                                                dynamicUITable.setDataType(datatypeInfo.getInputType());
+//                                                dynamicUITable.setDataEntryType(datatypeInfo.getDataEntryType());
+//                                                dynamicUITable.setFieldTag(datatypeInfo.getHintTag());
+//                                            }
+//                                        }
+//                                    }
+//                                    updateDynamicUITable(list, SCREEN_ID);
+//                                }
+//                            }
+//                        }
+//                    }
+//                };
+//                viewModel.getRawTableLiveData().observe(this, getLeadRawDataObserver);
+//            }
+//        }
+//        catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 }

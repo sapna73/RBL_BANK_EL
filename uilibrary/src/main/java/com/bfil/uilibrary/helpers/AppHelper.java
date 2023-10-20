@@ -968,7 +968,6 @@ public class AppHelper {
         return version;
     }
 
-
     public int getBatteryPercentage(Context context) {
        try {
            if (Build.VERSION.SDK_INT >= 21) {
