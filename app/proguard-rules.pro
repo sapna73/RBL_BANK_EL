@@ -27,9 +27,9 @@
 -keep class net.mreunionlabs.wob.model.response.** { *; }
 -keep class net.mreunionlabs.wob.model.gson.** { *; }
 
--keep class com.swadhaar.los.models.** { *; }
--keep class com.swadhaar.los.models.PanValidationRequestDTO.** { *; }
--keep class com.swadhaar.los.models.PanValidationResponseDTO.** { *; }
+-keep class com.saartak.el.models.** { *; }
+-keep class com.saartak.el.models.PanValidationRequestDTO.** { *; }
+-keep class com.saartak.el.models.PanValidationResponseDTO.** { *; }
 ##--- End:GSON ----
 
 -keep class net.sqlcipher.** { *; }

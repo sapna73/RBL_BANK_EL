@@ -175,15 +175,11 @@
                                 android:layout_marginTop="@dimen/_30sdp"/>
                         </RelativeLayout>
 
-
                     </RelativeLayout>
-
 
                 </LinearLayout>
 
-
             </androidx.core.widget.NestedScrollView>
-
 
         </androidx.cardview.widget.CardView>
 

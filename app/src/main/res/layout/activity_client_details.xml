@@ -21,18 +21,32 @@
                 android:background="#fafafa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:layout_centerInParent="true"
-                    android:textAlignment="center"
-                    android:id="@+id/tv_client_detail"
-                    android:layout_width="wrap_content"
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:padding="@dimen/_8sdp"
-                    android:text="CLIENT DETAILS"
-                    android:textColor="#454546"
-                    android:textSize="@dimen/_10ssp"
-                    android:textStyle="bold" />
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tv_client_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="CLIENT DETAILS"
+                        android:textAlignment="center"
+                        android:textColor="#454546"
+                        android:textSize="@dimen/_10ssp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:id="@+id/client_id"
+                        android:textColor="@color/black"/>
+
+                </LinearLayout>
                 <LinearLayout
                     android:gravity="end"
                     android:layout_alignParentRight="true"
@@ -139,18 +153,15 @@
 
                                     <RelativeLayout
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        >
-
+                                        android:layout_height="wrap_content">
                                         <androidx.recyclerview.widget.RecyclerView
                                             android:id="@+id/rv_add_applicant"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:clipToPadding="false"
-                                            android:scrollbars="vertical"
                                             android:layout_toLeftOf="@+id/ib_add_applicant"
-                                            android:padding="@dimen/_5sdp">
-                                        </androidx.recyclerview.widget.RecyclerView>
+                                            android:clipToPadding="false"
+                                            android:padding="@dimen/_5sdp"
+                                            android:scrollbars="vertical"></androidx.recyclerview.widget.RecyclerView>
 
                                         <ImageView
                                             android:id="@+id/iv_add_applicant"
@@ -299,6 +310,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/_5sdp"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        android:visibility="gone"
                         android:elevation="@dimen/_5sdp">
 
                         <FrameLayout
@@ -401,6 +413,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/_5sdp"
                         app:cardCornerRadius="@dimen/_5sdp"
+                        android:visibility="gone"
                         android:elevation="@dimen/_5sdp">
 
                         <FrameLayout

@@ -1100,11 +1100,11 @@ public class EKYCActivity extends AppCompatActivity implements EKYCCallBack,
             con.setDoInput(true);
             con.setRequestMethod("POST");
             con.setUseCaches(false);
-            con.setRequestProperty("Content-Type",
+           /* con.setRequestProperty("Content-Type",
                     "application/x-www-form-urlencoded");
             con.setRequestProperty("Content-Length",
                     Integer.toString(xmlData.getBytes().length));
-            con.setRequestProperty("Content-Language", "en-US");
+            con.setRequestProperty("Content-Language", "en-US");*/
             DataOutputStream wr = new DataOutputStream(con.getOutputStream());
             wr.writeBytes(xmlData);
             wr.flush();

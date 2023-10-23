@@ -311,7 +311,7 @@
                     android:paddingRight="@dimen/_35sdp"
                     android:orientation="horizontal">
                     <Button
-                        android:id="@+id/btnPriceIng"
+                        android:id="@+id/btnPricIng"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/_2sdp"

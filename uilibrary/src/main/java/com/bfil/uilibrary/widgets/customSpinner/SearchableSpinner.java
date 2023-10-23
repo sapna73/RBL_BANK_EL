@@ -328,4 +328,8 @@ public class SearchableSpinner extends AppCompatSpinner implements View.OnTouchL
             e.printStackTrace();
         }
     }
+
+    public ArrayAdapter<String> getArrayAdapter() {
+        return _arrayAdapter;
+    }
 }

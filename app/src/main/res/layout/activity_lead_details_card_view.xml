@@ -92,7 +92,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             style="@style/report_summary_header"
-                            android:text="LEAD DETAILS"
+                            android:text="LEAD DATA DETAILS"
                             android:textSize="@dimen/_12ssp"
                             android:layout_weight="1"
                             app:fontName="SourceSansPro-Bold.otf"/>

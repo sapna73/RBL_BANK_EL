@@ -1,0 +1,382 @@
+package com.saartak.el.adapter;
+
+import android.content.Context;
+import android.content.Intent;
+import android.text.Html;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bfil.uilibrary.helpers.AppHelper;
+import com.saartak.el.R;
+import com.saartak.el.activities.CenterMeetingCollectionActivity;
+import com.saartak.el.activities.CenterMeetingEMIDetailsActivity;
+import com.saartak.el.database.entity.CenterMeetingCollectionTable;
+import com.saartak.el.view_models.DynamicUIViewModel;
+
+import java.util.List;
+
+import static com.saartak.el.constants.AppConstant.MODULE_TYPE_COLLECTION;
+import static com.saartak.el.constants.AppConstant.PARAM_BRANCH_GST_CODE;
+import static com.saartak.el.constants.AppConstant.PARAM_BRANCH_ID;
+import static com.saartak.el.constants.AppConstant.PARAM_CENTER_NAME;
+import static com.saartak.el.constants.AppConstant.PARAM_CLIENT_ID;
+import static com.saartak.el.constants.AppConstant.PARAM_LOAN_TYPE;
+import static com.saartak.el.constants.AppConstant.PARAM_MODULE_TYPE;
+import static com.saartak.el.constants.AppConstant.PARAM_PRODUCT_ID;
+import static com.saartak.el.constants.AppConstant.PARAM_USER_ID;
+import static com.saartak.el.constants.AppConstant.PARAM_USER_NAME;
+
+public class CenterMeetingCollectionGroupAdapter extends RecyclerView.Adapter<CenterMeetingCollectionGroupAdapter.ViewHolder>  {
+
+    private Context context;
+    List<CenterMeetingCollectionTable> centerMeetingCollectionTableList;
+    AppHelper appHelper;
+    DynamicUIViewModel viewModel;
+    boolean isEditable;
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        TextView tvClientName,tvClientId,tvEmiDue,tvTotalDue,tvSavingsCollection,tvCollectedAmt,tvEmiDetails;
+        CheckBox cbConfirm,cbSavingsConfirm,cbDigitalCollection;
+
+        public ViewHolder(View view) {
+            super(view);
+            tvClientName=(TextView)view.findViewById(R.id.tv_client_name);
+            tvClientId=(TextView)view.findViewById(R.id.tv_client_id);
+            tvEmiDue=(TextView)view.findViewById(R.id.tv_emi_due);
+            tvTotalDue=(TextView)view.findViewById(R.id.tv_total_due);
+            tvSavingsCollection=(TextView)view.findViewById(R.id.tv_savings_collection);
+            tvEmiDetails=(TextView)view.findViewById(R.id.tv_emi_details);
+            tvEmiDetails.setText(Html.fromHtml(String.format(context.getString(R.string.details))));
+            tvCollectedAmt=(TextView) view.findViewById(R.id.tv_collected_amt);
+            cbConfirm=(CheckBox) view.findViewById(R.id.cb_collection_confirm);
+            cbSavingsConfirm=(CheckBox) view.findViewById(R.id.cb_savings_confirm);
+            cbDigitalCollection=(CheckBox) view.findViewById(R.id.cb_digital_collection);
+
+        }
+    }
+
+    public CenterMeetingCollectionGroupAdapter(Context context, List<CenterMeetingCollectionTable> centerMeetingCollectionTableList,
+                                               AppHelper appHelper,DynamicUIViewModel viewModel) {
+        this.context = context;
+        this.centerMeetingCollectionTableList = centerMeetingCollectionTableList;
+        this.appHelper = appHelper;
+        this.viewModel = viewModel;
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.center_meeting_collection_group_adapter_item, viewGroup, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        try {
+            if (centerMeetingCollectionTableList != null && centerMeetingCollectionTableList.size() > 0) {
+                CenterMeetingCollectionTable centerMeetingCollectionTable = centerMeetingCollectionTableList.get(position);
+
+                if(centerMeetingCollectionTable !=null ) {
+                    holder.tvClientName.setText(centerMeetingCollectionTable.getCustomerName());
+                    holder.tvClientId.setText(centerMeetingCollectionTable.getCustomerId());
+                    holder.tvEmiDue.setText(String.valueOf(centerMeetingCollectionTable.getEMI()));
+                    holder.tvTotalDue.setText(String.valueOf(centerMeetingCollectionTable.getTotalDue()));
+                    holder.tvSavingsCollection.setText(String.valueOf(centerMeetingCollectionTable.getSavingsCollection()));
+                    holder.tvCollectedAmt.setText(String.valueOf(centerMeetingCollectionTable.getTotalDue()));
+
+                    holder.cbConfirm.setChecked(centerMeetingCollectionTable.isConfirm());
+                    holder.cbSavingsConfirm.setChecked(centerMeetingCollectionTable.isSavingsConfirm());
+                    holder.cbDigitalCollection.setChecked(centerMeetingCollectionTable.isDigitalPayment());
+
+                    // TODO: Check isEditable
+//                    holder.cbConfirm.setEnabled(isEditable);
+//                    holder.cbSavingsConfirm.setEnabled(isEditable);
+//                    holder.cbDigitalCollection.setEnabled(isEditable);
+//                    holder.tvEmiDetails.setEnabled(isEditable);
+
+                    if (centerMeetingCollectionTable.isSync()) {
+                        holder.cbConfirm.setEnabled(false);
+                        holder.cbSavingsConfirm.setEnabled(false);
+                        holder.cbDigitalCollection.setEnabled(false);
+                        holder.tvEmiDetails.setEnabled(false);
+                    }else {
+                        holder.cbConfirm.setEnabled(true);
+                        holder.cbSavingsConfirm.setEnabled(true);
+                        holder.cbDigitalCollection.setEnabled(true);
+                        holder.tvEmiDetails.setEnabled(true);
+                        // TODO: digital confirm enable false based on sms triggered
+                        if (centerMeetingCollectionTable.isSmsTriggered()){
+                            holder.cbDigitalCollection.setEnabled(false);
+                        }
+                    }
+
+                    try {
+                        viewModel.getTotalEMIForCollection(centerMeetingCollectionTable.getCustomerId());
+                        if (viewModel.getIntegerLiveData() != null) {
+                            Observer observer = new Observer() {
+                                @Override
+                                public void onChanged(@Nullable Object o) {
+                                    int totalEMI = (int) o;
+                                    viewModel.getIntegerLiveData().removeObserver(this::onChanged);
+                                    holder.tvEmiDue.setText(String.valueOf(totalEMI));
+
+                                }
+                            };
+                            viewModel.getIntegerLiveData().observe((LifecycleOwner)context, observer);
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
+                    try {
+                        viewModel.getTotalDueForCollection(centerMeetingCollectionTable.getCustomerId());
+                        if (viewModel.getIntegerLiveData() != null) {
+                            Observer observer = new Observer() {
+                                @Override
+                                public void onChanged(@Nullable Object o) {
+                                    int totalDue = (int) o;
+                                    viewModel.getIntegerLiveData().removeObserver(this::onChanged);
+                                    holder.tvTotalDue.setText(String.valueOf(totalDue));
+
+                                }
+                            };
+                            viewModel.getIntegerLiveData().observe((LifecycleOwner)context, observer);
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
+                    try {
+                        viewModel.getTotalSavingsCollection(centerMeetingCollectionTable.getCustomerId());
+                        if (viewModel.getIntegerLiveData() != null) {
+                            Observer observer = new Observer() {
+                                @Override
+                                public void onChanged(@Nullable Object o) {
+                                    int totalSavingsCollection = (int) o;
+                                    viewModel.getIntegerLiveData().removeObserver(this::onChanged);
+                                    holder.tvSavingsCollection.setText(String.valueOf(totalSavingsCollection));
+
+                                }
+                            };
+                            viewModel.getIntegerLiveData().observe((LifecycleOwner)context, observer);
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
+                    try {
+                        viewModel.getTotalPaidAmtFromCollection(centerMeetingCollectionTable.getCustomerId());
+                        if (viewModel.getIntegerLiveData() != null) {
+                            Observer observer = new Observer() {
+                                @Override
+                                public void onChanged(@Nullable Object o) {
+                                    int collectedAmt = (int) o;
+                                    viewModel.getIntegerLiveData().removeObserver(this::onChanged);
+                                    holder.tvCollectedAmt.setText(String.valueOf(collectedAmt));
+
+                                    int totalDueAmt=Integer.parseInt(holder.tvTotalDue.getText().toString());
+                                    if(collectedAmt<totalDueAmt){
+                                        holder.cbSavingsConfirm.setChecked(false);
+                                        holder.cbSavingsConfirm.setEnabled(false);
+
+//                                        if (!centerMeetingCollectionTable.isSaved()) {
+//                                            holder.cbConfirm.setChecked(false);
+//                                        }
+
+                                    }
+                                    else{
+                                        holder.cbSavingsConfirm.setChecked(centerMeetingCollectionTable.isSavingsConfirm());
+                                        if(centerMeetingCollectionTable.isSavingsConfirm()){
+                                            collectedAmt=collectedAmt+centerMeetingCollectionTable.getSavingsCollection();
+                                            holder.tvCollectedAmt.setText(String.valueOf(collectedAmt));
+
+                                        }
+
+                                    }
+
+
+                                }
+                            };
+                            viewModel.getIntegerLiveData().observe((LifecycleOwner)context, observer);
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
+                    holder.tvEmiDetails.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (holder.cbConfirm.isChecked()) {
+                                Intent collection = new Intent(context, CenterMeetingEMIDetailsActivity.class);
+                                CenterMeetingCollectionActivity centerMeetingCollectionActivity = (CenterMeetingCollectionActivity) context;
+                                collection.putExtra(PARAM_LOAN_TYPE, centerMeetingCollectionActivity.loanType);
+                                collection.putExtra(PARAM_USER_NAME, centerMeetingCollectionActivity.userName);
+                                collection.putExtra(PARAM_BRANCH_ID, centerMeetingCollectionActivity.branchId);
+                                collection.putExtra(PARAM_BRANCH_GST_CODE, centerMeetingCollectionActivity.branchGSTcode);
+                                collection.putExtra(PARAM_USER_ID, centerMeetingCollectionActivity.userId);
+                                collection.putExtra(PARAM_MODULE_TYPE, MODULE_TYPE_COLLECTION);
+                                collection.putExtra(PARAM_PRODUCT_ID, centerMeetingCollectionActivity.productId);
+                                collection.putExtra(PARAM_CENTER_NAME, centerMeetingCollectionActivity.CENTER_NAME); // TODO: CenterName
+                                collection.putExtra(PARAM_CLIENT_ID, centerMeetingCollectionTable.getCustomerId()); // TODO: CLIENT ID
+                                context.startActivity(collection);
+                            }
+                        }
+                    });
+
+                    holder.cbConfirm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            try {
+                                viewModel.confirmCenterMeetingCollection(centerMeetingCollectionTable,isChecked,
+                                        holder.cbSavingsConfirm.isChecked());
+
+                                if (viewModel.getIntegerLiveData() != null) {
+                                    Observer observer = new Observer() {
+                                        @Override
+                                        public void onChanged(@Nullable Object o) {
+                                            int totalAmtPaid = (int) o;
+                                            viewModel.getIntegerLiveData().removeObserver(this::onChanged);
+                                            holder.tvCollectedAmt.setText(String.valueOf(totalAmtPaid));
+                                            if (buttonView.isPressed()) {
+                                                if (isChecked) {
+                                                    holder.cbDigitalCollection.setChecked(false);
+                                                }
+//                                                else {
+//                                                    holder.cbDigitalCollection.setChecked(true);
+//                                                }
+                                            }
+
+                                        }
+                                    };
+                                    viewModel.getIntegerLiveData().observe((LifecycleOwner)context, observer);
+                                }
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+
+                        }
+                    });
+
+                    holder.cbDigitalCollection.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            try {
+                                viewModel.confirmDigitalCenterMeetingCollection(centerMeetingCollectionTable,isChecked,holder.cbSavingsConfirm.isChecked());
+
+                                if (viewModel.getIntegerLiveData() != null) {
+                                    Observer observer = new Observer() {
+                                        @Override
+                                        public void onChanged(@Nullable Object o) {
+                                            int totalAmtPaid = (int) o;
+                                            viewModel.getIntegerLiveData().removeObserver(this::onChanged);
+                                            holder.tvCollectedAmt.setText(String.valueOf(totalAmtPaid));
+                                            if (buttonView.isPressed()) {
+                                                if (isChecked) {
+                                                    holder.cbConfirm.setChecked(false);
+                                                    holder.cbSavingsConfirm.setChecked(false);
+                                                }
+//                                                else {
+//                                                    holder.cbConfirm.setChecked(true);
+//                                                }
+                                            }
+                                        }
+                                    };
+                                    viewModel.getIntegerLiveData().observe((LifecycleOwner)context, observer);
+                                }
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+
+                        }
+                    });
+
+                    holder.cbSavingsConfirm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            try {
+                                viewModel.confirmSavingsCollection(centerMeetingCollectionTable,isChecked);
+                                if (viewModel.getIntegerLiveData() != null) {
+                                    Observer observer = new Observer() {
+                                        @Override
+                                        public void onChanged(@Nullable Object o) {
+                                            int totalAmtPaid = (int) o;
+                                            viewModel.getIntegerLiveData().removeObserver(this::onChanged);
+                                            holder.tvCollectedAmt.setText(String.valueOf(totalAmtPaid));
+                                            holder.cbConfirm.setChecked(false);
+                                            if (buttonView.isPressed()) {
+                                                holder.cbDigitalCollection.setChecked(false);
+                                            }
+
+                                        }
+                                    };
+                                    viewModel.getIntegerLiveData().observe((LifecycleOwner)context, observer);
+                                }
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+
+                        }
+                    });
+
+
+                }
+
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
+    public List<CenterMeetingCollectionTable> getCenterMeetingCollectionTableList() {
+        return centerMeetingCollectionTableList;
+    }
+
+
+    @Override
+    public int getItemCount() {
+        if (centerMeetingCollectionTableList != null) {
+
+            return centerMeetingCollectionTableList.size();
+        } else {
+            return 0;
+        }
+    }
+
+    public void setItem(List<CenterMeetingCollectionTable> centerMeetingCollectionTableList) {
+        try {
+            if (centerMeetingCollectionTableList != null && centerMeetingCollectionTableList.size() > 0) {
+                this.centerMeetingCollectionTableList.clear();
+                this.centerMeetingCollectionTableList = centerMeetingCollectionTableList;
+                notifyDataSetChanged();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void clearItems() {
+        try {
+            if (centerMeetingCollectionTableList != null && centerMeetingCollectionTableList.size() > 0) {
+                centerMeetingCollectionTableList.clear();
+                notifyDataSetChanged();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
+
+}
