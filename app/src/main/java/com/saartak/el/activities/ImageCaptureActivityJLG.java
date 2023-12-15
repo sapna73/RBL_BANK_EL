@@ -26,6 +26,7 @@ import com.bfil.uilibrary.images.FileUtils;
 import com.bfil.uilibrary.images.ImageCompressionAsyncTask;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
+
 import com.saartak.el.R;
 import com.saartak.el.adapter.ImageCaptureAdapterJLG;
 import com.saartak.el.database.entity.DocumentUploadTableNew;
@@ -49,6 +50,7 @@ import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
+import okhttp3.ResponseBody;
 
 import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
 import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
@@ -58,7 +60,7 @@ import static com.saartak.el.constants.AppConstant.APP_FOLDER;
 import static com.saartak.el.constants.AppConstant.IMAGE_ENC_PSWD;
 import static com.saartak.el.constants.AppConstant.IMAGE_ENC_SALT;
 import static com.saartak.el.constants.AppConstant.IMAGE_UPLOAD_FOLDER_NAME;
-import static com.saartak.el.constants.AppConstant.LOAN_NAME_JLG;
+import static com.saartak.el.constants.AppConstant.LOAN_NAME_EL;
 import static com.saartak.el.constants.AppConstant.PARAM_DOCUMENT_UPLOAD_JSON;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.EXTENSION_JPG;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.SPINNER_ITEM_FIELD_NAME_AADHAAR;
@@ -308,12 +310,12 @@ public class ImageCaptureActivityJLG extends AppCompatActivity implements View.O
                     compressImage(fileUri);
                 } else if (resultCode == RESULT_CANCELED) {
                     Toast.makeText(this,
-                            "User cancelled image capture", Toast.LENGTH_SHORT)
+                                    "User cancelled image capture", Toast.LENGTH_SHORT)
                             .show();
                 } else {
                     INSERT_LOG("onActivityResult", "Sorry! Failed to capture image");
                     Toast.makeText(this,
-                            "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
+                                    "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
                             .show();
                 }
             } else if (requestCode == IMAGE_GALLERY_REQUEST) {
@@ -326,12 +328,12 @@ public class ImageCaptureActivityJLG extends AppCompatActivity implements View.O
 //                    compressImage(uri);
                 } else if (resultCode == RESULT_CANCELED) {
                     Toast.makeText(this,
-                            "User cancelled image selection", Toast.LENGTH_SHORT)
+                                    "User cancelled image selection", Toast.LENGTH_SHORT)
                             .show();
                 } else {
                     INSERT_LOG("onActivityResult", "Sorry! Failed to select image");
                     Toast.makeText(this,
-                            "Sorry! Failed to select image", Toast.LENGTH_SHORT)
+                                    "Sorry! Failed to select image", Toast.LENGTH_SHORT)
                             .show();
                 }
             }
@@ -353,7 +355,7 @@ public class ImageCaptureActivityJLG extends AppCompatActivity implements View.O
                     encryptAndStore(result.getUri());
                 } else if (resultCode == RESULT_CANCELED) {
                     Toast.makeText(this,
-                            "User cancelled image selection", Toast.LENGTH_SHORT)
+                                    "User cancelled image selection", Toast.LENGTH_SHORT)
                             .show();
                     if (!TextUtils.isEmpty(filePathFromDB)) {
                         File file = new File(filePathFromDB);
@@ -700,8 +702,8 @@ public class ImageCaptureActivityJLG extends AppCompatActivity implements View.O
                 }
 
                 if (documentUploadTableNewList.size() > 0) {
-                        // TODO: Insert New Table List
-                        insertNewImageListInTable(documentUploadTableNewList);
+                    // TODO: Insert New Table List
+                    insertNewImageListInTable(documentUploadTableNewList);
                 }
             }
         } catch (Exception ex) {
@@ -712,7 +714,7 @@ public class ImageCaptureActivityJLG extends AppCompatActivity implements View.O
 
     private void showHideAddImageButton(List<DocumentUploadTableNew> documentUploadTableNewListFromDB) {
         if (documentUploadTableNewListFromDB != null && documentUploadTableNewListFromDB.size() > 0) {
-            if (!TextUtils.isEmpty(documentUploadTableNewListFromDB.get(0).getLoan_type()) && documentUploadTableNewListFromDB.get(0).getLoan_type().equalsIgnoreCase(LOAN_NAME_JLG) && documentUploadTableNewListFromDB.size() >= 2) {
+            if (!TextUtils.isEmpty(documentUploadTableNewListFromDB.get(0).getLoan_type()) && documentUploadTableNewListFromDB.get(0).getLoan_type().equalsIgnoreCase(LOAN_NAME_EL) && documentUploadTableNewListFromDB.size() >= 2) {
                 addImageButton.hide();
             } else {
                 addImageButton.show();

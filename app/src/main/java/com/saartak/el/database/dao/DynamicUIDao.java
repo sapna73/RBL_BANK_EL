@@ -845,8 +845,7 @@ public abstract class DynamicUIDao {
 
     @Query("select distinct moduleType from RawDataTable where client_id=:clientId and screen_name=:screenName " +
             "and user_id=:userId and loan_type=:loanType ")
-    public abstract List<String> getNoOfCoApplicants(String screenName, String clientId, String userId,
-                                                     String loanType);
+    public abstract List<String> getNoOfCoApplicants(String screenName, String clientId, String userId, String loanType);
 
     @Query("SELECT * FROM RawDataTable where screen_name=:screenName and client_id=:clientId and tag_name=:fieldTag and loan_type=:loan_type ORDER BY id DESC LIMIT 1")
     public abstract RawDataTable getRawDataForChildFragment(String screenName, String clientId, String fieldTag, String loan_type);
@@ -874,12 +873,9 @@ public abstract class DynamicUIDao {
             "document_name=:documentName and module_type=:moduleType")
     public abstract List<DocumentUploadTableNew> getDocumentListByDocumentName(String clientId, String loanType, boolean isHeader, String documentName,
                                                                                String moduleType);
-
-
     @Query("SELECT DISTINCT file_name FROM DocumentUploadTableNew where client_id=:clientId and loan_type=:loanType and isHeader=:isHeader and " +
             "document_name=:documentName and module_type=:moduleType and document_status=:status")
-    public abstract List<String> getUploadedDocumentByDocumentName(String clientId,String loanType,boolean isHeader,
-                                                                                   String documentName,
+    public abstract List<String> getUploadedDocumentByDocumentName(String clientId,String loanType,boolean isHeader, String documentName,
                                                                            String moduleType,boolean status);
 
     @Query("SELECT distinct module_type FROM DocumentUploadTableNew where client_id=:clientId and loan_type=:loanType and isHeader=:isHeader")
@@ -2257,8 +2253,7 @@ public abstract class DynamicUIDao {
     public abstract void updateDocumentResponseAndStatus(String response,boolean status,String clientId,String loanType,boolean isHeader,
                                                          String documentName,String moduleType);
 
-    @Query("UPDATE DocumentUploadTableNew set ResponseMessage=:response, document_status=:status" +
-            " WHERE id=:id ")
+    @Query("UPDATE DocumentUploadTableNew set ResponseMessage=:response, document_status=:status" + " WHERE id=:id ")
     public abstract void updateDocumentResponseAndStatusByID(String response,boolean status,int id);
 
     @Query("UPDATE DocumentUploadTableNew set file_path=:filePath, document_status=:status" +
@@ -2295,7 +2290,7 @@ public abstract class DynamicUIDao {
     @Query("UPDATE DynamicUITable set value=:newValue ,isEditable=:isEditable,Visibility=:isVisible  WHERE FieldName=:fieldName and screenName = :screenName ")
     public abstract void updateDynamicTableValueByFieldName(String fieldName, String screenName, String newValue, boolean isEditable,boolean isVisible);
 
-    @Query("UPDATE DynamicUITable set value=:newValue ,isEditable=:isEditable,Visibility=:isVisible WHERE FieldTag=:tagName and screenName = :screenName ")
+    @Query("UPDATE DynamicUITable set value=:newValue ,isEditable = :isEditable, Visibility = :isVisible WHERE FieldTag = :tagName and screenName = :screenName")
     public abstract void updateDynamicTableValueAndVisibility(String tagName, String screenName, String newValue, boolean isEditable,boolean isVisible);
 
 

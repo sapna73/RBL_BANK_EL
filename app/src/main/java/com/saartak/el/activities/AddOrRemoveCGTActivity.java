@@ -75,15 +75,11 @@ public class AddOrRemoveCGTActivity extends LOSBaseActivity {
     RecyclerView rvLeadDetails;
     SearchView searchByPhoneNo;
     AddOrRemoveCGTAdapter addOrRemoveCGTAdapter;
-
     private Toolbar toolbar;
-
     private ActionMode actionMode;
-
     TextView tvClientName;
     TextView tvAppVersion,tvCurrentDate;
     String SCREEN_NO;
-
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
     NavigationView navigationView;
@@ -91,7 +87,7 @@ public class AddOrRemoveCGTActivity extends LOSBaseActivity {
     ImageView ivStaffImage;
     RelativeLayout rlNoLeads;
 //    TextView tvStaffId, tvStaffName, tvSOBDate;
-    TextView tvCenterName,tvCenterId,tvVillageName,tvCgtCycle;
+    TextView tvCenterName, tvCenterId, tvVillageName, tvCgtCycle;
     TextView tv_label_centerName, tv_label_CenterId, tv_label_VillageName, tv_label_CgtCycle;
     Button btnSaveAttendance;
     CenterCreationTable CENTER_CREATION_TABLE;
@@ -125,13 +121,13 @@ public class AddOrRemoveCGTActivity extends LOSBaseActivity {
         icon.setImageResource(R.drawable.ic_search_black_24dp);
         icon.setColorFilter(Color.RED);
 
-        tvCenterName=(TextView)findViewById(R.id.tv_center_name_value);
-        tvCenterId=(TextView)findViewById(R.id.tv_center_id_value);
-        tvVillageName=(TextView)findViewById(R.id.tv_village_name_value);
-        tvCgtCycle=(TextView)findViewById(R.id.tv_cgt_cycle_value);
-        btnSaveAttendance=(Button)findViewById(R.id.btn_save_attendance);
+        tvCenterName = (TextView)findViewById(R.id.tv_center_name_value);
+        tvCenterId = (TextView)findViewById(R.id.tv_center_id_value);
+        tvVillageName = (TextView)findViewById(R.id.tv_village_name_value);
+        tvCgtCycle = (TextView)findViewById(R.id.tv_cgt_cycle_value);
+        btnSaveAttendance = (Button)findViewById(R.id.btn_save_attendance);
 
-        tv_label_centerName =(TextView)findViewById(R.id.tv_label_centerName);
+        tv_label_centerName = (TextView)findViewById(R.id.tv_label_centerName);
         SpannableStringBuilder builder_center_name = new SpannableStringBuilder("Center Name:*");
         builder_center_name.setSpan(new ForegroundColorSpan(Color.RED), builder_center_name.length()-1, builder_center_name.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -201,7 +197,6 @@ public class AddOrRemoveCGTActivity extends LOSBaseActivity {
                 appHelper);
         rvLeadDetails.setAdapter(addOrRemoveCGTAdapter);
 
-
         // Associate searchable configuration with the SearchView
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchByPhoneNo.setSearchableInfo(searchManager
@@ -236,11 +231,9 @@ public class AddOrRemoveCGTActivity extends LOSBaseActivity {
                 if(addOrRemoveCGTAdapter !=null && addOrRemoveCGTAdapter.getCgtTableList() !=null
                         && addOrRemoveCGTAdapter.getCgtTableList().size()>0){
                         saveCGTRejectedDetails(addOrRemoveCGTAdapter.getCgtTableList());
-
                 }
             }
         });
-
         configureDagger();
         configureViewModel();
     }
@@ -294,10 +287,10 @@ public class AddOrRemoveCGTActivity extends LOSBaseActivity {
             if (!TextUtils.isEmpty(centerJsonString)) {
                 CENTER_CREATION_TABLE = new Gson().fromJson(centerJsonString, CenterCreationTable.class);
                 if (CENTER_CREATION_TABLE != null) {
-                    if( ! TextUtils.isEmpty(CENTER_CREATION_TABLE.getCenterName())) {
+                    if( !TextUtils.isEmpty(CENTER_CREATION_TABLE.getCenterName())) {
                         tvCenterName.setText(CENTER_CREATION_TABLE.getCenterName());
                     }
-                    if( ! TextUtils.isEmpty(CENTER_CREATION_TABLE.getCenterId())) {
+                    if( !TextUtils.isEmpty(CENTER_CREATION_TABLE.getCenterId())) {
                         tvCenterId.setText(CENTER_CREATION_TABLE.getCenterId());
                     }
                     if( ! TextUtils.isEmpty(CENTER_CREATION_TABLE.getVillageName())) {
@@ -313,12 +306,9 @@ public class AddOrRemoveCGTActivity extends LOSBaseActivity {
         }
     }
 
-
-
     @Override
     public void onBackPressed() {
         finish();
-
     }
 
     public void getCGTTableByCenterId(CenterCreationTable centerCreationTable) {
@@ -355,5 +345,4 @@ public class AddOrRemoveCGTActivity extends LOSBaseActivity {
             ex.printStackTrace();
         }
     }
-
 }

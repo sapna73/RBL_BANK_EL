@@ -70,17 +70,15 @@ import static com.saartak.el.dynamicui.constants.ParametersConstant.ROLE_NAME_BC
 
 public class HomeActivity extends LOSBaseActivity implements View.OnClickListener {
     private static final String TAG = HomeActivity.class.getCanonicalName();
-    LinearLayout llColdCalling,llLead, llSalesTool, llApplication,ll_pricing, llPD, llVillageSurvey, llCenterCreation, llTargetDetails,llLoanApplication,
-            llEligibility, llCGT,llAddorRemove,llDropOutCustomer, llGRT,llReminder;
+    LinearLayout llColdCalling,llLead, llSalesTool, llApplication, ll_pricing, llPD, llVillageSurvey, llCenterCreation, llTargetDetails,llLoanApplication,
+            llEligibility, llCGT, llAddorRemove, llDropOutCustomer, llGRT,llReminder;
     TextView tvLoanType;
-    CardView cv_cold_calling, cv_lead,cv_pricing, cv_sales_tool, cv_application, cv_pd, cv_village_survey, cv_center_creation, cv_targe_details, cv_loan_application,
+    CardView cv_cold_calling, cv_lead, cv_pricing, cv_sales_tool, cv_application, cv_pd, cv_village_survey, cv_center_creation, cv_targe_details, cv_loan_application,
             cv_eligibility,cv_add_or_remove,cv_drop_out_customer, cv_cgt, cv_grt,cv_reminder,cv_Pricing;
-
     LinearLayout ll_workflow_history, ll_collection, ll_planner;
     CardView cv_workflow_history, cv_collection, cv_planner;
-    TextView tvAppVersion,tvCurrentDate,tvUserName;
-    String rolename="LOAN OFFICER";
-
+    TextView tvAppVersion, tvCurrentDate, tvUserName;
+    String rolename = "LOAN OFFICER";
 
     @Inject
     public ViewModelProvider.Factory viewModelFactory;
@@ -337,7 +335,6 @@ public class HomeActivity extends LOSBaseActivity implements View.OnClickListene
                 cv_drop_out_customer.setVisibility(View.GONE);
                 cv_grt.setVisibility(View.GONE);
             }
-
         }
 
 
@@ -747,7 +744,6 @@ public class HomeActivity extends LOSBaseActivity implements View.OnClickListene
 
             INSERT_LOG("getPlannerDataByPurposeAndCurrentDate", "Exception : " + ex.getMessage());
         }
-
     }
 
     private void getDocumentMasterFromServer() {
@@ -764,7 +760,7 @@ public class HomeActivity extends LOSBaseActivity implements View.OnClickListene
 
                         if (documentMasterTableList != null && documentMasterTableList.size() > 0) {
                             // TODO: GET APPLICATION STATUS
-                            getApplicationStatusFromServer("",appHelper.getCurrentDate(DATE_FORMAT_YYYY_MM_DD));
+                            getApplicationStatusFromServer("", appHelper.getCurrentDate(DATE_FORMAT_YYYY_MM_DD));
                         } else {
                             /*appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ERROR,
                                     ERROR_MESSAGE_UNABLE_TO_GET_DOCUMENT_MASTER, new ConfirmationDialog.ActionCallback() {
@@ -829,16 +825,13 @@ public class HomeActivity extends LOSBaseActivity implements View.OnClickListene
         }
     }
 
-
     private void INSERT_LOG(String methodName, String message) {
         try {
             if (viewModel != null) {
-                viewModel.insertLog(methodName, message, userId, "", HomeActivity.class.getCanonicalName()
-                        , CLIENT_ID, loanType, moduleType);
+                viewModel.insertLog(methodName, message, userId, "", HomeActivity.class.getCanonicalName(), CLIENT_ID, loanType, moduleType);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-
 }

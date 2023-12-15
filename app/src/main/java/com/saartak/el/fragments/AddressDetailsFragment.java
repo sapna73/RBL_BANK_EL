@@ -129,9 +129,8 @@ public class AddressDetailsFragment extends LOSBaseFragment implements LOSBaseFr
                 List<DynamicUITable> list = (List<DynamicUITable>) o;
                 viewModel.getDynamicUITableLiveData().removeObserver(this);
                 getRawDataForParentFragment(SCREEN_NAME,list);
-                getAddressAddressProof(list,CLIENT_ID,MODULE_TYPE);
+                getAddressAddressProof(list, CLIENT_ID, MODULE_TYPE);
             }
-//            }
         };
         viewModel.getDynamicUITableLiveData().observe(getViewLifecycleOwner(), observer);
     }
@@ -168,15 +167,15 @@ public class AddressDetailsFragment extends LOSBaseFragment implements LOSBaseFr
 
     public void configureViewModel() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(DynamicUIViewModel.class);
-        viewModel.init(SCREEN_ID,SCREEN_NAME,LOAN_TYPE,PROJECT_ID,PRODUCT_ID,CLIENT_ID,USER_ID,MODULE_TYPE);
+        viewModel.init(SCREEN_ID,SCREEN_NAME, LOAN_TYPE, PROJECT_ID, PRODUCT_ID, CLIENT_ID, USER_ID, MODULE_TYPE);
         Observer observer = new Observer() {
             @Override
             public void onChanged(@Nullable Object o) {
                 List<DynamicUITable> list = (List<DynamicUITable>) o;
                 viewModel.getDynamicUITableLiveData().removeObserver(this);
-                if(list !=null && list.size()>0) {
+                if(list != null && list.size()>0) {
                     //getAddressAddressProof(list,CLIENT_ID,MODULE_TYPE);
-                    getAddressPermentAddressProof(list,CLIENT_ID,MODULE_TYPE);
+//                    getAddressPermentAddressProof(list, CLIENT_ID, MODULE_TYPE);
                 }
 
             }

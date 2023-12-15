@@ -40,14 +40,20 @@ import static com.saartak.el.constants.AppConstant.PARAM_SCREEN_NO;
 import static com.saartak.el.constants.AppConstant.PARAM_USER_ID;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.FIELD_NAME_UPDATE;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.FIELD_TYPE_BUTTON;
+import static com.saartak.el.dynamicui.constants.ParametersConstant.SPINNER_ITEM_FIELD_NAME_AADHAAR;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_INTERESTED_IN_LOAN;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_KYC_ID;
+import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_KYC_TYPE;
+import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_LEAD_LOAN_PRODUCT;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_LEAD_STATUS;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_MOBILE_NUMBER;
+import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_OUTSIDE_INDIA;
+import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_PROPOSED_INSTITUTE_WITHIN_INDIA_OUTSIDE_INDIA;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_QUALIFY_FOR_LOAN;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_REASON_FOR_NOT_ELIGIBLE;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_REASON_FOR_NO_INTEREST;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_REQUESTED_LOAN_AMOUNT;
+import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_RE_ENTER_KYC_ID;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_SAVE_BUTTON;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_TYPE_OF_LOAN;
 
@@ -104,6 +110,7 @@ public class LeadFragment extends LOSBaseFragment implements LOSBaseFragment.Dyn
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ll = (LinearLayout) view.findViewById(R.id.ll_content);
+        view.setVisibility(View.GONE);
         setDynamiUIinterfacce(LeadFragment.this);
 
     }
@@ -117,6 +124,22 @@ public class LeadFragment extends LOSBaseFragment implements LOSBaseFragment.Dyn
 
     @Override
     public void dynamicUICallback(List<DynamicUITable> viewParametersList) {
+        try {
+            for (DynamicUITable viewParameters : viewParametersList) {
+                if (viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_PROPOSED_INSTITUTE_WITHIN_INDIA_OUTSIDE_INDIA)) {
+
+                    if(viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_PROPOSED_INSTITUTE_WITHIN_INDIA_OUTSIDE_INDIA)){
+                        viewParameters.setValue(TAG_NAME_OUTSIDE_INDIA);
+                    }
+                    viewParameters.setVisibility(false);
+                } else {
+                    viewParameters.setVisibility(false);
+                }
+            }
+            updateDynamicUITable(viewParametersList, SCREEN_ID);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         dynamicUI(viewParametersList);
     }
 

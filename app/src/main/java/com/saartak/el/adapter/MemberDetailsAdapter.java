@@ -55,7 +55,7 @@ public class MemberDetailsAdapter extends RecyclerView.Adapter<MemberDetailsAdap
        try{
           if(rawDataTableList.size()>0){
 //              String screenName=rawDataTableList.get(position).getScreen_name();
-              String screenName=screenNameList.get(position);
+              String screenName = screenNameList.get(position);
               if( !TextUtils.isEmpty(screenName)) {
                   holder.tvScreenName.setText(screenName);
 
@@ -66,7 +66,7 @@ public class MemberDetailsAdapter extends RecyclerView.Adapter<MemberDetailsAdap
                   }
               }
 
-holder.tvScreenName.setOnClickListener(new View.OnClickListener() {
+    holder.tvScreenName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     try {

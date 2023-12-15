@@ -58,7 +58,7 @@ import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_SAV
  * create an instance of this fragment.
  */
 public class CoApplicantKYCFragment extends LOSBaseFragment implements LOSBaseFragment.DynamiUIinterfacce, HasSupportFragmentInjector {
-    private static final String TAG =CoApplicantKYCFragment.class.getCanonicalName() ;
+    private static final String TAG = CoApplicantKYCFragment.class.getCanonicalName() ;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
@@ -101,7 +101,6 @@ public class CoApplicantKYCFragment extends LOSBaseFragment implements LOSBaseFr
         }
     }
 
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -113,7 +112,7 @@ public class CoApplicantKYCFragment extends LOSBaseFragment implements LOSBaseFr
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mRootView=(FrameLayout) inflater.inflate(R.layout.fragment_common_layout, container, false);
+        mRootView = (FrameLayout) inflater.inflate(R.layout.fragment_common_layout, container, false);
         return mRootView;
     }
 
@@ -123,7 +122,6 @@ public class CoApplicantKYCFragment extends LOSBaseFragment implements LOSBaseFr
             mListener.onFragmentInteraction(uri);
         }
     }
-
 
     @Override
     public void dynamicUICallback(List<DynamicUITable> viewParametersList) {
@@ -162,7 +160,6 @@ public class CoApplicantKYCFragment extends LOSBaseFragment implements LOSBaseFr
         void onFragmentInteraction(Uri uri);
     }
 
-
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
@@ -189,14 +186,14 @@ public class CoApplicantKYCFragment extends LOSBaseFragment implements LOSBaseFr
 
     public void configureViewModel() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(DynamicUIViewModel.class);
-        viewModel.init(SCREEN_ID,SCREEN_NAME,LOAN_TYPE,PROJECT_ID,PRODUCT_ID,CLIENT_ID,USER_ID,MODULE_TYPE);
+        viewModel.init(SCREEN_ID, SCREEN_NAME, LOAN_TYPE, PROJECT_ID, PRODUCT_ID, CLIENT_ID, USER_ID, MODULE_TYPE);
         Observer observer = new Observer() {
             @Override
             public void onChanged(@Nullable Object o) {
                 List<DynamicUITable> list = (List<DynamicUITable>) o;
                 viewModel.getDynamicUITableLiveData().removeObserver(this);
 
-                if(list !=null && list.size()>0) {
+                if(list !=null && list.size() > 0) {
                     applicantKYCScreenValidation(list.get(0),list);
                 }
             }
@@ -209,12 +206,6 @@ public class CoApplicantKYCFragment extends LOSBaseFragment implements LOSBaseFr
     // -----------------
 
     private void updateUI(@Nullable List<DynamicUITable> dynamicUITable) {
-        if (dynamicUITable != null) {
-            dynamicUI(dynamicUITable);
-        }
-    }
-
-    private void updatedUI(@Nullable List<DynamicUITable> dynamicUITable) {
         if (dynamicUITable != null) {
             dynamicUI(dynamicUITable);
         }
@@ -286,7 +277,7 @@ public class CoApplicantKYCFragment extends LOSBaseFragment implements LOSBaseFr
 
                                         // TODO: NEED TO REMOVE THIS CONDITION
                                         if (dynamicUITable.getFieldName().equalsIgnoreCase(TAG_NAME_KYC_ID)) {
-                                            DataTypeInfo datatypeInfo = new DataTypeInfo(SPINNER_ITEM_FIELD_NAME_AADHAAR,dynamicUITable);
+                                            DataTypeInfo datatypeInfo = new DataTypeInfo(SPINNER_ITEM_FIELD_NAME_AADHAAR, dynamicUITable);
                                             // TODO: Only here we need to check with field name
                                             dynamicUITable.setLength(datatypeInfo.getLength());
                                             dynamicUITable.setHint(datatypeInfo.getHint());
@@ -295,7 +286,7 @@ public class CoApplicantKYCFragment extends LOSBaseFragment implements LOSBaseFr
                                             dynamicUITable.setFieldTag(datatypeInfo.getHintTag());
                                         }
                                         if (dynamicUITable.getFieldName().equalsIgnoreCase(TAG_NAME_RE_ENTER_KYC_ID)) {
-                                            DataTypeInfo datatypeInfo = new DataTypeInfo(SPINNER_ITEM_FIELD_NAME_AADHAAR,dynamicUITable);
+                                            DataTypeInfo datatypeInfo = new DataTypeInfo(SPINNER_ITEM_FIELD_NAME_AADHAAR, dynamicUITable);
                                             // TODO: Only here we need to check with field name
                                             dynamicUITable.setLength(datatypeInfo.getLength());
                                             dynamicUITable.setHint("Re " + datatypeInfo.getHint());

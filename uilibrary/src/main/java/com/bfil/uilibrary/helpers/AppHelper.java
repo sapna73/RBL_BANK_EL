@@ -139,7 +139,7 @@ public class AppHelper {
 
     public boolean isValid = true;
     public boolean checkErrors(ViewGroup group,boolean initialValue) {
-        isValid=initialValue;
+        isValid=  initialValue;
       return checkErrors(group);
     }
 

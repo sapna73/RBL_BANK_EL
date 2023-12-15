@@ -32,30 +32,29 @@ public class ClientDetailsAdapter extends RecyclerView.Adapter<ClientDetailsAdap
                                  ArrayList<HashMap<String,Object>> hashMapArrayList,AppHelper appHelper,List<String> screenNameList,
                                  List<String> screenNumberList,String moduleType,
                                  ClientDetailsInterface clientDetailsInterface){
-        this.context=context;
-        this.rawDataTableList=rawDataTableList;
-        this.hashMapArrayList=hashMapArrayList;
-        this.appHelper=appHelper;
-        this.screenNameList=screenNameList;
-        this.screenNumberList=screenNumberList;
-        this.clientDetailsInterface=clientDetailsInterface;
-        this.moduleType=moduleType;
+        this.context = context;
+        this.rawDataTableList = rawDataTableList;
+        this.hashMapArrayList = hashMapArrayList;
+        this.appHelper = appHelper;
+        this.screenNameList = screenNameList;
+        this.screenNumberList = screenNumberList;
+        this.clientDetailsInterface = clientDetailsInterface;
+        this.moduleType = moduleType;
     }
-
 
     @NonNull
     @Override
     public ClientDetailsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context).inflate(R.layout.client_detail_row_item,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.client_detail_row_item, parent,false);
         return new ClientDetailsViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ClientDetailsViewHolder holder, int position) {
        try{
-          if(rawDataTableList.size()>0){
+          if(rawDataTableList.size() > 0){
 //              String screenName=rawDataTableList.get(position).getScreen_name();
-              String screenName=screenNameList.get(position);
+              String screenName = screenNameList.get(position);
               if( !TextUtils.isEmpty(screenName)) {
                   holder.tvScreenName.setText(screenName);
 
@@ -66,7 +65,7 @@ public class ClientDetailsAdapter extends RecyclerView.Adapter<ClientDetailsAdap
                   }
               }
 
-holder.tvScreenName.setOnClickListener(new View.OnClickListener() {
+    holder.tvScreenName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     try {
@@ -96,12 +95,12 @@ holder.tvScreenName.setOnClickListener(new View.OnClickListener() {
 
         public ClientDetailsViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvScreenName=(TextView)itemView.findViewById(R.id.tv_screen_name);
-            ibScreenStatus=(ImageButton)itemView.findViewById(R.id.ib_screen_status);
+            tvScreenName = (TextView)itemView.findViewById(R.id.tv_screen_name);
+            ibScreenStatus = (ImageButton)itemView.findViewById(R.id.ib_screen_status);
         }
     }
 
     public interface ClientDetailsInterface{
-        void callBackForScreen(String moduleType,String screenName);
+        void callBackForScreen(String moduleType, String screenName);
     }
 }

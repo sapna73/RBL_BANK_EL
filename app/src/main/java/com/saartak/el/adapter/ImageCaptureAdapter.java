@@ -1,16 +1,24 @@
 package com.saartak.el.adapter;
 
+import static com.saartak.el.constants.AppConstant.IMAGE_ENC_PSWD;
+import static com.saartak.el.constants.AppConstant.IMAGE_ENC_SALT;
+
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bfil.uilibrary.images.FileUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -19,13 +27,23 @@ import com.saartak.el.R;
 import com.saartak.el.database.entity.DocumentUploadTableNew;
 import com.saartak.el.keystore.JealousSky;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.List;
 
-import static com.saartak.el.constants.AppConstant.IMAGE_ENC_PSWD;
-import static com.saartak.el.constants.AppConstant.IMAGE_ENC_SALT;
+import javax.crypto.Cipher;
+import javax.crypto.CipherInputStream;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 public class ImageCaptureAdapter extends RecyclerView.Adapter<ImageCaptureAdapter.ImageCaptureViewHolder> {
 
@@ -167,6 +185,4 @@ public class ImageCaptureAdapter extends RecyclerView.Adapter<ImageCaptureAdapte
         void removeImageCallBack(DocumentUploadTableNew documentUploadTableNew,int position);
         void openImageCallBack(DocumentUploadTableNew documentUploadTableNew,int position);
     }
-
-
 }

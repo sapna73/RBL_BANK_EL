@@ -120,7 +120,7 @@ public class CPVFragment extends LOSBaseFragment implements FragmentInterface {
         btn_enach.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isAddressDetail==true&&isKYCScreen==true) {
+                if(isAddressDetail == true && isKYCScreen == true) {
                     if (appHelper.isNetworkAvailable()) {
                         cpvServiceData(USER_ID, CLIENT_ID, LOAN_TYPE, MODULE_TYPE);
                     } else {

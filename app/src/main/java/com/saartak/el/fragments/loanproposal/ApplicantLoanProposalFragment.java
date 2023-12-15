@@ -42,7 +42,9 @@ import static com.saartak.el.constants.AppConstant.PARAM_PROJECT_ID;
 import static com.saartak.el.constants.AppConstant.PARAM_SCREEN_NAME;
 import static com.saartak.el.constants.AppConstant.PARAM_SCREEN_NO;
 import static com.saartak.el.constants.AppConstant.PARAM_USER_ID;
+import static com.saartak.el.constants.AppConstant.SCREEN_NO_APPLICANT_LOAN_PROPOSAL_EL;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.FIELD_NAME_UPDATE;
+import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_LOAN_SCHEME;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_SAVE_BUTTON;
 
 public class ApplicantLoanProposalFragment extends LOSBaseFragment implements LOSBaseFragment.DynamiUIinterfacce, HasSupportFragmentInjector , FragmentInterface {
@@ -73,7 +75,6 @@ public class ApplicantLoanProposalFragment extends LOSBaseFragment implements LO
         return fragment;
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,14 +91,12 @@ public class ApplicantLoanProposalFragment extends LOSBaseFragment implements LO
         }
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_common_layout, container, false);
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -133,23 +132,10 @@ public class ApplicantLoanProposalFragment extends LOSBaseFragment implements LO
         super.onDetach();
         mListener = null;
     }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
-
 
     /*   @Inject
        DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;

@@ -81,27 +81,27 @@ public class LeadToApplicationAdapter extends RecyclerView.Adapter<LeadToApplica
                // loanTypeViewHolder.tvPhone.setText(masterTable.getPhoneNo());
                 boolean allDataSynced = masterTable.isSync();
 
-                if(masterTable.getVkycStatus()!=null&&masterTable.getVkycStatus().equalsIgnoreCase("S")){
+                if(masterTable.getVkycStatus() != null&&masterTable.getVkycStatus().equalsIgnoreCase("S")){
                     loanTypeViewHolder.tv_vkyc_ekyc.setText("VKYC");
-                    if(masterTable.getVKYCStatusCoApp()!=null&&masterTable.getVKYCStatusCoApp().equalsIgnoreCase("S")){
+                    if(masterTable.getVKYCStatusCoApp() != null&&masterTable.getVKYCStatusCoApp().equalsIgnoreCase("S")){
                         loanTypeViewHolder.tv_VkycStageValue.setText("VKYC Is Initiated SuccessFully For Applicant And Co-Applicant");
                     }else {
                         loanTypeViewHolder.tv_VkycStageValue.setText("VKYC Is Initiated SuccessFully For Applicant");
                     }
                     loanTypeViewHolder.tv_VkycStageValue.setTextColor(context.getResources().getColor(R.color.light_green));
-                }else if(masterTable.getVkycStatus()!=null&&masterTable.getVkycStatus().equalsIgnoreCase("E")){
+                }else if(masterTable.getVkycStatus() != null&&masterTable.getVkycStatus().equalsIgnoreCase("E")){
                     loanTypeViewHolder.tv_vkyc_ekyc.setText("EKYC");
-                    if(masterTable.getVKYCStatusCoApp()!=null&&masterTable.getVKYCStatusCoApp().equalsIgnoreCase("E")){
+                    if(masterTable.getVKYCStatusCoApp() != null&&masterTable.getVKYCStatusCoApp().equalsIgnoreCase("E")){
                         loanTypeViewHolder.tv_VkycStageValue.setText("EKYC Is Initiated SuccessFully For Applicant And Co-Applicant");
                     }else {
                         loanTypeViewHolder.tv_VkycStageValue.setText("EKYC Is Initiated SuccessFully For Applicant");
                     }
                     loanTypeViewHolder.tv_VkycStageValue.setTextColor(context.getResources().getColor(R.color.light_green));
-                } else if(masterTable.getVKYCStatusCoApp()!=null&&masterTable.getVKYCStatusCoApp().equalsIgnoreCase("S")){
+                } else if(masterTable.getVKYCStatusCoApp() != null&&masterTable.getVKYCStatusCoApp().equalsIgnoreCase("S")){
                     loanTypeViewHolder.tv_vkyc_ekyc.setText("VKYC");
                     loanTypeViewHolder.tv_VkycStageValue.setText("VKYC Is Initiated SuccessFully For Co-Applicant");
                     loanTypeViewHolder.tv_VkycStageValue.setTextColor(context.getResources().getColor(R.color.light_green));
-                } else if(masterTable.getVKYCStatusCoApp()!=null&&masterTable.getVKYCStatusCoApp().equalsIgnoreCase("E")){
+                } else if(masterTable.getVKYCStatusCoApp() != null&&masterTable.getVKYCStatusCoApp().equalsIgnoreCase("E")){
                     loanTypeViewHolder.tv_vkyc_ekyc.setText("EKYC");
                     loanTypeViewHolder.tv_VkycStageValue.setText("EKYC Is Initiated SuccessFully For Co-Applicant");
                     loanTypeViewHolder.tv_VkycStageValue.setTextColor(context.getResources().getColor(R.color.light_green));

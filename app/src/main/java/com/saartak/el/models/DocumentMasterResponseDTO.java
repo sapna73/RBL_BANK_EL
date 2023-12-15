@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 public class DocumentMasterResponseDTO {
 
-
     @Expose
     ArrayList<DocumentMasterTable> Table;
 

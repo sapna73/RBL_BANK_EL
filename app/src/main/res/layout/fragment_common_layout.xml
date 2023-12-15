@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <ScrollView android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android">
+
         <LinearLayout android:id="@+id/ll_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -21,35 +23,8 @@
             android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginRight="@dimen/_10sdp"
             xmlns:android="http://schemas.android.com/apk/res/android" />
-    </ScrollView>
-<!--    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--        xmlns:tools="http://schemas.android.com/tools"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="550dp">-->
 
-<!--&lt;!&ndash;        <EditText&ndash;&gt;-->
-<!--&lt;!&ndash;            android:id="@+id/Etlocationlatilong"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_width="fill_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_centerVertical="true" >&ndash;&gt;-->
-<!--&lt;!&ndash;        </EditText>&ndash;&gt;-->
-<!--        <EditText-->
-<!--            android:id="@+id/Etlocationlatilong"-->
-<!--            android:layout_width="fill_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:inputType="text" />-->
-<!--        <ImageView-->
-<!--            android:id="@+id/imageView1"-->
-<!--            android:padding="5dp"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_alignTop="@+id/Etlocationlatilong"-->
-<!--            android:layout_alignBottom="@+id/Etlocationlatilong"-->
-<!--            android:layout_alignRight="@+id/Etlocationlatilong"-->
-<!--            android:src="@drawable/recordbutton" />-->
-<!--    </RelativeLayout>-->
+    </ScrollView>
 </FrameLayout>
 
 

@@ -40,11 +40,6 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.AndroidSupportInjection;
 import dagger.android.support.HasSupportFragmentInjector;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ApplicantRegulatoryFieldsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ApplicantRegulatoryFieldsFragment extends LOSBaseFragment implements LOSBaseFragment.DynamiUIinterfacce, HasSupportFragmentInjector, FragmentInterface {
     private static final String TAG = ApplicantRegulatoryFieldsFragment.class.getCanonicalName();
 
@@ -119,7 +114,6 @@ public class ApplicantRegulatoryFieldsFragment extends LOSBaseFragment implement
         void onFragmentInteraction(Uri uri);
     }
 
-
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
@@ -181,7 +175,6 @@ public class ApplicantRegulatoryFieldsFragment extends LOSBaseFragment implement
             dynamicUI(dynamicUITable);
         }
     }
-
 
     @Override
     public Fragment getFragment() {

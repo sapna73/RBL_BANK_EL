@@ -1,6 +1,7 @@
 package com.saartak.el.dynamicui.constants;
 
 public class ParametersConstant {
+
     // TODO:  ekyc failed max value
     public static int EKYC_FAILED_MAX_VALUE = 3;
 
@@ -37,7 +38,7 @@ public class ParametersConstant {
     public static String FIELD_TYPE_PIN_VIEW="PinView";
     public static String FIELD_TYPE_CALENDAR="Calendar";
     public static String FIELD_TYPE_CALCULATOR="Calculator";
-    public static String FIELD_TYPE_NEW_ROW="New Row";
+    public static String FIELD_TYPE_NEW_ROW = "New Row";
     public static String FIELD_TYPE_CALCULATOR_WITH_STATUS="CalculatorWithStatus";
     public static String FIELD_TYPE_VIEW="View";
     public static String FIELD_TYPE_NEW_LIABILITY="NEW LIABILITY";
@@ -69,43 +70,38 @@ public class ParametersConstant {
     public static String CURRENT_STAGE_PD="PD";
 
     // TODO: APPLICATION STATUS
-    public static String APPLICATION_STATUS_NEW="NEW";
-    public static String APPLICATION_STATUS_SEND_BACK="SEND BACK";
-    public static String APPLICATION_STATUS_DATA_SYNCED="DATA SYNCED";
+    public static String APPLICATION_STATUS_NEW = "NEW";
+    public static String APPLICATION_STATUS_SEND_BACK = "SEND BACK";
+    public static String APPLICATION_STATUS_DATA_SYNCED = "DATA SYNCED";
 
     // TODO: JLG LOAN PRODUCTS
-//    public static String LOAN_PRODUCT_CYCLE_1_JLG_LOAN="Cycle 1 JLG Loan";
     public static String LOAN_PRODUCT_CYCLE_1_JLG_LOAN="3139 18M JLG Monthly Loan";
-    public static String LOAN_PRODUCT_CYCLE_2_JLG_LOAN="Cycle 2 JLG Loan";
-    public static String LOAN_PRODUCT_PARALLEL_RENEWAL_LOAN="Parallel Renewal Loan";
-    public static String LOAN_PRODUCT_TOP_UP_LOAN="Top-Up Loan";
-    public static String LOAN_PRODUCT_EMERGENCY_LOAN ="Emergency Loan";
 
     // TODO: JLG LOAN PRODUCT CODE
-    public static String LOAN_PRODUCT_CODE_CYCLE_1_JLG_LOAN="3138";
-    public static String LOAN_PRODUCT_CODE_CYCLE_2_JLG_LOAN="3138";
-    public static String LOAN_PRODUCT_CODE_PARALLEL_RENEWAL_LOAN="3142";
-    public static String LOAN_PRODUCT_CODE_TOP_UP_LOAN="3154";
-    public static String LOAN_PRODUCT_CODE_EMERGENCY_LOAN ="3157";
+    public static String LOAN_PRODUCT_CODE_CYCLE_1_JLG_LOAN = "3138";
+    public static String LOAN_PRODUCT_CODE_CYCLE_2_JLG_LOAN = "3138";
+    public static String LOAN_PRODUCT_CODE_PARALLEL_RENEWAL_LOAN = "3142";
+    public static String LOAN_PRODUCT_CODE_TOP_UP_LOAN = "3154";
+    public static String LOAN_PRODUCT_CODE_EMERGENCY_LOAN = "3157";
 
     // TODO: ON ACTIVITY  RESULT REQUEST CODES
-    public static final int REQUEST_CODE_LOCATION =111;
+    public static final int REQUEST_CODE_LOCATION = 111;
 
     // TODO: COLLECTION TYPE
-    public static String COLLECTION_TYPE_REGULAR ="R";
-    public static String COLLECTION_TYPE_OD ="OD";
+    public static String COLLECTION_TYPE_REGULAR = "R";
+    public static String COLLECTION_TYPE_OD = "OD";
 
     // TODO: FINAL STATUS
-    public static String ACTION_NAME_APPROVE="Approve";
-    public static String ACTION_NAME_REJECT="Reject";
-    public static String ACTION_NAME_SEND_BACK="Send Back";
+    public static String ACTION_NAME_APPROVE = "Approve";
+    public static String ACTION_NAME_REJECT = "Reject";
+    public static String ACTION_NAME_SEND_BACK = "Send Back";
 
     // TODO: CGT CYCLE
-    public static String CGT_1 ="CGT 1";
+    public static String CGT_1 = "CGT 1";
 
-    public static String CGT_2 ="CGT 2";
-    public static String CONSTANT_CGT_CYCLE_1="1/2";
-    public static String CONSTANT_CGT_CYCLE_2="2/2";
+    public static String CGT_2 = "CGT 2";
+    public static String CONSTANT_CGT_CYCLE_1 = "1/2";
+    public static String CONSTANT_CGT_CYCLE_2 = "2/2";
 
     // TODO: REMINDER RADIO BUTTON ITEMS
     public static String RADIO_BUTTON_ITEM_COLD_CALLING="COLD CALLING";
@@ -144,33 +140,33 @@ public class ParametersConstant {
     public static String VEHICLE_TYPE_RADIO_BUTTON_FW="Fw";
 
     // TODO: FINAL STATUS
-    public static String FINAL_STATUS_NEW="NEW";
-    public static String FINAL_STATUS_PENDING="PENDING";
-    public static String FINAL_STATUS_SUBMITTED="SUBMITTED";
-    public static String FINAL_STATUS_SEND_BACK="SEND BACK";
-    public static String FINAL_STATUS_REJECTED="REJECTED";
-    public static String FINAL_STATUS_APPROVED="APPROVED";
-    public static String FINAL_STATUS_START_SESSION="START SESSION";
-    public static String FINAL_STATUS_END_SESSION="END SESSION";
-//    public static String FINAL_STATUS_SESSION_STARTED="SESSION STARTED";
-//    public static String FINAL_STATUS_SESSION_ENDED="SESSION ENDED";
+    public static String FINAL_STATUS_NEW = "NEW";
+    public static String FINAL_STATUS_PENDING = "PENDING";
+    public static String FINAL_STATUS_SUBMITTED = "SUBMITTED";
+    public static String FINAL_STATUS_SEND_BACK = "SEND BACK";
+    public static String FINAL_STATUS_REJECTED = "REJECTED";
+    public static String FINAL_STATUS_APPROVED = "APPROVED";
+    public static String FINAL_STATUS_START_SESSION = "START SESSION";
+    public static String FINAL_STATUS_END_SESSION = "END SESSION";
+//    public static String FINAL_STATUS_SESSION_STARTED = "SESSION STARTED";
+//    public static String FINAL_STATUS_SESSION_ENDED = "SESSION ENDED";
 
 
     // TODO: ACTION TO DO
-    public static String ACTION_VIEW_GROUP_MEMBERS ="VIEW GROUP MEMBERS"; // TODO: For added group members
-    public static String ACTION_VIEW_REMAINING_MEMBERS ="VIEW REMAINING MEMBERS"; //  TODO: For non added members
+    public static String ACTION_VIEW_GROUP_MEMBERS = "VIEW GROUP MEMBERS"; // TODO: For added group members
+    public static String ACTION_VIEW_REMAINING_MEMBERS = "VIEW REMAINING MEMBERS"; //  TODO: For non added members
 
     // TODO: SP NAMES FOR [GetDataUtil] SERVICE
-    public static String SP_NAME_TO_GET_SCREEN_DATA="usp_getMyScreenData";
-    public static String SP_NAME_TO_GET_CB_AMOUNT="prcGetCBEligibleAmountOnceUploaded";
-    public static String SP_NAME_TO_POST_SOD_EOD_DATA="Usp_CreateSOD";
-    public static String SP_NAME_TO_GET_PRODUCT_MASTER="Usp_GetRBLLoanProductMaster";       // Loan Scheme SP
-    public static String SP_NAME_TO_GET_DOCUMENT_MASTER="USP_LOS_GetSelectedDocumentDetails";
-    public static String SP_NAME_TO_GET_KNOWLEDGE_BANK_MASTER="USP_ManageKnowledgeBaseDocs";
-    public static String SP_NAME_TO_GET_DBR="usp_GetDBRValues";
-    public static String SP_NAME_TO_GET_RAW_DATA="prcGetWorkflowInbox";
-    public static String SP_NAME_TO_GET_RAW_DATA_JLG="Mobile.usp_GetRawData";
-    public static String SP_NAME_TO_GET_LEAD_RAW_DATA="usp_getMyLeads";
+    public static String SP_NAME_TO_GET_SCREEN_DATA = "usp_getMyScreenData";
+    public static String SP_NAME_TO_GET_CB_AMOUNT = "prcGetCBEligibleAmountOnceUploaded";
+    public static String SP_NAME_TO_POST_SOD_EOD_DATA = "Usp_CreateSOD";
+    public static String SP_NAME_TO_GET_PRODUCT_MASTER = "Usp_GetRBLLoanProductMaster";       // Loan Scheme SP
+    public static String SP_NAME_TO_GET_DOCUMENT_MASTER = "USP_LOS_GetSelectedDocumentDetails"; //Document Upload SP
+    public static String SP_NAME_TO_GET_KNOWLEDGE_BANK_MASTER = "USP_ManageKnowledgeBaseDocs";
+    public static String SP_NAME_TO_GET_DBR = "usp_GetDBRValues";
+    public static String SP_NAME_TO_GET_RAW_DATA = "prcGetWorkflowInbox";
+    public static String SP_NAME_TO_GET_RAW_DATA_JLG = "Mobile.usp_GetRawData";
+    public static String SP_NAME_TO_GET_LEAD_RAW_DATA = "usp_getMyLeads";
     public static String SP_NAME_TO_GET_COLD_CALL_DATA="USP_Get_Premium_Coldcall";
     public static String SP_NAME_TO_POST_COLD_CALL_DATA_SINGLE="usp_InsertColdCall";//coldcall
     public static String SP_NAME_TO_POST_SALES_TOOL_DATA_SINGLE="usp_Insert_SaleTool";//sales tool
@@ -227,21 +223,22 @@ public class ParametersConstant {
     public static String SP_NAME_TO_LEAD_BANK_DETAILS="Usp_GetLeadBankdetails";
     public static String SP_NAME_TO_LEAD_BRANCH_NAME_DETAILS="Usp_GetLeadBranchNameDetails";
 
-    public static String SPINNER_ITEM_FIELD_NAME_AADHAAR="Aadhaar";
-    public static String SPINNER_ITEM_FIELD_NAME_VID="VID";
-    public static String SPINNER_ITEM_FIELD_NAME_MOA_AOA="MOA & AOA";
-    public static String SPINNER_ITEM_FIELD_NAME_PAN_CARD="PAN Card";
-    public static String SPINNER_ITEM_FIELD_NAME_VOTER_ID="Voter-ID";
-    public static String SPINNER_ITEM_FIELD_NAME_PASSPORT="Passport";
-    public static String SPINNER_ITEM_FIELD_NAME_DRIVING_LICENSE="Driving License";
-    public static String SPINNER_ITEM_FIELD_NAME_UTILITY_BILLS="Utility Bills";
-    public static String SPINNER_ITEM_FIELD_NAME_RATION_CARD="Ration Card";
-    public static String SPINNER_ITEM_FIELD_NAME_BANK_STATEMENT="Bank Statement";
-    public static String SPINNER_ITEM_FIELD_NAME_BANK_PASSBOOK_WITH_PHOTOGRAPH="Bank Passbook with Photograph";
-    public static String SPINNER_ITEM_FIELD_NAME_AUTHORIZED_SIGNATURE_PROOF="Authorized Signature Proof";
-    public static String SPINNER_ITEM_FIELD_NAME_NREGA_JOB_CARD="NREGA Job Card";
-    public static String SPINNER_ITEM_FIELD_NAME_DEEMED_OVD="Deemed OVD";
-    public static String SPINNER_ITEM_FIELD_NAME_UIDAI_ELIGIBLE_DOCUMENTS="UIDAI Eligible Documents";
+    public static String SPINNER_ITEM_FIELD_NAME_AADHAAR = "Aadhaar";
+    public static String SPINNER_ITEM_FIELD_NAME_VID = "VID";
+    public static String SPINNER_ITEM_FIELD_NAME_MOA_AOA = "MOA & AOA";
+    public static String SPINNER_ITEM_FIELD_NAME_PAN_CARD = "PAN Card";
+    public static String SPINNER_ITEM_FIELD_NAME_VOTER_ID = "Voter-ID";
+    public static String SPINNER_ITEM_FIELD_NAME_PASSPORT = "Passport";
+    public static String SPINNER_ITEM_FIELD_NAME_DRIVING_LICENSE = "Driving License";
+    public static String SPINNER_ITEM_FIELD_NAME_UTILITY_BILLS = "Utility Bills";
+    public static String SPINNER_ITEM_FIELD_NAME_RATION_CARD = "Ration Card";
+    public static String SPINNER_ITEM_FIELD_NAME_BANK_STATEMENT = "Bank Statement";
+    public static String SPINNER_ITEM_FIELD_NAME_BANK_PASSBOOK_WITH_PHOTOGRAPH = "Bank Passbook with Photograph";
+    public static String SPINNER_ITEM_FIELD_NAME_AUTHORIZED_SIGNATURE_PROOF = "Authorized Signature Proof";
+    public static String SPINNER_ITEM_FIELD_NAME_NREGA_JOB_CARD = "NREGA Job Card";
+    public static String SPINNER_ITEM_FIELD_NAME_NREGA = "NREGA";
+    public static String SPINNER_ITEM_FIELD_NAME_DEEMED_OVD = "Deemed OVD";
+    public static String SPINNER_ITEM_FIELD_NAME_UIDAI_ELIGIBLE_DOCUMENTS = "UIDAI Eligible Documents";
     public static String SPINNER_ITEM_FIELD_NAME_BUSINESS_INCORPORATION_PROOF="Business Incorporation Proof";
     public static String SPINNER_ITEM_FIELD_NAME_KUCHA_BILLS="Kuccha Bills";
     public static String SPINNER_ITEM_FIELD_NAME_PUCCA_BILLS="Pucca Bills";
@@ -254,23 +251,25 @@ public class ParametersConstant {
     public static String SPINNER_ITEM_FIELD_NAME_SAME_AS_APPLICANT_PERMANENT_ADDRESS_PROOF="Same as Applicant Permanent Address Proof";
     public static String SPINNER_ITEM_FIELD_NAME_SAME_AS_APPLICANT_COMMUNICATION_ADDRESS_PROOF="Same as applicant Communication Address Proof";
 
-
     // TODO: UNIQUE AND CORRELATION ID TAG NAMES
-    public static String TAG_NAME_UNIQUE_ID="UNIQUE ID";
-    public static String TAG_NAME_CORRELATION_ID="CORRELATION ID";
-    public static String TAG_NAME_MOBILE_APP_VERSION="MOBILE APP VERSION";
+    public static String TAG_NAME_UNIQUE_ID = "UNIQUE ID";
+    public static String TAG_NAME_CORRELATION_ID = "CORRELATION ID";
+    public static String TAG_NAME_MOBILE_APP_VERSION = "MOBILE APP VERSION";
 
-    public static String TAG_NAME_BUSINESS_PROOF="Business Proof";
+    public static String TAG_NAME_BUSINESS_PROOF = "Business Proof";
 
     // TODO: KYC SCREEN TAG NAMES
-    public static String TAG_NAME_KYC_TYPE="KYC TYPE";
-    public static String TAG_NAME_KYC_ID="KYC ID";
-    public static String FIELD_NAME_KYC_ID="KYC ID";
-    public static String TAG_NAME_APPLICANT_KYC ="APPLICANT KYC";
-    public static String TAG_NAME_NON_EKYC ="Non eKYC";
-    public static String TAG_NAME_EKYC ="eKYC";
-    public static String FIELD_NAME_RE_ENTER_KYC_ID="Re-enter KYC ID";
-    public static String TAG_NAME_RE_ENTER_KYC_ID="RE-ENTER KYC ID";
+    public static String TAG_NAME_KYC_TYPE = "KYC TYPE";
+    public static String TAG_NAME_KYC_ID = "KYC ID";
+    public static String FIELD_NAME_KYC_ID = "KYC ID";
+    public static String TAG_NAME_APPLICANT_KYC = "APPLICANT KYC";
+    public static String TAG_NAME_NON_EKYC = "Non eKYC";
+    public static String TAG_NAME_EKYC = "eKYC";
+
+    public static String TAG_NAME_EKYC_OTHERS = "Others";
+
+    public static String FIELD_NAME_RE_ENTER_KYC_ID = "Re-enter KYC ID";
+    public static String TAG_NAME_RE_ENTER_KYC_ID = "RE-ENTER KYC ID";
     public static String TAG_NAME_VID="VID";
     public static String TAG_NAME_RE_ENTER_VID="RE-ENTER VID";
     public static String TAG_NAME_ADDRESS_LINE_1="ADDRESS LINE 1";
@@ -297,23 +296,39 @@ public class ParametersConstant {
     public static String TAG_NAME_KYC_TYPE_VOTERID="VOTERID";
     public static String TAG_NAME_KYC_TYPE_RE_ENTER_VOTERID="RE ENTER VOTERID";
     public static String TAG_NAME_KYC_TYPE_PANCARD="PANCARD";
-    public static String TAG_NAME_KYC_TYPE_PAN_CARD="PAN CARD";
-    public static String TAG_NAME_KYC_TYPE_PAN="PAN";
-    public static String TAG_NAME_KYC_TYPE_MOA_AOA="MOA & AOA";
-    public static String TAG_NAME_KYC_TYPE_RE_ENTER_PANCARD="RE ENTER PANCARD";
-    public static String TAG_NAME_KYC_TYPE_DRIVINGLICENSE="DRIVINGLICENSE";
-    public static String TAG_NAME_KYC_TYPE_RE_ENTER_DRIVINGLICENSE="RE ENTER DRIVINGLICENSE";
-    public static String TAG_NAME_KYC_TYPE_PASSPORT="PASSPORT";
-    public static String TAG_NAME_KYC_TYPE_RE_ENTER_PASSPORT="RE ENTER PASSPORT";
-    public static String TAG_NAME_KYC_TYPE_BANKPASSBOOK="BANKPASSBOOK";
-    public static String TAG_NAME_KYC_TYPE_RE_ENTER_BANKPASSBOOK="RE ENTER BANKPASSBOOK";
-    public static String TAG_NAME_KYC_TYPE_JOBCARD="JOBCARD";
-    public static String TAG_NAME_KYC_TYPE_RE_ENTER_JOBCARD="RE ENTER JOBCARD";
-    public static String TAG_NAME_KYC_TYPE_VID="VID";
-    public static String TAG_NAME_KYC_TYPE_RE_ENTER_VID="RE ENTER VID";
-    public static String TAG_NAME_KYC_TYPE_NREGAJOBCARD="NREGAJOBCARD";
-    public static String TAG_NAME_KYC_TYPE_RE_ENTER_NREGAJOBCARD="RE ENTER NREGAJOBCARD";
-    public static String TAG_NAME_KYC_TYPE_RATION_CARD="RATION CARD";
+    public static String TAG_NAME_KYC_TYPE_BANK_STATEMENT_IN_ENTITY_NAME="BANK STATEMENT IN ENTITY NAME";
+    public static String TAG_NAME_KYC_TYPE_ELECTRICITY_BILL = "ELECTRICITY BILL";
+    public static String TAG_NAME_KYC_TYPE_GST = "GST";
+    public static String TAG_NAME_KYC_TYPE_ITR = "ITR";
+    public static String TAG_NAME_KYC_TYPE_JOB_CARD_ISSUED_BY_NREGA = "JOB CARD ISSUED BY NREGA";
+    public static String TAG_NAME_KYC_TYPE_OTHERS = "OTHERS";
+    public static String TAG_NAME_KYC_TYPE_SALES_TAX = "SALES TAX";
+    public static String TAG_NAME_KYC_TYPE_SHOP_ESTABLISHMENT_ACT = "SHOP ESTABLISHMENT ACT";
+    public static String TAG_NAME_KYC_TYPE_UTILITY_BILL = "UTILITY BILL";
+    public static String TAG_NAME_KYC_TYPE_VAT = "VAT";
+    public static String TAG_NAME_KYC_TYPE_PAN = "PAN";
+
+    public static String TAG_NAME_KYC_TYPE_MOA_AOA = "MOA & AOA";
+    public static String TAG_NAME_KYC_TYPE_ADDRESS_JOB_CARD_NREGA = "Job Card issued by NREGA";
+    public static String TAG_NAME_KYC_TYPE_ADDRESS_SHOP_ESTABLISHMENT_ACT = "Shop Establishment Act";
+    public static String TAG_NAME_KYC_TYPE_ADDRESS_GST= "GST";
+    public static String TAG_NAME_KYC_TYPE_ADDRESS_ELECTRICITY_BILL = "Electricity Bill";
+    public static String TAG_NAME_KYC_TYPE_BANK_STATEMENT = "Bank Statement";
+    public static String TAG_NAME_KYC_TYPE_ADDRESS_UTILITY_BILL = "Utility Bill";
+    public static String TAG_NAME_KYC_TYPE_RE_ENTER_PANCARD = "RE ENTER PANCARD";
+    public static String TAG_NAME_KYC_TYPE_DRIVINGLICENSE = "DRIVINGLICENSE";
+    public static String TAG_NAME_KYC_TYPE_RE_ENTER_DRIVINGLICENSE = "RE ENTER DRIVINGLICENSE";
+    public static String TAG_NAME_KYC_TYPE_PASSPORT = "PASSPORT";
+    public static String TAG_NAME_KYC_TYPE_RE_ENTER_PASSPORT = "RE ENTER PASSPORT";
+    public static String TAG_NAME_KYC_TYPE_BANKPASSBOOK = "BANKPASSBOOK";
+    public static String TAG_NAME_KYC_TYPE_RE_ENTER_BANKPASSBOOK = "RE ENTER BANKPASSBOOK";
+    public static String TAG_NAME_KYC_TYPE_JOBCARD = "JOBCARD";
+    public static String TAG_NAME_KYC_TYPE_RE_ENTER_JOBCARD = "RE ENTER JOBCARD";
+    public static String TAG_NAME_KYC_TYPE_VID = "VID";
+    public static String TAG_NAME_KYC_TYPE_RE_ENTER_VID = "RE ENTER VID";
+    public static String TAG_NAME_KYC_TYPE_NREGAJOBCARD = "NREGAJOBCARD";
+    public static String TAG_NAME_KYC_TYPE_RE_ENTER_NREGAJOBCARD = "RE ENTER NREGAJOBCARD";
+    public static String TAG_NAME_KYC_TYPE_RATION_CARD = "RATION CARD";
     public static String TAG_NAME_KYC_TYPE_RE_ENTER_RATION_CARD="RE ENTER RATION CARD";
 
 
@@ -372,22 +387,22 @@ public class ParametersConstant {
     public static String TAG_NAME_COMMUNICATION_VILLAGE="COMMUNICATION VILLAGE";
     public static String TAG_NAME_COMMUNICATION_LANDMARK="COMMUNICATION LAND MARK";
 
-    public static String TAG_NAME_STUDENT_DETAILS_GRADE="GRADE";
-    public static String TAG_NAME_STUDENT_DETAILS_BOARD="BOARD";
-    public static String TAG_NAME_STUDENT_DETAILS_OTHERS="OTHERS";
+    public static String TAG_NAME_STUDENT_DETAILS_GRADE = "GRADE";
+    public static String TAG_NAME_STUDENT_DETAILS_BOARD = "BOARD";
+    public static String TAG_NAME_STUDENT_DETAILS_OTHERS = "OTHERS";
 
 
-    public static String TAG_NAME_CONTAINS_AGE="AGE";
-    public static String TAG_NAME_CONTAINS_NAME="NAME";
-    public static String TAG_NAME_FULL_NAME="FULL NAME";
-    public static String TAG_NAME_FIRST_NAME="FIRSTNAME";
-    public static String TAG_NAME_MIDDLE_NAME="MIDDLENAME";
-    public static String TAG_NAME_LAST_NAME="LASTNAME";
-    public static String TAG_NAME_PAN="PAN";
-    public static String TAG_NAME_PAN_STATUS="PANSTATUS";
+    public static String TAG_NAME_CONTAINS_AGE = "AGE";
+    public static String TAG_NAME_CONTAINS_NAME = "NAME";
+    public static String TAG_NAME_FULL_NAME = "FULL NAME";
+    public static String TAG_NAME_FIRST_NAME = "FIRSTNAME";
+    public static String TAG_NAME_MIDDLE_NAME = "MIDDLENAME";
+    public static String TAG_NAME_LAST_NAME = "LASTNAME";
+    public static String TAG_NAME_PAN = "PAN";
+    public static String TAG_NAME_PAN_STATUS = "PANSTATUS";
 
-    public static String TAG_NAME_DATE_OF_INCORPORATION="DATE OF INCORPORATION";
-    public static String TAG_NAME_YEAR_OF_PASSING="YEAR OF PASSING";
+    public static String TAG_NAME_DATE_OF_INCORPORATION = "DATE OF INCORPORATION";
+    public static String TAG_NAME_YEAR_OF_PASSING = "YEAR OF PASSING";
 
     public static String TAG_NAME_LAST_UPDATE_DATE="LAST UPDATE DATE";
 
@@ -420,8 +435,6 @@ public class ParametersConstant {
     public static String TAG_NAME_ADDRESS_PERMANENT_DISTRICT ="PERMANENT DISTRICT";
     public static String TAG_NAME_ADDRESS_PERMANENT_STATE ="PERMANENT STATE";
     public static String TAG_NAME_ADDRESS_PERMANENT_COMMUNICATION_PINCODE ="PERMANENT PINCODE";
-
-
     public static String TAG_NAME_APPLICATION_KYC_ID="KYC ID";
     public static String TAG_NAME_APPLICATION_KYC_TYPE="KYC TYPE";
     public static String TAG_NAME_APPLICATION_DATE_OF_BIRTH="DATE OF BIRTH";
@@ -435,132 +448,130 @@ public class ParametersConstant {
     public static String TAG_NAME_APPLICATION_STATE="STATE";
     public static String TAG_NAME_APPLICATION_DISTRICT="DISTRICT";
     public static String TAG_NAME_APPLICATION_CITY="CITY";
-    public static String TAG_NAME_APPLICATION_ADDRESS_TYPE="ADDRESS TYPE";
-    public static String TAG_NAME_APPLICATION_CUSTOMER_TYPE="CUSTOMER TYPE";
-    public static String TAG_NAME_APPLICATION_GENDER="GENDER";
-    public static String TAG_NAME_APPLICATION_LOAN_TENURE="LOAN TENURE";
-    public static String TAG_NAME_APPLICATION_LOAN_AMOUNT ="LOAN AMOUNT";
+    public static String TAG_NAME_APPLICATION_ADDRESS_TYPE = "ADDRESS TYPE";
+    public static String TAG_NAME_APPLICATION_CUSTOMER_TYPE = "CUSTOMER TYPE";
+    public static String TAG_NAME_APPLICATION_GENDER = "GENDER";
+    public static String TAG_NAME_APPLICATION_LOAN_TENURE = "LOAN TENURE";
+    public static String TAG_NAME_APPLICATION_LOAN_AMOUNT = "LOAN AMOUNT";
 
-    public static String TAG_NAME_IS_VERIFIED="IS VERIFIED";
-    public static String TAG_NAME_PHOTO="PHOTO";
-    public static String TAG_NAME_CONTAINS_DOB="DATE OF BIRTH";
-    public static String TAG_NAME_GENDER="GENDER";
-    public static String TAG_NAME_MOBILE="MOBILE";
-    public static String TAG_NAME_MOBILE_NO="MOBILE NO";
-    public static String TAG_NAME_CONTACT_NO="CONTACT NO";
-    public static String TAG_NAME_CONTACT_NO_1="CONTACT NO 1";
-    public static String TAG_NAME_TELEPHONE_NO="TELEPHONE NO";
-    public static String TAG_NAME_TELEPHONE_NUMBER="TELEPHONE NUMBER";
-    public static String TAG_NAME_MOBILE_NUMBER="MOBILE NUMBER";
-    public static String TAG_NAME_EKYC_BUTTON="EKYC";
-    public static String TAG_NAME_QR_READING_BUTTON="QR CODE READING";
-    public static String TAG_NAME_ADD_ANOTHER_BUTTON="ADD ANOTHER";
-    public static String TAG_NAME_SAVE_BUTTON="SAVE";
-    public static String TAG_NAME_ADD_ANOTHER_KYC_PLUS_BUTTON="ADD ANOTHER KYC";
-    public static String TAG_NAME_NO_OF_COAPPLICANT="NO OF CO-APPLICANT";
-    public static String TAG_NAME_MODULE_TYPE="MODULE TYPE";
-    public static String TAG_NAME_MEMBER_ID_IN_APPLICANT_KYC="MEMBER ID";
+    public static String TAG_NAME_IS_VERIFIED = "IS VERIFIED";
+    public static String TAG_NAME_PHOTO = "PHOTO";
+    public static String TAG_NAME_CONTAINS_DOB = "DATE OF BIRTH";
+    public static String TAG_NAME_GENDER = "GENDER";
+    public static String TAG_NAME_MOBILE = "MOBILE";
+    public static String TAG_NAME_MOBILE_NO = "MOBILE NO";
+    public static String TAG_NAME_CONTACT_NO = "CONTACT NO";
+    public static String TAG_NAME_CONTACT_NO_1 = "CONTACT NO 1";
+    public static String TAG_NAME_TELEPHONE_NO = "TELEPHONE NO";
+    public static String TAG_NAME_TELEPHONE_NUMBER = "TELEPHONE NUMBER";
+    public static String TAG_NAME_MOBILE_NUMBER = "MOBILE NUMBER";
+    public static String TAG_NAME_EKYC_BUTTON = "EKYC";
+    public static String TAG_NAME_QR_READING_BUTTON = "QR CODE READING";
+    public static String TAG_NAME_ADD_ANOTHER_BUTTON = "ADD ANOTHER";
+    public static String TAG_NAME_SAVE_BUTTON = "SAVE";
+    public static String TAG_NAME_ADD_ANOTHER_KYC_PLUS_BUTTON = "ADD ANOTHER KYC";
+    public static String TAG_NAME_NO_OF_COAPPLICANT = "NO OF CO-APPLICANT";
+    public static String TAG_NAME_MODULE_TYPE = "MODULE TYPE";
+    public static String TAG_NAME_MEMBER_ID_IN_APPLICANT_KYC = "MEMBER ID";
 
-    public static String TAG_PD_NAME_KYC_ID="KYC ID";
-    public static String TAG_PD_NAME_REENTER_KYC_ID="RE-ENTER KYC ID";
-    public static String TAG_PD_SPOUSE_NAME="SPOUSE NAME";
-    public static String TAG_PD_DATE_OF_BIRTH="DATE OF BIRTH";
-    public static String TAG_PD_AGE="AGE";
+    public static String TAG_PD_NAME_KYC_ID = "KYC ID";
+    public static String TAG_PD_NAME_REENTER_KYC_ID = "RE-ENTER KYC ID";
+    public static String TAG_PD_SPOUSE_NAME = "SPOUSE NAME";
+    public static String TAG_PD_DATE_OF_BIRTH = "DATE OF BIRTH";
+    public static String TAG_PD_AGE = "AGE";
 
+    public static String TAG_NAME_PERMANENT_ADDRESS_SAME_AS_KYC = "PERMANENT ADDRESS SAME AS THAT OF KYC ID";
+    public static String TAG_NAME_COMMUNICATION_ADDRESS_SAME_AS_PERMANENT = "COMMUNICATION ADDRESS SAME AS PERMANENT ADDRESS";
+    public static String TAG_NAME_ENTER_OTP = "OTP";
+    public static String TAG_NAME_SEND_OTP_BUTTON = "SEND OTP";
+    public static String TAG_NAME_RESEND_OTP_BUTTON = "RESEND";
+    public static String TAG_NAME_CBCHECK_BUTTON = "CB CHECK";
 
-
-    public static String TAG_NAME_PERMANENT_ADDRESS_SAME_AS_KYC="PERMANENT ADDRESS SAME AS THAT OF KYC ID";
-    public static String TAG_NAME_COMMUNICATION_ADDRESS_SAME_AS_PERMANENT="COMMUNICATION ADDRESS SAME AS PERMANENT ADDRESS";
-    public static String TAG_NAME_ENTER_OTP="OTP";
-    public static String TAG_NAME_SEND_OTP_BUTTON="SEND OTP";
-    public static String TAG_NAME_RESEND_OTP_BUTTON="RESEND";
-    public static String TAG_NAME_CBCHECK_BUTTON="CB CHECK";
-
-    public static String IS_VERIFIED_TRUE="TRUE";
-    public static String IS_VERIFIED_FALSE="FALSE";
+    public static String IS_VERIFIED_TRUE = "TRUE";
+    public static String IS_VERIFIED_FALSE = "FALSE";
 
     // TODO: ERROR MESSAGES
-    public static String ERROR_MSG_NO_OF_DAYS ="No of days should be lesser or equal to 7";
-    public static String ERROR_MSG_NO_OF_WEEKS ="No of weeks should be lesser or equal to 4";
-    public static String ERROR_MSG_NO_OF_MONTHS ="No of months should be lesser or equal to 12";
+    public static String ERROR_MSG_NO_OF_DAYS = "No of days should be lesser or equal to 7";
+    public static String ERROR_MSG_NO_OF_WEEKS = "No of weeks should be lesser or equal to 4";
+    public static String ERROR_MSG_NO_OF_MONTHS = "No of months should be lesser or equal to 12";
 
     // TODO: PROOF TYPE SPINNER ITEMS
-    public static String PROOF_TYPE_SPINNER_ITEM_ADDRESS_PROOF="Address Proof";
-    public static String PROOF_TYPE_SPINNER_ITEM_ID_CUM_ADDRESS_PROOF="ID Cum Address Proof";
-    public static String PROOF_TYPE_SPINNER_ITEM_SIGNATURE_PROOF="Signature Proof";
-    public static String PROOF_TYPE_SPINNER_ITEM_ID_CUM_SIGNATURE_PROOF="ID Cum Signature Proof";
-    public static String PROOF_TYPE_SPINNER_ITEM_BUSINESS_INCOME_PROOF="Business Income Proof";
+    public static String PROOF_TYPE_SPINNER_ITEM_ADDRESS_PROOF = "Address Proof";
+    public static String PROOF_TYPE_SPINNER_ITEM_ID_CUM_ADDRESS_PROOF = "ID Cum Address Proof";
+    public static String PROOF_TYPE_SPINNER_ITEM_SIGNATURE_PROOF = "Signature Proof";
+    public static String PROOF_TYPE_SPINNER_ITEM_ID_CUM_SIGNATURE_PROOF = "ID Cum Signature Proof";
+    public static String PROOF_TYPE_SPINNER_ITEM_BUSINESS_INCOME_PROOF = "Business Income Proof";
     public static String PROOF_TYPE_SPINNER_ITEM_BUSINESS_PROOF_DOCUMENT="Business Proof Document";
-    public static String PROOF_TYPE_SPINNER_ITEM_PERSON_INCOME_PROOF="Person Income Proof";
-    public static String PROOF_TYPE_SPINNER_ITEM_INCOME_VERIFICATION_PROOF="Income Verification Proof";
+    public static String PROOF_TYPE_SPINNER_ITEM_PERSON_INCOME_PROOF = "Person Income Proof";
+    public static String PROOF_TYPE_SPINNER_ITEM_INCOME_VERIFICATION_PROOF = "Income Verification Proof";
 
 
     // TODO: CO APPLICANT ADDRESS DETAIL SCREEN TAGS
     public static String TAG_NAME_COMMUNICATION_ADDRESS_SAME_AS_KYC="COMMUNICATION ADDRESS SAME AS KYC";
 
     // TODO: PERSONAL DETAIL SCREEN TAGS
-    public static String TAG_NAME_ARE_YOU_MARRIED="ARE YOU MARRIED?";
-    public static String TAG_NAME_MARITAL_STATUS="MARITAL STATUS";
-    public static String TAG_NAME_SPOUSE_DETAIL="SPOUSE DETAIL";
-    public static String TAG_NAME_SPOUSE_NAME="SPOUSE NAME";
-    public static String TAG_NAME_SPOUSE_DOB="SPOUSE DOB";
-    public static String TAG_NAME_SPOUSE_DATE_OF_BIRTH="SPOUSE DATE OF BIRTH";
-    public static String TAG_NAME_SPOUSE_AGE="SPOUSE AGE";
-    public static String TAG_NAME_MOTHER_MAIDEN_NAME="MOTHER MAIDEN NAME";
-    public static String TAG_NAME_MOTHER_NAME="MOTHER NAME";
-    public static String TAG_NAME_FATHER_NAME="FATHER NAME";
-    public static String TAG_NAME_RE_ENTER_CONTACT_NO_1="RE-ENTER CONTACT NO 1";
-    public static String TAG_NAME_CONTACT_NO_2="CONTACT NO 2";
-    public static String TAG_NAME_RE_ENTER_CONTACT_NO_2="RE-ENTER CONTACT NO 2";
-    public static String TAG_NAME_COUNTRY_NAME="COUNTRY NAME";
-    public static String TAG_NAME_APPLICANT_MARITAL_STATUS="MARITAL STATUS";
-    public static String TAG_NAME_APPLICANT_SPOUSE_NAME="SPOUSE NAME";
-    public static String TAG_NAME_COAPPLICANT_MARITAL_STATUS="MARITAL STATUS";
-    public static String TAG_NAME_COAPPLICANT_SPOUSE_NAME="SPOUSE NAME";
-    public static String TAG_NAME_COAPPLICANT_RELATIONSHIP_WITH_THE_APPLICANT="RELATIONSHIP WITH THE APPLICANT";
-    public static String TAG_NAME_PERFORM_CB="PERFORM CB";
-    public static String TAG_NAME_SCORE="SCORE";
-    public static String TAG_NAME_DECISION="DECISION";
-    public static String TAG_NAME_REASON="REASON";
-    public static String TAG_NAME_RELATIONSHIP_WITH_THE_BUSINESS="RELATIONSHIP WITH THE BUSINESS";
-    public static String TAG_NAME_HOUSE="HOUSE";
-    public static String TAG_NAME_RESIDING_SINCE="RESIDING SINCE";
+    public static String TAG_NAME_ARE_YOU_MARRIED = "ARE YOU MARRIED?";
+    public static String TAG_NAME_MARITAL_STATUS = "MARITAL STATUS";
+    public static String TAG_NAME_SPOUSE_DETAIL = "SPOUSE DETAIL";
+    public static String TAG_NAME_SPOUSE_NAME = "SPOUSE NAME";
+    public static String TAG_NAME_SPOUSE_DOB = "SPOUSE DOB";
+    public static String TAG_NAME_SPOUSE_DATE_OF_BIRTH = "SPOUSE DATE OF BIRTH";
+    public static String TAG_NAME_SPOUSE_AGE = "SPOUSE AGE";
+    public static String TAG_NAME_MOTHER_MAIDEN_NAME = "MOTHER MAIDEN NAME";
+    public static String TAG_NAME_MOTHER_NAME = "MOTHER NAME";
+    public static String TAG_NAME_FATHER_NAME = "FATHER NAME";
+    public static String TAG_NAME_RE_ENTER_CONTACT_NO_1 = "RE-ENTER CONTACT NO 1";
+    public static String TAG_NAME_CONTACT_NO_2 = "CONTACT NO 2";
+    public static String TAG_NAME_RE_ENTER_CONTACT_NO_2 = "RE-ENTER CONTACT NO 2";
+    public static String TAG_NAME_COUNTRY_NAME = "COUNTRY NAME";
+    public static String TAG_NAME_APPLICANT_MARITAL_STATUS = "MARITAL STATUS";
+    public static String TAG_NAME_APPLICANT_SPOUSE_NAME = "SPOUSE NAME";
+    public static String TAG_NAME_COAPPLICANT_MARITAL_STATUS = "MARITAL STATUS";
+    public static String TAG_NAME_COAPPLICANT_SPOUSE_NAME = "SPOUSE NAME";
+    public static String TAG_NAME_COAPPLICANT_RELATIONSHIP_WITH_THE_APPLICANT = "RELATIONSHIP WITH THE APPLICANT";
+    public static String TAG_NAME_PERFORM_CB = "PERFORM CB";
+    public static String TAG_NAME_SCORE = "SCORE";
+    public static String TAG_NAME_DECISION = "DECISION";
+    public static String TAG_NAME_REASON = "REASON";
+    public static String TAG_NAME_RELATIONSHIP_WITH_THE_BUSINESS = "RELATIONSHIP WITH THE BUSINESS";
+    public static String TAG_NAME_HOUSE = "HOUSE";
+    public static String TAG_NAME_RESIDING_SINCE = "RESIDING SINCE";
 
     // TODO: PERSONAL DETAIL SCREEN SPINNER ITEMS
-    public static String SPINNER_ITEM_FIELD_NAME_SINGLE="Single";
-    public static String SPINNER_ITEM_FIELD_NAME_MARRIED="Married";
-    public static String SPINNER_ITEM_FIELD_NAME_DIVORCE="Divorce";
-    public static String SPINNER_ITEM_FIELD_NAME_WIDOW="Widow";
-    public static String SPINNER_ITEM_FIELD_NAME_SPOUSE="Spouse";
+    public static String SPINNER_ITEM_FIELD_NAME_SINGLE = "Single";
+    public static String SPINNER_ITEM_FIELD_NAME_MARRIED = "Married";
+    public static String SPINNER_ITEM_FIELD_NAME_DIVORCE = "Divorce";
+    public static String SPINNER_ITEM_FIELD_NAME_WIDOW = "Widow";
+    public static String SPINNER_ITEM_FIELD_NAME_SPOUSE = "Spouse";
 
     // TODO: SOCIO-ECONOMIC DETAIL SCREEN TAGS
-    public static String TAG_NAME_NATIONALITY="NATIONALITY";
-    public static String TAG_NAME_RELIGION="RELIGION";
-    public static String TAG_NAME_MOTHER_TONGUE="MOTHER TONGUE";
-    public static String TAG_NAME_LANGUAGE="LANGUAGE";
-    public static String TAG_NAME_HEALTH="HEALTH";
-    public static String TAG_NAME_SOCIAL_STATUS="SOCIAL STATUS";
-    public static String TAG_NAME_APPLICANT_EDUCATION="APPLICANT EDUCATION";
-    public static String TAG_NAME_NO_OF_ADULTS="NO.OF ADULTS";
-    public static String TAG_NAME_NO_OF_CHILDREN="NO OF CHILDREN";
-    public static String TAG_NAME_FAMILY_MEMBERS="FAMILY MEMBERS";
-    public static String TAG_NAME_PRIMARY_OCCUPATION_CATEGORY="PRIMARY OCCUPATION";
-    public static String TAG_NAME_OCCUPATION="OCCUPATION";
-    public static String TAG_NAME_INCOME_TYPE="INCOME TYPE";
-    public static String TAG_NAME_INCOME_SOURCE="INCOME SOURCE";
-    public static String TAG_NAME_MONTHLY_INCOME="MONTHLY INCOME";
-    public static String TAG_NAME_GROSS_ANNUAL_INCOME="GROSS ANNUAL INCOME";
-    public static String TAG_NAME_INCOME_CONSIDERED="INCOME CONSIDERED";
-    public static String TAG_NAME_YEARS_OF_EXPERIENCE="YEARS OF EXPERIENCE";
-    public static String TAG_NAME_APPLICANT_DISABLED="APPLICANT DISABLED";
-    public static String TAG_NAME_CO_APPLICANT_DISABLED="CO-APPLICANT DISABLED";
-    public static String TAG_NAME_SE_HOUSE="HOUSE";
-    public static String TAG_NAME_DISABILITY_TYPE="DISABILITY TYPE";
-    public static String TAG_NAME_PEP="POLITICALLY EXPOSED PERSON";
-    public static String TAG_NAME_RISK_COMPLIANCE="RISK COMPLIANCE";
+    public static String TAG_NAME_NATIONALITY = "NATIONALITY";
+    public static String TAG_NAME_RELIGION = "RELIGION";
+    public static String TAG_NAME_MOTHER_TONGUE = "MOTHER TONGUE";
+    public static String TAG_NAME_LANGUAGE = "LANGUAGE";
+    public static String TAG_NAME_HEALTH = "HEALTH";
+    public static String TAG_NAME_SOCIAL_STATUS = "SOCIAL STATUS";
+    public static String TAG_NAME_APPLICANT_EDUCATION = "APPLICANT EDUCATION";
+    public static String TAG_NAME_NO_OF_ADULTS = "NO.OF ADULTS";
+    public static String TAG_NAME_NO_OF_CHILDREN = "NO OF CHILDREN";
+    public static String TAG_NAME_FAMILY_MEMBERS = "FAMILY MEMBERS";
+    public static String TAG_NAME_PRIMARY_OCCUPATION_CATEGORY = "PRIMARY OCCUPATION";
+    public static String TAG_NAME_OCCUPATION = "OCCUPATION";
+    public static String TAG_NAME_INCOME_TYPE = "INCOME TYPE";
+    public static String TAG_NAME_INCOME_SOURCE = "INCOME SOURCE";
+    public static String TAG_NAME_MONTHLY_INCOME = "MONTHLY INCOME";
+    public static String TAG_NAME_GROSS_ANNUAL_INCOME = "GROSS ANNUAL INCOME";
+    public static String TAG_NAME_INCOME_CONSIDERED = "INCOME CONSIDERED";
+    public static String TAG_NAME_YEARS_OF_EXPERIENCE = "YEARS OF EXPERIENCE";
+    public static String TAG_NAME_APPLICANT_DISABLED = "APPLICANT DISABLED";
+    public static String TAG_NAME_CO_APPLICANT_DISABLED = "CO-APPLICANT DISABLED";
+    public static String TAG_NAME_SE_HOUSE = "HOUSE";
+    public static String TAG_NAME_DISABILITY_TYPE = "DISABILITY TYPE";
+    public static String TAG_NAME_PEP = "POLITICALLY EXPOSED PERSON";
+    public static String TAG_NAME_RISK_COMPLIANCE = "RISK COMPLIANCE";
 
-    public static String TAG_NAME_OCCUPATION_DETAIL="OCCUPATION DETAIL";
-    public static String TAG_NAME_CO_APPLICANT_PRIMARY_OCCUPATION_CATEGORY="PRIMARY OCCUPATION";
+    public static String TAG_NAME_OCCUPATION_DETAIL = "OCCUPATION DETAIL";
+    public static String TAG_NAME_CO_APPLICANT_PRIMARY_OCCUPATION_CATEGORY = "PRIMARY OCCUPATION";
     // public static String TAG_NAME_CO_APPLICANT_OCCUPATION = "OCCUPATION";
     public static String TAG_NAME_ALL_FAMILY_MEMBERS_ARE_IN_GOOD_HEALTH = "ALL FAMILY MEMBERS ARE IN GOOD HEALTH";
     public static String TAG_NAME_SB_ACCOUNT_BALANCE = "SB ACCOUNT BALANCE";
@@ -572,30 +583,30 @@ public class ParametersConstant {
     public static String TAG_NAME_TWO_WHEELER_ASSET_VALUE = "TWO WHEELER ASSET VALUE";
     public static String TAG_NAME_NO_OF_YEARS_OF_PURCHASE ="NO OF YEARS OF PURCHASE";
     public static String TAG_NAME_NUMBER_OF_ANIMALS = "NUMBER OF ANIMALS";
-    public static String TAG_NAME_PENSION_AMOUNT ="PENSION AMOUNT";
+    public static String TAG_NAME_PENSION_AMOUNT = "PENSION AMOUNT";
     public static String TAG_NAME_INVESTMENT_VALUE = "INVESTMENT VALUE";
     public static String TAG_NAME_NO_OF_DEPENDENT_ELDERLY_IN_THE_HOUSE = "NUMBER OF DEPENDENT ELDERLY IN THE HOUSE";
     public static String TAG_NAME_WORKING_FAMILY_MEMBER ="WORKING FAMILY MEMBER";
     public static String TAG_NAME_HOUSEHOLD_FAMILY_MEMBERS ="HOUSEHOLD FAMILY MEMBERS";
-    public static String TAG_NAME_DEPENDENT_FAMILY_MEMBERS ="DEPENDENT FAMILY MEMBERS";
-    public static String TAG_NAME_OWNERSHIP_OF_BUSINESS_PREMISES ="OWNERSHIP OF BUSINESS PREMISES";
-    public static String TAG_NAME_DURATION_OF_BUSINESS_IN_PRESENT_ADDRESS ="DURATION OF BUSINESS IN PRESENT ADDRESS";
+    public static String TAG_NAME_DEPENDENT_FAMILY_MEMBERS = "DEPENDENT FAMILY MEMBERS";
+    public static String TAG_NAME_OWNERSHIP_OF_BUSINESS_PREMISES = "OWNERSHIP OF BUSINESS PREMISES";
+    public static String TAG_NAME_DURATION_OF_BUSINESS_IN_PRESENT_ADDRESS = "DURATION OF BUSINESS IN PRESENT ADDRESS";
 
-    //TODO REGULARORY FIELDS
+    //TODO REGULATORY FIELDS
 
-    public static String TAG_NAME_APPLICANT_IS_A_DIRECTOR_IN_RBL_BANK1="APPLICANT IS A DIRECTOR IN RBL BANK1";
-    public static String TAG_NAME_EMPLOYEE_NUMBER1="EMPLOYEE NUMBER1";
-    public static String TAG_NAME_EMPLOYEE_NAME1="EMPLOYEE NAME1";
-    public static String TAG_NAME_GRADE1="GRADE1";
-    public static String TAG_NAME_OF_INSTITUTION1="NAME OF INSTITUTION1";
-    public static String TAG_NAME_APPLICANT_IS_A_SENIOR_OFFICER_IN_RBL_BANK2="APPLICANT IS A SENIOR OFFICER IN RBL BANK2";
-    public static String TAG_NAME_EMPLOYEE_NUMBER2="EMPLOYEE NUMBER2";
-    public static String TAG_NAME_EMPLOYEE_NAME2="EMPLOYEE NAME2";
-    public static String TAG_NAME_GRADE2="GRADE2";
-    public static String TAG_NAME_OF_INSTITUTION2="NAME OF INSTITUTION2";
-    public static String TAG_NAME_APPLICANT_IS_A_TRUSTEE_IN_ANY_VENTURE_CAPITAL_FUND_OR_MUTUAL_FUND3="APPLICANT IS A TRUSTEE IN ANY VENTURE CAPITAL FUND OR MUTUAL FUND3";
-    public static String TAG_NAME_OF_INSTITUTION3="NAME OF INSTITUTION3";
-    public static String TAG_NAME_EMPLOYEE_NUMBER3="EMPLOYEE NUMBER3";
+    public static String TAG_NAME_APPLICANT_IS_A_DIRECTOR_IN_RBL_BANK1 = "APPLICANT IS A DIRECTOR IN RBL BANK1";
+    public static String TAG_NAME_EMPLOYEE_NUMBER1 = "EMPLOYEE NUMBER1";
+    public static String TAG_NAME_EMPLOYEE_NAME1 = "EMPLOYEE NAME1";
+    public static String TAG_NAME_GRADE1 = "GRADE1";
+    public static String TAG_NAME_OF_INSTITUTION1 = "NAME OF INSTITUTION1";
+    public static String TAG_NAME_APPLICANT_IS_A_SENIOR_OFFICER_IN_RBL_BANK2 = "APPLICANT IS A SENIOR OFFICER IN RBL BANK2";
+    public static String TAG_NAME_EMPLOYEE_NUMBER2 = "EMPLOYEE NUMBER2";
+    public static String TAG_NAME_EMPLOYEE_NAME2 = "EMPLOYEE NAME2";
+    public static String TAG_NAME_GRADE2 = "GRADE2";
+    public static String TAG_NAME_OF_INSTITUTION2 = "NAME OF INSTITUTION2";
+    public static String TAG_NAME_APPLICANT_IS_A_TRUSTEE_IN_ANY_VENTURE_CAPITAL_FUND_OR_MUTUAL_FUND3 = "APPLICANT IS A TRUSTEE IN ANY VENTURE CAPITAL FUND OR MUTUAL FUND3";
+    public static String TAG_NAME_OF_INSTITUTION3 = "NAME OF INSTITUTION3";
+    public static String TAG_NAME_EMPLOYEE_NUMBER3 = "EMPLOYEE NUMBER3";
     public static String TAG_NAME_EMPLOYEE_NAME3="EMPLOYEE NAME3";
     public static String TAG_NAME_GRADE3="GRADE3";
     public static String TAG_NAME_APPLICANT_IS_DIRECTOR_IN_ANY_BANK_OR_ITS_SUBSIDIARY4="APPLICANT IS DIRECTOR IN ANY BANK OR ITS SUBSIDIARY4";
@@ -728,7 +739,6 @@ public class ParametersConstant {
     public static String TAG_NAME_WHEN_IN_COLD_CALLING="WHEN";
     public static String TAG_NAME_PREMIUM_COLD_CALL="PREMIUM COLD CALL";
     public static String TAG_NAME_COMMENTS_COLD_CALL="COMMENTS";
-
 
     // TODO: Collection SCREEN TAGS
     public static String TAG_NAME_CUSTOMER_ID_IN_COLLECTION="CUSTOMER ID";
@@ -1080,9 +1090,15 @@ public class ParametersConstant {
     public static String TAG_NAME_DURATION_OF_THE_COURSE="DURATION OF THE COURSE";
     public static String TAG_NAME_OF_THE_ENTRANCE_EXAMINATION="NAME OF THE ENTRANCE EXAMINATION";
     public static String TAG_NAME_PLEASE_SPECIFY_IN_CASE_OF_OTHERS="PLEASE SPECIFY IN CASE OF OTHERS";
-    public static String TAG_NAME_OF_LANGUAGE_EXAM="NAME OF LANGUAGE EXAM";
-    public static String TAG_PLEASE_SPECIFY_IN_CASE_OF_OTHERS_LANGUAGE_EXAM="PLEASE SPECIFY IN CASE OF OTHERS LANGUAGE EXAM";
-
+    public static String TAG_NAME_OF_LANGUAGE_EXAM = "NAME OF LANGUAGE EXAM";
+    public static String TAG_PLEASE_SPECIFY_IN_CASE_OF_OTHERS_LANGUAGE_EXAM = "PLEASE SPECIFY IN CASE OF OTHERS LANGUAGE EXAM";
+    public static String TAG_NAME_OF_LANGUAGE_EXAM_SCORE = "LANGUAGE EXAM SCORE";
+    public static String TAG_NAME_OF_READING = "READING";
+    public static String TAG_NAME_OF_EXAM_NAME = "EXAM NAME";
+    public static String TAG_NAME_OF_WRITING = "WRITING";
+    public static String TAG_NAME_OF_SPEAKING = "SPEAKING";
+    public static String TAG_NAME_OF_LISTENING = "LISTENING";
+    public static String TAG_NAME_OF_SCORE = "SCORE";
 
 
     // TODO: LOAN PROPOSAL FINAL RESULT SCREEN TAG NAMES -83
@@ -1175,7 +1191,7 @@ public class ParametersConstant {
     // TODO: APPLICANT LOAN PROPOSAL SCREEN
     public static String TAG_NAME_LOAN_PRODUCT="LOAN PRODUCT";
     public static String TAG_NAME_PURPOSE="PURPOSE";
-    public static String TAG_NAME_LOAN_PROPOSAL_OTHERS="OTHERS";
+
     public static String TAG_NAME_PERSONAL="Personal";
     public static String TAG_NAME_LOAN_SCHEME="LOAN SCHEME";
     public static String TAG_NAME_LOAN_TENURE_IN_MONTHS="LOAN TENURE(IN MONTHS)";
@@ -1185,7 +1201,7 @@ public class ParametersConstant {
     public static String TAG_NAME_SAME_COLLATERAL="SAME COLLATERAL";
     public static String TAG_NAME_SAME_DECLARED_REPAYMENT_CAPACITY="DECLARED REPAYMENT CAPACITY";
     public static String TAG_NAME_SAME_FIRST_INSTALLMENT_DATE="FIRST INSTALLMENT DATE";
-    public static String TAG_NAME_REQUESTED_LOAN_AMOUNT="REQUESTED LOAN AMOUNT";
+    public static String TAG_NAME_REQUESTED_LOAN_AMOUNT = "REQUESTED LOAN AMOUNT";
     public static String TAG_NAME_APPLICANT_REQUESTED_LOAN_AMOUNT="REQUESTED LOAN AMOUNT";
     public static String TAG_NAME_MODE_OF_DISBURSEMENT="MODE OF DISBURSEMENT";
     public static String TAG_NAME_REPAYMENT_FREQUENCY="REPAYMENT FREQUENCY";
@@ -1244,8 +1260,8 @@ public class ParametersConstant {
     public static String TAG_NAME_LEAD_STATUS="STATUS";
     public static String TAG_NAME_LEAD_TYPE="LEAD TYPE";
     public static String TAG_NAME_LEAD_GENERATION_DATE="LEAD GENERATION DATE";
-    public static String TAG_NAME_LEAD_ID="LEAD ID"; // TODO: not tvName meta data , created by myself
-    public static String TAG_NAME_CUSTOMER_TYPE="CUSTOMER TYPE"; // TODO: AHL lead field
+    public static String TAG_NAME_LEAD_ID = "LEAD ID"; // TODO: not tvName meta data , created by myself
+    public static String TAG_NAME_CUSTOMER_TYPE = "CUSTOMER TYPE"; // TODO: AHL lead field
     public static String TAG_NAME_COMPANY_NAME="COMPANY NAME"; // TODO: AHL lead field
     public static String TAG_NAME_LOAN_SUB_TYPE="LOAN SUB TYPE"; // TODO: AHL lead field
     public static String TAG_NAME_LOAN_TENURE="LOAN TENURE"; // TODO: AHL lead field
@@ -1256,34 +1272,39 @@ public class ParametersConstant {
     public static String TAG_NAME_RELATIONSHIP_WITH_APPLICANT="RELATIONSHIP WITH APPLICANT";
     public static String TAG_NAME_PROPOSED_INSTITUTE_WITHIN_INDIA_OUTSIDE_INDIA="PROPOSED INSTITUTE WITHIN INDIA/OUTSIDE INDIA";
     public static String TAG_NAME_OUTSIDE_INDIA = "Outside India";
+    public static String TAG_NAME_EDUCATION_DESTINATION_IDENTIFIED = "EDUCATION DESTINATION IDENTIFIED";
 
-    public static String TAG_NAME_DEALER_CODE="DEALER CODE";
-    public static String TAG_NAME_SOURCE_OF_ACQUISITION="SOURCE OF ACQUISITION";
-    public static String TAG_NAME_DEALER_NAME="DEALER NAME";
-    public static String TAG_LEAD_NAME_BRANCH_NAME="BRANCH NAME";
-    public static String TAG_LEAD_NAME_BRANCH_CODE="BRANCH CODE";
-    public static String TAG_LEAD_NAME_CAMPAIGN_PROMOCODE="CAMPAIGN/PROMOCODE";
-    public static String TAG_LEAD_NAME_DOB_OF_STUDENT="DOB OF STUDENT";
-    public static String TAG_LEAD_AGE_OF_STUDENT ="AGE";
-    public static String TAG_LEAD_NAME_EMPLOYEE_ID="EMPLOYEE ID";
-    public static String TAG_LEAD_NAME_STATE_NAME="LEAD STATE";
+    public static String TAG_NAME_DEALER_CODE = "DEALER CODE";
+    public static String TAG_NAME_SOURCE_OF_ACQUISITION = "SOURCE OF ACQUISITION";
+    public static String TAG_NAME_DEALER_NAME = "DEALER NAME";
+    public static String TAG_LEAD_NAME_BRANCH_NAME = "BRANCH NAME";
+    public static String TAG_LEAD_NAME_BRANCH_CODE = "BRANCH CODE";
+    public static String TAG_LEAD_NAME_CAMPAIGN_PROMOCODE = "CAMPAIGN/PROMOCODE";
+    public static String TAG_LEAD_NAME_DOB_OF_STUDENT = "DOB OF STUDENT";
+    public static String TAG_LEAD_AGE_OF_STUDENT = "AGE";
+    public static String TAG_LEAD_NAME_EMPLOYEE_ID = "EMPLOYEE ID";
+    public static String TAG_LEAD_NAME_STATE_NAME = "LEAD STATE";
 
-    public static String TAG_LEAD_NAME_BANK_NAME="BANK NAME";
-    public static String TAG_LEAD_NAME_ACCOUNT_NUMBER="ACCOUNT NO";
-    public static String TAG_NAME_IFSE_CODE="IFSC CODE";
-    public static String TAG_NAME_TYPE_OF_PROFESSION="TYPE OF PROFESSION";
-    public static String TAG_NAME_PRODUCT_TYPE="PRODUCT TYPE";
-    public static String TAG_NAME_SCHEME_CODE="SCHEME CODE";
-    public static String TAG_NAME_DSA_CODE="DSA CODE";
-    public static String TAG_NAME_DSA_NAME="DSA NAME";
-    public static String TAG_NAME_TYPE_OF_BORROWER="BORROWER";
-    public static String TAG_NAME_BORROWER_TYPE="BORROWER TYPE";
+    public static String TAG_LEAD_NAME_BANK_NAME = "BANK NAME";
+    public static String TAG_LEAD_NAME_ACCOUNT_NUMBER = "ACCOUNT NO";
+    public static String TAG_NAME_IFSE_CODE = "IFSC CODE";
+    public static String TAG_NAME_TYPE_OF_PROFESSION = "TYPE OF PROFESSION";
+    public static String TAG_NAME_PRODUCT_TYPE = "PRODUCT TYPE";
+    public static String TAG_NAME_SCHEME_CODE = "SCHEME CODE";
+    public static String TAG_NAME_DSA_CODE = "DSA CODE";
+    public static String TAG_NAME_DSA_NAME = "DSA NAME";
+    public static String TAG_NAME_TYPE_OF_BORROWER = "BORROWER";
+    public static String TAG_NAME_BORROWER_TYPE = "BORROWER TYPE";
 
     public static String TAG_NAME_DOB_OF_STUDENT = "DOB OF STUDENT";
     public static String TAG_NAME_APPLICANT_FULL_NAME = "APPLICANT FULL NAME";
     public static String TAG_NAME_CO_APPLICANT_FULL_NAME = "CO-APPLICANT FULL NAME";
     public static String TAG_NAME_STUDENT_FULL_NAME = "STUDENT FULL NAME";
     public static String TAG_NAME_EARNING_CAPACITY_OF_STUDENT = "EARNING CAPACITY OF STUDENT";
+    public static  String TAG_NAME_PAN_APPLICANT_DOB = "DATE OF BIRTH";
+    public static String TAG_NAME_LEAD_LOAN_SCHEME = "LOAN SCHEME";
+    public static  String TAG_NAME_LEAD_LOAN_PRODUCT = "LOAN PRODUCT";
+
 
     //TODO: EL GUARANTOR SCREEN DETAILS
     public static String TAG_NAME_GUARANTOR_TO_BE_ADDED = "GUARANTOR TO BE ADDED"; //RADIO BUTTON "YES/NO"
@@ -1295,7 +1316,29 @@ public class ParametersConstant {
     public static String TAG_NAME_GUARANTOR_BUSINESS_TYPE = "TYPE OF BUSINESS";
     public static String TAG_NAME_GUARANTOR_BUSINESS_PAN = "BUSINESS PAN";
     public static String TAG_NAME_GUARANTOR_PARTNER = "NAME OF PARTNERS";
+
+    //Guarantor KYC Details
     public static String TAG_NAME_GUARANTOR_KYC_DETAILS = "KYC DETAILS";
+    public static String FIELD_NAME_GUARANTOR_KYC_DETAILS = "KYC DETAILS";
+    public static String TAG_NAME_GUARANTOR_KYC_TYPE = "KYC TYPE";
+    public static String TAG_NAME_GUARANTOR_KYC_ID = "KYC ID";
+    public static String TAG_NAME_GUARANTOR_EKYC_BUTTON = "EKYC";
+    public static String TAG_NAME_GUARANTOR_FULL_NAME = "FULL NAME";
+    public static String TAG_NAME_GUARANTOR_DATE_OF_BIRTH = "DATE OF BIRTH";
+    public static String TAG_NAME_GUARANTOR_AGE = "AGE";
+    public static String TAG_NAME_GUARANTOR_GENDER = "GENDER";
+    public static String TAG_NAME_GUARANTOR_ADDRESS_LINE_1 = "ADDRESS LINE 1";
+    public static String TAG_NAME_GUARANTOR_ADDRESS_LINE_2 = "ADDRESS LINE 2";
+    public static String TAG_NAME_GUARANTOR_ADDRESS_LINE_3 = "ADDRESS LINE 3";
+    public static String TAG_FIELD_NAME_GUARANTOR_PINCODE = "PINCODE";
+    public static String TAG_NAME_GUARANTOR_VILLAGE = "VILLAGE";
+    public static String TAG_NAME_GUARANTOR_CITY = "CITY";
+    public static String TAG_NAME_GUARANTOR_DISTRICT = "DISTRICT";
+    public static String TAG_NAME_GUARANTOR_STATE = "STATE";
+    public static String TAG_NAME_GUARANTOR_LAND_MARK = "LAND MARK";
+    public static String TAG_NAME_GUARANTOR_EXPIRY_DATE = "EXPIRY DATE";
+    public static String TAG_NAME_GUARANTOR_ADD_ANOTHER_KYC = "ADD ANOTHER KYC";
+    public static String TAG_NAME_GUARANTOR_SAVE_BUTTON = "SAVE";
 
     public static String SPINNER_ITEM_FIELD_NAME_GUARANTOR_DRIVING_LICENSE = "Driving License";
     public static String SPINNER_ITEM_FIELD_NAME_GUARANTOR_AADHAAR = "Aadhaar";
@@ -1318,8 +1361,8 @@ public class ParametersConstant {
 
 
     // TODO:AHL SALARY PROFILE TAG NAMES
-    public static String TAG_NAME_WORKINH_SINCE_WITH_CURRENT_EMPLOYER="WORKING SINCE WITH CURRENT EMPLOYER";
-    public static String TAG_NAME_NO_OF_YEARS_WITH_CURRENT_EMPLOYER="NO OF YEARS WITH CURRENT EMPLOYER";
+    public static String TAG_NAME_WORKINH_SINCE_WITH_CURRENT_EMPLOYER = "WORKING SINCE WITH CURRENT EMPLOYER";
+    public static String TAG_NAME_NO_OF_YEARS_WITH_CURRENT_EMPLOYER = "NO OF YEARS WITH CURRENT EMPLOYER";
     public static String TAG_NAME_TOTAL_WORK_EXPERIENCE="TOTAL WORK EXPERIENCE";
     public static String TAG_NAME_EMPLOYERS_TYPE="EMPLOYERS TYPE";
     public static String TAG_NAME_SALARY_PROFILE="SALARY PROFILE";
@@ -1801,7 +1844,7 @@ public class ParametersConstant {
     public static String ERROR_MESSAGE_CB_SUCCESS="CB Success";
     public static String ERROR_MESSAGE_CB_FAILED="CB Failed";
     public static String ERROR_MESSAGE_HOUSE_VERIFICATION_DONE_FOR_ALL="HOUSE VERIFICATION DONE FOR ALL MEMBERS";
-    public static String ERROR_MESSAGE_DATA_SAVED_SUCCESSFULLY="DATA SAVED SUCCESSFULLY";
+    public static String ERROR_MESSAGE_DATA_SAVED_SUCCESSFULLY = "DATA SAVED SUCCESSFULLY";
     public static String ERROR_MESSAGE_CENTER_CREATED_SUCCESSFULLY="CENTER CREATED SUCCESSFULLY";
     public static String ERROR_MESSAGE_GROUP_CREATED_SUCCESSFULLY="GROUP CREATED SUCCESSFULLY";
     public static String ERROR_MESSAGE_CUSTOMER_DROPPED_OUT="Customer has been dropped out";
@@ -1932,14 +1975,14 @@ public class ParametersConstant {
     public static String FAILURE_RESPONSE_FOR_ELIGIBILITY_FETCH_FROM_SERVER="Fetch Eligibility Details Failed";
     public static String FAILURE_RESPONSE_FOR_BRANCH_PRODUCT_FEATURE_MASTER_FETCH_FROM_SERVER="Fetch BranchProductFeatureMaster Details Failed";
 
-    public static String SUCCESS_RESPONSE_FOR_PAN_VALIDATION="PAN Card Validation Success";
-    public static String FAILURE_RESPONSE_FOR_PAN_VALIDATION="PAN Card Validation Failed";
-    public static String SUCCESS_RESPONSE_FOR_AADHAAR_VAULT="Aadhaar Vault Service Call Success";
-    public static String FAILURE_RESPONSE_FOR_AADHAAR_VAULT="Aadhaar Vault Service Call Failed , Please Use Someother KYC";
-    public static String FAILURE_RESPONSE_FOR_IFSC="Invalid IFSC code";
+    public static String SUCCESS_RESPONSE_FOR_PAN_VALIDATION = "PAN Card Validation Success";
+    public static String FAILURE_RESPONSE_FOR_PAN_VALIDATION = "PAN Card Validation Failed";
+    public static String SUCCESS_RESPONSE_FOR_AADHAAR_VAULT = "Aadhaar Vault Service Call Success";
+    public static String FAILURE_RESPONSE_FOR_AADHAAR_VAULT = "Aadhaar Vault Service Call Failed , Please Use Someother KYC";
+    public static String FAILURE_RESPONSE_FOR_IFSC = "Invalid IFSC code";
 
-    public static String EXTENSION_JPG="jpg";
-    public static String EXTENSION_PDF="pdf";
+    public static String EXTENSION_JPG = "jpg";
+    public static String EXTENSION_PDF = "pdf";
 
     // TODO: CENTER SUMMARY HEADERS
     public static String CENTERS_SUMMARY_HEADER_TARGET_DETAILS="SELECT CENTER TO ADD TARGET DETAILS";
@@ -1980,8 +2023,8 @@ public class ParametersConstant {
     public static int RESEND_COUNT=1;
 
     // TODO: CB Status
-    public static int INT_CB_STATUS_PENDING=0;
-    public static int INT_CB_STATUS_ACCEPT =1;
+    public static int INT_CB_STATUS_PENDING = 0;
+    public static int INT_CB_STATUS_ACCEPT = 1;
     public static int INT_CB_STATUS_REJECT =2;
 
     public static String CB_STATUS_PENDING="Pending";
@@ -2015,68 +2058,85 @@ public class ParametersConstant {
     public static int AHL_MAXIMUM_LOAN_AMOUNT=3000000;// TODO: 30lakh
 
     // TODO: PHL LOAN AMOUNT LIMIT
-    public static int PHL_MINIMUM_LOAN_AMOUNT=30000; // TODO: 1lakh
-    public static int PHL_MAXIMUM_LOAN_AMOUNT=300000;// TODO: 3Lakh
+    public static int PHL_MINIMUM_LOAN_AMOUNT = 30000; // TODO: 1lakh
+    public static int PHL_MAXIMUM_LOAN_AMOUNT = 300000;// TODO: 3Lakh
 
     // TODO: EL LOAN AMOUNT LIMIT
-    public static int EL_MINIMUM_LOAN_AMOUNT=750000; // TODO: 7.5lakh
-    public static int EL_MAXIMUM_LOAN_AMOUNT=30000000;// TODO: 3Cores
+    public static int EL_MINIMUM_LOAN_AMOUNT = 100000; // TODO: 1 lakh
+    public static int EL_MAXIMUM_LOAN_AMOUNT = 30000000;// TODO: 3Cores
 
     // TODO: set min & max DISTANCE FROM BRANCH
-    public static int MINIMUM_DISTANCE_FROM_BRANCH_JLG=0;
-    public static int MAXIMUM_DISTANCE_FROM_BRANCH_JLG=30;
+    public static int MINIMUM_DISTANCE_FROM_BRANCH_JLG = 0;
+    public static int MAXIMUM_DISTANCE_FROM_BRANCH_JLG = 30;
 
-    public static int MAXIMUM_DISTANCE_FROM_CENTER_IN_METER_JLG=500;
+    public static int MAXIMUM_DISTANCE_FROM_CENTER_IN_METER_JLG = 500;
 
     // TODO: set Limit For JLG Photos
-    public static int LIMIT_ONE_IMAGE_CAPTURE_JLG=1;
-    public static int LIMIT_TWO_IMAGE_CAPTURE_JLG=2;
+    public static int LIMIT_ONE_IMAGE_CAPTURE_JLG = 1;
+    public static int LIMIT_TWO_IMAGE_CAPTURE_JLG = 2;
 
     // TODO: DOCUMENT NAMES
-    public static String DOCUMENT_NAME_APPLICANT_PHOTO="Applicant Photo";
-    public static String DOCUMENT_NAME_CO_APPLICANT_PHOTO="Co-Applicant Photo";
-    public static String DOCUMENT_NAME_HOUSE_PHOTO="House Photo";
-    public static String DOCUMENT_NAME_SHOP_PHOTO="Shop Photo";
-    public static String DOCUMENT_NAME_SPOUSE_KYC="Spouse KYC";
-    public static String DOCUMENT_NAME_NOMINEE_KYC="Nominee KYC";
-    public static String DOCUMENT_NAME_SIGNATURE_PHOTO="Signature Photo";
-    public static String DOCUMENT_NAME_DUAL_NAME_DECLARATION="Dual Name Declaration";
-    public static String DOCUMENT_NAME_AOF="AOF";
-    public static String DOCUMENT_NAME_ADDRESS_PROOF="Address Proof";
-    public static String DOCUMENT_NAME_BANK_STATEMENT="Bank Statement";
-    public static String DOCUMENT_NAME_OWNERSHIP_PROOF="Ownership Proof";
-    public static String DOCUMENT_NAME_BANK_ACCOUNT_DETAILS="Bank Account Details";
-    public static String DOCUMENT_NAME_M_NACH="mNach";
-    public static String DOCUMENT_NAME_BILLS="Bills";
-    public static String DOCUMENT_NAME_OTHERS="Others";
-    public static String DOCUMENT_NAME_SALARY_PROOF="Salary Proof";
+    public static String DOCUMENT_NAME_APPLICANT_PHOTO = "Applicant Photo";
+    public static String DOCUMENT_NAME_CO_APPLICANT_PHOTO = "Co-Applicant Photo";
+    public static String DOCUMENT_NAME_HOUSE_PHOTO = "House Photo";
+    public static String DOCUMENT_NAME_SHOP_PHOTO = "Shop Photo";
+    public static String DOCUMENT_NAME_SPOUSE_KYC = "Spouse KYC";
+    public static String DOCUMENT_NAME_NOMINEE_KYC = "Nominee KYC";
+    public static String DOCUMENT_NAME_SIGNATURE_PHOTO = "Signature Photo";
 
-    public static String TAG_NAME_COUNTRY_CODE="COUNTRY CODE";
+    public static String DOCUMENT_NAME_APPLICANT_STUDENT_ADMIT_LETTER = "Studentadmit letter";
+    public static String DOCUMENT_NAME_APPLICANT_FEE_STRUCTURE = "Fee structure";
+    public static String DOCUMENT_NAME_10_MARK_SHEET = "10th Marks Sheet";
+    public static String DOCUMENT_NAME_12_MARK_SHEET = "12th Marks Sheet";
+    public static String DOCUMENT_NAME_GRADUATION = "Graduation";
+    public static String DOCUMENT_NAME_EXAM_SCORE_CARD = "Exam score card";
+    public static String DOCUMENT_NAME_FEE_INSTITUTE = "Request of fees from Institute and suppport documents for International Institute";
+
+    public static String DOCUMENT_NAME_CO_APPLICANT_STUDENT_ADMIT_LETTER = "Student admit letter";
+    public static String DOCUMENT_NAME_CO_APPLICANT_FEE_STRUCTURE = "Fee structure";
+    public static String DOCUMENT_NAME_CO_10_MARK_SHEET = "10th Marks Sheet";
+    public static String DOCUMENT_NAME_CO_12_MARK_SHEET = "12th Marks Sheet";
+    public static String DOCUMENT_NAME_CO_GRADUATION = "Graduation";
+    public static String DOCUMENT_NAME_CO_EXAM_SCORE_CARD = "Exam score card";
+
+    public static String DOCUMENT_NAME_CO_FEE_INSTITUTE = "Request of fees from Institute and suppport documents for International Institute";
+
+    public static String DOCUMENT_NAME_DUAL_NAME_DECLARATION = "Dual Name Declaration";
+    public static String DOCUMENT_NAME_AOF = "AOF";
+    public static String DOCUMENT_NAME_ADDRESS_PROOF = "Address Proof";
+    public static String DOCUMENT_NAME_BANK_STATEMENT = "Bank Statement";
+    public static String DOCUMENT_NAME_OWNERSHIP_PROOF = "Ownership Proof";
+    public static String DOCUMENT_NAME_BANK_ACCOUNT_DETAILS = "Bank Account Details";
+    public static String DOCUMENT_NAME_BILLS = "Bills";
+    public static String DOCUMENT_NAME_OTHERS = "Others";
+    public static String DOCUMENT_NAME_SALARY_PROOF = "Salary Proof";
+
+    public static String TAG_NAME_COUNTRY_CODE = "COUNTRY CODE";
     public static String ERROR_MESSAGE_ONLY_TWO_REFERENCE_ACCEPT="Only Two Reference Accept";
 
     public static int getLimitImagesToCapture(String documentName) {
-        int noOfImagesToCapture=LIMIT_ONE_IMAGE_CAPTURE_JLG;
+        int noOfImagesToCapture = LIMIT_ONE_IMAGE_CAPTURE_JLG;
         try {
             if (documentName.equalsIgnoreCase(DOCUMENT_NAME_APPLICANT_PHOTO)) { // TODO: applicant photo
-                noOfImagesToCapture=LIMIT_ONE_IMAGE_CAPTURE_JLG;
+                noOfImagesToCapture = LIMIT_ONE_IMAGE_CAPTURE_JLG;
             }else if (documentName.equalsIgnoreCase(DOCUMENT_NAME_SPOUSE_KYC)) { // TODO: spouse kyc
-                noOfImagesToCapture=LIMIT_TWO_IMAGE_CAPTURE_JLG;
+                noOfImagesToCapture = LIMIT_TWO_IMAGE_CAPTURE_JLG;
             }else if (documentName.equalsIgnoreCase(DOCUMENT_NAME_NOMINEE_KYC)) { // TODO: nominee kyc
-                noOfImagesToCapture=LIMIT_TWO_IMAGE_CAPTURE_JLG;
+                noOfImagesToCapture = LIMIT_TWO_IMAGE_CAPTURE_JLG;
             }else if (documentName.equalsIgnoreCase(DOCUMENT_NAME_SIGNATURE_PHOTO)) { // TODO: signature
-                noOfImagesToCapture=LIMIT_ONE_IMAGE_CAPTURE_JLG;
+                noOfImagesToCapture = LIMIT_ONE_IMAGE_CAPTURE_JLG;
             }else if (documentName.equalsIgnoreCase(DOCUMENT_NAME_DUAL_NAME_DECLARATION)) { // TODO: dual name declaration
-                noOfImagesToCapture=LIMIT_ONE_IMAGE_CAPTURE_JLG;
+                noOfImagesToCapture = LIMIT_ONE_IMAGE_CAPTURE_JLG;
             }else if (documentName.equalsIgnoreCase(DOCUMENT_NAME_BANK_ACCOUNT_DETAILS)) { // TODO: bank details
-                noOfImagesToCapture=LIMIT_TWO_IMAGE_CAPTURE_JLG;
+                noOfImagesToCapture = LIMIT_TWO_IMAGE_CAPTURE_JLG;
             }else if (documentName.equalsIgnoreCase(DOCUMENT_NAME_ADDRESS_PROOF)) { // TODO: address proof
-                noOfImagesToCapture=LIMIT_TWO_IMAGE_CAPTURE_JLG;
+                noOfImagesToCapture = LIMIT_TWO_IMAGE_CAPTURE_JLG;
             }else if (documentName.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_AADHAAR)
                     ||documentName.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_DRIVING_LICENSE)
                     ||documentName.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_PASSPORT)
                     ||documentName.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_VOTER_ID)
                     ||documentName.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_RATION_CARD)) { // TODO: kyc
-                noOfImagesToCapture=LIMIT_TWO_IMAGE_CAPTURE_JLG;
+                noOfImagesToCapture = LIMIT_TWO_IMAGE_CAPTURE_JLG;
             }
 
         } catch (Exception ex) {
@@ -2184,8 +2244,5 @@ public class ParametersConstant {
     public static String RTO = "RTO";
     public static String INSURANCE_TWL = "INSURANCE";
     public static String MANDATORY_ACCESSORIES = "MANDATORY ACCESSORIES";
-
     public static String ROYAL_ENFIELD = "Royal Enfield";
-
-
 }

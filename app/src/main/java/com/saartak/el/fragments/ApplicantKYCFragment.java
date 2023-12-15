@@ -53,20 +53,11 @@ import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_QR_
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_RE_ENTER_KYC_ID;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_SAVE_BUTTON;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ApplicantKYCFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ApplicantKYCFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ApplicantKYCFragment extends LOSBaseFragment implements LOSBaseFragment.DynamiUIinterfacce, HasSupportFragmentInjector {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     private static final String TAG = ApplicantKYCFragment.class.getCanonicalName();
-
 
     private OnFragmentInteractionListener mListener;
 
@@ -111,10 +102,9 @@ public class ApplicantKYCFragment extends LOSBaseFragment implements LOSBaseFrag
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mRootView=(FrameLayout) inflater.inflate(R.layout.fragment_common_layout, container, false);
+        mRootView = (FrameLayout) inflater.inflate(R.layout.fragment_common_layout, container, false);
         return mRootView;
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -192,7 +182,6 @@ public class ApplicantKYCFragment extends LOSBaseFragment implements LOSBaseFrag
         AndroidSupportInjection.inject(this);
     }
 
-    
     public void configureViewModel() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(DynamicUIViewModel.class);
         viewModel.init(SCREEN_ID,SCREEN_NAME,LOAN_TYPE,PROJECT_ID,PRODUCT_ID,CLIENT_ID,USER_ID,MODULE_TYPE);
@@ -215,7 +204,7 @@ public class ApplicantKYCFragment extends LOSBaseFragment implements LOSBaseFrag
                                 CENTER_CREATION_TABLE = new Gson().fromJson(centerJsonString, CenterCreationTable.class);
                             }
                         }
-                        updateVillageAndCenter(list.get(0),list,CENTER_CREATION_TABLE);
+                        updateVillageAndCenter(list.get(0), list, CENTER_CREATION_TABLE);
                     }else {
                         applicantKYCScreenValidation(list.get(0), list);
                     }
@@ -279,7 +268,6 @@ public class ApplicantKYCFragment extends LOSBaseFragment implements LOSBaseFrag
                                                 }
                                             }
                                         }
-
 //                                        initChild(list);
                                         updateDynamicUITable(list, SCREEN_ID);
                                     }
@@ -316,7 +304,7 @@ public class ApplicantKYCFragment extends LOSBaseFragment implements LOSBaseFrag
                                             dynamicUITable.setFieldTag(datatypeInfo.getHintTag());
                                         }
                                         if (dynamicUITable.getFieldName().equalsIgnoreCase(TAG_NAME_RE_ENTER_KYC_ID)) {
-                                            DataTypeInfo datatypeInfo = new DataTypeInfo(SPINNER_ITEM_FIELD_NAME_AADHAAR,dynamicUITable);
+                                            DataTypeInfo datatypeInfo = new DataTypeInfo(SPINNER_ITEM_FIELD_NAME_AADHAAR, dynamicUITable);
                                             // TODO: Only here we need to check with field name
                                             dynamicUITable.setLength(datatypeInfo.getLength());
                                             dynamicUITable.setHint("Re " + datatypeInfo.getHint());
@@ -342,7 +330,7 @@ public class ApplicantKYCFragment extends LOSBaseFragment implements LOSBaseFrag
                                     if(dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE)){
                                         dynamicUITable.setValue(SPINNER_ITEM_FIELD_NAME_AADHAAR);
                                     }
-                                    // TODO: Get kYC Type based on loan
+                                    // TODO: Get KYC Type based on loan
                        /* if (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE)) {
                             String[] newSpinnerList = getNewSpinnerList(TAG_NAME_KYC_TYPE, loanType);
                             dynamicUITable.setParamlist(newSpinnerList);
@@ -380,5 +368,4 @@ public class ApplicantKYCFragment extends LOSBaseFragment implements LOSBaseFrag
             ex.printStackTrace();
         }
     }
-
 }

@@ -117,6 +117,8 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
     TextView tvClientID, tvClientName,clientId;
     TextView tvAppVersion,tvCurrentDate;
     ImageView ivStaffImage;
+
+    String fieldTag;
     TextView tvStaffId, tvStaffName, tvSOBDate;
     public CenterCreationTable CENTER_CREATION_TABLE;
 
@@ -162,8 +164,6 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
         }*/
        /*this.getSupportActionBar().setTitle("Ali Hussain");
        this.getSupportActionBar().setSubtitle(CLIENT_ID);*/
-
-
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
@@ -232,19 +232,20 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
 
         String appVersion = BuildConfig.VERSION_NAME;
         if (!TextUtils.isEmpty(appVersion)) {
-            tvAppVersion.setText(getResources().getString(R.string.version) + " "+appVersion);
+            tvAppVersion.setText(getResources().getString(R.string.version) + " "+ appVersion);
         }
 
         this.configureDagger();
         this.configureViewModel();
 
         // TODO: SETTING SCREEN NAME , SCREEN NO & SCREEN ICON BASED ON LOAN AND MODULE TPE
-
         if (!TextUtils.isEmpty(loanType)) {
-             if (loanType.equalsIgnoreCase(LOAN_NAME_EL)) { // TODO: EL LONE
+             if (loanType.equalsIgnoreCase(LOAN_NAME_EL)) { // TODO: EL LOAN
                  if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(MODULE_TYPE_LEAD)) {
-                     // TODO: LEAD PHL
                      setScreens(LEAD_TAB_SCREEN_NAMES_AHL, LEAD_TAB_SCREEN_NUMBERS_PHL, LEAD_TAB_ICONS_AHL, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
+                 }
+                 if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(MODULE_TYPE_LEAD)) {
+                     setScreens(LEAD_TAB_SCREEN_NAMES_EL, LEAD_TAB_SCREEN_NUMBERS_PHL, LEAD_TAB_ICONS_AHL, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
                  }
                  if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(MODULE_TYPE_COLLECTION)) {
                      // TODO: COLLECTION PHL
@@ -281,8 +282,11 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
                     setScreens(LOAN_PROPOSAL_MODULE_SCREEN_NAMES_AHL, LOAN_PROPOSAL_MODULE_SCREEN_NUMBERS_PHL, LOAN_PROPOSAL_MODULE_ICONS_AHL, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
                 } else if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(AppConstant.MODULE_TYPE_DOCUMENTS)) {
                     // TODO: DOCUMENT MODULE PHL
-                    setScreens(DOCUMENTS_MODULE_SCREEN_NAMES_AHL, DOCUMENTS_MODULE_SCREEN_NUMBERS_PHL, DOCUMENTS_MODULE_ICONS_AHL, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
-                } else if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(AppConstant.MODULE_OTP_VERIFICATION)) {
+                    setScreens(DOCUMENTS_MODULE_SCREEN_NAMES_EL, DOCUMENTS_MODULE_SCREEN_NUMBERS_EL, DOCUMENTS_MODULE_ICONS_EL, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
+                } else if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(AppConstant.MODULE_TYPE_LOAN_PROPOSAL)) {
+                     // TODO: LOAN PROPOSAL MODULE PHL
+                     setScreens(LOAN_PROPOSAL_MODULE_SCREEN_NAMES_AHL, LOAN_PROPOSAL_MODULE_SCREEN_NUMBERS_PHL, LOAN_PROPOSAL_MODULE_ICONS_AHL, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
+                 } else if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(AppConstant.MODULE_OTP_VERIFICATION)) {
                     // TODO: OTP VERIFICATION MODULE
                     setScreens(OTP_VERIFICATION_MODULE_SCREEN_NAMES, OTP_VERIFICATION_MODULE_SCREEN_NUMBERS, OTP_VERIFICATION_MODULE_ICONS, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
                 }else if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(MODULE_TYPE_GENERATE_CIBIL)) {
@@ -290,8 +294,7 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
                     setScreens(GENERATE_CIBIL_MODULE_SCREEN_NAMES_EL, GENERATE_CIBIL_MODULE_SCREEN_NUMBERS_EL, GENERATE_CIBIL_MODULE_ICONS_EL, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
                 }
             }
-            else{
-
+            else if(!TextUtils.isEmpty(loanType)){
                  if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(MODULE_TYPE_LEAD)) {
                     // TODO: LEAD PHL
                     setScreens(LEAD_TAB_SCREEN_NAMES_AHL, LEAD_TAB_SCREEN_NUMBERS_PHL, LEAD_TAB_ICONS_AHL, PROJECT_ID_EL, productId, loanType, moduleType);
@@ -313,10 +316,10 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
                             LOAN_PROPOSAL_WITH_NOMINEE_MODULE_ICONS_EL, PROJECT_ID_EL, productId, loanType, moduleType);
                 } else if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(AppConstant.MODULE_TYPE_LOAN_PROPOSAL)) {
                     // TODO: LOAN PROPOSAL MODULE PHL
-                    setScreens(LOAN_PROPOSAL_MODULE_SCREEN_NAMES_AHL, LOAN_PROPOSAL_MODULE_SCREEN_NUMBERS_PHL, LOAN_PROPOSAL_MODULE_ICONS_AHL, PROJECT_ID_EL, productId, loanType, moduleType);
+                    setScreens(LOAN_PROPOSAL_MODULE_SCREEN_NAMES_EL, LOAN_PROPOSAL_MODULE_SCREEN_NUMBERS_PHL, LOAN_PROPOSAL_MODULE_ICONS_AHL, PROJECT_ID_EL, productId, loanType, moduleType);
                 } else if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(AppConstant.MODULE_TYPE_DOCUMENTS)) {
                     // TODO: DOCUMENT MODULE PHL
-                    setScreens(DOCUMENTS_MODULE_SCREEN_NAMES_AHL, DOCUMENTS_MODULE_SCREEN_NUMBERS_PHL, DOCUMENTS_MODULE_ICONS_AHL, PROJECT_ID_EL, productId, loanType, moduleType);
+                    setScreens(DOCUMENTS_MODULE_SCREEN_NAMES_EL, DOCUMENTS_MODULE_SCREEN_NUMBERS_PHL, DOCUMENTS_MODULE_ICONS_AHL, PROJECT_ID_EL, productId, loanType, moduleType);
                 } else if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(AppConstant.MODULE_OTP_VERIFICATION)) {
                     // TODO: OTP VERIFICATION MODULE
                     setScreens(OTP_VERIFICATION_MODULE_SCREEN_NAMES, OTP_VERIFICATION_MODULE_SCREEN_NUMBERS, OTP_VERIFICATION_MODULE_ICONS, PROJECT_ID_EL, productId, loanType, moduleType);
@@ -324,8 +327,9 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
                     // TODO: GENERATE CIBIL MODULE
                     setScreens(GENERATE_CIBIL_MODULE_SCREEN_NAMES_EL, GENERATE_CIBIL_MODULE_SCREEN_NUMBERS_EL, GENERATE_CIBIL_MODULE_ICONS_EL, PROJECT_ID_EL, productId, loanType, moduleType);
                 }
-            }
+            } else if (!TextUtils.isEmpty(loanType)) {
 
+             }
         }
 
         // TODO: TO DISABLE TAB CLICKS
@@ -388,7 +392,7 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
             List<String> screenNosList = Arrays.asList(screenNos);
             List<String> tabNamesList = Arrays.asList(tabNames);
 
-            getRawDataForApplicantSection(screenNosList, tabNamesList, CLIENT_ID,loanType,moduleType,navigationView, tabNames, tabIcon);
+            getRawDataForApplicantSection(screenNosList, tabNamesList, CLIENT_ID, loanType, moduleType, navigationView, tabNames, tabIcon);
             //setupNavigationMenuItem(navigationView, tabNames, tabIcon);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -462,8 +466,6 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
         }
     }
 
-
-
     public void getRawDataForApplicantSection(List<String> screenNoList, List<String> screenNameList, String client, String loanType,
                                               String moduleType,NavigationView navigationView, String[] tabNames, int[] tabIcon) {
         ArrayList<HashMap<String, Object>> allClientHashMapList = new ArrayList<>();
@@ -500,7 +502,7 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
                                 completedScreens.add(rawDataTable.getScreen_name());
                             }
 
-                            setupNavigationMenuItem(navigationView, tabNames, tabIcon,completedScreens);   //latest
+                            setupNavigationMenuItem(navigationView, tabNames, tabIcon, completedScreens);   //latest
                         } else {
                             setupNavigationMenuItem(navigationView, tabNames, tabIcon);
                         }
@@ -533,8 +535,7 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
                                 screenName // title
                         ).setIcon(tabIcon).setActionView(R.layout.widget_custom_tick_mark);
                     }else {
-                        menu.add(
-                                Menu.NONE, // groupId
+                        menu.add(Menu.NONE, // groupId
                                 i, // itemId
                                 Menu.NONE, // order
                                 screenName // title
@@ -579,7 +580,6 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
         }
     }
 
-
     private void setupTabIcons(int[] tabIcons, String[] tabNames) {
         String screenName;
         int tabIcon;
@@ -608,7 +608,6 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
                         if (tab != null && tab.getIcon() != null) {
                             tab.getIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
                         }
-
                     }
 
                     @Override
@@ -628,7 +627,6 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
             e.printStackTrace();
             INSERT_LOG("setupTabIcons","Exception : "+e.getMessage());
         }
-
     }
 
     @Override
@@ -644,7 +642,6 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(DynamicUIViewModel.class);
     }
 
-
     @Override
     public void onBackPressed() {
         appHelper.getDialogHelper().getConfirmationDialog().showTwoButtons("Do you want to leave  this screen ? ", new ConfirmationDialog.ActionCallback() {
@@ -653,7 +650,6 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
                 finish();
             }
         });
-
     }
 
     @Override
@@ -706,9 +702,7 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
             ex.printStackTrace();
             INSERT_LOG("oneFragmentToAnotherFragment","Exception : "+ex.getMessage());
         }
-
     }
-
 
     public class HomePagerAdapter extends SmartFragmentStatePagerAdapter<LOSBaseFragment> {
         private final List<Fragment> mFragmentList = new ArrayList<>();
@@ -743,7 +737,6 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
             return mFragmentTitleList.get(position);
         }
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -806,7 +799,7 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
         }
     }
 
-    public void setMenuItemTickMark(String currenScreenName, String fragmentToCall, List<DynamicUITable> dynamicUITableList) {
+    public void setMenuItemTickMark(String currentScreenName, String fragmentToCall, List<DynamicUITable> dynamicUITableList) {
         try {
             // TODO: CHANGE MENU ITEM TEXT COLOR AND TICK MARK
 
@@ -881,10 +874,10 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
                         viewPager.setCurrentItem(i);
                     }
                 }
-            } else if (!TextUtils.isEmpty(currenScreenName)) {
+            } else if (!TextUtils.isEmpty(currentScreenName)) {
                 for (int i = 0; i < adapter.mFragmentTitleList.size(); i++) {
                     String fragmentName = adapter.mFragmentTitleList.get(i);
-                    if (currenScreenName.equalsIgnoreCase(fragmentName)) {
+                    if (currentScreenName.equalsIgnoreCase(fragmentName)) {
 
                         MenuItem menuItem = navigationView.getMenu().getItem(i);
                         SpannableString spanString = new SpannableString(menuItem.getTitle().toString());
@@ -907,7 +900,7 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            INSERT_LOG("setMenuItemTickMark","Exception : "+ex.getMessage());
+            INSERT_LOG("setMenuItemTickMark","Exception : " + ex.getMessage());
             if (ex instanceof IndexOutOfBoundsException) {
                 appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.SUCCESS,
                         "Data saved successfully", new ConfirmationDialog.ActionCallback() {
@@ -933,7 +926,6 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
             ex.printStackTrace();
             INSERT_LOG("qrScanCallback","Exception : "+ex.getMessage());
         }
-
     }
 
     @Override
@@ -941,7 +933,7 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
         try {
             super.qrScanTimeOut();
             appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ALERT,
-                    "Unable to scan QR ,Please enter manually", new ConfirmationDialog.ActionCallback() {
+                    "Unable to scan QR, Please enter manually", new ConfirmationDialog.ActionCallback() {
                         @Override
                         public void onAction() {
                             final LOSBaseFragment losBaseFragment = (LOSBaseFragment) adapter.getRegisteredFragment(viewPager.getCurrentItem());
@@ -951,12 +943,11 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
                             losBaseFragment.EnableOrDisableByLooping(dynamicUITableList, TAG_NAME_EKYC_BUTTON, false);
                             losBaseFragment.updateDynamicUITable(dynamicUITableList, losBaseFragment.SCREEN_ID);
                             losBaseFragment.setQRData(dynamicUITableList, null);
-
                         }
                     });
         }catch (Exception ex){
             ex.printStackTrace();
-            INSERT_LOG("qrScanTimeOut","Exception : "+ex.getMessage());
+            INSERT_LOG("qrScanTimeOut","Exception : " + ex.getMessage());
         }
     }
 
@@ -1051,14 +1042,14 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
             });
         }catch (Exception ex){
             ex.printStackTrace();
-            INSERT_LOG("getLocationUpdates","Exception : "+ex.getMessage());
+            INSERT_LOG("getLocationUpdates","Exception : " + ex.getMessage());
         }
     }
 
     private void INSERT_LOG(String methodName,String message){
         try{
             if(viewModel !=null){
-                viewModel.insertLog(methodName,message,userId,"",BaseActivity.class.getCanonicalName(),
+                viewModel.insertLog(methodName, message, userId, "", BaseActivity.class.getCanonicalName(),
                         CLIENT_ID, loanType, moduleType);
             }
         }catch (Exception ex){
@@ -1085,8 +1076,16 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
                                             if (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SELF_EMPLOYED)
                                                     || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SEP)
                                                     || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP)) {
-                                                setScreens(APPLICANT_TAB_SCREEN_NAMES_BUSINESS_EL, APPLICANT_TAB_SCREEN_NUMBERS_BUSINESS_EL,
-                                                        APPLICANT_TAB_ICONS_NAMES_BUSINESS_EL, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
+                                                if (fieldTag != "") {
+                                                    setScreens(APPLICANT_TAB_SCREEN_NAMES_BUSINESS_EL, APPLICANT_TAB_SCREEN_NUMBERS_BUSINESS_EL,
+                                                            APPLICANT_TAB_ICONS_NAMES_BUSINESS_EL, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
+                                                }
+                                                else{
+                                                    setScreens(CO_APPLICANT_TAB_SCREEN_NUMBERS_EL, CO_APPLICANT_TAB_SCREEN_NUMBERS_BUSINESS_EL,
+                                                            CO_APPLICANT_TAB_ICONS_NAMES_BUSINESS_EL, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
+                                                }
+//                                               setScreens(APPLICANT_TAB_SCREEN_NAMES_BUSINESS_EL, APPLICANT_TAB_SCREEN_NUMBERS_BUSINESS_EL,
+//                                                        APPLICANT_TAB_ICONS_NAMES_BUSINESS_EL, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
                                             } else if (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_CASH_SALARIED)
                                                     ||customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_BANK_SALARIED)
                                                     || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SALARIED)) {
@@ -1107,7 +1106,5 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
             INSERT_LOG("getRawDataForApplicantSection", "Exception : " + ex.getMessage());
         }
     }
-
-
 }
 

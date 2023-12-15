@@ -217,7 +217,6 @@ public class EKYCActivity extends AppCompatActivity implements EKYCCallBack,
         }
     }
 
-
     public void scanQRCode() {
         try {
             if ((ContextCompat.checkSelfPermission(this,
@@ -238,7 +237,6 @@ public class EKYCActivity extends AppCompatActivity implements EKYCCallBack,
             e.printStackTrace();
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

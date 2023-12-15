@@ -10,7 +10,6 @@ import com.google.gson.annotations.SerializedName;
 import com.saartak.el.database.converter.DataTypeConverter;
 
 import java.io.Serializable;
-
 @Entity
 public class DynamicUITable implements Serializable {
     @PrimaryKey(autoGenerate = true)
@@ -124,7 +123,6 @@ public class DynamicUITable implements Serializable {
     @SerializedName("MinLength")
     @Expose
     private String MinLength;
-
     @SerializedName("UniqueId")
     @Expose
     private String UniqueId="1";
@@ -132,7 +130,6 @@ public class DynamicUITable implements Serializable {
     @SerializedName("CoRelationID")
     @Expose
     private String CoRelationID="1";
-
     @SerializedName("ProductId")
     @Expose
     private String ProductId;
@@ -144,12 +141,9 @@ public class DynamicUITable implements Serializable {
     @SerializedName("sync")
     @Expose
     private boolean sync;
-
-
     public DynamicUITable() {
 
     }
-
     public DynamicUITable(@NonNull int id, String fieldName, String dataType, String length, String isRequired,
                           String fieldType, String fieldTag, boolean visibility, String hint, String errorMessage
                           ,String[] paramlist, int spinnerItemPosition, String value, String screenID,boolean isEditable,

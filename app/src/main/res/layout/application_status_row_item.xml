@@ -117,19 +117,18 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
+
                         <TextView
                             android:layout_alignParentRight="true"
                             android:layout_width="@dimen/_1sdp"
                             android:layout_height="match_parent"
                             android:background="@color/graylight" />
 
-
                         <LinearLayout
                             android:layout_marginTop="@dimen/_5sdp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            >
+                            android:orientation="horizontal">
                             <TextView
                                 android:textStyle="bold"
                                 android:layout_width="0dp"
@@ -163,13 +162,11 @@
                         android:background="@color/graylight"
                         />
 
-
                     <TextView
                         android:layout_alignParentRight="true"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_1sdp"
-                        android:background="@color/graylight"
-                        />
+                        android:background="@color/graylight" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -184,8 +181,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            >
+                            android:orientation="horizontal">
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -217,20 +213,14 @@
                         android:layout_alignParentRight="true"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_1sdp"
-                        android:background="@color/graylight"
-                        />
-
-
-
-
+                        android:background="@color/graylight" />
 
                 </LinearLayout>
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:layout_marginRight="@dimen/_5sdp"
-                  >
+                    android:layout_marginRight="@dimen/_5sdp">
 
                     <Button
                         android:layout_marginTop="@dimen/_5sdp"

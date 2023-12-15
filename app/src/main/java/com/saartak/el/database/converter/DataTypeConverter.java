@@ -10,7 +10,6 @@ import androidx.room.TypeConverter;
 
 public class DataTypeConverter {
 
-
    public Gson gson = new Gson();
 
     @TypeConverter

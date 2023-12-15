@@ -328,10 +328,6 @@ public class WorkflowHistorySummaryActivity extends LOSBaseActivity implements W
 
         configureDagger();
         configureViewModel();
-
-
-
-
     }
 
     private void configureDagger() {

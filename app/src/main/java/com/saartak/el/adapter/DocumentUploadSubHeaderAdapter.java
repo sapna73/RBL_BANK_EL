@@ -1,6 +1,9 @@
 package com.saartak.el.adapter;
 
+import static com.precision.csp.Uidaiauthentication.NPCIConstantValues.TAG;
+
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,34 +24,35 @@ public class DocumentUploadSubHeaderAdapter extends RecyclerView.Adapter<Documen
     private List<DocumentUploadTableNew> documentUploadTableNewList;
     DocumentUploadSubHeaderInterface documentUploadSubHeaderInterface;
 
-    public DocumentUploadSubHeaderAdapter(Context context, List<DocumentUploadTableNew> documentUploadTableNewList,DocumentUploadSubHeaderInterface documentUploadSubHeaderInterface) {
+    public DocumentUploadSubHeaderAdapter(Context context, List<DocumentUploadTableNew> documentUploadTableNewList,
+                                          DocumentUploadSubHeaderInterface documentUploadSubHeaderInterface) {
         this.context = context;
-        this.documentUploadTableNewList=documentUploadTableNewList;
-        this.documentUploadSubHeaderInterface=documentUploadSubHeaderInterface;
+        this.documentUploadTableNewList = documentUploadTableNewList;
+        this.documentUploadSubHeaderInterface = documentUploadSubHeaderInterface;
     }
 
     @NonNull
     @Override
     public DocumentUploadHeaderViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.view_document_upload_sub_header,viewGroup,false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.view_document_upload_sub_header, viewGroup,false);
         return new DocumentUploadHeaderViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull DocumentUploadHeaderViewHolder holder, int i) {
         try{
-            if(documentUploadTableNewList.size()>0) {
+            if(documentUploadTableNewList.size() > 0) {
                 DocumentUploadTableNew documentUploadTableSubHeader = documentUploadTableNewList.get(i);
+                Log.d(String.valueOf(documentUploadTableSubHeader), "get the sub header list " + documentUploadTableSubHeader.getDocument_name());
                     holder.tvSubHeaderName.setText(documentUploadTableSubHeader.getDocument_name());
                     if(documentUploadTableSubHeader.isDocument_status()) {
                         holder.ivUploadStatus.setImageResource(R.drawable.ic_check_circle_black_24dp);
                     }
 
-
                 holder.tvSubHeaderName.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        documentUploadSubHeaderInterface.openImageCaptureCallBack(documentUploadTableSubHeader,i);
+                        documentUploadSubHeaderInterface.openImageCaptureCallBack(documentUploadTableSubHeader, i);
                     }
                 });
             }
@@ -68,12 +72,12 @@ public class DocumentUploadSubHeaderAdapter extends RecyclerView.Adapter<Documen
          ImageView ivUploadStatus;
         public DocumentUploadHeaderViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvSubHeaderName=(TextView)itemView.findViewById(R.id.tv_sub_header_name);
-            ivUploadStatus=(ImageView) itemView.findViewById(R.id.iv_image_upload_status);
+            tvSubHeaderName = (TextView)itemView.findViewById(R.id.tv_sub_header_name);
+            ivUploadStatus = (ImageView) itemView.findViewById(R.id.iv_image_upload_status);
         }
     }
 
     public interface DocumentUploadSubHeaderInterface{
-         void openImageCaptureCallBack(DocumentUploadTableNew documentUploadTableNew,int position);
+         void openImageCaptureCallBack(DocumentUploadTableNew documentUploadTableNew, int position);
     }
 }

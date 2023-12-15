@@ -24,9 +24,9 @@ public class LOSBaseActivity extends EKYCActivity {
     protected App mMyApp;
         AppHelper appHelper;
 
-    public static String CLIENT_ID="";
-    public static String loanType,moduleType,branchId,branchName,branchGSTcode,userName, userId,productId,workFlowId, roleName="",currentStage="",currentStageID="";
-    public static boolean AUTOFILL=false,GET_APPLICATION_ID=false;
+    public static String CLIENT_ID = "";
+    public static String loanType, moduleType, branchId, branchName,branchGSTcode,userName, userId,productId,workFlowId, roleName="",currentStage="",currentStageID="";
+    public static boolean AUTOFILL = false, GET_APPLICATION_ID=false;
     public HashMap<String,Object> leadDetailsHashMap;
     public static String EMP_LAST_5_DIGIT="";
 
