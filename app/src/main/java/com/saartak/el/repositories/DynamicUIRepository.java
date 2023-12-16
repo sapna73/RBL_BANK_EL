@@ -4120,11 +4120,11 @@ public class DynamicUIRepository {
 
                                                                                          dynamicUITable = getObjectByTAG(TAG_NAME_ADD_ANOTHER_REFERENCE, dynamicUITableListFromDB);
                                                                                          dynamicUITableObjForSelectedItem = getObjectByTAG(TAG_NAME_FULL_NAME, dynamicUITableListFromDB);
-                                                                                     }else if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) {
+                                                                                     }/*else if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) {
 
                                                                                          dynamicUITable = getObjectByTAG(TAG_NAME_ADD_ANOTHER_KYC_PLUS_BUTTON, dynamicUITableListFromDB);
                                                                                          dynamicUITableObjForSelectedItem = getObjectByTAG(TAG_NAME_GUARANTOR_KYC_TYPE, dynamicUITableListFromDB);
-                                                                                     }
+                                                                                     }*/
                                                                                      else if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_BUSINESS_PROOF)) {
                                                                                          dynamicUITable = getObjectByTAG(TAG_NAME_ADD_ANOTHER_BUSINESS_PROOF_PLUS_BUTTON, dynamicUITableListFromDB);
                                                                                          dynamicUITableObjForSelectedItem = getObjectByTAG(TAG_NAME_BUSINESS_DOCUMENT_PROOF, dynamicUITableListFromDB);
@@ -5972,7 +5972,7 @@ public class DynamicUIRepository {
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_ADDRESS_DETAIL)
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL)
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_NOMINEE_DETAIL)
-                        ||screenName.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) {
+                        /*||screenName.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)*/) {
                     // TODO: Need to check the raw data table and add it into list
                     List<RawDataTable> rawDataTableList = dynamicUIDao.loadRawDataFromClientId(screenNumber, CLIENT_ID);
                     if (rawDataTableList != null) {
@@ -8672,24 +8672,16 @@ public class DynamicUIRepository {
                     if (leadRawData != null) {
                         HashMap<String, Object> hashMap = setKeyValueForObject(leadRawData);
                         if (hashMap != null && hashMap.size() > 0) {
-                            if (hashMap != null && hashMap.size() > 0) {
                                 if (hashMap.containsKey(TAG_NAME_APPLICATION_ENTER_AGE)) {
                                     applicantAgeValue = Integer.valueOf(hashMap.get(TAG_NAME_APPLICATION_ENTER_AGE).toString());
                                 }
-                            }
-                            if (hashMap != null && hashMap.size() > 0) {
+
                                 if (hashMap.containsKey(TAG_NAME_EARNING_CAPACITY_OF_STUDENT)) {
                                     earningCapacityOfStudent = hashMap.get(TAG_NAME_EARNING_CAPACITY_OF_STUDENT).toString();
                                 }
-                            }
-                            if(hashMap != null && hashMap.size() > 0){
-
-                            }
-                            if (hashMap != null && hashMap.size() > 0) {
                                 if (hashMap.containsKey(TAG_NAME_PROPOSED_INSTITUTE_WITHIN_INDIA_OUTSIDE_INDIA)) {
                                     outSideIndia =hashMap.get(TAG_NAME_PROPOSED_INSTITUTE_WITHIN_INDIA_OUTSIDE_INDIA).toString();
                                 }
-                            }
                             if(applicantAgeValue <= 18 || outSideIndia.equalsIgnoreCase(TAG_NAME_OUTSIDE_INDIA) || earningCapacityOfStudent.equalsIgnoreCase("No")){
                                 APPLICANT_MODULE_NAME_LIST_BASED_ON_LOAN = APPLICANT_MODULE_NAME_LIST_OUT_SIDE_INDIA;
                             }else {
@@ -9001,8 +8993,7 @@ public class DynamicUIRepository {
 
         return data;
     }
-
-    public LiveData<LoanTable> updateMemberLoanDetailTableStatus(LoanTable loanTable, String status) {
+      public LiveData<LoanTable> updateMemberLoanDetailTableStatus(LoanTable loanTable, String status) {
         final MutableLiveData<LoanTable> data = new MutableLiveData<>();
         try {
             executor.execute(() -> {
@@ -9011,11 +9002,89 @@ public class DynamicUIRepository {
                 boolean allDataCaptured = true; // TODO: Initially it will be true
                 boolean allModuleExist = false; // TODO: Initially it will be false
                 String message = ERROR_MESSAGE_CAPTURE_ALL_DETAILS;
+                String[] APPLICANT_TAB_SCREEN_NAMES = APPLICANT_TAB_SCREEN_NAMES_JLG;
+                String[] LOAN_PROPOSAL_WITH_NOMINEE_MODULE_SCREEN_NAMES = LOAN_PROPOSAL_WITH_NOMINEE_MODULE_SCREEN_NAMES_JLG;
 
                 // TODO: GET DISTINCT MODULE TYPE
 
                 List<String> distinctModuleType = dynamicUIDao.getDistinctModuleType(loanTable.getClientId());
 
+                if (distinctModuleType != null && distinctModuleType.size() > 0) {
+
+
+                    if (allModuleExist) {
+                        parentLoop:
+                        for (String moduleType : distinctModuleType) {
+                            if (moduleType.equalsIgnoreCase(MODULE_TYPE_APPLICANT)) { // TODO: APPLICANT
+                                for (String screenName : APPLICANT_TAB_SCREEN_NAMES) {
+                                    List<RawDataTable> rawDataTableList = dynamicUIDao.getRawDataByClientAndScreenName(screenName, loanTable.getClientId());
+
+                                    if (rawDataTableList.size() == 0) {
+                                        allDataCaptured = false;
+                                        message = ERROR_MESSAGE_CAPTURE_ALL_DETAILS.replace("ALL SCREEN", screenName);
+                                        break parentLoop;
+                                    } else {
+                                        if (screenName.equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC)) {
+                                            boolean idProof = false;
+                                            boolean signatureProof = false;
+
+                                            for (RawDataTable rawDataTableFromDB : rawDataTableList) {
+                                                HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTableFromDB);
+                                                if (hashMap != null && hashMap.size() > 0) {
+                                                    if (hashMap.containsKey(TAG_NAME_KYC_TYPE)) {
+                                                        String kycType = hashMap.get(TAG_NAME_KYC_TYPE).toString();
+                                                        String proofType = getProofType(kycType);
+                                                        if (!TextUtils.isEmpty(proofType) &&
+                                                                proofType.contains(PROOF_TYPE_SPINNER_ITEM_ID_CUM_ADDRESS_PROOF)) {
+                                                            idProof = true;
+                                                        }
+                                                        if (!TextUtils.isEmpty(proofType) &&
+                                                                proofType.contains(PROOF_TYPE_SPINNER_ITEM_SIGNATURE_PROOF)) {
+                                                            signatureProof = true;
+                                                        }
+                                                        if (!TextUtils.isEmpty(proofType) &&
+                                                                proofType.contains(PROOF_TYPE_SPINNER_ITEM_ID_CUM_SIGNATURE_PROOF)) {
+                                                            idProof = true;
+                                                            signatureProof = true;
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                           /* if (!idProof) {
+                                                allDataCaptured = false;
+                                                message = ERROR_MESSAGE_ID_PROOF_MISSING.replace("KYC SCREEN", screenName);
+                                                break parentLoop;
+                                            }*/
+
+                                        }
+                                    }
+                                }
+
+                            } else if (!loanType.equalsIgnoreCase(LOAN_NAME_EL) && moduleType.equalsIgnoreCase(MODULE_TYPE_LOAN_PROPOSAL_WITH_NOMINEE)) { // TODO: LOAN PROPOSAL WITH NOMINEE
+
+                                for (String screenName : LOAN_PROPOSAL_WITH_NOMINEE_MODULE_SCREEN_NAMES) {
+                                    RawDataTable rawDataTable = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(screenName,
+                                            loanTable.getClientId(), moduleType);
+
+                                   /* if (rawDataTable == null) {
+                                        allDataCaptured = false;
+                                        message = ERROR_MESSAGE_CAPTURE_ALL_DETAILS.replace("ALL SCREEN", screenName);
+                                        break parentLoop;
+                                    }*/
+                                }
+
+                            }
+                        } // TODO: parent loop ending
+                    } else {
+                        allDataCaptured = false;
+                        message = ERROR_MESSAGE_CAPTURE_ALL_DETAILS;
+                    }
+                } else {
+                    allDataCaptured = false;
+                    message = ERROR_MESSAGE_CAPTURE_ALL_DETAILS;
+                }
                 if (allDataCaptured) {
 
                     dynamicUIDao.updateMemberLoanDetailAllDataCaptured(true, message, loanTable.getId());
@@ -28842,9 +28911,26 @@ public class DynamicUIRepository {
     private void documentUploadNew(RawDataTable rawDataTable, DynamicUITable dynamicUITable) {
         try {
             // TODO: ********* validation for document upload *************
+            int applicantAgeValue=0;
+            String outSideIndia = "", earningCapacityOfStudent = "";
+            RawDataTable leadRawData = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_LEAD, rawDataTable.getClient_id(), rawDataTable.getLoan_type());
+            if (leadRawData != null) {
+                HashMap<String, Object> hashMap = setKeyValueForObject(leadRawData);
+                if (hashMap != null && hashMap.size() > 0) {
+                    if (hashMap != null && hashMap.size() > 0) {
+                        if (hashMap.containsKey(TAG_NAME_APPLICATION_ENTER_AGE)) {
+                            applicantAgeValue = Integer.valueOf(hashMap.get(TAG_NAME_APPLICATION_ENTER_AGE).toString());
+                        }
+                        if (hashMap.containsKey(TAG_NAME_EARNING_CAPACITY_OF_STUDENT)) {
+                            earningCapacityOfStudent = hashMap.get(TAG_NAME_EARNING_CAPACITY_OF_STUDENT).toString();
+                        }
+
+                    }
+                }
+            }
+
 
             // TODO: APPLICANT KYC SCREEN
-
             if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
                     rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC)) {
                 DynamicUITable applicantKycType = dynamicUIDao.getRowByTAGandScreen(TAG_NAME_KYC_TYPE, rawDataTable.getScreen_no());
@@ -28855,126 +28941,61 @@ public class DynamicUIRepository {
                     // TODO: Applicant Photo
                     insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
                             DOCUMENT_NAME_APPLICANT_PHOTO, rawDataTable, "", "");
+                    if(applicantAgeValue >= 19 && earningCapacityOfStudent.equalsIgnoreCase("Yes")){
+                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_APPLICANT_STUDENT_ADMIT_LETTER, rawDataTable, "", "");
 
-                    insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
-                            DOCUMENT_NAME_APPLICANT_STUDENT_ADMIT_LETTER, rawDataTable, "", "");
+                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_APPLICANT_FEE_STRUCTURE, rawDataTable, "", "");
 
-                    insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
-                            DOCUMENT_NAME_APPLICANT_FEE_STRUCTURE, rawDataTable, "", "");
+                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_10_MARK_SHEET, rawDataTable, "", "");
 
-                    insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
-                            DOCUMENT_NAME_10_MARK_SHEET, rawDataTable, "", "");
+                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_12_MARK_SHEET, rawDataTable, "", "");
 
-                    insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
-                            DOCUMENT_NAME_12_MARK_SHEET, rawDataTable, "", "");
+                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_GRADUATION, rawDataTable, "", "");
 
-                    insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
-                            DOCUMENT_NAME_GRADUATION, rawDataTable, "", "");
+                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_EXAM_SCORE_CARD, rawDataTable, "", "");
 
-                    insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
-                            DOCUMENT_NAME_EXAM_SCORE_CARD, rawDataTable, "", "");
+                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_FEE_INSTITUTE, rawDataTable, "", "");
 
-                    insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
-                            DOCUMENT_NAME_FEE_INSTITUTE, rawDataTable, "", "");
-
-                    insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
-                            DOCUMENT_NAME_CO_APPLICANT_STUDENT_ADMIT_LETTER, rawDataTable, "", "");
-
-                    insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
-                           DOCUMENT_NAME_CO_APPLICANT_FEE_STRUCTURE , rawDataTable, "", "");
-
-                    insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
-                           DOCUMENT_NAME_CO_10_MARK_SHEET , rawDataTable, "", "");
-
-                    insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
-                            DOCUMENT_NAME_CO_12_MARK_SHEET, rawDataTable, "", "");
-
-                    insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
-                            DOCUMENT_NAME_CO_GRADUATION, rawDataTable, "", "");
-
-                    insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
-                            DOCUMENT_NAME_CO_EXAM_SCORE_CARD, rawDataTable, "", "");
-
-                    insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
-                            DOCUMENT_NAME_CO_FEE_INSTITUTE , rawDataTable, "", "");
-
-                    // TODO: House Photo
-                    insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
-                            DOCUMENT_NAME_HOUSE_PHOTO, rawDataTable, "", "");
-
-                    // TODO: Only for MSME & IL
-                    if (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_MSME)
-                            || rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_INDIVIDUAL)
-                    ) {
-                        // TODO: Shop Photo
+                        // TODO: House Photo
+                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_HOUSE_PHOTO, rawDataTable, "", "");
+                    }else{
                         insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
-                                DOCUMENT_NAME_SHOP_PHOTO, rawDataTable, "", "");
+                                DOCUMENT_NAME_APPLICANT_STUDENT_ADMIT_LETTER, rawDataTable, "", "");
 
-                        // TODO: Income Proof Bank Statement
                         insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
-                                DOCUMENT_NAME_BANK_STATEMENT, rawDataTable, "", "");
+                                DOCUMENT_NAME_APPLICANT_FEE_STRUCTURE, rawDataTable, "", "");
 
-                        // TODO: Ownership proof ( only for applicant )
                         insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
-                                DOCUMENT_NAME_OWNERSHIP_PROOF, rawDataTable, DOCUMENT_DISPLAY_NAME_OWNERSHIP_PROOF, "");
+                                DOCUMENT_NAME_10_MARK_SHEET, rawDataTable, "", "");
+
+                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_12_MARK_SHEET, rawDataTable, "", "");
+
+                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_GRADUATION, rawDataTable, "", "");
+
+                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_EXAM_SCORE_CARD, rawDataTable, "", "");
+
+                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_FEE_INSTITUTE, rawDataTable, "", "");
+
+                        // TODO: House Photo
+                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_HOUSE_PHOTO, rawDataTable, "", "");
                     }
 
-                    // TODO: Only for AHL
-                    if (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_AHL)) {
-                        // TODO: Shop Photo
 
-                        RawDataTable leadRawData = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_LEAD, rawDataTable.getClient_id(), rawDataTable.getLoan_type());
-                        if (leadRawData != null) {
-                            HashMap<String, Object> hashMap = setKeyValueForObject(leadRawData);
-                            if (hashMap != null && hashMap.size() > 0) {
-                                if (hashMap.containsKey(TAG_NAME_CUSTOMER_TYPE)) {
-
-                                    String customerType = hashMap.get(TAG_NAME_CUSTOMER_TYPE).toString();
-                                    if (!TextUtils.isEmpty(customerType) && (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SELF_EMPLOYED)
-                                            || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SEP) || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP))) {
-
-                                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
-                                                , DOCUMENT_NAME_SHOP_PHOTO, rawDataTable, "", "");
-                                    }
-                                }
-                            }
-                        }
-                        // TODO: Income Proof Bank Statement
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
-                                , DOCUMENT_NAME_BANK_STATEMENT, rawDataTable, "", "");
-
-                    }
-                    // TODO: Only for PHL
-                    if (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_PHL)) {
-                        // TODO: Shop Photo
-
-                        RawDataTable leadRawData = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_LEAD, rawDataTable.getClient_id(), rawDataTable.getLoan_type());
-                        if (leadRawData != null) {
-                            HashMap<String, Object> hashMap = setKeyValueForObject(leadRawData);
-                            if (hashMap != null && hashMap.size() > 0) {
-                                if (hashMap.containsKey(TAG_NAME_CUSTOMER_TYPE)) {
-
-                                    String customerType = hashMap.get(TAG_NAME_CUSTOMER_TYPE).toString();
-                                    if (!TextUtils.isEmpty(customerType) && (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SELF_EMPLOYED))
-                                            || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SEP) || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP)) {
-
-                                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
-                                                , DOCUMENT_NAME_SHOP_PHOTO, rawDataTable, "", "");
-                                    }
-                                }
-                            }
-                        }
-
-
-                        // TODO: Income Proof Bank Statement
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
-                                , DOCUMENT_NAME_BANK_STATEMENT, rawDataTable, "", "");
-
-                    }
                     if (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)) {
                         // TODO: Shop Photo
-
-                        RawDataTable leadRawData = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_LEAD, rawDataTable.getClient_id(), rawDataTable.getLoan_type());
                         if (leadRawData != null) {
                             HashMap<String, Object> hashMap = setKeyValueForObject(leadRawData);
                             if (hashMap != null && hashMap.size() > 0) {
@@ -28988,15 +29009,22 @@ public class DynamicUIRepository {
                                                 , DOCUMENT_NAME_SHOP_PHOTO, rawDataTable, "", "");
                                     }
                                 }
+
                             }
                         }
+
+
                         // TODO: Income Proof Bank Statement
                         insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
                                 , DOCUMENT_NAME_BANK_STATEMENT, rawDataTable, "", "");
+
+                       /* insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+                                , DOCUMENT_NAME_M_NACH, rawDataTable, "", "");*/
+
                     }
 
 
-                    if (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_TWL)) {
+                    /*if (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_TWL)) {
                         // TODO: Shop Photo
 
                         RawDataTable leadRawData = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_LEAD, rawDataTable.getClient_id(), rawDataTable.getLoan_type());
@@ -29021,6 +29049,9 @@ public class DynamicUIRepository {
                         // TODO: Income Proof Bank Statement
                         insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
                                 , DOCUMENT_NAME_BANK_STATEMENT, rawDataTable, "", "");
+
+                        *//*insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+                                , DOCUMENT_NAME_M_NACH, rawDataTable, "", "");*//*
 
                     }
                     else {
@@ -29046,38 +29077,23 @@ public class DynamicUIRepository {
                         // TODO: Income Proof Bank Statement
                         insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
                                 , DOCUMENT_NAME_BANK_STATEMENT, rawDataTable, "", "");
-                    }
 
-
-                    // TODO: Only for JLG
-                    if (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_JLG)) {
-
-//                        // TODO: Spouse KYC
-//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
-//                                , DOCUMENT_NAME_SPOUSE_KYC, rawDataTable, "", "");
-
-//                        // TODO: Nominee KYC
-//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
-//                                , DOCUMENT_NAME_NOMINEE_KYC, rawDataTable, "", "");
-
-                        // TODO: Signature Photo
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
-                                DOCUMENT_NAME_SIGNATURE_PHOTO, rawDataTable, "", "");
-
-
-                        // TODO: AOF
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
-                                , DOCUMENT_NAME_AOF, rawDataTable, "", "");
-                    }
+                        *//*insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+                                , DOCUMENT_NAME_M_NACH, rawDataTable, "", "");*//*
+                    }*/
 
 
                     // TODO: Others Photos
                     insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
                             , DOCUMENT_NAME_OTHERS, rawDataTable, "", "");
 
+                    /*insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+                            , DOCUMENT_NAME_M_NACH, rawDataTable, "", "");*/
+
                     // TODO: ID PROOF
                     insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id(),
                             applicantKycType.getValue(), rawDataTable, "", "");
+
                 }
             }
 
@@ -29229,27 +29245,6 @@ public class DynamicUIRepository {
 
 
             }
-
-            // TODO: FAMILY MEMBER INCOME SCREEN
-
-         /*   if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
-                    rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_FAMILY_MEMBER_INCOME)) {
-                DynamicUITable documentType = dynamicUIDao.getRowByTAGandScreen(TAG_NAME_DOCUMENT_TYPE, rawDataTable.getScreen_no());
-                if (documentType != null && !TextUtils.isEmpty(documentType.getValue())) {
-
-                    // TODO: Document upload table
-
-                    // TODO: SALARY PROOF
-                    String displayName = DOCUMENT_DISPLAY_NAME_APPLICANT_SALARY_PROOF.replace("Id", documentType.getValue());
-
-                    insertDocumentUpload(rawDataTable.getId(),
-                            rawDataTable.getScreen_no(), rawDataTable.getScreen_name(), rawDataTable.getClient_id(),
-                            documentType.getValue(), DOCUMENT_TAG_NAME_SALARY_SLIP, displayName,
-                            dynamicUITable.getLoanType(), dynamicUITable.getModuleType());
-                }
-            }*/
-
-
             // TODO: APPLICANT ADDRESS DETAIL SCREEN
             else if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
                     rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_ADDRESS_DETAIL)) {
@@ -29461,8 +29456,10 @@ public class DynamicUIRepository {
                                 if (!officeAddressProof.getValue().equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_NOT_AVAILABLE)
                                         || !officeAddressProof.getValue().equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_OTHERS))
                                     // TODO: Office ADDRESS PROOF
-                                    insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id(),
-                                            officeAddressProof.getValue(), rawDataTable, "", "");
+                                    insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id()
+                                            , officeAddressProof.getValue(), rawDataTable, "", "");
+
+
                             }
                         }
                     }
@@ -29484,7 +29481,6 @@ public class DynamicUIRepository {
 
                     }
                 }
-
                 // TODO: ONLY FOR PHL
                 if (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)) {
                     RawDataTable rawDataSalaryProfile = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_SALARY_PROFILE, rawDataTable.getClient_id(), rawDataTable.getLoan_type());
@@ -29514,43 +29510,64 @@ public class DynamicUIRepository {
                 DynamicUITable coApplicantKycType = dynamicUIDao.getRowByTAGandScreen(TAG_NAME_KYC_TYPE, rawDataTable.getScreen_no());
                 if (coApplicantKycType != null && !TextUtils.isEmpty(coApplicantKycType.getValue())) {
 
-                   /* // TODO: Document upload table
-                    String documentName = "CoApplicant Photo";
-                    String photoDisplayName = DOCUMENT_DISPLAY_NAME_CO_APPLICANT_PHOTO;
-                    String idProofDisplayName = DOCUMENT_DISPLAY_NAME_CO_APPLICANT_ID_PROOF;
-                    String photoTagName = DOCUMENT_TAG_NAME_CO_APPLICANT_PHOTO;
-                    String idProofTagName = DOCUMENT_TAG_NAME_CO_APPLICANT_ID_PROOF;
-
-                    if (!TextUtils.isEmpty(rawDataTable.getModuleType())) {
-                        String noOfCoApplicant;
-                        noOfCoApplicant = rawDataTable.getModuleType().substring(rawDataTable.getModuleType().length() - 1);
-
-                        photoTagName = photoTagName.replace("coappphoto", DOCUMENT_TAG_NAME_CO_APPLICANT_PHOTO + noOfCoApplicant);
-                        idProofTagName = idProofTagName.replace("coapp", DOCUMENT_TAG_NAME_CO_APPLICANT_ID_PROOF + noOfCoApplicant);
-                        photoDisplayName = photoDisplayName.replace("CoApplicant", rawDataTable.getModuleType());
-                        idProofDisplayName = idProofDisplayName.replace("CoApplicant", rawDataTable.getModuleType());
-                        idProofDisplayName = idProofDisplayName.replace("Id", coApplicantKycType.getValue());
-                    }
-
                     // TODO: Co Applicant Photo
-                    insertDocumentUpload(rawDataTable.getId(),
-                            rawDataTable.getScreen_no(), rawDataTable.getScreen_name(), rawDataTable.getClient_id(),
-                            documentName, photoTagName, photoDisplayName,
-                            dynamicUITable.getLoanType(), dynamicUITable.getModuleType());
-
-                    // TODO: Co Applicant ID Proof
-                    insertDocumentUpload(rawDataTable.getId(),
-                            rawDataTable.getScreen_no(), rawDataTable.getScreen_name(), rawDataTable.getClient_id(),
-                            coApplicantKycType.getValue(), idProofTagName, idProofDisplayName,
-                            dynamicUITable.getLoanType(), dynamicUITable.getModuleType());*/
-
-                    // TODO: Co Applicant Photo
-                    insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
-                            DOCUMENT_NAME_CO_APPLICANT_PHOTO, rawDataTable, "", "");
+                    insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+                            , DOCUMENT_NAME_CO_APPLICANT_PHOTO, rawDataTable, "", "");
 
                     // TODO: CO APPLICANT ID PROOF
-                    insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id(),
-                            coApplicantKycType.getValue(), rawDataTable, "", "");
+                    insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id()
+                            , coApplicantKycType.getValue(), rawDataTable, "", "");
+
+                    if(applicantAgeValue <= 18 || earningCapacityOfStudent.equalsIgnoreCase("No")){
+
+                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_CO_APPLICANT_STUDENT_ADMIT_LETTER, rawDataTable, "", "");
+
+                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_CO_APPLICANT_FEE_STRUCTURE , rawDataTable, "", "");
+
+                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_CO_10_MARK_SHEET , rawDataTable, "", "");
+
+                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_CO_12_MARK_SHEET, rawDataTable, "", "");
+
+                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_CO_GRADUATION, rawDataTable, "", "");
+
+                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_CO_EXAM_SCORE_CARD, rawDataTable, "", "");
+
+                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_CO_FEE_INSTITUTE , rawDataTable, "", "");
+                    }else {
+                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_APPLICANT_STUDENT_ADMIT_LETTER, rawDataTable, "", "");
+
+                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_APPLICANT_FEE_STRUCTURE, rawDataTable, "", "");
+
+                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_10_MARK_SHEET, rawDataTable, "", "");
+
+                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_12_MARK_SHEET, rawDataTable, "", "");
+
+                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_GRADUATION, rawDataTable, "", "");
+
+                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_EXAM_SCORE_CARD, rawDataTable, "", "");
+
+                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_FEE_INSTITUTE, rawDataTable, "", "");
+
+                        // TODO: House Photo
+                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_HOUSE_PHOTO, rawDataTable, "", "");
+                    }
+
+
                 }
 
             }
@@ -30235,52 +30252,37 @@ public class DynamicUIRepository {
     }*/
 
 
-    private void insertDocumentUploadHeader(String screen_no, String client_id, String value, RawDataTable rawDataTable,
-                                            String displayNameToCheck, String format) {
+    private void insertDocumentUploadHeader(String screen_no, String client_id, String value,
+                                            RawDataTable rawDataTable, String displayNameToCheck, String fFormat) {
         try {
             DocumentMasterTable documentMasterTable = null;
 
             String moduleType = rawDataTable.getModuleType();
             String customerType = moduleType;
-            // TODO: statically set customer type n to applicant for address EL
+            // TODO: statically set customertypento applicant for address jlg
             if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
                     rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_ADDRESS_DETAIL) &&
-                    rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)) {
+                    rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_JLG)) {
                 customerType = MODULE_TYPE_APPLICANT;
             }
 
             if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
                     rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_NOMINEE_DETAIL) &&
-                    rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)) {
+                    rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_JLG)) {
                 customerType = MODULE_TYPE_APPLICANT;
             }
 
             if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
                     rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_BANK_DETAILS) &&
-                    rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)) {
+                    rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_JLG)) {
                 customerType = MODULE_TYPE_APPLICANT;
             }
 
-
-            if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
-                    rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC) &&
-                    rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)) {
-                customerType = MODULE_TYPE_APPLICANT;
-                dynamicUIDao.deleteDocumentUploadTableNewByScreenNoClientIDAndLoanType(rawDataTable.getScreen_no(), rawDataTable.getClient_id(),
-                        rawDataTable.getModuleType(), rawDataTable.getLoan_type());
-            }
-
-//            if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
-//                    rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_COURSE_DETAILS) &&
-//                    rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)) {
-//                customerType = MODULE_TYPE_APPLICANT;
-//            }
-
-            // TODO: statically set customer type for BUSINESS ADDRESS PROOF in AHL and MSME PHL
+            // TODO: statically set customertype for BUSINESS ADDRESS PROOF in AHL and MSME PHL
 
             if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
                     rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_BUSINESS_ADDRESS_PROOF) &&
-                    (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL) || rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_MSME))) {
+                    (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_AHL) || rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_MSME))) {
                 customerType = MODULE_TYPE_APPLICANT;
                 dynamicUIDao.deleteDocumentUploadTableNewByScreenNoClientIDAndLoanType(rawDataTable.getScreen_no(), rawDataTable.getClient_id(), rawDataTable.getModuleType(), rawDataTable.getLoan_type());
             }
@@ -30291,10 +30293,10 @@ public class DynamicUIRepository {
                 dynamicUIDao.deleteDocumentUploadTableNewByScreenNoClientIDAndLoanType(rawDataTable.getScreen_no(), rawDataTable.getClient_id(), rawDataTable.getModuleType(), rawDataTable.getLoan_type());
             }
 
-            // TODO: statically set customer type for BUSINESS PROOF in AHL and MSME PHL
+            // TODO: statically set customertype for BUSINESS PROOF in AHL and MSME PHL
             if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
                     rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_BUSINESS_PROOF) &&
-                    (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL) || rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_MSME))) {
+                    (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_AHL) || rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_MSME))) {
                 customerType = MODULE_TYPE_APPLICANT;
 
             }
@@ -30304,33 +30306,32 @@ public class DynamicUIRepository {
 
             }
 
-            // TODO: statically set customer type for OFFICE ADDRESS PROOF in AHL PHL
+            // TODO: statically set customertype for OFFICE ADDRESS PROOF in AHL PHL
             if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
                     rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_OFFICE_ADDRESS_PROOF) &&
-                    (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL))) {
+                    (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_AHL))) {
                 customerType = MODULE_TYPE_APPLICANT;
-                dynamicUIDao.deleteDocumentUploadTableNewByScreenNoClientIDAndLoanType(rawDataTable.getScreen_no(), rawDataTable.getClient_id(),
-                        rawDataTable.getModuleType(), rawDataTable.getLoan_type());
+                dynamicUIDao.deleteDocumentUploadTableNewByScreenNoClientIDAndLoanType(rawDataTable.getScreen_no(), rawDataTable.getClient_id(), rawDataTable.getModuleType(), rawDataTable.getLoan_type());
 
             }
             if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
                     rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_OFFICE_ADDRESS_PROOF)) {
                 customerType = MODULE_TYPE_APPLICANT;
-                dynamicUIDao.deleteDocumentUploadTableNewByScreenNoClientIDAndLoanType(rawDataTable.getScreen_no(), rawDataTable.getClient_id(),
-                        rawDataTable.getModuleType(), rawDataTable.getLoan_type());
+                dynamicUIDao.deleteDocumentUploadTableNewByScreenNoClientIDAndLoanType(rawDataTable.getScreen_no(), rawDataTable.getClient_id(), rawDataTable.getModuleType(), rawDataTable.getLoan_type());
 
             }
            /* if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
-                    rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_OFFICE_ADDRESS_PROOF) && rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)) {
+                    rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_OFFICE_ADDRESS_PROOF) && rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_UCL)) {
                 customerType = MODULE_TYPE_APPLICANT;
                 dynamicUIDao.deleteDocumentUploadTableNewByScreenNoClientIDAndLoanType(rawDataTable.getScreen_no(), rawDataTable.getClient_id(), rawDataTable.getModuleType(), rawDataTable.getLoan_type());
 
             }*/
 
-            // TODO: statically set customer type for BUSINESS PROOF in AHL
+
+            // TODO: statically set customertype for BUSINESS PROOF in AHL
             if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
                     rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_SALARY_PROFILE) &&
-                    (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL))) {
+                    (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_AHL))) {
                 customerType = MODULE_TYPE_APPLICANT;
             }
             if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
@@ -30340,22 +30341,22 @@ public class DynamicUIRepository {
 
           /*  if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
                     rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_SALARY_PROFILE) &&
-                    (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL))) {
+                    (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_UCL))) {
                 customerType = MODULE_TYPE_APPLICANT;
             }*/
 
             if (moduleType.contains(MODULE_TYPE_CO_APPLICANT)) {
                 customerType = moduleType.substring(0, moduleType.length() - 1);
             }
-            if (!TextUtils.isEmpty(format)) {
-                documentMasterTable = dynamicUIDao.getDocumentMasterByScreenAndFileFormat(screen_no, format);
+            if (!TextUtils.isEmpty(fFormat)) {
+                documentMasterTable = dynamicUIDao.getDocumentMasterByScreenAndFileFormat(screen_no, fFormat);
             } else if (!TextUtils.isEmpty(displayNameToCheck)) {
                 documentMasterTable = dynamicUIDao.getDocumentMasterByScreenAndDisplayName(screen_no, value, displayNameToCheck,
                         customerType);
             } else {
                 documentMasterTable = dynamicUIDao.getDocumentMasterByScreenAndDocumentName(screen_no, value, customerType);
             }
-//line number 30337-------------------------------------master to new -
+
             if (documentMasterTable != null) {
 
                 String documentName = documentMasterTable.getDocumentName();
@@ -30363,7 +30364,6 @@ public class DynamicUIRepository {
                 String displayName = documentMasterTable.getDisplayName();
                 String displayFullName = moduleType + " " + documentMasterTable.getDisplayName() + " " + documentMasterTable.getDocumentName();
                 String documentTagName = documentMasterTable.getTagName();
-                Log.d(TAG, "GET THE DOC tag names/////////////////////////" + documentMasterTable.getTagName());
                 String fileFormat = documentMasterTable.getFileFormat();
                 // TODO: Only for Co Applicant
                 if (moduleType.contains("CoApplicant")) {
@@ -30378,8 +30378,8 @@ public class DynamicUIRepository {
                         displayName, displayFullName, fileFormat, rawDataTable.getLoan_type(), moduleType,
                         rawDataTable.getUser_id(), rawDataTable.getProductId(), true, noOfImagesToCapture, true);
 
-                DocumentUploadTableNew documentUploadTableRow = dynamicUIDao.getDocumentHeaderByFileFormatAndModuleType(fileFormat,
-                        client_id, moduleType, true);
+                DocumentUploadTableNew documentUploadTableRow = dynamicUIDao.
+                        getDocumentHeaderByFileFormatAndModuleType(fileFormat, client_id, moduleType, true);
                 if (documentUploadTableRow == null) {
                     // TODO: if not exist then insert
                     dynamicUIDao.insertDocumentUploadNew(documentUploadTableNew);
@@ -30398,10 +30398,9 @@ public class DynamicUIRepository {
                                 if (hashMap.containsKey(TAG_NAME_PERMANENT_ADDRESS_SAME_AS_KYC)) {
                                     String permvalue = hashMap.get(TAG_NAME_PERMANENT_ADDRESS_SAME_AS_KYC).toString();
                                     String permkyctypevalue = hashMap.get(TAG_NAME_PERMANENT_KYC_TYPE).toString();
-                                    DocumentMasterTable documentMasterTableAddressProof = dynamicUIDao.getDocumentMasterByScreenAndDocumentName(SCREEN_NO_ADDRESS_DETAIL_JLG,
-                                            DOCUMENT_NAME_ADDRESS_PROOF, MODULE_TYPE_APPLICANT);
-                                    if (documentMasterTableAddressProof != null) {
-                                        String fileFormataddproof = documentMasterTableAddressProof.getFileFormat();
+                                    DocumentMasterTable documentMasterTableaddresproof = dynamicUIDao.getDocumentMasterByScreenAndDocumentName(SCREEN_NO_ADDRESS_DETAIL_JLG, DOCUMENT_NAME_ADDRESS_PROOF, MODULE_TYPE_APPLICANT);
+                                    if (documentMasterTableaddresproof != null) {
+                                        String fileFormataddproof = documentMasterTableaddresproof.getFileFormat();
                                         DocumentUploadTableNew documentUploadTableRowaddressproofHeader = dynamicUIDao.
                                                 getDocumentHeaderByFileFormatAndModuleType(fileFormat, rawDataTable.getClient_id(), MODULE_TYPE_LOAN_PROPOSAL_WITH_NOMINEE, true);
                                         if (documentUploadTableRowaddressproofHeader != null) {
@@ -30435,7 +30434,7 @@ public class DynamicUIRepository {
 
                                                                                             for (int i = 0; i < documentUploadTableNewListapplicant.size(); i++) {
 
-                                                                                                // TODO: add file path
+                                                                                                // TODO: add filepath
                                                                                                 if (!TextUtils.isEmpty(documentUploadTableNewList.get(i).getFile_name())) {
                                                                                                     documentUploadTableNewList.get(i).setFile_name(documentUploadTableNewList.get(i).getFile_name() + ".jpg");
                                                                                                 }
@@ -30479,7 +30478,9 @@ public class DynamicUIRepository {
                                     }
                                 }
                             }
+
                         }
+
                     }
                 }
             }
@@ -30589,7 +30590,7 @@ public class DynamicUIRepository {
                 if (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_SAVE_BUTTON))
                     dynamicUITable.setFieldName(TAG_NAME_SAVE_BUTTON);
 
-            }  else if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) {
+            }  /*else if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) {
                 // TODO: only for Plus Button
                 if (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_ADD_ANOTHER_KYC_PLUS_BUTTON)) {
                     dynamicUITable.setFieldName(TAG_NAME_ADD_ANOTHER_KYC_PLUS_BUTTON);
@@ -30598,7 +30599,7 @@ public class DynamicUIRepository {
                 if (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_SAVE_BUTTON))
                     dynamicUITable.setFieldName(TAG_NAME_SAVE_BUTTON);
 
-            }
+            }*/
             else if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_GENERAL_INCOME)) {
                 // TODO: only for Plus Button
                 if (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_SAVE_AND_ADD_GENERAL_INCOME)) {

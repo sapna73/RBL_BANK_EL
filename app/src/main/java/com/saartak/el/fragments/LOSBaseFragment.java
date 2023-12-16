@@ -173,7 +173,7 @@ public class LOSBaseFragment extends BaseFragment {
     private DynamicUIRepository dynamicUIRepository;
     private RawDataTable rawDataFronRawDataTable = null;
     String customerType, individualAndNonIndividual, individualAndNonIndividualLead, year, variant, owner, month, make,
-            model, color, category, ownerName, permenentAddress, chasisNumber, engineNumber, classification, registedAt, educationDestination;
+            model, color, category, ownerName, permenentAddress, chasisNumber, engineNumber, classification, registedAt, educationDestination,earningCapacityOfStudent="";
     String pricingMake = "", pricingModel = "", pricingClassification = "", pricingColor = "";
     String stateGetFromLead = "", twlMake = "", twlModel = "", twlVariant = "", twlTwowheelertype = "",
             twlElectricModel = "", twlEngineCC, twlPrice = "", twlCategory;
@@ -328,27 +328,6 @@ public class LOSBaseFragment extends BaseFragment {
                         @Override
                         public void callBackForDeDupeValidation(DynamicUITable dynamicUITable, View view) {
                             try {
-
-                                // TODO: OLD LOGIC
-                             /*   if (SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC)) {
-//                                    dedupeValidationForKYCId(SCREEN_NAME_APPLICANT_KYC, SCREEN_ID, dynamicUITable.getValue(), dynamicUITable.getFieldTag(),
-//                                            dynamicUITable, viewParametersList);
-                                    dedupeValidationForKYCIdforcoapplicant(SCREEN_NAME_APPLICANT_KYC, SCREEN_NAME_CO_APPLICANT_KYC, dynamicUITable.getValue(), dynamicUITable.getFieldTag(), dynamicUITable.getModuleType(),
-                                            dynamicUITable, viewParametersList);
-                                } else if (SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_PERSONAL_DETAIL)) {
-                                    dedupeValidationForKYCIdforcoapplicant(SCREEN_NAME_PERSONAL_DETAIL, SCREEN_NAME_COAPPLICANT_PERSONAL_DETAIL, dynamicUITable.getValue(), dynamicUITable.getFieldTag(), dynamicUITable.getModuleType(),
-                                            dynamicUITable, viewParametersList);
-                                }else if (SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC)) {
-                                    dedupeValidationForKYCId(SCREEN_NAME_APPLICANT_KYC, SCREEN_ID, dynamicUITable.getValue(), dynamicUITable.getFieldTag(),
-                                            dynamicUITable, viewParametersList);
-                                } else if (SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_BANK_DETAILS)) {
-                                    dedupeValidation(SCREEN_NO_BANK_DETAILS_IL, dynamicUITable.getValue(), dynamicUITable.getFieldTag(),
-                                            dynamicUITable, viewParametersList);
-                                } else {
-                                    dedupeValidation(SCREEN_ID, dynamicUITable.getValue(), dynamicUITable.getFieldTag(),
-                                            dynamicUITable, viewParametersList);
-                                }
-                                */
 
                                 // TODO: If it is valid and kyc type is RE ENTER AADHAAR then call Aadhaar Vault validation
                                 if ((dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE_AADHAAR)
@@ -602,11 +581,11 @@ public class LOSBaseFragment extends BaseFragment {
                                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat(AppConstant.DATE_FORMAT_YYYY_MM_DD, Locale.US);
                                 String selectedDate = simpleDateFormat.format(calendar.getTime());
                                 customTextInputLayout.getEditText().setText(selectedDate);
-
+                                  getEarningCapacityOfStudent();
                                 if (viewParameters.getFieldTag().contains(TAG_LEAD_NAME_DOB_OF_STUDENT)) {
                                     applicantAge = appHelper.getAgeBasedOnDOB(selectedDate);
                                     setValueByLoopingDynamicUI(dynamicViews, String.valueOf( appHelper.getAgeBasedOnDOB(selectedDate)), TAG_LEAD_AGE_OF_STUDENT, viewParametersList);
-                                      if(appHelper.getAgeBasedOnDOB(selectedDate) >= 19){
+                                      if(appHelper.getAgeBasedOnDOB(selectedDate) >= 19&&earningCapacityOfStudent.equalsIgnoreCase("Yes")){
                                           List<ParameterInfo> parameterInfoList = new ArrayList<>();
                                           parameterInfoList.add(new ParameterInfo(TAG_NAME_APPLICANT_FULL_NAME, SCREEN_ID, studentFullName, true, false));
                                           parameterInfoList.add(new ParameterInfo(TAG_NAME_CO_APPLICANT_FULL_NAME, SCREEN_ID, "", true, true));
@@ -671,30 +650,6 @@ public class LOSBaseFragment extends BaseFragment {
                                     viewParameters.setValue(selectedDate);
                                     deDupValidationforMonthInPD(viewParameters, viewParametersList, month_datepicker);
                                 }
-//                                // TODO: date format should be this format only "january 2019" in Sales bills detail
-//                                if (viewParameters.getFieldTag().contains(TAG_NAME_DATE_IN_SALES_BILLS)
-//                                        &&viewParameters.getScreenName().equalsIgnoreCase(SCREEN_NAME_SALES_BILLS_DETAIL_MSME)) {
-//                                    //int age = appHelper.getbusinessvintageBasedOnYEAR(selectedDate);//
-//                                    String month_datepicker = appHelper.getMonthByDate(DATE_FORMAT_DD_MM_YYYY2,selectedDate);//
-//
-//                                    //setValueByLoopingDynamicUI(dynamicViews, age, TAG_NAME_MONTH_IN_BANKING_HISTORY);
-//                                    // TODO: calling deDupValidation for sales bills detail
-//                                    viewParameters.setValue(selectedDate);
-//                                    deDupValidationforMonthInPD(viewParameters,viewParametersList,month_datepicker);
-//                                }
-//
-//                                // TODO: date format should be this format only "january 2019" in Purchase bills detail
-//                                if (viewParameters.getFieldTag().contains(TAG_NAME_DATE_IN_PURCHASE_BILLS)
-//                                        &&viewParameters.getScreenName().equalsIgnoreCase(SCREEN_NAME_PURCHASE_BILLS_DETAIL_MSME)) {
-//                                    //int age = appHelper.getbusinessvintageBasedOnYEAR(selectedDate);//
-//                                    String month_datepicker = appHelper.getMonthByDate(DATE_FORMAT_DD_MM_YYYY2,selectedDate);//
-//
-//                                    //setValueByLoopingDynamicUI(dynamicViews, age, TAG_NAME_MONTH_IN_BANKING_HISTORY);
-//                                    // TODO: calling deDupValidation for purchase bills detail
-//                                    viewParameters.setValue(selectedDate);
-//                                    deDupValidationforMonthInPD(viewParameters,viewParametersList,month_datepicker);
-//                                }
-
                                 if ((viewParameters.getScreenName().equalsIgnoreCase(SCREEN_NAME_MORTGAGE_BUILDING_MSME)
                                         || viewParameters.getScreenName().equalsIgnoreCase(SCREEN_NAME_MORTGAGE_LAND_MSME)
                                         || viewParameters.getScreenName().equalsIgnoreCase(SCREEN_NAME_MORTGAGE_OPEN_PLOT_MSME)
@@ -1158,9 +1113,8 @@ public class LOSBaseFragment extends BaseFragment {
                                     }
                                 }
 
-                                if(LOSBaseFragment.this instanceof GuarantorDetailsFragment){
-                                    if (!TextUtils.isEmpty(dynamicUITable.getFieldTag())
-                                            && (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_GUARANTOR_TO_BE_ADDED))){
+                                else if(LOSBaseFragment.this instanceof GuarantorDetailsFragment){
+                                    if (!TextUtils.isEmpty(dynamicUITable.getFieldTag()) && (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_GUARANTOR_TO_BE_ADDED))){
                                         List<ParameterInfo> parameterInfoList = new ArrayList<>();
                                         if (!TextUtils.isEmpty(selectedRadioButton) && selectedRadioButton.equalsIgnoreCase("No")) {
                                             parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_BUSINESS_NAME, SCREEN_ID, "", false, true));
@@ -1233,9 +1187,7 @@ public class LOSBaseFragment extends BaseFragment {
                                             EnableOrDisableByFieldNameInDB(parameterInfoList, viewParametersList);
                                         }
                                     }
-                                }
-
-                                else if (LOSBaseFragment.this instanceof CoApplicantAddressDetailFragment) {
+                                } else if (LOSBaseFragment.this instanceof CoApplicantAddressDetailFragment) {
                                     addressDetailValidation(dynamicUITable, viewParametersList);
                                     if (!TextUtils.isEmpty(viewParameters.getFieldTag()) && viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_PERMANENT_ADDRESS_SAME_AS_KYC)) {
                                         if (!TextUtils.isEmpty(selectedRadioButton) && selectedRadioButton.equalsIgnoreCase("No")) {
@@ -1707,10 +1659,6 @@ public class LOSBaseFragment extends BaseFragment {
                                     viewParameters.setValue(selectedItem);
                                 }
 
-                                if (LOSBaseFragment.this instanceof GuarantorDetailsFragment){
-
-                                    setGuarantorScreenChangesBySpinner(viewParametersList, viewParameters, customSpinner);
-                                }
 
                                 if (LOSBaseFragment.this instanceof ApplicantKYCFragment
                                         || LOSBaseFragment.this instanceof CoApplicantKYCFragment) {
@@ -1982,6 +1930,7 @@ public class LOSBaseFragment extends BaseFragment {
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_ADD_ANOTHER_KYC_PLUS_BUTTON, SCREEN_ID, "", true, true));
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_SAVE_BUTTON, SCREEN_ID, "", false, true));
                                                 EnableOrDisableByFieldNameInDB(parameterInfoList, viewParametersList);
+                                                setApplicantScreenChangesBySpinner(viewParametersList, viewParameters, customSpinner);
                                             }
                                             if(selectedItem.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_GUARANTOR_DRIVING_LICENSE)){
                                                 List<ParameterInfo> parameterInfoList = new ArrayList<>();
@@ -2004,6 +1953,7 @@ public class LOSBaseFragment extends BaseFragment {
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_EXPIRY_DATE, SCREEN_ID, "", true, true));
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_ADD_ANOTHER_KYC_PLUS_BUTTON, SCREEN_ID, "", true, true));
                                                 EnableOrDisableByFieldNameInDB(parameterInfoList, viewParametersList);
+                                                setApplicantScreenChangesBySpinner(viewParametersList, viewParameters, customSpinner);
                                             }
                                             if(selectedItem.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_GUARANTOR_PASSPORT)){
                                                 List<ParameterInfo> parameterInfoList = new ArrayList<>();
@@ -2025,6 +1975,7 @@ public class LOSBaseFragment extends BaseFragment {
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_EXPIRY_DATE, SCREEN_ID, "", true, true));
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_ADD_ANOTHER_KYC_PLUS_BUTTON, SCREEN_ID, "", true, true));
                                                 EnableOrDisableByFieldNameInDB(parameterInfoList, viewParametersList);
+                                                setApplicantScreenChangesBySpinner(viewParametersList, viewParameters, customSpinner);
                                             }
                                             if(selectedItem.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_VOTER_ID)){
                                                 List<ParameterInfo> parameterInfoList = new ArrayList<>();
@@ -2047,13 +1998,13 @@ public class LOSBaseFragment extends BaseFragment {
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_EXPIRY_DATE, SCREEN_ID, "", true, true));
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_ADD_ANOTHER_KYC_PLUS_BUTTON, SCREEN_ID, "", true, true));
                                                 EnableOrDisableByFieldNameInDB(parameterInfoList, viewParametersList);
+                                                setApplicantScreenChangesBySpinner(viewParametersList, viewParameters, customSpinner);
                                             }
                                         }
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
                                 }
-
                                 else if (LOSBaseFragment.this instanceof StudentDetailsFragment) {
                                     if (!TextUtils.isEmpty(viewParameters.getFieldTag()) && viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_STUDENT_DETAILS_GRADE)) {
                                         getStudentGrade(viewParametersList, customSpinner.getSelectedItem().toString());
@@ -2868,7 +2819,7 @@ public class LOSBaseFragment extends BaseFragment {
                                                 "Please check your internet connection and try again");
                                     }
                                 }
-                                if (SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) {
+                                /*else if (SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) {
                                     if (appHelper.isNetworkAvailable()) {
                                         String selectedItem = getValuesBasedOnTAGinLoop(TAG_NAME_GUARANTOR_KYC_DETAILS, viewParametersList);
                                         final RawDataTable rawDataTable = new RawDataTable(submittedValues, SCREEN_ID, SCREEN_NAME,
@@ -2883,7 +2834,7 @@ public class LOSBaseFragment extends BaseFragment {
                                                 "Please check your internet connection and try again");
                                     }
 
-                                } else if (SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_REFERENCE_CHECK)) {
+                                } */else if (SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_REFERENCE_CHECK)) {
                                     if (appHelper.isNetworkAvailable()) {
                                         String referenceName = getValuesBasedOnTAGinLoop(TAG_NAME_FULL_NAME, viewParametersList);
                                         if (!TextUtils.isEmpty(referenceName)) {
@@ -3179,7 +3130,7 @@ public class LOSBaseFragment extends BaseFragment {
                                 }
                             }
 
-                            else if (LOSBaseFragment.this instanceof GuarantorDetailsFragment){
+                            /*else if (LOSBaseFragment.this instanceof GuarantorDetailsFragment){
                                 String selectedItem = getValuesBasedOnTAGinLoop(TAG_NAME_TYPE_OF_GUARANTOR, viewParametersList);
                                 if (!TextUtils.isEmpty(selectedItem)) {
 
@@ -3197,8 +3148,8 @@ public class LOSBaseFragment extends BaseFragment {
 
                                                         //postSubmittedAllScreensLiveData(submittedValues,SCREEN_ID,rawDataTable.getProductId(),SCREEN_NAME,rawDataTable.getModuleType());
 
-                                                    /*updatePlusButtonDataInDB(selectedItem, SCREEN_ID, TAG_NAME_KYC_TYPE, viewParameters
-                                                            , viewParametersList);*/
+                                                    *//*updatePlusButtonDataInDB(selectedItem, SCREEN_ID, TAG_NAME_KYC_TYPE, viewParameters
+                                                            , viewParametersList);*//*
                                                     }
                                                 });
                                     } else {
@@ -3211,7 +3162,7 @@ public class LOSBaseFragment extends BaseFragment {
                                     appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ALERT,
                                             "Select Yes or No");
                                 }
-                            }
+                            }*/
 
                             else if (LOSBaseFragment.this instanceof ReferenceCheckFragment) {
 
@@ -3521,6 +3472,33 @@ public class LOSBaseFragment extends BaseFragment {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void getEarningCapacityOfStudent() {
+
+        viewModel.getRawDataByClientIDAndModuleType(SCREEN_NAME_LEAD, CLIENT_ID, MODULE_TYPE_LEAD);
+        if (viewModel.getRawTableLiveData() != null) {
+            Observer getLeadRawDataObserver = new Observer() {
+                @Override
+                public void onChanged(@Nullable Object o) {
+                    List<RawDataTable> rawDataTableList = (List<RawDataTable>) o;
+                    viewModel.getRawTableLiveData().removeObserver(this);
+                    if (rawDataTableList != null && rawDataTableList.size() > 0) {
+                        for (RawDataTable rawDataTable : rawDataTableList) {
+                            if (rawDataTable != null) {
+                                HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
+                                if (hashMap != null && hashMap.size() > 0) {
+                                    if (hashMap.containsKey(TAG_NAME_EARNING_CAPACITY_OF_STUDENT)) {
+                                         earningCapacityOfStudent = hashMap.get(TAG_NAME_EARNING_CAPACITY_OF_STUDENT).toString();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            viewModel.getRawTableLiveData().observe(this, getLeadRawDataObserver);
         }
     }
 
@@ -3904,18 +3882,24 @@ public class LOSBaseFragment extends BaseFragment {
 //                }
                 /*Earning capacity of student condition*/
 
-//                if(!TextUtils.isEmpty(dynamicUITable.getFieldTag()) && dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_EARNING_CAPACITY_OF_STUDENT)){
-//                    List<ParameterInfo> parameterInfoList = new ArrayList<>();
-//                    if(!TextUtils.isEmpty(selectedRadioButton) && selectedRadioButton.equalsIgnoreCase("No")){
-//                        parameterInfoList.add(new ParameterInfo(TAG_NAME_CUSTOMER_TYPE, SCREEN_ID, "", false, false));
-//                        parameterInfoList.add(new ParameterInfo(TAG_NAME_TYPE_OF_PROFESSION, SCREEN_ID, "", false, false));
-//                        EnableOrDisableByFieldNameInDB(parameterInfoList, dynamicUITableList);
-//                    }else{
-//                        parameterInfoList.add(new ParameterInfo(TAG_NAME_CUSTOMER_TYPE, SCREEN_ID, "", true, true));
-//                        parameterInfoList.add(new ParameterInfo(TAG_NAME_TYPE_OF_PROFESSION, SCREEN_ID, "", true, true));
-//                        EnableOrDisableByFieldNameInDB(parameterInfoList, dynamicUITableList);
-//                    }
-//                }
+                if(!TextUtils.isEmpty(dynamicUITable.getFieldTag()) && dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_EARNING_CAPACITY_OF_STUDENT)){
+                    List<ParameterInfo> parameterInfoList = new ArrayList<>();
+                    if (!TextUtils.isEmpty(selectedRadioButton) && selectedRadioButton.equalsIgnoreCase("No")) {
+                        parameterInfoList.add(new ParameterInfo(TAG_NAME_APPLICANT_FULL_NAME, SCREEN_ID, "", true, true));
+                        parameterInfoList.add(new ParameterInfo(TAG_NAME_CO_APPLICANT_FULL_NAME, SCREEN_ID, studentFullName, true, false));
+                    } else if (!TextUtils.isEmpty(selectedRadioButton) && selectedRadioButton.equalsIgnoreCase("Yes")) {
+                        if (applicantAge >= 19) {
+                            parameterInfoList.add(new ParameterInfo(TAG_NAME_APPLICANT_FULL_NAME, SCREEN_ID, studentFullName, true, false));
+                            parameterInfoList.add(new ParameterInfo(TAG_NAME_CO_APPLICANT_FULL_NAME, SCREEN_ID, "", true, true));
+                        }else {
+                            parameterInfoList.add(new ParameterInfo(TAG_NAME_APPLICANT_FULL_NAME, SCREEN_ID, "", true, true));
+                            parameterInfoList.add(new ParameterInfo(TAG_NAME_CO_APPLICANT_FULL_NAME, SCREEN_ID, studentFullName, true, false));
+                        }
+                    }
+                    EnableOrDisableByFieldNameInDB(parameterInfoList, dynamicUITableList);
+
+
+                }
                 if(!TextUtils.isEmpty(dynamicUITable.getFieldTag()) && dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_EDUCATION_DESTINATION_IDENTIFIED)){
                     List<ParameterInfo> parameterInfoList = new ArrayList<>();
                     if (!TextUtils.isEmpty(selectedRadioButton) && selectedRadioButton.equalsIgnoreCase("Yes")){
@@ -4091,7 +4075,7 @@ public class LOSBaseFragment extends BaseFragment {
                     getDropDownKYCType(viewParametersList, CLIENT_ID, MODULE_TYPE, "", "", "YES",  Integer.valueOf(viewParameters.getScreenID().toString()));
                 }
             }
-            if (!TextUtils.isEmpty(viewParameters.getFieldTag()) && (viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE))) {
+            if (!TextUtils.isEmpty(viewParameters.getFieldTag()) && (viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE)||(viewParameters.getFieldTag().equalsIgnoreCase("KYC DETAILS")))) {
                 viewParameters.setFieldType(FIELD_TYPE_LIST);
                 viewParameters.setEditable(true);
                 String selectedItem = customSpinner.getSelectedItem().toString();
@@ -4858,10 +4842,10 @@ public class LOSBaseFragment extends BaseFragment {
                     parameterInfoList.add(new ParameterInfo(TAG_NAME_EKYC_BUTTON, SCREEN_ID, "", false, true));
                     parameterInfoList.add(new ParameterInfo(TAG_NAME_QR_READING_BUTTON, SCREEN_ID, "", false, true));
 
-                    /*if (selectedItem.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_VOTER_ID)) {
+                    if (selectedItem.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_VOTER_ID)) {
                         parameterInfoList.add(new ParameterInfo(TAG_NAME_CONTAINS_DOB, SCREEN_ID, "", true, false));
 
-                    }*/
+                    }
 
                     if (selectedItem.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_DRIVING_LICENSE) || selectedItem.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_PASSPORT)) {
                         parameterInfoList.add(new ParameterInfo(TAG_NAME_EXPIRY_DATE, SCREEN_ID, "", true, true));
@@ -7188,7 +7172,7 @@ public class LOSBaseFragment extends BaseFragment {
 
                             if (params.getScreenName().equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC)
                                     || params.getScreenName().equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC)
-                                    || params.getScreenName().equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) {
+                                    /*|| params.getScreenName().equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)*/) {
                                 if (!TextUtils.isEmpty(params.getOptional())) {
 
                                     // TODO: this is for to get aadhaar vault id tvName optional field
@@ -8268,9 +8252,9 @@ public class LOSBaseFragment extends BaseFragment {
                         if (screenName.equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC)) { // TODO: CO APPLICANT KYC SCREEN
                             applicantKYCScreenValidation(dynamicUITableListd.get(0), dynamicUITableListd);
                         }
-                        if (screenName.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) { // TODO: GUARANTOR KYC SCREEN
+                       /* if (screenName.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) { // TODO: GUARANTOR KYC SCREEN
                             applicantKYCScreenValidation(dynamicUITableListd.get(0), dynamicUITableListd);
-                        }
+                        }*/
                         if (screenName.equalsIgnoreCase(SCREEN_NAME_REFERENCE_CHECK)) { // TODO: REFERENCE CHECK SCREEN
                             referenceCheckScreenValidation(dynamicUITableListd.get(0), dynamicUITableListd);
                         }
@@ -10649,8 +10633,8 @@ public class LOSBaseFragment extends BaseFragment {
                                             if (hashMap.containsKey(dynamicUITable.getFieldTag())) {
                                                 String value = hashMap.get(dynamicUITable.getFieldTag()).toString();
                                                 if (!TextUtils.isEmpty(value)) {
-                                                    if (SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC) || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC) ||
-                                                            SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) {
+                                                    if (SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC) || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC)
+                                                        /*||SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)*/) {
                                                         dynamicUITable.setValue("");
                                                         if (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE)) {
                                                             dynamicUITable.setVisibility(true);
@@ -10670,7 +10654,7 @@ public class LOSBaseFragment extends BaseFragment {
                                                             for (RawDataTable rawDataTable : tagNameList) {
                                                                 if (SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC) ||
                                                                         SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC) ||
-                                                                        SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS) ||
+                                                                        /*SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS) ||*/
                                                                         SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_BUSINESS_PROOF)) {
                                                                     DynamicUITable newDynamicUITable = createNewRow(dynamicUITable,
                                                                             rawDataTable, rawDataTable.getAdditional(), hashMap);
@@ -10687,7 +10671,7 @@ public class LOSBaseFragment extends BaseFragment {
 
                                             } else if (!SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC)
                                                     && (!SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC))
-                                                    && (!SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS))) {
+                                                    /*&& (!SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS))*/) {
 
                                                 if (dynamicUITable.getFieldName().equalsIgnoreCase(FIELD_NAME_SAVE)) {
                                                     dynamicUITable.setVisibility(true);
@@ -10831,7 +10815,7 @@ public class LOSBaseFragment extends BaseFragment {
                                         }
                                     }
 
-                                    if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) {
+                                    /*if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) {
                                         if (!dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_SAVE_BUTTON)) {
                                             dynamicUITable.setVisibility(true);
                                         }
@@ -10848,7 +10832,7 @@ public class LOSBaseFragment extends BaseFragment {
                                         if (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_MODULE_TYPE)) {
                                             dynamicUITable.setVisibility(false);
                                         }
-                                    }
+                                    }*/
                                     if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_GENERAL_INCOME)
                                             || dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_OTHER_INCOME_SOURCE)) {
 
@@ -11041,7 +11025,7 @@ public class LOSBaseFragment extends BaseFragment {
                                     || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL)
                                     || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_SOCIO_ECONOMIC_DETAIL)
                                     || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_BANK_DETAILS)
-                                    || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)
+                                    /*|| SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)*/
                                     || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_APPLICANT_TWO_WHEELER_DETAIL)
                                     || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_APPLICANT_USED_CAR_DETAIL)
                                     || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_APPLICANT_LOAN_PROPOSAL)) {
@@ -11523,8 +11507,7 @@ public class LOSBaseFragment extends BaseFragment {
                         // TODO: If it is valid and kyc type is RE ENTER PAN then call PAN Card validation
                         if (dynamicUITableFromDB != null && dynamicUITableFromDB.isValid()
                                 && (dynamicUITableFromDB.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE_PANCARD))
-//                                && (dynamicUITableFromDB.getFieldTag().equalsIgnoreCase(TAG_NAME_GUARANTOR_PAN_NUMBER))
-//                                && (dynamicUITableFromDB.getFieldTag().equalsIgnoreCase(TAG_NAME_GUARANTOR_BUSINESS_PAN))
+                               ||(dynamicUITableFromDB.getFieldTag().equalsIgnoreCase(TAG_NAME_GUARANTOR_PAN_NUMBER))|| (dynamicUITableFromDB.getFieldTag().equalsIgnoreCase(TAG_NAME_GUARANTOR_BUSINESS_PAN))
                         ) {
 
                             if (appHelper.isNetworkAvailable()) {
@@ -12247,6 +12230,45 @@ public class LOSBaseFragment extends BaseFragment {
         }
     }
 
+    public void guarantorDetails(List<DynamicUITable> dynamicUITableList) {
+
+                List<ParameterInfo> parameterInfoList = new ArrayList<>();
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_BUSINESS_NAME, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_BUSINESS_TYPE, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_BUSINESS_PAN, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_PARTNER, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_KYC_DETAILS, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_OF_KARTA, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_NUMBER_OF_MEMBER_HUF, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_PAN_NUMBER, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_ANNUAL_INCOME, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_SOURCE_OF_INCOME, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_ENTITY_TYPE, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_TYPE_OF_GUARANTOR, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_ANNUAL_INCOME_OF_HUF, SCREEN_ID, "", false, true));
+                    ///////
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_KYC_ID, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_EKYC_BUTTON, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_FULL_NAME, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_DATE_OF_BIRTH, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_AGE, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_GENDER, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_ADDRESS_LINE_1, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_ADDRESS_LINE_2, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_ADDRESS_LINE_3, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_FIELD_NAME_GUARANTOR_PINCODE, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_VILLAGE, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_CITY, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_DISTRICT, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_STATE, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_LAND_MARK, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_EXPIRY_DATE, SCREEN_ID, "", false, true));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_ADD_ANOTHER_KYC_PLUS_BUTTON, SCREEN_ID, "", false, false));
+                    parameterInfoList.add(new ParameterInfo(TAG_NAME_SAVE_BUTTON, SCREEN_ID, "", true, true));
+                    EnableOrDisableByFieldNameInDB(parameterInfoList, dynamicUITableList);
+
+    }
     public void applicantKYCScreenValidation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList) {
         try {
 
@@ -13564,7 +13586,7 @@ public class LOSBaseFragment extends BaseFragment {
                                             || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_REFERENCES)
                                             || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_GENERAL_INCOME)
                                             || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_OTHER_INCOME_SOURCE)
-                                            || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) {
+                                            /*|| SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)*/) {
                                         appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.SUCCESS,
                                                 ERROR_MESSAGE_DATA_SAVED_SUCCESSFULLY, new ConfirmationDialog.ActionCallback() {
                                                     @Override
@@ -13602,7 +13624,7 @@ public class LOSBaseFragment extends BaseFragment {
                                                             && !SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_SOCIO_ECONOMIC_DETAIL)
                                                             && !SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_PERSONAL_DETAIL)
                                                             && !SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_BANK_DETAILS)
-                                                            && !SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)
+                                                           /* && !SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)*/
                                                     ) {
                                                         // TODO: MOVE TO NEXT SCREEN
                                                         moveToNextScreen();

@@ -250,8 +250,8 @@ public class LoginActivity extends LOSBaseActivity implements View.OnClickListen
         super.onResume();
         ldapvalue = false;
         ldap.setChecked(false);
-        tilUserId.getEditText().setText(""); // TODO:  LO/SM
-        tilPassword.getEditText().setText("");
+        tilUserId.getEditText().setText("C27060"); // TODO:  LO/SM
+        tilPassword.getEditText().setText("uojb8114UO");
     }
 
     private void configureDagger(){

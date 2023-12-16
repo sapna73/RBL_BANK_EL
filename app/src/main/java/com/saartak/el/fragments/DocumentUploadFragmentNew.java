@@ -110,7 +110,7 @@ public class DocumentUploadFragmentNew extends LOSBaseFragment implements LOSBas
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ALERT, "KYC documents to be uploaded after OSV");
+        //appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ALERT, "KYC documents to be uploaded after OSV");
         super.onViewCreated(view, savedInstanceState);
         rvDocUploadHeader = (RecyclerView) view.findViewById(R.id.rv_doc_upload_header);
         btnUpload = (Button) view.findViewById(R.id.btn_upload);
@@ -158,7 +158,7 @@ public class DocumentUploadFragmentNew extends LOSBaseFragment implements LOSBas
             String json = new Gson().toJson(documentUploadTableNew, DocumentUploadTableNew.class);
             if( !TextUtils.isEmpty(json)) {
                 if(documentUploadTableNew.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)){
-                    Intent intent = new Intent(getActivity(), ImageCaptureActivityJLG.class);
+                    Intent intent = new Intent(getActivity(), ImageCaptureActivity.class);
                     intent.putExtra(PARAM_DOCUMENT_UPLOAD_JSON, json);
                     startActivity(intent);
                 }else {

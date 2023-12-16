@@ -145,8 +145,7 @@ public class XMLCustomTIL extends CustomTextInputLayout {
             if (viewParameters != null){
                 if (!TextUtils.isEmpty(viewParameters.getFieldName())&&!TextUtils.isEmpty(viewParameters.getFieldTag())) {
                     if (viewParameters.getFieldName().equalsIgnoreCase(TAG_NAME_KYC_ID) && viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE_AADHAAR)
-                            || viewParameters.getFieldName().equalsIgnoreCase(TAG_NAME_RE_ENTER_KYC_ID)
-                            || viewParameters.getFieldName().equalsIgnoreCase(TAG_NAME_GUARANTOR_KYC_ID)) {
+                            || viewParameters.getFieldName().equalsIgnoreCase(TAG_NAME_RE_ENTER_KYC_ID)) {
                         editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
                         setPasswordVisibilityToggleEnabled(true);
                     }
@@ -361,8 +360,7 @@ public class XMLCustomTIL extends CustomTextInputLayout {
                     editText.setKeyListener(DigitsKeyListener.getInstance("abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ "));
                     editText.setRawInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME + InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
 
-                }
-                else if (!TextUtils.isEmpty(viewParameters.getDataType()) &&
+                } else if (!TextUtils.isEmpty(viewParameters.getDataType()) &&
                         viewParameters.getDataEntryType() == DATATYPE_ALPHA_NUMERIC) {
                     // TODO: ALL TEXT FIELD IN CAPITALS & ALPHA NUMERIC
 //                    editText.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME + InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
@@ -370,8 +368,7 @@ public class XMLCustomTIL extends CustomTextInputLayout {
                     editText.setKeyListener(DigitsKeyListener.getInstance("abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789"));
                     editText.setRawInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME + InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
 
-                }
-                else if (!TextUtils.isEmpty(viewParameters.getDataType()) &&
+                } else if (!TextUtils.isEmpty(viewParameters.getDataType()) &&
                         viewParameters.getDataEntryType() == DATATYPE_FLOAT) {
                     // TODO: ALL TEXT FIELD IN CAPITALS & ONLY FLOAT AND DOUBLE
                     editText.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
