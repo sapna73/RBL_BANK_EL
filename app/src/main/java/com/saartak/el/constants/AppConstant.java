@@ -173,9 +173,9 @@ public class AppConstant {
     //public static String EKYC_URL= "https://losservicesuat.rblbank.com/EkycLOS/api/"; // TODO: EKYC URL
     public static String OTP_TRIGGER_URL = "https://losservicesuat.rblbank.com/otp/api/v1/uat/"; // TODO: OTP TRIGGER
     public static String OTP_VERIFY_URL = "https://losservicesuat.rblbank.com/otp/api/v1/uat/"; // TODO: OTP VERIFY
-    //    public static String DOCUMENT_UPLOAD_URL = "https://losservicesuat.rblbank.com/LosDocuploadIL/api/uat/V1/uploadImages"; // TODO: DOCUMENT UPLOAD URL
+        public static String DOCUMENT_UPLOAD_URL = "https://losservicesuat.rblbank.com/LosDocuploadIL/api/uat/V1/uploadImages"; // TODO: DOCUMENT UPLOAD URL
     //public static String DOCUMENT_UPLOAD_URL = "https://losservicesuat.rblbank.com/Docupload1/api/uat/V1/uploadImages1"; // TODO: DOCUMENT UPLOAD URL
-    public static String DOCUMENT_UPLOAD_URL = "https://losservices.rblbank.com/LosDocupload1/api/uat/V1/uploadImages1"; // TODO: DOCUMENT UPLOAD URL
+//    public static String DOCUMENT_UPLOAD_URL = "https://losservices.rblbank.com/LosDocupload1/api/uat/V1/uploadImages1"; // TODO: DOCUMENT UPLOAD URL
     public static String DOCUMENT_DOWNLOAD_URL = "https://losservicesuat.rblbank.com/DownloadImg/api/uat/"; // TODO: DOCUMENT DOWNLOAD URL
     public static String LOG_TO_SERVER_URL = "https://losservicesuat.rblbank.com/LogsService/api/v1/prod/"; // TODO: LOG TO SERVER URL
     public static String PAN_VALIDATION_URL = "https://losservicesuat.rblbank.com/bankproxy/api/v1/uat/"; // TODO: PAN VALIDATION URL
