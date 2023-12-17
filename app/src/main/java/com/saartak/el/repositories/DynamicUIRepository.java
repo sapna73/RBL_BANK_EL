@@ -9101,11 +9101,7 @@ public class DynamicUIRepository {
                             // TODO: Non Mandatory Documents
                             if (!documentUploadTable.getDocument_name().equalsIgnoreCase(DOCUMENT_NAME_BILLS)
                                     && !documentUploadTable.getDocument_name().equalsIgnoreCase(DOCUMENT_NAME_BANK_STATEMENT)
-                                    && !documentUploadTable.getDocument_name().equalsIgnoreCase(DOCUMENT_NAME_OTHERS)
-                                    && !documentUploadTable.getDocument_name().equalsIgnoreCase(DOCUMENT_NAME_APPLICANT_STUDENT_ADMIT_LETTER)
-                                    && !documentUploadTable.getDocument_name().equalsIgnoreCase(DOCUMENT_NAME_APPLICANT_FEE_STRUCTURE)
-                                    && !documentUploadTable.getDocument_name().equalsIgnoreCase(DOCUMENT_NAME_10_MARK_SHEET)
-                                    && !documentUploadTable.getDocument_name().equalsIgnoreCase(DOCUMENT_NAME_12_MARK_SHEET)) {
+                                    && !documentUploadTable.getDocument_name().equalsIgnoreCase(DOCUMENT_NAME_OTHERS)) {
                                 if (!documentUploadTable.isDocument_status()) {
                                     alldocumentsuploaded = false;
                                     documentName = documentUploadTable.getFull_display_name();
@@ -28924,7 +28920,6 @@ public class DynamicUIRepository {
                         if (hashMap.containsKey(TAG_NAME_EARNING_CAPACITY_OF_STUDENT)) {
                             earningCapacityOfStudent = hashMap.get(TAG_NAME_EARNING_CAPACITY_OF_STUDENT).toString();
                         }
-
                     }
                 }
             }
@@ -28963,9 +28958,9 @@ public class DynamicUIRepository {
                         insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
                                 DOCUMENT_NAME_FEE_INSTITUTE, rawDataTable, "", "");
 
-                        // TODO: House Photo
-                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
-                                DOCUMENT_NAME_HOUSE_PHOTO, rawDataTable, "", "");
+//                        // TODO: House Photo
+//                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_HOUSE_PHOTO, rawDataTable, "", "");
                     }else{
                         insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
                                 DOCUMENT_NAME_APPLICANT_STUDENT_ADMIT_LETTER, rawDataTable, "", "");
@@ -29566,10 +29561,7 @@ public class DynamicUIRepository {
                         insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
                                 DOCUMENT_NAME_HOUSE_PHOTO, rawDataTable, "", "");
                     }
-
-
                 }
-
             }
 //            // TODO: CO APPLICANT ADDRESS DETAIL SCREEN  old validation
 //            else if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
@@ -32820,7 +32812,9 @@ public class DynamicUIRepository {
 
                         // TODO: Validation for Applicant KYC screen
                         if (screenName.equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC)
-                                || screenName.equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC)) {
+                                || screenName.equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC)
+                                || screenName.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)
+                        ) {
                             DynamicUITable saveObj = getObjectByTAG(TAG_NAME_SAVE_BUTTON, dynamicUITableListFromDB);
                             if (saveObj != null) {
                                 saveObj.setVisibility(false);
@@ -32884,6 +32878,7 @@ public class DynamicUIRepository {
                                 if ((screenName.equalsIgnoreCase(SCREEN_NAME_BUSINESS_PROOF)
                                         || screenName.equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC)
                                         || screenName.equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC)
+                                        || screenName.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)
                                         || screenName.equalsIgnoreCase(SCREEN_NAME_OTHER_INCOME_SOURCE)
                                         || screenName.equalsIgnoreCase(SCREEN_NAME_GENERAL_INCOME)
                                         || screenName.equalsIgnoreCase(SCREEN_NAME_BANK_DETAILS)

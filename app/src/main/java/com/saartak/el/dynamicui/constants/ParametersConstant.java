@@ -1337,8 +1337,6 @@ public class ParametersConstant {
     public static String TAG_NAME_GUARANTOR_STATE = "STATE";
     public static String TAG_NAME_GUARANTOR_LAND_MARK = "LAND MARK";
     public static String TAG_NAME_GUARANTOR_EXPIRY_DATE = "EXPIRY DATE";
-    public static String TAG_NAME_GUARANTOR_ADD_ANOTHER_KYC = "ADD ANOTHER KYC";
-    public static String TAG_NAME_GUARANTOR_SAVE_BUTTON = "SAVE";
 
     public static String SPINNER_ITEM_FIELD_NAME_GUARANTOR_DRIVING_LICENSE = "Driving License";
     public static String SPINNER_ITEM_FIELD_NAME_GUARANTOR_AADHAAR = "Aadhaar";

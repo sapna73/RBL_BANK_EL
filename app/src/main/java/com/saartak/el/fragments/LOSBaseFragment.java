@@ -1658,14 +1658,17 @@ public class LOSBaseFragment extends BaseFragment {
                                 if (!TextUtils.isEmpty(selectedItem)) {
                                     viewParameters.setValue(selectedItem);
                                 }
-
-
                                 if (LOSBaseFragment.this instanceof ApplicantKYCFragment
                                         || LOSBaseFragment.this instanceof CoApplicantKYCFragment) {
 
                                     setApplicantScreenChangesBySpinner(viewParametersList, viewParameters, customSpinner);
 
-                                }else if (LOSBaseFragment.this instanceof ApplicantPANDetailsFragment
+                                }
+//                                if (LOSBaseFragment.this instanceof GuarantorDetailsFragment){
+//
+//                                    setGuarantorScreenChangesBySpinner(viewParametersList, viewParameters, customSpinner);
+//                                }
+                                else if (LOSBaseFragment.this instanceof ApplicantPANDetailsFragment
                                         || LOSBaseFragment.this instanceof CoApplicantPANDetailsFragment) {
 
                                     setPanScreenChangesBySpinner(viewParametersList, viewParameters, customSpinner);
@@ -1876,7 +1879,7 @@ public class LOSBaseFragment extends BaseFragment {
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_BUSINESS_TYPE, SCREEN_ID, "", false, false));
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_BUSINESS_PAN, SCREEN_ID, "", false, false));//
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_PARTNER, SCREEN_ID, "", false, false));
-                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_KYC_DETAILS, SCREEN_ID, "", false, false));
+                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_KYC_DETAILS, SCREEN_ID, "", true, true));
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_OF_KARTA, SCREEN_ID, "", false, false));
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_NUMBER_OF_MEMBER_HUF, SCREEN_ID, "", false, false));
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_PAN_NUMBER, SCREEN_ID, "", true, true));
@@ -1886,7 +1889,7 @@ public class LOSBaseFragment extends BaseFragment {
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_ENTITY_TYPE, SCREEN_ID, "", true, true));//
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_ANNUAL_INCOME_OF_HUF, SCREEN_ID, "", false, false));
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_ADD_ANOTHER_KYC_PLUS_BUTTON, SCREEN_ID, "", false, false));
-                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_SAVE_BUTTON, SCREEN_ID, "", true, true));
+                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_SAVE_BUTTON, SCREEN_ID, "", false, true));
                                                 EnableOrDisableByFieldNameInDB(parameterInfoList, viewParametersList);
                                             } else if (!TextUtils.isEmpty(selectedItem) && selectedItem.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_GUARANTOR_HUF)) {
                                                 List<ParameterInfo> parameterInfoList = new ArrayList<>();
@@ -1894,7 +1897,7 @@ public class LOSBaseFragment extends BaseFragment {
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_BUSINESS_TYPE, SCREEN_ID, "", false, false));
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_BUSINESS_PAN, SCREEN_ID, "", false, false));//
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_PARTNER, SCREEN_ID, "", false, false));
-                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_KYC_DETAILS, SCREEN_ID, "", false, false));
+                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_KYC_DETAILS, SCREEN_ID, "", true, true));
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_OF_KARTA, SCREEN_ID, "", true, true));
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_NUMBER_OF_MEMBER_HUF, SCREEN_ID, "", true, true));
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_PAN_NUMBER, SCREEN_ID, "", false, false));
@@ -1902,8 +1905,8 @@ public class LOSBaseFragment extends BaseFragment {
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR, SCREEN_ID, "", false, false));//
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_SOURCE_OF_INCOME, SCREEN_ID, "", false, false));//
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_ENTITY_TYPE, SCREEN_ID, "", false, false));//
-                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_ADD_ANOTHER_KYC_PLUS_BUTTON, SCREEN_ID, "", false, false));
-                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_SAVE_BUTTON, SCREEN_ID, "", true, true));
+                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_ADD_ANOTHER_KYC_PLUS_BUTTON, SCREEN_ID, "", true, false));
+                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_SAVE_BUTTON, SCREEN_ID, "", false, true));
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_ANNUAL_INCOME_OF_HUF, SCREEN_ID, "", true, true));
                                                 EnableOrDisableByFieldNameInDB(parameterInfoList, viewParametersList);
                                             }
@@ -3038,31 +3041,31 @@ public class LOSBaseFragment extends BaseFragment {
                                 }
                             }
 
-//                            else if(LOSBaseFragment.this instanceof GuarantorDetailsFragment){
-//                                String selectedItem = getValuesBasedOnTAGinLoop(TAG_NAME_GUARANTOR_KYC_DETAILS, viewParametersList);
-//                                if (!TextUtils.isEmpty(selectedItem)) {
-//
-//                                    if (appHelper.isNetworkAvailable()) {
-//                                        appHelper.getDialogHelper().getConfirmationDialog().showTwoButtons(
-//                                                "Do you want to add another KYC? ", new ConfirmationDialog.ActionCallback() {
-//                                                    @Override
-//                                                    public void onAction() {
-//                                                        String submittedValues = getSubmittedValuesFromUI(viewParameters, viewParametersList);
-//                                                        final RawDataTable rawDataTable = new RawDataTable(submittedValues, SCREEN_ID,
-//                                                                SCREEN_NAME, selectedItem, CLIENT_ID, viewParameters.getLoanType(), USER_ID, MODULE_TYPE, viewParameters.getCoRelationID());
-//                                                        saveSubmittedData(rawDataTable, viewParametersList, submittedValues, true,
-//                                                                viewParameters, selectedItem, viewParameters.getFieldTag()); // TODO: To save in local DB
-////                                                        postSubmittedAllScreensLiveData(submittedValues, SCREEN_ID, rawDataTable.getProductId(), SCREEN_NAME, rawDataTable.getModuleType());
-//
-////                                                    updatePlusButtonDataInDB(selectedItem, SCREEN_ID, TAG_NAME_KYC_TYPE, viewParameters, viewParametersList);
-//                                                    }
-//                                                });
-//                                    } else {
-//                                        appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ALERT,
-//                                                "Please check your internet connection and try again");
-//                                    }
-//                                }
-//                            }
+                            else if(LOSBaseFragment.this instanceof GuarantorDetailsFragment){
+                                String selectedItem = getValuesBasedOnTAGinLoop(TAG_NAME_GUARANTOR_KYC_DETAILS, viewParametersList);
+                                if (!TextUtils.isEmpty(selectedItem)) {
+
+                                    if (appHelper.isNetworkAvailable()) {
+                                        appHelper.getDialogHelper().getConfirmationDialog().showTwoButtons(
+                                                "Do you want to add another KYC? ", new ConfirmationDialog.ActionCallback() {
+                                                    @Override
+                                                    public void onAction() {
+                                                        String submittedValues = getSubmittedValuesFromUI(viewParameters, viewParametersList);
+                                                        final RawDataTable rawDataTable = new RawDataTable(submittedValues, SCREEN_ID,
+                                                                SCREEN_NAME, selectedItem, CLIENT_ID, viewParameters.getLoanType(), USER_ID, MODULE_TYPE, viewParameters.getCoRelationID());
+                                                        saveSubmittedData(rawDataTable, viewParametersList, submittedValues, true,
+                                                                viewParameters, selectedItem, viewParameters.getFieldTag()); // TODO: To save in local DB
+//                                                        postSubmittedAllScreensLiveData(submittedValues, SCREEN_ID, rawDataTable.getProductId(), SCREEN_NAME, rawDataTable.getModuleType());
+
+//                                                    updatePlusButtonDataInDB(selectedItem, SCREEN_ID, TAG_NAME_KYC_TYPE, viewParameters, viewParametersList);
+                                                    }
+                                                });
+                                    } else {
+                                        appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ALERT,
+                                                "Please check your internet connection and try again");
+                                    }
+                                }
+                            }
 
                             else if (LOSBaseFragment.this instanceof BusinessProofFragment) {
                                 String selectedItem = getValuesBasedOnTAGinLoop(TAG_NAME_BUSINESS_DOCUMENT_PROOF, viewParametersList);
@@ -4619,15 +4622,15 @@ public class LOSBaseFragment extends BaseFragment {
             if (!TextUtils.isEmpty(viewParameters.getFieldTag()) && viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_GUARANTOR_KYC_DETAILS)) {
                 getDropDownKYCTypeInGuarantor(viewParametersList, CLIENT_ID, MODULE_TYPE, customerType, customSpinner.getSelectedItem().toString());
             }
-            if (!TextUtils.isEmpty(viewParameters.getFieldTag()) && viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_GUARANTOR_KYC_TYPE)) {
+            if (!TextUtils.isEmpty(viewParameters.getFieldTag()) && viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_GUARANTOR_KYC_DETAILS)) {
                 viewParameters.setFieldType(FIELD_TYPE_LIST);
                 viewParameters.setEditable(true);
                 String selectedItem = customSpinner.getSelectedItem().toString();
                 DataTypeInfo datatypeInfo = new DataTypeInfo(selectedItem, viewParameters);
                 for (int i = 0; i < viewParametersList.size(); i++) {
                     DynamicUITable dynamicUITable = viewParametersList.get(i);
-                    if (dynamicUITable != null && dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_GUARANTOR_KYC_TYPE)) {
-                        if (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_GUARANTOR_KYC_TYPE)) {
+                    if (dynamicUITable != null && dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_GUARANTOR_KYC_DETAILS)) {
+                        if (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_GUARANTOR_KYC_DETAILS)) {
                             dynamicUITable.setSpinnerItemPosition(customSpinner.getSelectedItemPosition());
                             dynamicUITable.setFieldType(FIELD_TYPE_LIST);
                             dynamicUITable.setEditable(true);
@@ -10671,7 +10674,8 @@ public class LOSBaseFragment extends BaseFragment {
 
                                             } else if (!SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC)
                                                     && (!SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC))
-                                                    /*&& (!SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS))*/) {
+                                                    && (!SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS))
+                                            ) {
 
                                                 if (dynamicUITable.getFieldName().equalsIgnoreCase(FIELD_NAME_SAVE)) {
                                                     dynamicUITable.setVisibility(true);
@@ -10741,6 +10745,7 @@ public class LOSBaseFragment extends BaseFragment {
 
                                     if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC)
                                             || dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC)
+                                            || dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)
                                             || dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_REFERENCE_CHECK)
                                             || dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_BUSINESS_PROOF)
                                             || dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_BANK_DETAILS)
@@ -11025,7 +11030,7 @@ public class LOSBaseFragment extends BaseFragment {
                                     || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL)
                                     || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_SOCIO_ECONOMIC_DETAIL)
                                     || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_BANK_DETAILS)
-                                    /*|| SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)*/
+                                    || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)
                                     || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_APPLICANT_TWO_WHEELER_DETAIL)
                                     || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_APPLICANT_USED_CAR_DETAIL)
                                     || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_APPLICANT_LOAN_PROPOSAL)) {

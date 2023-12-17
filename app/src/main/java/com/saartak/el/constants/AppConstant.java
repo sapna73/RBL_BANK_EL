@@ -173,7 +173,7 @@ public class AppConstant {
     //public static String EKYC_URL= "https://losservicesuat.rblbank.com/EkycLOS/api/"; // TODO: EKYC URL
     public static String OTP_TRIGGER_URL = "https://losservicesuat.rblbank.com/otp/api/v1/uat/"; // TODO: OTP TRIGGER
     public static String OTP_VERIFY_URL = "https://losservicesuat.rblbank.com/otp/api/v1/uat/"; // TODO: OTP VERIFY
-        public static String DOCUMENT_UPLOAD_URL = "https://losservicesuat.rblbank.com/LosDocuploadIL/api/uat/V1/uploadImages"; // TODO: DOCUMENT UPLOAD URL
+        public static String DOCUMENT_UPLOAD_URL = "https://losservicesuat.rblbank.com/Docupload/api/uat/V1/uploadImages"; // TODO: DOCUMENT UPLOAD URL UAT EL
     //public static String DOCUMENT_UPLOAD_URL = "https://losservicesuat.rblbank.com/Docupload1/api/uat/V1/uploadImages1"; // TODO: DOCUMENT UPLOAD URL
 //    public static String DOCUMENT_UPLOAD_URL = "https://losservices.rblbank.com/LosDocupload1/api/uat/V1/uploadImages1"; // TODO: DOCUMENT UPLOAD URL
     public static String DOCUMENT_DOWNLOAD_URL = "https://losservicesuat.rblbank.com/DownloadImg/api/uat/"; // TODO: DOCUMENT DOWNLOAD URL
@@ -2059,7 +2059,7 @@ public class AppConstant {
               screenDetailsDTO.setScreenName(SCREEN_NAME_GUARANTOR_DETAILS);
               screenDetailsDTO.setProductId(PRODUCT_ID_EL);
               screenDetailsDTO.setModuleType(MODULE_TYPE_CO_APPLICANT);
-              screenDetailsDTO.setModuleType("CoApplicant1");
+              screenDetailsDTO.setModuleType("CoApplicant 1");
             }else if(screenId.equalsIgnoreCase(SCREEN_NO_DNCR_APPLICANT)){
               screenDetailsDTO.setScreenId(screenId);
               screenDetailsDTO.setScreenName(SCREEN_NAME_DNCR_APPLICANT);
@@ -2096,7 +2096,7 @@ public class AppConstant {
               screenDetailsDTO.setScreenId(screenId);
               screenDetailsDTO.setScreenName(SCREEN_NAME_CO_APPLICANT_KYC);
               screenDetailsDTO.setProductId(PRODUCT_ID_TWL);
-              screenDetailsDTO.setModuleType("CoApplicant1");
+              screenDetailsDTO.setModuleType("CoApplicant 1");
             }
 ///////EL product Condition/////////////////
             else if (screenId.equalsIgnoreCase(SCREEN_NO_APPLICANT_KYC_EL)) {
@@ -2110,7 +2110,7 @@ public class AppConstant {
               screenDetailsDTO.setScreenId(screenId);
               screenDetailsDTO.setScreenName(SCREEN_NAME_CO_APPLICANT_KYC);
               screenDetailsDTO.setProductId(PRODUCT_ID_EL);
-              screenDetailsDTO.setModuleType("CoApplicant1");
+              screenDetailsDTO.setModuleType("CoApplicant 1");
             }
           //END tusar added this code
 
