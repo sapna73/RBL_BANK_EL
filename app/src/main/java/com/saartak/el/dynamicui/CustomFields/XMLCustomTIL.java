@@ -93,7 +93,6 @@ public class XMLCustomTIL extends CustomTextInputLayout {
             editText.setLayoutParams(lLayout);
             editText.setTextColor(context.getResources().getColor(R.color.black));
 
-
             int id = View.generateViewId();
             editText.setId(id);
             editText.setLongClickable(false);
@@ -120,8 +119,6 @@ public class XMLCustomTIL extends CustomTextInputLayout {
             if (viewParameters != null && !viewParameters.isEditable()) {
                 editText.setEnabled(false);
             }
-
-
             setLongClickable(false);
 
             String length = viewParameters.getLength();
@@ -144,11 +141,11 @@ public class XMLCustomTIL extends CustomTextInputLayout {
             /* SETTING INPUT TEXT */
             setInputText(editText, viewParameters);
 
-            // TODO: aadhaar mask
+            // TODO: aadhaar mask ----------------
             if (viewParameters != null){
                 if (!TextUtils.isEmpty(viewParameters.getFieldName())&&!TextUtils.isEmpty(viewParameters.getFieldTag())) {
                     if (viewParameters.getFieldName().equalsIgnoreCase(TAG_NAME_KYC_ID) && viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE_AADHAAR)
-                            || viewParameters.getFieldName().equalsIgnoreCase(TAG_NAME_RE_ENTER_KYC_ID) && viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE_RE_ENTER_AADHAAR)) {
+                            || viewParameters.getFieldName().equalsIgnoreCase(TAG_NAME_RE_ENTER_KYC_ID)) {
                         editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
                         setPasswordVisibilityToggleEnabled(true);
                     }
@@ -246,7 +243,7 @@ public class XMLCustomTIL extends CustomTextInputLayout {
                     && viewParameters.getScreenName().equalsIgnoreCase(SCREEN_NAME_LEAD)){
                 if (!TextUtils.isEmpty(viewParameters.getFieldTag())) {
                     if (viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_MOBILE_NUMBER)) {
-                        if (viewParameters.getOptional() !=null && viewParameters.getOptional().equalsIgnoreCase(TAG_NAME_PREMIUM_COLD_CALL)) {
+                        if (viewParameters.getOptional() != null && viewParameters.getOptional().equalsIgnoreCase(TAG_NAME_PREMIUM_COLD_CALL)) {
                             editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
 //                        setPasswordVisibilityToggleEnabled(true);
                         }
@@ -284,11 +281,6 @@ public class XMLCustomTIL extends CustomTextInputLayout {
                     }
                 }
             }
-
-
-
-
-
             // TODO: newly added condition
             if (!viewParameters.isValid()) {
                 if (!TextUtils.isEmpty(viewParameters.getErrorMessage())) {
@@ -368,8 +360,7 @@ public class XMLCustomTIL extends CustomTextInputLayout {
                     editText.setKeyListener(DigitsKeyListener.getInstance("abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ "));
                     editText.setRawInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME + InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
 
-                }
-                else if (!TextUtils.isEmpty(viewParameters.getDataType()) &&
+                } else if (!TextUtils.isEmpty(viewParameters.getDataType()) &&
                         viewParameters.getDataEntryType() == DATATYPE_ALPHA_NUMERIC) {
                     // TODO: ALL TEXT FIELD IN CAPITALS & ALPHA NUMERIC
 //                    editText.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME + InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
@@ -377,8 +368,7 @@ public class XMLCustomTIL extends CustomTextInputLayout {
                     editText.setKeyListener(DigitsKeyListener.getInstance("abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789"));
                     editText.setRawInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME + InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
 
-                }
-                else if (!TextUtils.isEmpty(viewParameters.getDataType()) &&
+                } else if (!TextUtils.isEmpty(viewParameters.getDataType()) &&
                         viewParameters.getDataEntryType() == DATATYPE_FLOAT) {
                     // TODO: ALL TEXT FIELD IN CAPITALS & ONLY FLOAT AND DOUBLE
                     editText.setKeyListener(DigitsKeyListener.getInstance("0123456789."));
@@ -668,8 +658,8 @@ public class XMLCustomTIL extends CustomTextInputLayout {
 
                                     if (tag.equalsIgnoreCase("AADHAAR")
                                             || tag.equalsIgnoreCase(TAG_NAME_KYC_TYPE_AADHAAR)
-                                            || tag.equalsIgnoreCase(TAG_NAME_KYC_TYPE_RE_ENTER_AADHAAR)
-                                    ) {
+                                            || tag.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_GUARANTOR_AADHAAR)
+                                            || tag.equalsIgnoreCase(TAG_NAME_KYC_TYPE_RE_ENTER_AADHAAR)) {
                                         if(!TextUtils.isEmpty(s) && s.toString().startsWith("1")){
                                             error= viewParameters.getFieldTag()+" should not starts with 1";
 
@@ -1668,6 +1658,8 @@ public class XMLCustomTIL extends CustomTextInputLayout {
                                 if (tag.equalsIgnoreCase("PANCARD")
                                         || tag.equalsIgnoreCase(TAG_NAME_KYC_TYPE_PANCARD)
                                         || tag.equalsIgnoreCase(TAG_NAME_KYC_TYPE_PAN)
+                                        || tag.equalsIgnoreCase(TAG_NAME_GUARANTOR_BUSINESS_PAN)
+                                        || tag.equalsIgnoreCase(TAG_NAME_GUARANTOR_PAN_NUMBER)
                                         || tag.equalsIgnoreCase(TAG_NAME_KYC_TYPE_RE_ENTER_PANCARD)) {
                                     if (!appHelper.patternMatch(AppConstants.REGEX_PATTERN_PANCARD, s.toString())) {
                                         error = viewParameters.getFieldTag() + " invalid";
@@ -1681,7 +1673,9 @@ public class XMLCustomTIL extends CustomTextInputLayout {
                                         moveToNext = true;
                                     }
                                 } else if (tag.equalsIgnoreCase(TAG_NAME_KYC_TYPE_PASSPORT)
-                                        || tag.equalsIgnoreCase(TAG_NAME_KYC_TYPE_RE_ENTER_PASSPORT)) {
+                                        || tag.equalsIgnoreCase(TAG_NAME_KYC_TYPE_RE_ENTER_PASSPORT)
+                                        || tag.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_GUARANTOR_PASSPORT)
+                                ) {
                                     if (!appHelper.patternMatch(AppConstants.REGEX_PATTERN_PASSPORT, s.toString())) {
                                         error = viewParameters.getFieldTag() + " invalid";
                                     } else {

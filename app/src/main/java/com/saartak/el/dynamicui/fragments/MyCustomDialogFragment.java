@@ -17,15 +17,16 @@ import com.saartak.el.fragments.ChildFragment;
 import static com.saartak.el.constants.AppConstant.SCREEN_NAME_APPLICANT_KYC;
 import static com.saartak.el.constants.AppConstant.SCREEN_NAME_CO_APPLICANT_KYC;
 import static com.saartak.el.constants.AppConstant.SCREEN_NAME_GENERAL_INCOME;
+import static com.saartak.el.constants.AppConstant.SCREEN_NAME_GUARANTOR_DETAILS;
 import static com.saartak.el.constants.AppConstant.SCREEN_NAME_OTHER_INCOME_SOURCE;
 import static com.saartak.el.constants.AppConstant.SCREEN_NAME_REFERENCE_CHECK;
 
 public class MyCustomDialogFragment extends DialogFragment implements ChildFragment.ChildFragmentInterface {
     Fragment mChildFragment;
     String mTitile;
-    public MyCustomDialogFragment(Fragment childFragment,String title) {
-        mChildFragment=childFragment;
-        mTitile=title;
+    public MyCustomDialogFragment(Fragment childFragment, String title) {
+        mChildFragment = childFragment;
+        mTitile = title;
     }
 
     @Override
@@ -38,12 +39,10 @@ public class MyCustomDialogFragment extends DialogFragment implements ChildFragm
         if(mTitile.equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC)
             || mTitile.equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC)
             || mTitile.equalsIgnoreCase(SCREEN_NAME_REFERENCE_CHECK)
-            || mTitile.equalsIgnoreCase(SCREEN_NAME_GENERAL_INCOME)
-            || mTitile.equalsIgnoreCase(SCREEN_NAME_OTHER_INCOME_SOURCE)
-        ){
+            || mTitile.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)
+            || mTitile.equalsIgnoreCase(SCREEN_NAME_OTHER_INCOME_SOURCE)){
         setCancelable(false);
         }
-
         getDialog().setCanceledOnTouchOutside(false);
         return inflater.inflate(R.layout.container_fragment, container, false);
     }
@@ -54,7 +53,6 @@ public class MyCustomDialogFragment extends DialogFragment implements ChildFragm
 
     }
 
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
@@ -63,11 +61,10 @@ public class MyCustomDialogFragment extends DialogFragment implements ChildFragm
         transaction.commit();
     }
 
-
     @Override
     public void closeDialogFragment() {
         try{
-            if(getDialog() !=null){
+            if(getDialog() != null){
                 getDialog().dismiss();
             }
         }catch (Exception ex){

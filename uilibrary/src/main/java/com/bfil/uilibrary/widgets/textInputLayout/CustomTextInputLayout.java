@@ -33,7 +33,7 @@ public class CustomTextInputLayout extends TextInputLayout {
 
     public CustomTextInputLayout(Context context) {
         this(context, null,R.style.Widget_MaterialComponents_TextInputLayout_OutlinedBox);
-        contextabc=context;
+        contextabc = context;
     }
 
     public CustomTextInputLayout(Context context, AttributeSet attrs) {

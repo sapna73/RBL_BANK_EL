@@ -205,6 +205,7 @@ public class DynamicUIViewModel extends ViewModel {
     private LiveData<List<CenterMeetingCollectionTable>> centerMeetingCollectionTableLiveDataList;
     private LiveData<List<RawDataResponseDTO.Table>> rawDataFromServerList;
     private LiveData<List<ProductMasterTable>> productMasterTableLiveDataList;
+    private LiveData<List<ProductMasterTable>> leadMasterTableLiveDataList;
     private LiveData<MasterTable> masterTableLiveData;
     private LiveData<MultipleSyncResponseDTO> multipleSyncResponseDTOLiveData;
     private LiveData<CGTTable> cgtTableLiveData;
@@ -245,6 +246,8 @@ public class DynamicUIViewModel extends ViewModel {
     private LiveData<List<GetLeadCustomerTypeTable>> getLeadCustomerTypeTableLiveData;
     private LiveData<List<GetLeadDropDownTypeOfProfessionTable>> getLeadDropDownTypeOfProfessionTableLiveData;
     private LiveData<List<GetKYCDropDownIDProofTable>> getGetKYCDropDownIDProofTableLiveData;
+
+    //private LiveData<List<GetKYCDropDownIDProofTable>> getGetKYCDropDownIDProofTableLiveData; -----Guarantor KYC------------------
     private LiveData<List<GetAddressAddressProofTable>> getGetAddressAddressProofTableLiveData;
     private LiveData<List<SPCustomerTypeResponseTable>> getSPCustomerTypeResponseTableTableLiveData;
     private LiveData<List<SPSourseOfIncomeResponseTable>> getSPSourseOfIncomeResponseTableLiveData;
@@ -302,9 +305,7 @@ public class DynamicUIViewModel extends ViewModel {
     private LiveData<LoginnewResponseDTO> loginnewResponseDTOLiveData;
     private LiveData<PosidexResponseDTO> posidexResponseDTOLiveData;
     private LiveData<DeliquencyResponseDTO> deliquencyResponseDTOLiveData;
-
     private LiveData<KarzaResponseDTO> karzaResponseDTOLiveData;
-
     private LiveData<CityResponseDTO> cityResponseDTOLiveData;
     private LiveData<GetMakeResponseDTO> makeResponseDTOLiveData;
     private LiveData<GetModelResponseDTO> modelResponseDTOLiveData;
@@ -352,7 +353,8 @@ public class DynamicUIViewModel extends ViewModel {
             /*if(dynamicUITableLiveData!=null){
                 return;
             }*/
-            dynamicUITableLiveData=dynamicUIRepository.getDynamicUILiveDataList(screenID, screenName,loanType,projectId,moduleId,clientId,userId,moduleType);
+            dynamicUITableLiveData = dynamicUIRepository.getDynamicUILiveDataList(screenID, screenName,loanType, projectId,
+                    moduleId, clientId, userId, moduleType);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -361,64 +363,65 @@ public class DynamicUIViewModel extends ViewModel {
     public void getMetaDataWithCorrelationID(String screenID, String screenName,String loanType,String projectId,String moduleId,
                      String clientId,String userId,String moduleType,String correlationId){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.getMetaDataWithCorrelationID(screenID, screenName,loanType,projectId,moduleId,
-                    clientId,userId,moduleType,correlationId);
+            dynamicUITableLiveData = dynamicUIRepository.getMetaDataWithCorrelationID(screenID, screenName, loanType, projectId,
+                    moduleId, clientId, userId, moduleType, correlationId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void EKYCRequest( EKYCRootDTO ekycRootDTO,DynamicUITable dynamicUITable){
+    public void EKYCRequest( EKYCRootDTO ekycRootDTO, DynamicUITable dynamicUITable){
         try{
-            EKYCResponseLiveData=dynamicUIRepository.EKYCRequest(ekycRootDTO,dynamicUITable);
+            EKYCResponseLiveData = dynamicUIRepository.EKYCRequest(ekycRootDTO, dynamicUITable);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void generateOTP( OTPTriggerDTO otpTriggerDTO,OTPVerificationTable otpVerificationTable){
+    public void generateOTP(OTPTriggerDTO otpTriggerDTO, OTPVerificationTable otpVerificationTable){
         try{
-            otpTriggerResponseDTOLiveData=dynamicUIRepository.generateOTP(otpTriggerDTO,otpVerificationTable);
+            otpTriggerResponseDTOLiveData = dynamicUIRepository.generateOTP(otpTriggerDTO, otpVerificationTable);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void generateCollectionSMS( OTPTriggerDTO otpTriggerDTO){
+    public void generateCollectionSMS(OTPTriggerDTO otpTriggerDTO){
         try{
-            otpTriggerResponseDTOLiveData=dynamicUIRepository.generateCollectionSMS(otpTriggerDTO);
+            otpTriggerResponseDTOLiveData = dynamicUIRepository.generateCollectionSMS(otpTriggerDTO);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void initiateServiceCall(EMIDetailsDTO emiDetailsDTO,String mobileNumber,String userId){
+    public void initiateServiceCall(EMIDetailsDTO emiDetailsDTO, String mobileNumber, String userId){
         try{
-            initiateResponseDTOLiveData=dynamicUIRepository.initiateServiceCall(emiDetailsDTO,mobileNumber,userId);
+            initiateResponseDTOLiveData = dynamicUIRepository.initiateServiceCall(emiDetailsDTO, mobileNumber, userId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void verifyOTP(OTPVerifyDTO otpVerifyDTO,OTPVerificationTable otpVerificationTable){
+    public void verifyOTP(OTPVerifyDTO otpVerifyDTO, OTPVerificationTable otpVerificationTable){
         try{
-            otpVerifyResponseDTOLiveData=dynamicUIRepository.verifyOTP(otpVerifyDTO,otpVerificationTable);
+            otpVerifyResponseDTOLiveData = dynamicUIRepository.verifyOTP(otpVerifyDTO, otpVerificationTable);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void getMyStages(String userId,String productId,String loanType,String branchId,String branchGSTCode){
+    public void getMyStages(String userId, String productId, String loanType, String branchId, String branchGSTCode){
         try{
-            myStageLiveData=dynamicUIRepository.getMyStages(userId,productId,loanType,branchId,branchGSTCode);
+            myStageLiveData = dynamicUIRepository.getMyStages(userId, productId, loanType, branchId, branchGSTCode);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void getApplicationStatusFromServer( String userId, String productId, String loanType, String fromdate, String toDate){
+    public void getApplicationStatusFromServer(String userId, String productId, String loanType, String fromdate, String toDate){
         try{
-            applicationStatusTableLiveDataList=dynamicUIRepository.getApplicationStatusFromServer(userId,productId,loanType, fromdate, toDate);
+            applicationStatusTableLiveDataList = dynamicUIRepository.getApplicationStatusFromServer(userId, productId, loanType,
+                    fromdate, toDate);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -426,7 +429,7 @@ public class DynamicUIViewModel extends ViewModel {
 
     public void getKnowledgeBankFromServer(List<KnowledgeBankTable> knowledgeBankTableList){
         try{
-            knowledgeBankTableListLiveData=dynamicUIRepository.getKnowledgeBankFromServer(knowledgeBankTableList);
+            knowledgeBankTableListLiveData = dynamicUIRepository.getKnowledgeBankFromServer(knowledgeBankTableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -442,7 +445,7 @@ public class DynamicUIViewModel extends ViewModel {
 
     public void getEligibilityDataFromServer( String centerMeetingDate,String userId){
         try{
-            stringLiveData=dynamicUIRepository.getEligibilityDataFromServer(centerMeetingDate,userId);
+            stringLiveData = dynamicUIRepository.getEligibilityDataFromServer(centerMeetingDate, userId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -450,21 +453,21 @@ public class DynamicUIViewModel extends ViewModel {
 
     public void getBranchProductFeatureMasterDataFromServer(String userId){
         try{
-            stringLiveData=dynamicUIRepository.getBranchProductFeatureMasterDataFromServer(userId);
+            stringLiveData = dynamicUIRepository.getBranchProductFeatureMasterDataFromServer(userId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
-    public void getDocumentRawData(String clientId,String staffId,String loanType,String connectionString){
+    public void getDocumentRawData(String clientId, String staffId, String loanType, String connectionString){
         try{
-            documentUploadRawDataResponseList=dynamicUIRepository.getDocumentRawData(clientId,staffId,loanType,connectionString);
+            documentUploadRawDataResponseList = dynamicUIRepository.getDocumentRawData(clientId, staffId, loanType, connectionString);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
-    public void downloadDocuments(List<DocumentUploadRawdataResponseDTO> rawdataResponseDTOList,String clientId,String moduleType){
+    public void downloadDocuments(List<DocumentUploadRawdataResponseDTO> rawdataResponseDTOList, String clientId, String moduleType){
         try{
-            stringLiveData=dynamicUIRepository.downloadDocuments(rawdataResponseDTOList,clientId,moduleType);
+            stringLiveData = dynamicUIRepository.downloadDocuments(rawdataResponseDTOList, clientId, moduleType);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -472,7 +475,7 @@ public class DynamicUIViewModel extends ViewModel {
 
     public void downloadDocumentsForKnowledgeBank(KnowledgeBankTable knowledgeBankTable){
         try{
-            responseBodyLiveData=dynamicUIRepository.downloadDocumentsForKnowledgeBank(knowledgeBankTable);
+            responseBodyLiveData = dynamicUIRepository.downloadDocumentsForKnowledgeBank(knowledgeBankTable);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -480,7 +483,7 @@ public class DynamicUIViewModel extends ViewModel {
 
     public void imageDownloadFromServer(List<RawDataResponseDTO.Table> rawDataFromServerList){
         try{
-            stringLiveData=dynamicUIRepository.imageDownloadFromServer(rawDataFromServerList);
+            stringLiveData = dynamicUIRepository.imageDownloadFromServer(rawDataFromServerList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -496,15 +499,15 @@ public class DynamicUIViewModel extends ViewModel {
 
     public void getCenterMeetingDetailsFromServer(String currentDate,String staffId){
         try{
-            stringLiveData=dynamicUIRepository.getCenterMeetingDetailsFromServer(currentDate,staffId);
+            stringLiveData = dynamicUIRepository.getCenterMeetingDetailsFromServer(currentDate, staffId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void getCMDetailsFromServerForFetchOtherDay(List<FetchOtherDayCMDTO> fetchOtherDayCMDTOList,String staffId){
+    public void getCMDetailsFromServerForFetchOtherDay(List<FetchOtherDayCMDTO> fetchOtherDayCMDTOList, String staffId){
         try{
-            stringLiveData=dynamicUIRepository.getCMDetailsFromServerForFetchOtherDay(fetchOtherDayCMDTOList,staffId);
+            stringLiveData = dynamicUIRepository.getCMDetailsFromServerForFetchOtherDay(fetchOtherDayCMDTOList, staffId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -512,7 +515,7 @@ public class DynamicUIViewModel extends ViewModel {
 
     public void getCMDetailsFromServerForPendingOD(String staffId){
         try{
-            overDueCMDTOListLiveData=dynamicUIRepository.getCMDetailsFromServerForPendingOD(staffId);
+            overDueCMDTOListLiveData = dynamicUIRepository.getCMDetailsFromServerForPendingOD(staffId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -520,7 +523,7 @@ public class DynamicUIViewModel extends ViewModel {
 
     public void getCMDetailsFromServerForPendingFTOD(String staffId){
         try{
-            ftOverDueCMDTOListLiveData=dynamicUIRepository.getCMDetailsFromServerForPendingFTOD(staffId);
+            ftOverDueCMDTOListLiveData = dynamicUIRepository.getCMDetailsFromServerForPendingFTOD(staffId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -528,15 +531,15 @@ public class DynamicUIViewModel extends ViewModel {
 
     public void getCenterNamesFromServerForFetchOtherDay(String staffId){
         try{
-            stringListLiveData=dynamicUIRepository.getCenterNamesFromServerForFetchOtherDay(staffId);
+            stringListLiveData = dynamicUIRepository.getCenterNamesFromServerForFetchOtherDay(staffId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void getInitiatePaymentStatusFromServer(String currentDate,String staffId){
+    public void getInitiatePaymentStatusFromServer(String currentDate, String staffId){
         try{
-            InitiatePaymentStatusTableListLiveData=dynamicUIRepository.getInitiatePaymentStatusFromServer(currentDate,staffId);
+            InitiatePaymentStatusTableListLiveData = dynamicUIRepository.getInitiatePaymentStatusFromServer(currentDate, staffId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -544,31 +547,31 @@ public class DynamicUIViewModel extends ViewModel {
 
  public void sendLOGToServer(String staffId){
         try{
-            stringLiveData=dynamicUIRepository.sendLOGToServer(staffId);
+            stringLiveData = dynamicUIRepository.sendLOGToServer(staffId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void sendCollectionToServer(String staffId,List<CashCollectionSummaryDTO.IndividualCenterCollection> cashCollectionSummaryList){
+    public void sendCollectionToServer(String staffId, List<CashCollectionSummaryDTO.IndividualCenterCollection> cashCollectionSummaryList){
         try{
-            stringLiveData=dynamicUIRepository.sendCollectionToServer(staffId,cashCollectionSummaryList);
+            stringLiveData = dynamicUIRepository.sendCollectionToServer(staffId, cashCollectionSummaryList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void sendCollectionToServerNew(String staffId,List<CashCollectionSummaryDTO.IndividualCenterCollection> cashCollectionSummaryList){
+    public void sendCollectionToServerNew(String staffId, List<CashCollectionSummaryDTO.IndividualCenterCollection> cashCollectionSummaryList){
         try{
-            stringLiveData=dynamicUIRepository.sendCollectionToServerNew(staffId,cashCollectionSummaryList);
+            stringLiveData = dynamicUIRepository.sendCollectionToServerNew(staffId, cashCollectionSummaryList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void getMasterTableByUserIdAndLoanType(String userId,String loanType){
+    public void getMasterTableByUserIdAndLoanType(String userId, String loanType){
         try{
-            masterTableLiveDataList=dynamicUIRepository.getMasterTableByUserIdAndLoanType(userId,loanType);
+            masterTableLiveDataList = dynamicUIRepository.getMasterTableByUserIdAndLoanType(userId, loanType);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -576,7 +579,7 @@ public class DynamicUIViewModel extends ViewModel {
 
 public void getLoanTableByClientId(String clientId){
         try{
-            memberLoanDetailTableLiveDataList=dynamicUIRepository.getLoanTableByClientId(clientId);
+            memberLoanDetailTableLiveDataList = dynamicUIRepository.getLoanTableByClientId(clientId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -584,7 +587,7 @@ public void getLoanTableByClientId(String clientId){
 
 public void getLoanTableByCenterId(String centerId, CGTTable cgtTable){
         try{
-            memberLoanDetailTableLiveDataList=dynamicUIRepository.getLoanTableByCenterId(centerId,cgtTable);
+            memberLoanDetailTableLiveDataList = dynamicUIRepository.getLoanTableByCenterId(centerId, cgtTable);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -592,35 +595,35 @@ public void getLoanTableByCenterId(String centerId, CGTTable cgtTable){
 
     public void getMasterTableDetailsByCenter(CenterCreationTable centerCreationTable){
         try{
-            masterTableLiveDataList=dynamicUIRepository.getMasterTableDetailsByCenter(centerCreationTable);
+            masterTableLiveDataList = dynamicUIRepository.getMasterTableDetailsByCenter(centerCreationTable);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
     public void getLoanTableDetailsByCenter(CenterCreationTable centerCreationTable){
         try{
-            memberLoanDetailTableLiveDataList=dynamicUIRepository.getLoanTableDetailsByCenter(centerCreationTable);
+            memberLoanDetailTableLiveDataList = dynamicUIRepository.getLoanTableDetailsByCenter(centerCreationTable);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 public void getMasterTableByCenterId(CGTTable cgtTable){
         try{
-            masterTableLiveDataList=dynamicUIRepository.getMasterTableByCenterId(cgtTable);
+            masterTableLiveDataList = dynamicUIRepository.getMasterTableByCenterId(cgtTable);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
     public void getMasterTableByClientId(String clientId,String loanType){
         try{
-            masterTableLiveDataList=dynamicUIRepository.getMasterTableByClientId(clientId,loanType);
+            masterTableLiveDataList = dynamicUIRepository.getMasterTableByClientId(clientId, loanType);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 public void getCGTTableByCenterId(CenterCreationTable centerCreationTable){
         try{
-            cgtTableLiveDataList=dynamicUIRepository.getCGTTableByCenterId(centerCreationTable);
+            cgtTableLiveDataList = dynamicUIRepository.getCGTTableByCenterId(centerCreationTable);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -628,31 +631,31 @@ public void getCGTTableByCenterId(CenterCreationTable centerCreationTable){
 
 public void getCGTTableForDropOut(CenterCreationTable centerCreationTable){
         try{
-            cgtTableLiveDataList=dynamicUIRepository.getCGTTableForDropOut(centerCreationTable);
+            cgtTableLiveDataList = dynamicUIRepository.getCGTTableForDropOut(centerCreationTable);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void getMasterTableByCGTTable(CGTTable cgtTable,String action,String groupName){
+    public void getMasterTableByCGTTable(CGTTable cgtTable, String action, String groupName){
         try{
-            masterTableLiveDataList=dynamicUIRepository.getMasterTableByCGTTable(cgtTable,action,groupName);
+            masterTableLiveDataList = dynamicUIRepository.getMasterTableByCGTTable(cgtTable, action, groupName);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void getVillageSurveyTable(String userId,String loanType){
+    public void getVillageSurveyTable(String userId, String loanType){
         try{
-            villageSurveyTableLiveDataList=dynamicUIRepository.getVillageSurveyTable(userId,loanType);
+            villageSurveyTableLiveDataList = dynamicUIRepository.getVillageSurveyTable(userId, loanType);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void getVillageList(String userId,String loanType){
+    public void getVillageList(String userId, String loanType){
         try{
-            stringListLiveData=dynamicUIRepository.getVillageList(userId,loanType);
+            stringListLiveData = dynamicUIRepository.getVillageList(userId, loanType);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -660,7 +663,7 @@ public void getCGTTableForDropOut(CenterCreationTable centerCreationTable){
 
     public void updateCallTimeStamp(String clientId){
         try{
-            stringLiveData=dynamicUIRepository.updateCallTimeStamp(clientId);
+            stringLiveData = dynamicUIRepository.updateCallTimeStamp(clientId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -668,42 +671,42 @@ public void getCGTTableForDropOut(CenterCreationTable centerCreationTable){
 
     public void getAllCenterNamesFromCenterMeetingTable(String userId){
         try{
-            stringListLiveData=dynamicUIRepository.getAllCenterNamesFromCenterMeetingTable(userId);
+            stringListLiveData = dynamicUIRepository.getAllCenterNamesFromCenterMeetingTable(userId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
-    public void getGroupsFromCenterMeetingTable(String userId,String centerName){
+    public void getGroupsFromCenterMeetingTable(String userId, String centerName){
         try{
-            stringListLiveData=dynamicUIRepository.getGroupsFromCenterMeetingTable(userId,centerName);
+            stringListLiveData = dynamicUIRepository.getGroupsFromCenterMeetingTable(userId, centerName);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
-    public void getMembersFromCenterMeetingTable(String userId,String centerName){
+    public void getMembersFromCenterMeetingTable(String userId, String centerName){
         try{
-            eligibilityByGroupLiveDataList=dynamicUIRepository.getMembersFromCenterMeetingTable(userId,centerName);
+            eligibilityByGroupLiveDataList = dynamicUIRepository.getMembersFromCenterMeetingTable(userId, centerName);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
-    public void getMembersFromCenterMeetingTableForAttendance(String userId,String centerName){
+    public void getMembersFromCenterMeetingTableForAttendance(String userId, String centerName){
         try{
-            centerMeetingAttendanceDTOLiveDataList =dynamicUIRepository.getMembersFromCenterMeetingTableForAttendance(userId,centerName);
+            centerMeetingAttendanceDTOLiveDataList = dynamicUIRepository.getMembersFromCenterMeetingTableForAttendance(userId, centerName);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
-    public void getPhotoFromCMCaptionPhotoTable(String userId,String centerName){
+    public void getPhotoFromCMCaptionPhotoTable(String userId, String centerName){
         try{
-            cmCaptionPhotoTableLiveData =dynamicUIRepository.getPhotoFromCMCaptionPhotoTable(userId,centerName);
+            cmCaptionPhotoTableLiveData = dynamicUIRepository.getPhotoFromCMCaptionPhotoTable(userId, centerName);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
-    public void getGroupListForCollection(String userId,String centerName){
+    public void getGroupListForCollection(String userId, String centerName){
         try{
-            stringListLiveData =dynamicUIRepository.getGroupListForCollection(userId,centerName);
+            stringListLiveData = dynamicUIRepository.getGroupListForCollection(userId, centerName);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -715,86 +718,87 @@ public void getCGTTableForDropOut(CenterCreationTable centerCreationTable){
 //            ex.printStackTrace();
 //        }
 //    }
-    public void getGroupListForCollectionByIsDigitalPayment(String userId,String centerName, boolean isDigitalPayment){
+    public void getGroupListForCollectionByIsDigitalPayment(String userId, String centerName, boolean isDigitalPayment){
         try{
-            stringListLiveData =dynamicUIRepository.getGroupListForCollectionByIsDigitalPayment(userId,centerName,isDigitalPayment);
+            stringListLiveData = dynamicUIRepository.getGroupListForCollectionByIsDigitalPayment(userId, centerName, isDigitalPayment);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
     public void getCashCollectionSummaryList(String userId, Date cmDate){
         try{
-            cashCollectionSummaryDTOLiveData =dynamicUIRepository.getCashCollectionSummaryList(userId,cmDate);
+            cashCollectionSummaryDTOLiveData = dynamicUIRepository.getCashCollectionSummaryList(userId, cmDate);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
     public void getTodayCollectionScheduledList(String userId, Date cmDate){
         try{
-            todayCollectionScheduledTableLiveDataList =dynamicUIRepository.getTodayCollectionScheduledList(userId,cmDate);
+            todayCollectionScheduledTableLiveDataList = dynamicUIRepository.getTodayCollectionScheduledList(userId, cmDate);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
-    public void getCashCollectionSummaryListByCollectionType(String userId, Date cmDate,String collectionType,String centerName){
+    public void getCashCollectionSummaryListByCollectionType(String userId, Date cmDate, String collectionType, String centerName){
         try{
-            cashCollectionSummaryDTOLiveData =dynamicUIRepository.getCashCollectionSummaryListByCollectionType(userId,cmDate,collectionType,centerName);
+            cashCollectionSummaryDTOLiveData = dynamicUIRepository.getCashCollectionSummaryListByCollectionType(userId, cmDate,
+                    collectionType, centerName);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
     public void getCashDenominationTable(String userId, Date cmDate){
         try{
-            cashDenominationTableLiveData =dynamicUIRepository.getCashDenominationTable(userId,cmDate);
+            cashDenominationTableLiveData = dynamicUIRepository.getCashDenominationTable(userId, cmDate);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
     public void getEMIDetailsForCollection(String customerId){
         try{
-            EMIDetailsDTOLiveDataList =dynamicUIRepository.getEMIDetailsForCollection(customerId);
+            EMIDetailsDTOLiveDataList = dynamicUIRepository.getEMIDetailsForCollection(customerId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
     public void getEMIDetailsForDigitalCollection(String customerId){
         try{
-            EMIDetailsDTOLiveDataList =dynamicUIRepository.getEMIDetailsForDigitalCollection(customerId);
+            EMIDetailsDTOLiveDataList = dynamicUIRepository.getEMIDetailsForDigitalCollection(customerId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
     public void getMembersFromCenterMeetingTableForCollectionGroupWise(String groupName,String collectionType){
         try{
-            centerMeetingCollectionTableLiveDataList =dynamicUIRepository.getMembersFromCenterMeetingTableForCollectionGroupWise(groupName,collectionType);
+            centerMeetingCollectionTableLiveDataList = dynamicUIRepository.getMembersFromCenterMeetingTableForCollectionGroupWise(groupName, collectionType);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
-    public void getMembersFromCenterMeetingTableForCollectionCenterWise(String centerName,String collectionType){
+    public void getMembersFromCenterMeetingTableForCollectionCenterWise(String centerName, String collectionType){
         try{
-            centerMeetingCollectionTableLiveDataList =dynamicUIRepository.getMembersFromCenterMeetingTableForCollectionCenterWise(centerName,collectionType);
+            centerMeetingCollectionTableLiveDataList = dynamicUIRepository.getMembersFromCenterMeetingTableForCollectionCenterWise(centerName, collectionType);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
     public void getMembersFromCMCollectionTableForDigitalCollectionGroupWise(String groupName){
         try{
-            centerMeetingCollectionTableLiveDataList =dynamicUIRepository.getMembersFromCMCollectionTableForDigitalCollectionGroupWise(groupName);
+            centerMeetingCollectionTableLiveDataList = dynamicUIRepository.getMembersFromCMCollectionTableForDigitalCollectionGroupWise(groupName);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
     public void getHeadersFromEligibilityTable(){
         try{
-            stringListLiveData=dynamicUIRepository.getHeadersFromEligibilityTable();
+            stringListLiveData = dynamicUIRepository.getHeadersFromEligibilityTable();
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
     public void getCenterCreationTable(String userId,String loanType){
         try{
-            centerCreationTableLiveDataList=dynamicUIRepository.getCenterCreationTable(userId,loanType);
+            centerCreationTableLiveDataList = dynamicUIRepository.getCenterCreationTable(userId, loanType);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -802,7 +806,7 @@ public void getCGTTableForDropOut(CenterCreationTable centerCreationTable){
 
     public void getCenterCreationTableByGRT(GRTTable grtTable){
         try{
-            centerCreationTableLiveData=dynamicUIRepository.getCenterCreationTableByGRT(grtTable);
+            centerCreationTableLiveData = dynamicUIRepository.getCenterCreationTableByGRT(grtTable);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -810,15 +814,15 @@ public void getCGTTableForDropOut(CenterCreationTable centerCreationTable){
 
     public void getCenterCreationTableByMemberLoanTable(LoanTable loanTable){
         try{
-            centerCreationTableLiveData=dynamicUIRepository.getCenterCreationTableByMemberLoanTable(loanTable);
+            centerCreationTableLiveData = dynamicUIRepository.getCenterCreationTableByMemberLoanTable(loanTable);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void getCenterCreationTableByCenterId(String userId,String loanType,String centerId) {
+    public void getCenterCreationTableByCenterId(String userId, String loanType, String centerId) {
         try{
-            centerCreationTableLiveData=dynamicUIRepository.getCenterCreationTableByCenterId(userId,loanType,centerId);
+            centerCreationTableLiveData = dynamicUIRepository.getCenterCreationTableByCenterId(userId, loanType, centerId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -826,7 +830,7 @@ public void getCGTTableForDropOut(CenterCreationTable centerCreationTable){
 
     public void approveGRT(List<GRTTable> grtTableList){
         try{
-            stringLiveData=dynamicUIRepository.approveGRT(grtTableList);
+            stringLiveData = dynamicUIRepository.approveGRT(grtTableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -841,7 +845,7 @@ public void getCGTTableForDropOut(CenterCreationTable centerCreationTable){
 //    }
     public void getHouseVerificationTable(String centerId,String loanType, CGTTable cgtTable){
         try{
-            houseVerificationTableLiveDataList=dynamicUIRepository.getHouseVerificationTable(centerId,loanType,cgtTable);
+            houseVerificationTableLiveDataList = dynamicUIRepository.getHouseVerificationTable(centerId, loanType, cgtTable);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -864,7 +868,7 @@ public void getCGTTableForDropOut(CenterCreationTable centerCreationTable){
 
     public void updateCGTTable(CGTTable cgtTable){
         try{
-            cgtTableLiveData=dynamicUIRepository.updateCGTTable(cgtTable);
+            cgtTableLiveData = dynamicUIRepository.updateCGTTable(cgtTable);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -872,30 +876,30 @@ public void getCGTTableForDropOut(CenterCreationTable centerCreationTable){
 
     public void saveActivitiesData(CGTTable cgtTable){
         try{
-            cgtTableLiveData=dynamicUIRepository.saveActivitiesData(cgtTable);
+            cgtTableLiveData = dynamicUIRepository.saveActivitiesData(cgtTable);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
-    public void getCGTTable(String userId,String loanType){
+    public void getCGTTable(String userId, String loanType){
         try{
-            listOfCGTTableLiveDataList=dynamicUIRepository.getCGTTable(userId,loanType);
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-    }
-
-    public void getCGTTableByCGTCycle(String cgtCycle,String centerId){
-        try{
-            cgtTableLiveDataList=dynamicUIRepository.getCGTTableByCGTCycle(cgtCycle,centerId);
+            listOfCGTTableLiveDataList = dynamicUIRepository.getCGTTable(userId, loanType);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void getCGTAttendanceTable(String cgtCycle,String centerId){
+    public void getCGTTableByCGTCycle(String cgtCycle, String centerId){
         try{
-            cgtAttendanceTableLiveDataList=dynamicUIRepository.getCGTAttendanceTable(cgtCycle,centerId);
+            cgtTableLiveDataList = dynamicUIRepository.getCGTTableByCGTCycle(cgtCycle, centerId);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    public void getCGTAttendanceTable(String cgtCycle, String centerId){
+        try{
+            cgtAttendanceTableLiveDataList = dynamicUIRepository.getCGTAttendanceTable(cgtCycle, centerId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -903,7 +907,7 @@ public void getCGTTableForDropOut(CenterCreationTable centerCreationTable){
 
     public void getGRTAttendanceTable(String centerId){
         try{
-            grtAttendanceTableLiveDataList=dynamicUIRepository.getGRTAttendanceTable(centerId);
+            grtAttendanceTableLiveDataList = dynamicUIRepository.getGRTAttendanceTable(centerId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -911,43 +915,43 @@ public void getCGTTableForDropOut(CenterCreationTable centerCreationTable){
 
     public void updateCGTStartSession(String cgtCycle,String centerId, List<CGTTable> cgtTableList){
         try{
-            cgtTableLiveDataList=dynamicUIRepository.updateCGTStartSession(cgtCycle,centerId,cgtTableList);
+            cgtTableLiveDataList = dynamicUIRepository.updateCGTStartSession(cgtCycle,centerId,cgtTableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void updateCGTEndSession(String cgtCycle,String centerId, List<CGTTable> cgtTableList){
+    public void updateCGTEndSession(String cgtCycle, String centerId, List<CGTTable> cgtTableList){
         try{
-            stringLiveData=dynamicUIRepository.updateCGTEndSession(cgtCycle,centerId,cgtTableList);
+            stringLiveData = dynamicUIRepository.updateCGTEndSession(cgtCycle, centerId, cgtTableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
-    public void getGRTTable(String userId,String loanType){
+    public void getGRTTable(String userId, String loanType){
         try{
-            listOfGRTTableLiveDataList=dynamicUIRepository.getGRTTable(userId,loanType);
+            listOfGRTTableLiveDataList=dynamicUIRepository.getGRTTable(userId, loanType);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
-    public void getCGTDataFromServer(String branchGSTCode,String userId,String loanType){
+    public void getCGTDataFromServer(String branchGSTCode, String userId, String loanType){
         try{
-            cgtFromServerLiveDataList=dynamicUIRepository.getCGTDataFromServer(branchGSTCode,userId,loanType);
+            cgtFromServerLiveDataList = dynamicUIRepository.getCGTDataFromServer(branchGSTCode, userId, loanType);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
     public void getGroupTable(CGTTable cgtTable){
         try{
-            listOfGroupTableLiveDataList=dynamicUIRepository.getGroupTable(cgtTable);
+            listOfGroupTableLiveDataList = dynamicUIRepository.getGroupTable(cgtTable);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
     public void getRawDataByAdditionalColumn(DynamicUITable dynamicUITable){
         try{
-            rawDataTableLiveData=dynamicUIRepository.getRawDataByAdditionalColumn(dynamicUITable);
+            rawDataTableLiveData = dynamicUIRepository.getRawDataByAdditionalColumn(dynamicUITable);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -955,14 +959,14 @@ public void getCGTTableForDropOut(CenterCreationTable centerCreationTable){
 
     public void getRawDataByScreenNameAndModuleType(DynamicUITable dynamicUITable){
         try{
-            rawDataTableLiveData=dynamicUIRepository.getRawDataByScreenNameAndModuleType(dynamicUITable);
+            rawDataTableLiveData = dynamicUIRepository.getRawDataByScreenNameAndModuleType(dynamicUITable);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
     public void getWorkflowHistory(String userId,String loanType){
         try{
-            masterTableLiveDataList=dynamicUIRepository.getWorkflowHistory(userId,loanType);
+            masterTableLiveDataList = dynamicUIRepository.getWorkflowHistory(userId,loanType);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -970,7 +974,7 @@ public void getCGTTableForDropOut(CenterCreationTable centerCreationTable){
 
     public void getMasterTableDetailForPD(String userId,String loanType){
         try{
-            masterTableLiveDataList=dynamicUIRepository.getMasterTableDetailForPD(userId,loanType);
+            masterTableLiveDataList = dynamicUIRepository.getMasterTableDetailForPD(userId,loanType);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -978,7 +982,7 @@ public void getCGTTableForDropOut(CenterCreationTable centerCreationTable){
     public void getMetaDataForMultipleScreen(List<RawDataResponseDTO.Table> rawDataFromServerList,
                                              String loanType,String userId,String productId,String currentStage){
         try{
-            masterTableLiveDataList=dynamicUIRepository.getMetaDataForMultipleScreen(rawDataFromServerList,loanType,userId,productId,currentStage);
+            masterTableLiveDataList = dynamicUIRepository.getMetaDataForMultipleScreen(rawDataFromServerList,loanType,userId,productId,currentStage);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1058,7 +1062,7 @@ public void getCGTTableForDropOut(CenterCreationTable centerCreationTable){
         try{
             // TODO: Condition need to check
             //dynamicUITableLiveData=dynamicUIRepository.postSubmittedAllScreensLiveData(screenData,screenNumber, productId, userId, screenName,moduleType);
-            stringLiveData=dynamicUIRepository.postSubmittedAllScreensLiveData(screenData,screenNumber, productId, userId, screenName,moduleType);
+            stringLiveData = dynamicUIRepository.postSubmittedAllScreensLiveData(screenData,screenNumber, productId, userId, screenName,moduleType);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1328,38 +1332,39 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
             ex.printStackTrace();
         }
     }
-    public void getENachServiceData(String userId,String clientId,String loanType,String moduleType,String requestLoanAmount,String tenureMonths,String emiAmount){
+    public void getENachServiceData(String userId, String clientId, String loanType,String moduleType,
+                                    String requestLoanAmount, String tenureMonths, String emiAmount){
         try{
-            eNachResponseDTOLiveData=dynamicUIRepository.getENachServiceData(userId,clientId,loanType,moduleType, requestLoanAmount, tenureMonths,emiAmount);
+            eNachResponseDTOLiveData = dynamicUIRepository.getENachServiceData(userId, clientId, loanType, moduleType,
+                    requestLoanAmount, tenureMonths,emiAmount);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void getCPVServiceData(String userId,String clientId,String loanType,String moduleType){
+    public void getCPVServiceData(String userId, String clientId, String loanType, String moduleType){
         try{
-            cpvResponseDTOLiveData=dynamicUIRepository.getCPVServiceData(userId,clientId,loanType,moduleType);
+            cpvResponseDTOLiveData = dynamicUIRepository.getCPVServiceData(userId, clientId, loanType, moduleType);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
-
 
     public void getVKYCUpStreamServiceData(String userId,String clientId,String loanType,CIBILTable cibilTable){
         try{
-            vkycResponseDTOLiveData=dynamicUIRepository.getVKYCUpStreamServiceData(userId,clientId,loanType,cibilTable);
+            vkycResponseDTOLiveData = dynamicUIRepository.getVKYCUpStreamServiceData(userId,clientId,loanType,cibilTable);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
-    public void getVKYCDownStreamServiceData(String userId,String clientId,String loanType,String moduleType){
+    public void getVKYCDownStreamServiceData(String userId, String clientId, String loanType, String moduleType){
         try{
-            downStreamResponseDTOLiveData=dynamicUIRepository.getVKYCDownStreamServiceData(userId,clientId,loanType,moduleType);
+            downStreamResponseDTOLiveData = dynamicUIRepository.getVKYCDownStreamServiceData(userId, clientId, loanType, moduleType);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
-    public void getEsignEStampData(String clientId,String tenure,String loanAmount,String rateOfInterest, List<CIBILTable> cibilTableDB){
+    public void getEsignEStampData(String clientId, String tenure,String loanAmount,String rateOfInterest, List<CIBILTable> cibilTableDB){
         try{
             eSignEStampResponseDTOLiveData=dynamicUIRepository.getEsignEStampData( clientId, tenure, loanAmount, rateOfInterest,cibilTableDB);
         }catch (Exception ex){
@@ -1408,15 +1413,15 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void getDedupeServiceData(String userId,String clientId,String loanType,String moduleType){
         try{
-            dedupeResponseDTOLiveData=dynamicUIRepository.getDedupeServiceData(userId,clientId,loanType,moduleType);
+            dedupeResponseDTOLiveData = dynamicUIRepository.getDedupeServiceData(userId, clientId, loanType, moduleType);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void getHunterServiceData(String userId,String clientId,String loanType,String moduleType){
+    public void getHunterServiceData(String userId, String clientId, String loanType, String moduleType){
         try{
-            hunterResponseDTOLiveData=dynamicUIRepository.getHunterServiceData(userId,clientId,loanType,moduleType);
+            hunterResponseDTOLiveData = dynamicUIRepository.getHunterServiceData(userId, clientId, loanType, moduleType);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1452,9 +1457,9 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
         }
     }
 
-    public void insertOrUpdateSODData(String userName,String userId,String branchId,String branchGSTcode,boolean isChecked){
+    public void insertOrUpdateSODData(String userName, String userId, String branchId, String branchGSTcode, boolean isChecked){
         try{
-            sodTableLiveData=dynamicUIRepository.insertorUpdateSODData(userName,userId,branchId,branchGSTcode,isChecked);
+            sodTableLiveData = dynamicUIRepository.insertorUpdateSODData(userName, userId, branchId, branchGSTcode, isChecked);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1468,41 +1473,43 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
             ex.printStackTrace();
         }
     }
-    public void insertorUpdateCibilFlagsModel(String clientId,String dedupe,String ramp, String hunter,String deliquency,String cpvApplicant,String cpvBusinessOrSalary,String loanTenure,String loanAmount,String roi){
+    public void insertorUpdateCibilFlagsModel(String clientId, String dedupe, String ramp, String hunter, String deliquency, String cpvApplicant,
+                                              String cpvBusinessOrSalary, String loanTenure, String loanAmount, String roi){
         try{
-            cibilFlagsDataModelLiveData=dynamicUIRepository.insertorUpdateCibilFlagsModel( clientId,dedupe, ramp,  hunter, deliquency,cpvApplicant,cpvBusinessOrSalary, loanTenure, loanAmount, roi);
+            cibilFlagsDataModelLiveData = dynamicUIRepository.insertorUpdateCibilFlagsModel(clientId, dedupe, ramp, hunter, deliquency,
+                    cpvApplicant, cpvBusinessOrSalary, loanTenure, loanAmount, roi);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void uPStreamDownStreamModel(String clientId,String isUpstream,String isDownStream,String moduleType){
+    public void uPStreamDownStreamModel(String clientId, String isUpstream, String isDownStream, String moduleType){
         try{
-            cibilUpStreamDownStreamModelLiveData=dynamicUIRepository.uPStreamDownStreamModel( clientId, isUpstream, isDownStream,moduleType);
+            cibilUpStreamDownStreamModelLiveData = dynamicUIRepository.uPStreamDownStreamModel( clientId, isUpstream, isDownStream, moduleType);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void cibilSuccessAndFailurModel(String clientId,String cibilSuccessAndFailur,String moduleType){
+    public void cibilSuccessAndFailurModel(String clientId, String cibilSuccessAndFailur, String moduleType){
         try{
-            cibilSuccessAndFailurModelLiveData=dynamicUIRepository.cibilSuccessAndFailurModel( clientId, cibilSuccessAndFailur,moduleType);
+            cibilSuccessAndFailurModelLiveData = dynamicUIRepository.cibilSuccessAndFailurModel(clientId, cibilSuccessAndFailur, moduleType);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void postSubmitStatus(String clientId,String response){
+    public void postSubmitStatus(String clientId, String response){
         try{
-            postSubmitSuccesOrFaiurModelLiveData=dynamicUIRepository.postSubmitStatus( clientId, response);
+            postSubmitSuccesOrFaiurModelLiveData = dynamicUIRepository.postSubmitStatus(clientId, response);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void insertorUpdatePlannerData(PlannerTable plannerTable,boolean isChecked){
+    public void insertorUpdatePlannerData(PlannerTable plannerTable, boolean isChecked){
         try{
-            plannerTableLiveData=dynamicUIRepository.insertorUpdatePlannerData(plannerTable,isChecked);
+            plannerTableLiveData = dynamicUIRepository.insertorUpdatePlannerData(plannerTable, isChecked);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1510,21 +1517,21 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
      public void insertOrUpdateCenterCreationData(CenterCreationTable centerCreationTable){
         try{
-            centerCreationTableLiveData=dynamicUIRepository.insertOrUpdateCenterCreationData(centerCreationTable);
+            centerCreationTableLiveData = dynamicUIRepository.insertOrUpdateCenterCreationData(centerCreationTable);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
      public void getGroupNameFromServer(GroupNameRequestDTO groupNameRequestDTO){
         try{
-            stringLiveData=dynamicUIRepository.getGroupNameFromServer(groupNameRequestDTO);
+            stringLiveData = dynamicUIRepository.getGroupNameFromServer(groupNameRequestDTO);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
      public void saveCashDenomination(CashDenominationTable cashDenominationTable){
         try{
-            cashDenominationTableLiveData=dynamicUIRepository.saveCashDenomination(cashDenominationTable);
+            cashDenominationTableLiveData = dynamicUIRepository.saveCashDenomination(cashDenominationTable);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1532,7 +1539,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void resetPasswordServiceCall(ResetPasswordRequestDTO resetPasswordRequestDTO){
         try{
-            resetPasswordResponseDTOLiveData=dynamicUIRepository.resetPasswordServiceCall(resetPasswordRequestDTO);
+            resetPasswordResponseDTOLiveData = dynamicUIRepository.resetPasswordServiceCall(resetPasswordRequestDTO);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1540,7 +1547,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void changePasswordServiceCall(ChangePasswordRequestDTO changePasswordRequestDTO){
         try{
-            changePasswordResponseDTOLiveDataList=dynamicUIRepository.changePasswordServiceCall(changePasswordRequestDTO);
+            changePasswordResponseDTOLiveDataList = dynamicUIRepository.changePasswordServiceCall(changePasswordRequestDTO);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1549,11 +1556,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
     public void updateDynamicUITable(List<DynamicUITable> viewParametersList, String screenName){
         try{
             // TODO: Condition need to check
-
-            /*if(dynamicUITableLiveData!=null){
-                return;
-            }*/
-            dynamicUITableLiveData=dynamicUIRepository.updateDynamicUITable(viewParametersList,screenName);
+            dynamicUITableLiveData = dynamicUIRepository.updateDynamicUITable(viewParametersList,screenName);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1561,7 +1564,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void deleteAndInsertNewRecord(List<DynamicUITable> viewParametersList, String screenName){
         try{
-             dynamicUITableLiveData=dynamicUIRepository.deleteAndInsertNewRecord(viewParametersList,screenName);
+             dynamicUITableLiveData = dynamicUIRepository.deleteAndInsertNewRecord(viewParametersList, screenName);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1574,7 +1577,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
             /*if(dynamicUITableLiveData!=null){
                 return;
             }*/
-            dynamicUITableLiveData=dynamicUIRepository.updatePlusButtonDataInDB(fieldName,screenNo,dynamicUITable);
+            dynamicUITableLiveData = dynamicUIRepository.updatePlusButtonDataInDB(fieldName, screenNo, dynamicUITable);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1582,7 +1585,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void clearValuesBasedOnScreen(String screen){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.clearValuesBasedOnScreen(screen);
+            dynamicUITableLiveData = dynamicUIRepository.clearValuesBasedOnScreen(screen);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1590,7 +1593,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void clearValuesBasedOnScreenTAGInDP(String screen,String FieldTAG){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.clearValuesBasedOnScreenTAGInDP(screen,FieldTAG);
+            dynamicUITableLiveData = dynamicUIRepository.clearValuesBasedOnScreenTAGInDP(screen,FieldTAG);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1606,44 +1609,36 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
     }
 
 
-    public void calculateAndUpdate(List<String> FromfieldNameList,List<String> TofieldNameList,
-                                        String fromScreen,String toScreen,String newRowTAGName,
-                                   String lableTagName,String valueTagName,boolean updateButtonClick
-            ,List<DynamicUITable> viewParametersList){
+    public void calculateAndUpdate(List<String> FromfieldNameList,List<String> TofieldNameList, String fromScreen, String toScreen, String newRowTAGName,
+                                   String lableTagName, String valueTagName, boolean updateButtonClick, List<DynamicUITable> viewParametersList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.calculateAndUpdate(FromfieldNameList,TofieldNameList,fromScreen,toScreen,
-                    newRowTAGName,
+            dynamicUITableLiveData = dynamicUIRepository.calculateAndUpdate(FromfieldNameList, TofieldNameList, fromScreen, toScreen, newRowTAGName,
                      lableTagName, valueTagName,updateButtonClick,viewParametersList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
-
-
+    
     public void autoSumFields(DynamicUITable dynamicUITable,String  toFieldTagName,
                                         String fromScreen,String toScreen){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.autoSumFields(dynamicUITable,toFieldTagName,fromScreen,toScreen);
+            dynamicUITableLiveData = dynamicUIRepository.autoSumFields(dynamicUITable, toFieldTagName, fromScreen, toScreen);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void sumOfAllFieldsByFeatureId(DynamicUITable dynamicUITable,List<DynamicUITable> dynamicUIList,
-                                          String resultTag){
+    public void sumOfAllFieldsByFeatureId(DynamicUITable dynamicUITable, List<DynamicUITable>dynamicUIList, String resultTag){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.sumOfAllFieldsByFeatureId( dynamicUITable,dynamicUIList,
-                     resultTag);
+            dynamicUITableLiveData = dynamicUIRepository.sumOfAllFieldsByFeatureId( dynamicUITable, dynamicUIList, resultTag);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void GSTCalculationByFeatureId(DynamicUITable dynamicUITable,List<DynamicUITable> dynamicUIList,
-                                          String resultTag){
+    public void GSTCalculationByFeatureId(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUIList, String resultTag){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.GSTCalculationByFeatureId( dynamicUITable,dynamicUIList,
-                     resultTag);
+            dynamicUITableLiveData = dynamicUIRepository.GSTCalculationByFeatureId( dynamicUITable, dynamicUIList, resultTag);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1651,24 +1646,23 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void copyDataFromReferenceCheck(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList, String fromScreen) {
         try{
-            dynamicUITableLiveData=dynamicUIRepository.copyDataFromReferenceCheck(dynamicUITable,dynamicUITableList,fromScreen);
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-
-    }
-
- public void EnableOrDisableByFieldName(List<ParameterInfo> parameterInfoList,List<DynamicUITable> dynamicUITableList){
-        try{
-            dynamicUITableLiveData=dynamicUIRepository.EnableOrDisableByFieldName(parameterInfoList,dynamicUITableList);
+            dynamicUITableLiveData = dynamicUIRepository.copyDataFromReferenceCheck(dynamicUITable, dynamicUITableList, fromScreen);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void getMetaDataByScreenName(String screenName,String loanType){
+ public void EnableOrDisableByFieldName(List<ParameterInfo> parameterInfoList, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.getMetaDataByScreenName(screenName,loanType);
+            dynamicUITableLiveData = dynamicUIRepository.EnableOrDisableByFieldName(parameterInfoList, dynamicUITableList);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    public void getMetaDataByScreenName(String screenName, String loanType){
+        try{
+            dynamicUITableLiveData=dynamicUIRepository.getMetaDataByScreenName(screenName, loanType);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1676,7 +1670,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void OralVerificationEnableOrDisable(List<ParameterInfo> parameterInfoList, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.OralVerificationEnableOrDisable(parameterInfoList,dynamicUITableList);
+            dynamicUITableLiveData = dynamicUIRepository.OralVerificationEnableOrDisable(parameterInfoList, dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1684,7 +1678,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
     public void copyValuesFromScreenToScreen(List<ParameterInfo> fromScreenList,List<ParameterInfo> toScreenList,
             List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.copyValuesFromScreenToScreen(fromScreenList,toScreenList,dynamicUITableList);
+            dynamicUITableLiveData = dynamicUIRepository.copyValuesFromScreenToScreen(fromScreenList,toScreenList,dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1692,84 +1686,81 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void copyValuesFromPersonalDetailScreen(String fromScreen, String toScreen, List<DynamicUITable> dynamicUITableList) {
         try{
-            dynamicUITableLiveData=dynamicUIRepository.copyValuesFromPersonalScreenToNomineeScreen(fromScreen,toScreen,dynamicUITableList);
+            dynamicUITableLiveData = dynamicUIRepository.copyValuesFromPersonalScreenToNomineeScreen(fromScreen, toScreen, dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
-
-
-
     }
     public void EnableOrDisableByFeatureId(String enableFeatureTag,String disableFeatureTag,List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.EnableOrDisableByFeatureId(  enableFeatureTag, disableFeatureTag,dynamicUITableList);
+            dynamicUITableLiveData=dynamicUIRepository.EnableOrDisableByFeatureId(enableFeatureTag, disableFeatureTag, dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
     public void GSTCalculation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.GSTCalculation(  dynamicUITable,dynamicUITableList);
+            dynamicUITableLiveData = dynamicUIRepository.GSTCalculation(dynamicUITable, dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void getModuleType(String loanType,String clientId){
+    public void getModuleType(String loanType, String clientId){
         try{
-            stringLiveData=dynamicUIRepository.getModuleType(loanType,clientId);
+            stringLiveData=dynamicUIRepository.getModuleType(loanType, clientId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    // TODO: AHL SALARY MODULETYPE VALIDATION
-    public void getAHLModuleType(String loanType,String clientId){
+    // TODO: AHL SALARY MODULE TYPE VALIDATION
+    public void getAHLModuleType(String loanType, String clientId){
         try{
-            stringLiveData=dynamicUIRepository.getAHLModuleType(loanType,clientId);
+            stringLiveData = dynamicUIRepository.getAHLModuleType(loanType, clientId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void EditableOrNonEditableByFeatureId(String enableFeatureTag,String disableFeatureTag,List<DynamicUITable> dynamicUITableList){
+    public void EditableOrNonEditableByFeatureId(String enableFeatureTag, String disableFeatureTag, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.EditableOrNonEditableByFeatureId(  enableFeatureTag, disableFeatureTag,dynamicUITableList);
+            dynamicUITableLiveData = dynamicUIRepository.EditableOrNonEditableByFeatureId( enableFeatureTag, disableFeatureTag,dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
     public void setAddressKYCType(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList,String screenToGetData){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.setAddressKYCType(dynamicUITable,dynamicUITableList,screenToGetData);
+            dynamicUITableLiveData = dynamicUIRepository.setAddressKYCType(dynamicUITable,dynamicUITableList,screenToGetData);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
     public void setNamesByRadioButtonChanges(DynamicUITable dynamicUITable, String selectedRadioButton, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.setNamesByRadioButtonChanges(dynamicUITable, selectedRadioButton, dynamicUITableList);
+            dynamicUITableLiveData = dynamicUIRepository.setNamesByRadioButtonChanges(dynamicUITable, selectedRadioButton, dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
     public void FixedAssetValidation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.FixedAssetValidation(dynamicUITable, dynamicUITableList);
+            dynamicUITableLiveData = dynamicUIRepository.FixedAssetValidation(dynamicUITable, dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
     public void setGeneralIncomeScreenChangesByDropDown(DynamicUITable dynamicUITable, String selectedItem, String selectedRadioButton, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.setGeneralIncomeScreenChangesByDropDown(dynamicUITable, selectedItem,selectedRadioButton, dynamicUITableList);
+            dynamicUITableLiveData = dynamicUIRepository.setGeneralIncomeScreenChangesByDropDown(dynamicUITable, selectedItem,selectedRadioButton, dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
     public void setOtherIncomeScreenChangesByDropDown(DynamicUITable dynamicUITable, String selectedItem, String selectedRadioButton, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.setOtherIncomeScreenChangesByDropDown(dynamicUITable, selectedItem,selectedRadioButton, dynamicUITableList);
+            dynamicUITableLiveData = dynamicUIRepository.setOtherIncomeScreenChangesByDropDown(dynamicUITable, selectedItem,selectedRadioButton, dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1777,7 +1768,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void copyAddressBasedOnDropDown(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList,String screenToGetData){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.copyAddressBasedOnDropDown(dynamicUITable,dynamicUITableList,screenToGetData);
+            dynamicUITableLiveData = dynamicUIRepository.copyAddressBasedOnDropDown(dynamicUITable,dynamicUITableList,screenToGetData);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1785,7 +1776,15 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void addressDetailValidation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.addressDetailValidation(dynamicUITable,dynamicUITableList);
+            dynamicUITableLiveData = dynamicUIRepository.addressDetailValidation(dynamicUITable, dynamicUITableList);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    public void guarantorDetailsValidation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
+        try{
+            dynamicUITableLiveData = dynamicUIRepository.addressDetailValidation(dynamicUITable, dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1793,49 +1792,47 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void copyBusinessProofAddressBasedOnDropDown(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.copyBusinessProofAddressBasedOnDropDown(dynamicUITable,dynamicUITableList);
+            dynamicUITableLiveData = dynamicUIRepository.copyBusinessProofAddressBasedOnDropDown(dynamicUITable,dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-
-
-    public void getCoApplicantDetails(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList,String screenTogetData){
+    public void getCoApplicantDetails(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList, String screenTogetData){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.getCoApplicantDetails(dynamicUITable,dynamicUITableList,screenTogetData);
+            dynamicUITableLiveData = dynamicUIRepository.getCoApplicantDetails(dynamicUITable, dynamicUITableList, screenTogetData);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void getReferenceNames(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList,String screenTogetData){
+    public void getReferenceNames(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList, String screenTogetData){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.getReferenceNames(dynamicUITable,dynamicUITableList,screenTogetData);
+            dynamicUITableLiveData = dynamicUIRepository.getReferenceNames(dynamicUITable,dynamicUITableList, screenTogetData);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void getReferenceDetails(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList,String screenTogetData){
+    public void getReferenceDetails(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList, String screenTogetData){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.getReferenceDetails(dynamicUITable,dynamicUITableList,screenTogetData);
+            dynamicUITableLiveData = dynamicUIRepository.getReferenceDetails(dynamicUITable, dynamicUITableList, screenTogetData);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void getRawDataFromOtherScreenAndUpdate(List<DynamicUITable> dynamicUITableList,String screenNameToUpdate){
+    public void getRawDataFromOtherScreenAndUpdate(List<DynamicUITable> dynamicUITableList, String screenNameToUpdate){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.getRawDataFromOtherScreenAndUpdate(dynamicUITableList, screenNameToUpdate);
+            dynamicUITableLiveData = dynamicUIRepository.getRawDataFromOtherScreenAndUpdate(dynamicUITableList, screenNameToUpdate);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void getCollectionTableData(List<DynamicUITable> dynamicUITableList,DynamicUITable dynamicUITable){
+    public void getCollectionTableData(List<DynamicUITable> dynamicUITableList, DynamicUITable dynamicUITable){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.getCollectionTableData(dynamicUITableList, dynamicUITable);
+            dynamicUITableLiveData = dynamicUIRepository.getCollectionTableData(dynamicUITableList, dynamicUITable);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1843,7 +1840,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void getCBCheckTableData(String clientID){
         try{
-            cbCheckTableLiveData=dynamicUIRepository.getCBCheckTableData(clientID);
+            cbCheckTableLiveData = dynamicUIRepository.getCBCheckTableData(clientID);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1851,21 +1848,21 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void calculatePurchaseFrequency(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.calculatePurchaseFrequency(dynamicUITable,dynamicUITableList);
+            dynamicUITableLiveData = dynamicUIRepository.calculatePurchaseFrequency(dynamicUITable, dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void businessAssetChildScreenChangesByRawData( List<DynamicUITable> dynamicUITableList){
+    public void businessAssetChildScreenChangesByRawData(List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.businessAssetChildScreenChangesByRawData(dynamicUITableList);
+            dynamicUITableLiveData = dynamicUIRepository.businessAssetChildScreenChangesByRawData(dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void loanSuggestionCalculation( List<DynamicUITable> dynamicUITableList){
+    public void loanSuggestionCalculation(List<DynamicUITable> dynamicUITableList){
         try{
             dynamicUITableLiveData=dynamicUIRepository.loanSuggestionCalculation(dynamicUITableList);
         }catch (Exception ex){
@@ -1874,7 +1871,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
     }
     public void calculateNBI(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.calculateNBI(dynamicUITable,dynamicUITableList);
+            dynamicUITableLiveData = dynamicUIRepository.calculateNBI(dynamicUITable, dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1882,7 +1879,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void calculateHouseIncomeSummary(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.calculateHouseIncomeSummary(dynamicUITable,dynamicUITableList);
+            dynamicUITableLiveData = dynamicUIRepository.calculateHouseIncomeSummary(dynamicUITable,dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1890,7 +1887,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void bankingHistoryCalculation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.bankingHistoryCalculation(dynamicUITable,dynamicUITableList);
+            dynamicUITableLiveData = dynamicUIRepository.bankingHistoryCalculation(dynamicUITable, dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1898,7 +1895,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void ITRCalculation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.ITRCalculation(dynamicUITable,dynamicUITableList);
+            dynamicUITableLiveData = dynamicUIRepository.ITRCalculation(dynamicUITable, dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1906,7 +1903,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void getMaximumLoanAmount(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
-            integerLiveData=dynamicUIRepository.getMaximumLoanAmount(dynamicUITable,dynamicUITableList);
+            integerLiveData = dynamicUIRepository.getMaximumLoanAmount(dynamicUITable, dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1914,7 +1911,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void getTotalEMIForCollection(String customerId){
         try{
-            integerLiveData=dynamicUIRepository.getTotalEMIForCollection(customerId);
+            integerLiveData = dynamicUIRepository.getTotalEMIForCollection(customerId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1922,7 +1919,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void getTotalDueForCollection(String customerId){
         try{
-            integerLiveData=dynamicUIRepository.getTotalDueForCollection(customerId);
+            integerLiveData = dynamicUIRepository.getTotalDueForCollection(customerId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1930,7 +1927,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void getTotalSavingsCollection(String customerId){
         try{
-            integerLiveData=dynamicUIRepository.getTotalSavingsCollection(customerId);
+            integerLiveData = dynamicUIRepository.getTotalSavingsCollection(customerId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1938,7 +1935,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void getTotalPaidAmtFromCollection(String customerId){
         try{
-            integerLiveData=dynamicUIRepository.getTotalPaidAmtFromCollection(customerId);
+            integerLiveData = dynamicUIRepository.getTotalPaidAmtFromCollection(customerId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1946,31 +1943,31 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void getTotalPaidAmtFromDigitalCollection(String customerId){
         try{
-            integerLiveData=dynamicUIRepository.getTotalPaidAmtFromDigitalCollection(customerId);
+            integerLiveData = dynamicUIRepository.getTotalPaidAmtFromDigitalCollection(customerId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void confirmCenterMeetingCollection(CenterMeetingCollectionTable centerMeetingCollectionTable,boolean isChecked,boolean isSavingsConfirmed){
+    public void confirmCenterMeetingCollection(CenterMeetingCollectionTable centerMeetingCollectionTable, boolean isChecked, boolean isSavingsConfirmed){
         try{
-            integerLiveData=dynamicUIRepository.confirmCenterMeetingCollection(centerMeetingCollectionTable,isChecked,isSavingsConfirmed);
+            integerLiveData = dynamicUIRepository.confirmCenterMeetingCollection(centerMeetingCollectionTable,isChecked,isSavingsConfirmed);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void confirmDigitalCenterMeetingCollection(CenterMeetingCollectionTable centerMeetingCollectionTable,boolean isChecked,boolean isSavingsConfirmed){
+    public void confirmDigitalCenterMeetingCollection(CenterMeetingCollectionTable centerMeetingCollectionTable, boolean isChecked,boolean isSavingsConfirmed){
         try{
-            integerLiveData=dynamicUIRepository.confirmDigitalCenterMeetingCollection(centerMeetingCollectionTable,isChecked,isSavingsConfirmed);
+            integerLiveData = dynamicUIRepository.confirmDigitalCenterMeetingCollection(centerMeetingCollectionTable, isChecked, isSavingsConfirmed);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void confirmSavingsCollection(CenterMeetingCollectionTable centerMeetingCollectionTable,boolean isChecked){
+    public void confirmSavingsCollection(CenterMeetingCollectionTable centerMeetingCollectionTable, boolean isChecked){
         try{
-            integerLiveData=dynamicUIRepository.confirmSavingsCollection(centerMeetingCollectionTable,isChecked);
+            integerLiveData=dynamicUIRepository.confirmSavingsCollection(centerMeetingCollectionTable, isChecked);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1978,7 +1975,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void getMinAndMaximumLoanAmount(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
-            productMasterTableLiveData=dynamicUIRepository.getMinAndMaximumLoanAmount(dynamicUITable,dynamicUITableList);
+            productMasterTableLiveData = dynamicUIRepository.getMinAndMaximumLoanAmount(dynamicUITable, dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -1986,21 +1983,21 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void mortgageCalculation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.mortgageCalculation(dynamicUITable,dynamicUITableList);
+            dynamicUITableLiveData = dynamicUIRepository.mortgageCalculation(dynamicUITable, dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
     public void loanApprovalCalculation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.loanApprovalCalculation(dynamicUITable,dynamicUITableList);
+            dynamicUITableLiveData = dynamicUIRepository.loanApprovalCalculation(dynamicUITable, dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
  public void centerCreationScreenValidation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.centerCreationScreenValidation(dynamicUITable,dynamicUITableList);
+            dynamicUITableLiveData = dynamicUIRepository.centerCreationScreenValidation(dynamicUITable, dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -2008,7 +2005,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void cashFlowSummaryCalculation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.cashFlowSummaryCalculation(dynamicUITable,dynamicUITableList);
+            dynamicUITableLiveData=dynamicUIRepository.cashFlowSummaryCalculation(dynamicUITable, dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -2016,15 +2013,15 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void houseAssetCalculation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.houseAssetCalculation(dynamicUITable,dynamicUITableList);
-        }catch (Exception ex){
+            dynamicUITableLiveData = dynamicUIRepository.houseAssetCalculation(dynamicUITable, dynamicUITableList);
+        }catch(Exception ex){
             ex.printStackTrace();
         }
     }
 
     public void businessAssetMSMECalculation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.businessAssetMSMECalculation(dynamicUITable,dynamicUITableList);
+            dynamicUITableLiveData=dynamicUIRepository.businessAssetMSMECalculation(dynamicUITable, dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -2040,49 +2037,49 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void applicantKYCScreenValidation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.applicantKYCScreenValidation(dynamicUITable,dynamicUITableList);
+            dynamicUITableLiveData = dynamicUIRepository.applicantKYCScreenValidation(dynamicUITable, dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
-    public void updateVillageAndCenter(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList,CenterCreationTable centerCreationTable){
+    public void updateVillageAndCenter(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList, CenterCreationTable centerCreationTable){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.updateVillageAndCenter(dynamicUITable,dynamicUITableList,centerCreationTable);
+            dynamicUITableLiveData = dynamicUIRepository.updateVillageAndCenter(dynamicUITable,dynamicUITableList, centerCreationTable);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
     public void referenceCheckScreenValidation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.referenceCheckScreenValidation(dynamicUITable,dynamicUITableList);
+            dynamicUITableLiveData = dynamicUIRepository.referenceCheckScreenValidation(dynamicUITable, dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
     public void referenceVerificationScreenValidation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.referenceVerificationScreenValidation(dynamicUITable,dynamicUITableList);
+            dynamicUITableLiveData=dynamicUIRepository.referenceVerificationScreenValidation(dynamicUITable, dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
     public void generalIncomeScreenValidation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.generalIncomeScreenValidation(dynamicUITable,dynamicUITableList);
+            dynamicUITableLiveData =  dynamicUIRepository.generalIncomeScreenValidation(dynamicUITable, dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
     public void otherIncomeSourceScreenValidation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.otherIncomeSourceScreenValidation(dynamicUITable,dynamicUITableList);
+            dynamicUITableLiveData = dynamicUIRepository.otherIncomeSourceScreenValidation(dynamicUITable, dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
     public void getDynamicUITableLocalDB(String screenId){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.getDynamicUITableLocalDB(screenId);
+            dynamicUITableLiveData = dynamicUIRepository.getDynamicUITableLocalDB(screenId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -2090,7 +2087,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void applicantLoanProposalScreenChangesByDropdown(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData=dynamicUIRepository.applicantLoanProposalScreenChangesByDropdown(dynamicUITable,dynamicUITableList);
+            dynamicUITableLiveData = dynamicUIRepository.applicantLoanProposalScreenChangesByDropdown(dynamicUITable,dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -2264,6 +2261,14 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
             ex.printStackTrace();
         }
     }
+
+    public void getLeadProductDetailsFromServer(String productId, String bcId){
+        try{
+            leadMasterTableLiveDataList = dynamicUIRepository.getLeadProductDetailsFromServer(productId, bcId);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
     public void calculateLoanProposal(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
             dynamicUITableLiveData=dynamicUIRepository.calculateLoanProposalNew(dynamicUITable, dynamicUITableList);
@@ -2403,7 +2408,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void uploadCMCaptionImageToServer(File file, String fileName, String staffId){
         try{
-            stringLiveData=dynamicUIRepository.uploadCMCaptionImageToServer(file,fileName,staffId);
+            stringLiveData = dynamicUIRepository.uploadCMCaptionImageToServer(file,fileName,staffId);
         }catch (Exception ex){
             Log.e("TAG", ex.toString());
         }
@@ -2411,7 +2416,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void saveCenterMeetingDetails(List<FetchOtherDayCMDTO> fetchOtherDayCMDTOList){
         try{
-            fetchOtherDayCMDTOLiveDataList =dynamicUIRepository.saveCenterMeetingDetails(fetchOtherDayCMDTOList);
+            fetchOtherDayCMDTOLiveDataList = dynamicUIRepository.saveCenterMeetingDetails(fetchOtherDayCMDTOList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -2639,15 +2644,15 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
     public void getCollectiondata(String screenNo,String userId) {
         try{
 
-            collectionTableLiveDataList=dynamicUIRepository.getCollectiondata(screenNo,userId);
+            collectionTableLiveDataList = dynamicUIRepository.getCollectiondata(screenNo, userId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
-    public void getLeadTableDataFromServer(String screenNo,String screenName,String loanType,String userId,
-                                         DynamicUITable dynamicUITable,List<DynamicUITable> dynamicUITableList){
+    public void getLeadTableDataFromServer(String screenNo, String screenName, String loanType, String userId,
+                                         DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
-            leadTableLiveData=dynamicUIRepository.getLeadTableDataFromServer(screenNo,screenName,loanType,userId,
+            leadTableLiveData = dynamicUIRepository.getLeadTableDataFromServer(screenNo, screenName, loanType, userId,
                     dynamicUITable,dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
@@ -2664,9 +2669,9 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
         }
     }
 
-    public void getRawDataForAllClient(List<String> screenNoList,List<String> clientIdList,String userId){
+    public void getRawDataForAllClient(List<String> screenNoList, List<String> clientIdList, String userId){
         try{
-            rawTableLiveData=dynamicUIRepository.getRawDataForAllClient(screenNoList,clientIdList,userId);
+            rawTableLiveData=dynamicUIRepository.getRawDataForAllClient(screenNoList, clientIdList, userId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -2706,9 +2711,9 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
         }
     }
 
-    public void getRawDataByClientIDAndModuleType(String screenName,String clientId,String moduleType){
+    public void getRawDataByClientIDAndModuleType(String screenName, String clientId, String moduleType){
         try{
-            rawTableLiveData=dynamicUIRepository.getRawDataByClientIDAndModuleType(screenName,clientId,moduleType);
+            rawTableLiveData = dynamicUIRepository.getRawDataByClientIDAndModuleType(screenName,clientId,moduleType);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -2777,7 +2782,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void ageValidationJLG_Radio(DynamicUITable dynamicUITable,List<DynamicUITable> dynamicUITableList) {
         try{
-            dynamicUITableRowLiveData=dynamicUIRepository.ageValidationJLG_Radio( dynamicUITable,dynamicUITableList);
+            dynamicUITableRowLiveData = dynamicUIRepository.ageValidationJLG_Radio( dynamicUITable,dynamicUITableList);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -2786,11 +2791,10 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void deDupValidationforMonthInPD(DynamicUITable dynamicUITable,List<DynamicUITable> dynamicUITableList,String month_datepicker) {
         try{
-            dynamicUITableRowLiveData=dynamicUIRepository.deDupValidationforMonthInPD( dynamicUITable,dynamicUITableList,month_datepicker);
+            dynamicUITableRowLiveData = dynamicUIRepository.deDupValidationforMonthInPD( dynamicUITable,dynamicUITableList,month_datepicker);
         }catch (Exception ex){
             ex.printStackTrace();
         }
-
     }
 
     public void deDupeValidationForAllScreen(DynamicUITable dynamicUITable,List<DynamicUITable> dynamicUITableList) {
@@ -2799,7 +2803,6 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
         }catch (Exception ex){
             ex.printStackTrace();
         }
-
     }
 
 
@@ -2809,7 +2812,6 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
         }catch (Exception ex){
             ex.printStackTrace();
         }
-
     }
 
     public void getApplicantKycRawData(String fromScreenName,String fieldTag, String clientID) {
@@ -2845,15 +2847,15 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void getDocumentUploadHeader(String clientId,String loanType,boolean isHeader){
         try{
-            stringListLiveData=dynamicUIRepository.getDocumentUploadHeader(clientId,loanType,isHeader);
+            stringListLiveData = dynamicUIRepository.getDocumentUploadHeader(clientId,loanType,isHeader);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    public void getDocumentUploadSubHeader(String clientId,String loanType,boolean isHeader){
+    public void getDocumentUploadSubHeader(String clientId,String loanType, boolean isHeader){
         try{
-            documentUploadLiveDataList=dynamicUIRepository.getDocumentUploadSubHeader(clientId,loanType,isHeader);
+            documentUploadLiveDataList = dynamicUIRepository.getDocumentUploadSubHeader(clientId, loanType, isHeader);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -2861,7 +2863,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void uploadDocumentsToServer(DocumentUploadTableNew documentUploadTableNew){
         try{
-            documentUploadLiveDataList=dynamicUIRepository.uploadDocumentsToServer(documentUploadTableNew);
+            documentUploadLiveDataList = dynamicUIRepository.uploadDocumentsToServer(documentUploadTableNew);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -2877,7 +2879,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void insertNewCapturedImageInTable(DocumentUploadTableNew documentUploadTableNewImage){
         try{
-            documentUploadLiveDataList=dynamicUIRepository.insertNewCapturedImageInTable(documentUploadTableNewImage);
+            documentUploadLiveDataList = dynamicUIRepository.insertNewCapturedImageInTable(documentUploadTableNewImage);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -2948,9 +2950,9 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
         }
     }
 
-    public void getDocumentMasterFromServer(String productId,String projectId){
+    public void getDocumentMasterFromServer(String productId, String projectId){
         try{
-            documentMasterListLiveData=dynamicUIRepository.getDocumentMasterFromServer(productId,projectId);
+            documentMasterListLiveData = dynamicUIRepository.getDocumentMasterFromServer(productId,projectId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -2971,30 +2973,40 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
         }
     }
 
-    public void getLeadDropDownCustomerType(String profession,String customerType,String type,String isIndividual){
+    public void getLeadDropDownCustomerType(String profession, String customerType, String type, String isIndividual){
         try{
-            getLeadCustomerTypeTableLiveData=dynamicUIRepository.getLeadDropDownCustomerType(profession,customerType,type,isIndividual);
+            getLeadCustomerTypeTableLiveData = dynamicUIRepository.getLeadDropDownCustomerType(profession,customerType,type,isIndividual);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
     public void getLeadDropDownTypeOfProfession(String profession,String customerType,String type,String isIndividual){
         try{
-            getLeadDropDownTypeOfProfessionTableLiveData=dynamicUIRepository.getLeadDropDownTypeOfProfession(profession,customerType,type,isIndividual);
+            getLeadDropDownTypeOfProfessionTableLiveData = dynamicUIRepository.getLeadDropDownTypeOfProfession(profession,customerType,type,isIndividual);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
-    public void getDropDownKYCType(String type,String clientId,String moduleType,String customerType,String profession,String isEkyc, int screenId){
+    public void getDropDownKYCType(String type, String clientId, String moduleType, String customerType, String profession, String isEkyc, int screenId){
         try{
-            getGetKYCDropDownIDProofTableLiveData=dynamicUIRepository.getDropDownKYCType(type, clientId, moduleType,customerType,profession, isEkyc, screenId);
+            getGetKYCDropDownIDProofTableLiveData = dynamicUIRepository.getDropDownKYCType(type, clientId, moduleType, customerType, profession, isEkyc, screenId);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
-    public void getAddressAddressProof(String type,String clientId,String moduleType){
+
+    public void getDropDownGuarantorKYCType(String type, String clientId, String moduleType, String customerType, String profession){
         try{
-            getGetAddressAddressProofTableLiveData=dynamicUIRepository.getAddressAddressProof(type,clientId, moduleType);
+            getGetKYCDropDownIDProofTableLiveData = dynamicUIRepository.getDropDownGuarantorKYCType(type, clientId, moduleType,customerType,profession);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    //type = 2
+    public void getAddressAddressProof(String type, String clientId, String moduleType){
+        try{
+            getGetAddressAddressProofTableLiveData = dynamicUIRepository.getAddressAddressProof(type, clientId, moduleType);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -3168,7 +3180,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
     }
     public void getTenureInMonths(){
         try{
-            getTenureMonthsResponseTable =dynamicUIRepository.getTenureInMonths();
+            getTenureMonthsResponseTable = dynamicUIRepository.getTenureInMonths();
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -3276,6 +3288,10 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
       public LiveData<List<ProductMasterTable>> getProductMasterTableLiveDataList() {
         return productMasterTableLiveDataList;
+    }
+
+    public LiveData<List<ProductMasterTable>> getLeadMasterTableLiveDataList() {
+        return leadMasterTableLiveDataList;
     }
 
     public LiveData<MasterTable> getmasterTableLiveData() {

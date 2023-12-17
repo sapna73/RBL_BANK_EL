@@ -70,6 +70,7 @@ import static com.saartak.el.constants.AppConstant.LOAN_NAME_TW;
 import static com.saartak.el.constants.AppConstant.LOAN_NAME_TWL;
 import static com.saartak.el.constants.AppConstant.LOAN_NAME_EL;
 import static com.saartak.el.constants.AppConstant.MODULE_TYPE_APPLICANT;
+import static com.saartak.el.constants.AppConstant.PRODUCT_ID_EL;
 import static com.saartak.el.constants.AppConstant.PRODUCT_ID_IL;
 import static com.saartak.el.constants.AppConstant.PRODUCT_ID_MSME;
 import static com.saartak.el.constants.AppConstant.PROJECT_ID_EL;
@@ -113,6 +114,7 @@ import static com.saartak.el.constants.AppConstant.SCREEN_NAME_DIRECT_BUSINESS_E
 import static com.saartak.el.constants.AppConstant.SCREEN_NAME_EMPLOYER_VERIFICATION;
 import static com.saartak.el.constants.AppConstant.SCREEN_NAME_FAMILY_MEMBER_INCOME;
 import static com.saartak.el.constants.AppConstant.SCREEN_NAME_GENERAL_INCOME;
+import static com.saartak.el.constants.AppConstant.SCREEN_NAME_GUARANTOR_DETAILS;
 import static com.saartak.el.constants.AppConstant.SCREEN_NAME_HOUSE_DEBTS;
 import static com.saartak.el.constants.AppConstant.SCREEN_NAME_HOUSE_INCOME;
 import static com.saartak.el.constants.AppConstant.SCREEN_NAME_HOUSE_LIABILITIES;
@@ -168,6 +170,9 @@ import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_CON
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_CONTACT_NO_1;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_FULL_NAME;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_GUARANTOR;
+import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_GUARANTOR_KYC_DETAILS;
+import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_GUARANTOR_KYC_ID;
+import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_GUARANTOR_KYC_TYPE;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_KYC_ID;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_KYC_TYPE;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_LOAN_REQUESTED_AMOUNT;
@@ -208,12 +213,14 @@ public class BaseFragment extends Fragment {
 
     public String USER_ID;
 
+    public String educationDestination;
+
     // TODO: Rename and change types of parameters
     public String LOAN_TYPE;
 
     public String CLIENT_ID;
 
-    public String PROJECT_ID,PRODUCT_ID,MODULE_TYPE,CORRELATION_ID;
+    public String PROJECT_ID, PRODUCT_ID, MODULE_TYPE, CORRELATION_ID;
     private static final AtomicInteger NEXT_GENERATED_ID = new AtomicInteger(1);
     private static final Map<String, List<String>> CHILD_FRAGMENT_TAGS_MAP = new HashMap<>();
 //    private FrameLayout mRootView;
@@ -248,13 +255,11 @@ public class BaseFragment extends Fragment {
         }
     }
 
-
     protected void addLineSeperator(LinearLayout ll) {
         LinearLayout lineSeparatorLayout = new LinearLayout(getActivity());
         lineSeparatorLayout.setBackgroundColor(Color.GRAY);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                2);
+                LinearLayout.LayoutParams.MATCH_PARENT, 2);
         params.setMargins(0, convertDpToPixel(10), 0, convertDpToPixel(10));
         lineSeparatorLayout.setLayoutParams(params);
 //        dynamicViews.add(lineSeparatorLayout);
@@ -297,7 +302,7 @@ public class BaseFragment extends Fragment {
         return textLinearLayout;
     }
 
-    // TODO: TEXT VIEW LABLE
+    // TODO: TEXT VIEW LABEL
     protected View addTextViewLable(DynamicUITable viewParameters,List<DynamicUITable> dynamicUITableList) {
         //Adding a LinearLayout with HORIZONTAL orientation
         LinearLayout textLinearLayout = new LinearLayout(getActivity());
@@ -307,8 +312,7 @@ public class BaseFragment extends Fragment {
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
         params.setMargins(convertDpToPixel(5),
-                convertDpToPixel(15),
-                0, 0);
+                convertDpToPixel(15), 0, 0);
         params.weight = convertDpToPixel(0.5f);
 
         // TODO:
@@ -324,7 +328,6 @@ public class BaseFragment extends Fragment {
                 viewParameters.getFieldTag().equalsIgnoreCase(FIELD_TYPE_NEW_LIABILITY)){
             textView.setTextColor(Color.DKGRAY);
         }
-
         textLinearLayout.addView(textView);
         textLinearLayout.setLayoutParams(params);
         return textLinearLayout;
@@ -340,8 +343,7 @@ public class BaseFragment extends Fragment {
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
         params.setMargins(convertDpToPixel(5),
-                convertDpToPixel(15),
-                0, 0
+                convertDpToPixel(15), 0, 0
         );
         params.weight = convertDpToPixel(0.5f);
 
@@ -369,7 +371,7 @@ public class BaseFragment extends Fragment {
                                     SCREEN_NAME_LIABILITIES, dynamicUITableList, dynamicUITable, dynamicUITable.getCoRelationID());
 
                         } else if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_BUSINESS_ASSETS)&&dynamicUITable.getLoanType().equalsIgnoreCase(LOAN_NAME_INDIVIDUAL)) {
-                            removeAllChildFragments(ll.getId()+"");
+                            removeAllChildFragments(ll.getId() + "");
                             initChild(LOAN_TYPE, CLIENT_ID, PROJECT_ID_EL, PRODUCT_ID_IL, SCREEN_N0_PRODUCT,
                                     SCREEN_NAME_PRODUCT,dynamicUITableList,dynamicUITable,dynamicUITable.getCoRelationID());
                         }else if(dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_BUSINESS_LIABILITIES)
@@ -380,126 +382,121 @@ public class BaseFragment extends Fragment {
                                 initChild(LOAN_TYPE, CLIENT_ID, PROJECT_ID_EL, PRODUCT_ID_IL, SCREEN_N0_BUSINESS_DEBTS,
                                         SCREEN_NAME_BUSINESS_DEBTS, dynamicUITableList, dynamicUITable,dynamicUITable.getCoRelationID());
                             }else if (dynamicUITable.getFieldTag().contains(SCREEN_NAME_ADVANCES)){
-                                removeAllChildFragments(ll.getId()+"");
-                                initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL,PRODUCT_ID_IL,SCREEN_N0_ADVANCES,
-                                        SCREEN_NAME_ADVANCES,dynamicUITableList,dynamicUITable,dynamicUITable.getCoRelationID());
+                                removeAllChildFragments(ll.getId() + "");
+                                initChild(LOAN_TYPE, CLIENT_ID, PROJECT_ID_EL, PRODUCT_ID_IL, SCREEN_N0_ADVANCES,
+                                        SCREEN_NAME_ADVANCES, dynamicUITableList, dynamicUITable, dynamicUITable.getCoRelationID());
                             }
-                        }else if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_HOUSE_INCOME)
-                                && dynamicUITable.getLoanType().equalsIgnoreCase(LOAN_NAME_INDIVIDUAL)) {
-
-                            removeAllChildFragments(ll.getId()+"");
-                            initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL,PRODUCT_ID_IL,SCREEN_N0_FAMILY_MEMBER_INCOME,
-                                    SCREEN_NAME_FAMILY_MEMBER_INCOME,dynamicUITableList,dynamicUITable,dynamicUITable.getCoRelationID());
                         }else if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC)) {
 
-                            removeAllChildFragments(ll.getId()+"");
-                            initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL,PRODUCT_ID_IL,dynamicUITable.getScreenID(),
-                                    SCREEN_NAME_APPLICANT_KYC,dynamicUITableList,dynamicUITable,dynamicUITable.getCoRelationID());
+                            removeAllChildFragments(ll.getId() + "");
+                            initChild(LOAN_TYPE, CLIENT_ID, PROJECT_ID_EL,PRODUCT_ID_IL, dynamicUITable.getScreenID(),
+                                    SCREEN_NAME_APPLICANT_KYC, dynamicUITableList, dynamicUITable, dynamicUITable.getCoRelationID());
                         }else if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC)) {
-
-                            removeAllChildFragments(ll.getId()+"");
+                            removeAllChildFragments(ll.getId() + "");
                             initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL,PRODUCT_ID_IL,dynamicUITable.getScreenID(),
-                                    SCREEN_NAME_CO_APPLICANT_KYC,dynamicUITableList,dynamicUITable,dynamicUITable.getCoRelationID());
+                                    SCREEN_NAME_CO_APPLICANT_KYC, dynamicUITableList, dynamicUITable, dynamicUITable.getCoRelationID());
 
                         }else if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_REFERENCE_CHECK)) {
-                            removeAllChildFragments(ll.getId()+"");
-                            initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL,PRODUCT_ID_IL,dynamicUITable.getScreenID(),
-                                    SCREEN_NAME_REFERENCE_CHECK,dynamicUITableList,dynamicUITable,dynamicUITable.getCoRelationID());
+                            removeAllChildFragments(ll.getId() + "");
+                            initChild(LOAN_TYPE, CLIENT_ID, PROJECT_ID_EL, PRODUCT_ID_IL, dynamicUITable.getScreenID(),
+                                    SCREEN_NAME_REFERENCE_CHECK, dynamicUITableList, dynamicUITable, dynamicUITable.getCoRelationID());
                         }else if(dynamicUITable.getLoanType().equalsIgnoreCase(LOAN_NAME_MSME)
                                 && dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_BANK_DETAILS)){
 
-                            removeAllChildFragments(ll.getId()+"");
-                            initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL,PRODUCT_ID_MSME,dynamicUITable.getScreenID(),
-                                    SCREEN_NAME_BANK_DETAILS,dynamicUITableList,dynamicUITable,dynamicUITable.getCoRelationID());
+                            removeAllChildFragments(ll.getId() + "");
+                            initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL, PRODUCT_ID_MSME, dynamicUITable.getScreenID(),
+                                    SCREEN_NAME_BANK_DETAILS, dynamicUITableList, dynamicUITable, dynamicUITable.getCoRelationID());
 
                         }else if(dynamicUITable.getLoanType().equalsIgnoreCase(LOAN_NAME_AHL)
                                 && dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_BANK_DETAILS)){
                             // TODO: AHL bank details update
                             removeAllChildFragments(ll.getId()+"");
-                            initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL,PRODUCT_ID_MSME,dynamicUITable.getScreenID(),
-                                    SCREEN_NAME_BANK_DETAILS,dynamicUITableList,dynamicUITable,dynamicUITable.getCoRelationID());
-
+                            initChild(LOAN_TYPE, CLIENT_ID, PROJECT_ID_EL, PRODUCT_ID_MSME, dynamicUITable.getScreenID(),
+                                    SCREEN_NAME_BANK_DETAILS, dynamicUITableList, dynamicUITable, dynamicUITable.getCoRelationID());
                         }
                         else if(dynamicUITable.getLoanType().equalsIgnoreCase(LOAN_NAME_PHL)
                                 && dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_BANK_DETAILS)){
                             // TODO: PHL bank details update
-                            removeAllChildFragments(ll.getId()+"");
-                            initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL,PRODUCT_ID_MSME,dynamicUITable.getScreenID(),
-                                    SCREEN_NAME_BANK_DETAILS,dynamicUITableList,dynamicUITable,dynamicUITable.getCoRelationID());
+                            removeAllChildFragments(ll.getId() + "");
+                            initChild(LOAN_TYPE, CLIENT_ID, PROJECT_ID_EL, PRODUCT_ID_MSME, dynamicUITable.getScreenID(),
+                                    SCREEN_NAME_BANK_DETAILS, dynamicUITableList, dynamicUITable, dynamicUITable.getCoRelationID());
 
                         }else if(dynamicUITable.getLoanType().equalsIgnoreCase(LOAN_NAME_EL)
                                 && dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_BANK_DETAILS)){
                             // TODO: PHL bank details update
-                            removeAllChildFragments(ll.getId()+"");
-                            initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL,PRODUCT_ID_MSME,dynamicUITable.getScreenID(),
-                                    SCREEN_NAME_BANK_DETAILS,dynamicUITableList,dynamicUITable,dynamicUITable.getCoRelationID());
+                            removeAllChildFragments(ll.getId() + "");
+                            initChild(LOAN_TYPE, CLIENT_ID, PROJECT_ID_EL, PRODUCT_ID_MSME, dynamicUITable.getScreenID(),
+                                    SCREEN_NAME_BANK_DETAILS, dynamicUITableList, dynamicUITable, dynamicUITable.getCoRelationID());
 
                         }else if(dynamicUITable.getLoanType().equalsIgnoreCase(LOAN_NAME_TWL)
                                 && dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_BANK_DETAILS)){
                             // TODO: PHL bank details update
-                            removeAllChildFragments(ll.getId()+"");
-                            initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL,PRODUCT_ID_MSME,dynamicUITable.getScreenID(),
-                                    SCREEN_NAME_BANK_DETAILS,dynamicUITableList,dynamicUITable,dynamicUITable.getCoRelationID());
-
+                            removeAllChildFragments(ll.getId() + "");
+                            initChild(LOAN_TYPE, CLIENT_ID, PROJECT_ID_EL, PRODUCT_ID_MSME, dynamicUITable.getScreenID(),
+                                    SCREEN_NAME_BANK_DETAILS, dynamicUITableList, dynamicUITable, dynamicUITable.getCoRelationID());
                         }
                         else if(dynamicUITable.getLoanType().equalsIgnoreCase(LOAN_NAME_MSME)
                                 && dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_BANK_DETAILS)){
 
-                            removeAllChildFragments(ll.getId()+"");
-                            initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL,PRODUCT_ID_MSME,dynamicUITable.getScreenID(),
-                                    SCREEN_NAME_CO_APPLICANT_BANK_DETAILS,dynamicUITableList,dynamicUITable,dynamicUITable.getCoRelationID());
+                            removeAllChildFragments(ll.getId() + "");
+                            initChild(LOAN_TYPE, CLIENT_ID, PROJECT_ID_EL, PRODUCT_ID_MSME, dynamicUITable.getScreenID(),
+                                    SCREEN_NAME_CO_APPLICANT_BANK_DETAILS, dynamicUITableList, dynamicUITable, dynamicUITable.getCoRelationID());
 
                         }else if(dynamicUITable.getLoanType().equalsIgnoreCase(LOAN_NAME_AHL)
                                 && dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_BANK_DETAILS)){
                             // TODO: AHL co bank details update
-                            removeAllChildFragments(ll.getId()+"");
-                            initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL,PRODUCT_ID_MSME,dynamicUITable.getScreenID(),
-                                    SCREEN_NAME_CO_APPLICANT_BANK_DETAILS,dynamicUITableList,dynamicUITable,dynamicUITable.getCoRelationID());
-
+                            removeAllChildFragments(ll.getId() + "");
+                            initChild(LOAN_TYPE, CLIENT_ID, PROJECT_ID_EL, PRODUCT_ID_MSME, dynamicUITable.getScreenID(),
+                                    SCREEN_NAME_CO_APPLICANT_BANK_DETAILS, dynamicUITableList, dynamicUITable, dynamicUITable.getCoRelationID());
                         }
                         else if(dynamicUITable.getLoanType().equalsIgnoreCase(LOAN_NAME_PHL)
                                 && dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_BANK_DETAILS)){
                             // TODO: PHL co bank details update
-                            removeAllChildFragments(ll.getId()+"");
-                            initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL,PRODUCT_ID_MSME,dynamicUITable.getScreenID(),
-                                    SCREEN_NAME_CO_APPLICANT_BANK_DETAILS,dynamicUITableList,dynamicUITable,dynamicUITable.getCoRelationID());
+                            removeAllChildFragments(ll.getId() + "");
+                            initChild(LOAN_TYPE, CLIENT_ID, PROJECT_ID_EL, PRODUCT_ID_MSME, dynamicUITable.getScreenID(),
+                                    SCREEN_NAME_CO_APPLICANT_BANK_DETAILS, dynamicUITableList, dynamicUITable, dynamicUITable.getCoRelationID());
 
                         }else if(dynamicUITable.getLoanType().equalsIgnoreCase(LOAN_NAME_EL)
                                 && dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_BANK_DETAILS)){
                             // TODO: PHL co bank details update
-                            removeAllChildFragments(ll.getId()+"");
-                            initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL,PRODUCT_ID_MSME,dynamicUITable.getScreenID(),
-                                    SCREEN_NAME_CO_APPLICANT_BANK_DETAILS,dynamicUITableList,dynamicUITable,dynamicUITable.getCoRelationID());
-
-                        }else if(dynamicUITable.getLoanType().equalsIgnoreCase(LOAN_NAME_TWL)
+                            removeAllChildFragments(ll.getId() + "");
+                            initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL, PRODUCT_ID_MSME, dynamicUITable.getScreenID(),
+                                    SCREEN_NAME_CO_APPLICANT_BANK_DETAILS, dynamicUITableList, dynamicUITable, dynamicUITable.getCoRelationID());
+                        }
+                        else if(dynamicUITable.getLoanType().equalsIgnoreCase(LOAN_NAME_EL)
+                                && dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)){
+                            // TODO: EL Guarantor details update
+                            removeAllChildFragments(ll.getId() + "");
+                            initChild(LOAN_TYPE, CLIENT_ID, PROJECT_ID_EL, PRODUCT_ID_MSME, dynamicUITable.getScreenID(),
+                                    SCREEN_NAME_GUARANTOR_DETAILS, dynamicUITableList, dynamicUITable, dynamicUITable.getCoRelationID());
+                        }
+                        else if(dynamicUITable.getLoanType().equalsIgnoreCase(LOAN_NAME_TWL)
                                 && dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_BANK_DETAILS)){
                             // TODO: PHL co bank details update
-                            removeAllChildFragments(ll.getId()+"");
-                            initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL,PRODUCT_ID_MSME,dynamicUITable.getScreenID(),
-                                    SCREEN_NAME_CO_APPLICANT_BANK_DETAILS,dynamicUITableList,dynamicUITable,dynamicUITable.getCoRelationID());
-
+                            removeAllChildFragments(ll.getId() + "");
+                            initChild(LOAN_TYPE, CLIENT_ID, PROJECT_ID_EL, PRODUCT_ID_MSME, dynamicUITable.getScreenID(),
+                                    SCREEN_NAME_CO_APPLICANT_BANK_DETAILS, dynamicUITableList, dynamicUITable, dynamicUITable.getCoRelationID());
                         }
                         else if(dynamicUITable.getLoanType().equalsIgnoreCase(LOAN_NAME_MSME)
                                 && dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC)){
 
-                            removeAllChildFragments(ll.getId()+"");
-                            initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL,PRODUCT_ID_MSME,dynamicUITable.getScreenID(),
-                                    SCREEN_NAME_CO_APPLICANT_KYC,dynamicUITableList,dynamicUITable,dynamicUITable.getCoRelationID());
+                            removeAllChildFragments(ll.getId() + "");
+                            initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL, PRODUCT_ID_MSME, dynamicUITable.getScreenID(),
+                                    SCREEN_NAME_CO_APPLICANT_KYC, dynamicUITableList, dynamicUITable, dynamicUITable.getCoRelationID());
 
                         }else if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_REFERENCES)) {
 
-                            removeAllChildFragments(ll.getId()+"");
-                            initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL,PRODUCT_ID_IL,dynamicUITable.getScreenID(),
-                                    SCREEN_NAME_REFERENCES,dynamicUITableList,dynamicUITable,dynamicUITable.getCoRelationID());
+                            removeAllChildFragments(ll.getId() + "");
+                            initChild(LOAN_TYPE, CLIENT_ID, PROJECT_ID_EL, PRODUCT_ID_IL, dynamicUITable.getScreenID(),
+                                    SCREEN_NAME_REFERENCES, dynamicUITableList, dynamicUITable, dynamicUITable.getCoRelationID());
                         }else if(dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_BUSINESS_PROOF)){
 
-                            removeAllChildFragments(ll.getId()+"");
-                            initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL,PRODUCT_ID_IL,dynamicUITable.getScreenID(),
-                                    SCREEN_NAME_BUSINESS_PROOF,dynamicUITableList,dynamicUITable,dynamicUITable.getCoRelationID());
+                            removeAllChildFragments(ll.getId() + "");
+                            initChild(LOAN_TYPE, CLIENT_ID, PROJECT_ID_EL, PRODUCT_ID_IL, dynamicUITable.getScreenID(),
+                                    SCREEN_NAME_BUSINESS_PROOF, dynamicUITableList, dynamicUITable, dynamicUITable.getCoRelationID());
                         }else if(dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_GENERAL_INCOME)){
-
                             removeAllChildFragments(ll.getId()+"");
-                            initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL,PRODUCT_ID_IL,SCREEN_N0_GENERAL_INCOME_MSME,
+                            initChild(LOAN_TYPE, CLIENT_ID, PROJECT_ID_EL,PRODUCT_ID_IL,SCREEN_N0_GENERAL_INCOME_MSME,
                                     dynamicUITable.getScreenName(),dynamicUITableList,dynamicUITable,dynamicUITable.getCoRelationID());
                         }else if(dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_OTHER_INCOME_SOURCE)){
 
@@ -552,30 +549,30 @@ public class BaseFragment extends Fragment {
                         }else if(dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_DIRECT_BUSINESS_EXPENSE_MSME)){
 
                             removeAllChildFragments(ll.getId()+"");
-                            initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL,PRODUCT_ID_MSME,SCREEN_N0_DIRECT_BUSINESS_EXPENSE_DETAIL_MSME,
-                                    SCREEN_NAME_DIRECT_BUSINESS_EXPENSE_DETAIL_MSME,dynamicUITableList,dynamicUITable,dynamicUITable.getCoRelationID());
+                            initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL, PRODUCT_ID_MSME,SCREEN_N0_DIRECT_BUSINESS_EXPENSE_DETAIL_MSME,
+                                    SCREEN_NAME_DIRECT_BUSINESS_EXPENSE_DETAIL_MSME, dynamicUITableList, dynamicUITable, dynamicUITable.getCoRelationID());
 
                         }else if(dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_HOUSE_LIABILITIES_MSME)&&dynamicUITable.getLoanType().equalsIgnoreCase(LOAN_NAME_MSME)){
 
-                            removeAllChildFragments(ll.getId()+"");
+                            removeAllChildFragments(ll.getId() + "");
                             initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL,PRODUCT_ID_MSME,SCREEN_N0_DEBTS_MSME,
-                                    SCREEN_NAME_HOUSE_DEBTS,dynamicUITableList,dynamicUITable,dynamicUITable.getCoRelationID());
+                                    SCREEN_NAME_HOUSE_DEBTS, dynamicUITableList, dynamicUITable, dynamicUITable.getCoRelationID());
 
                         }else if(dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_BUSINESS_LIABILITIES_MSME)
                                 && dynamicUITable.getLoanType().equalsIgnoreCase(LOAN_NAME_MSME)){
 
                             if(dynamicUITable.getFieldTag().contains(SCREEN_NAME_BUSINESS_ACCOUNT_PAYABLE)){
-                                removeAllChildFragments(ll.getId()+"");
+                                removeAllChildFragments(ll.getId() + "");
                                 initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL,PRODUCT_ID_MSME,SCREEN_N0_ACCOUNT_PAYABLE_MSME,
-                                        SCREEN_NAME_BUSINESS_ACCOUNT_PAYABLE,dynamicUITableList,dynamicUITable,dynamicUITable.getCoRelationID());
+                                        SCREEN_NAME_BUSINESS_ACCOUNT_PAYABLE, dynamicUITableList, dynamicUITable, dynamicUITable.getCoRelationID());
                             }else if (dynamicUITable.getFieldTag().contains(SCREEN_NAME_BUSINESS_DEBTS_DETAIL_MSME)){
-                                removeAllChildFragments(ll.getId()+"");
+                                removeAllChildFragments(ll.getId() + "");
                                 initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL,PRODUCT_ID_MSME,SCREEN_N0_BUSINESS_DEBTS_MSME,
-                                        SCREEN_NAME_BUSINESS_DEBTS_DETAIL_MSME,dynamicUITableList,dynamicUITable,dynamicUITable.getCoRelationID());
+                                        SCREEN_NAME_BUSINESS_DEBTS_DETAIL_MSME, dynamicUITableList, dynamicUITable, dynamicUITable.getCoRelationID());
                             }else if (dynamicUITable.getFieldTag().contains(SCREEN_NAME_ADVANCE_DETAIL__MSME)){
-                                removeAllChildFragments(ll.getId()+"");
-                                initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL,PRODUCT_ID_MSME,SCREEN_N0_ADVANCES_DEBTS_MSME,
-                                        SCREEN_NAME_ADVANCE_DETAIL__MSME,dynamicUITableList,dynamicUITable,dynamicUITable.getCoRelationID());
+                                removeAllChildFragments(ll.getId() + "");
+                                initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL, PRODUCT_ID_MSME, SCREEN_N0_ADVANCES_DEBTS_MSME,
+                                        SCREEN_NAME_ADVANCE_DETAIL__MSME, dynamicUITableList, dynamicUITable, dynamicUITable.getCoRelationID());
                             }
                         }else if(dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_HYPOTHECATION_MSME)
                                 && dynamicUITable.getLoanType().equalsIgnoreCase(LOAN_NAME_MSME)){
@@ -584,7 +581,6 @@ public class BaseFragment extends Fragment {
                                     SCREEN_NAME_HYPOTHECATION_DETAIL_MSME, dynamicUITableList, dynamicUITable, dynamicUITable.getCoRelationID());
                         }
                     }
-
                 }
             }
         });
@@ -608,7 +604,6 @@ public class BaseFragment extends Fragment {
                 0, 0
         );
         params.weight = 1;
-
 
         TextView textView = new TextView(getActivity());
         textView.setTag(viewParameters);
@@ -647,7 +642,6 @@ public class BaseFragment extends Fragment {
                 0, 0
         );
         params.weight = 1;
-
 
         TextView textView = new TextView(getActivity());
         textView.setTag(viewParameters);
@@ -688,7 +682,7 @@ public class BaseFragment extends Fragment {
         );
         params.weight = 1;
 
-        if(viewParameters !=null){
+        if(viewParameters != null){
             imageLinearLayout.setTag(viewParameters);
         }
 
@@ -705,16 +699,15 @@ public class BaseFragment extends Fragment {
         LinearLayout.LayoutParams imageButtonParams = new LinearLayout.LayoutParams(
                 convertDpToPixel(30),
                 convertDpToPixel(30));
-        imageButtonParams.gravity=Gravity.END;
+        imageButtonParams.gravity = Gravity.END;
         imageButton.setLayoutParams(imageButtonParams);
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removeAllChildFragments(ll.getId()+"");
-                initChild(LOAN_TYPE,CLIENT_ID, PROJECT_ID_EL,PRODUCT_ID_IL,SCREEN_N0_EMPLOYER_VERIFICATION,
-                        SCREEN_NAME_EMPLOYER_VERIFICATION,dynamicUITableList,null,dynamicUITableList.get(0).getCoRelationID());
-
+                removeAllChildFragments(ll.getId() + "");
+                initChild(LOAN_TYPE, CLIENT_ID, PROJECT_ID_EL, PRODUCT_ID_IL, SCREEN_N0_EMPLOYER_VERIFICATION,
+                        SCREEN_NAME_EMPLOYER_VERIFICATION, dynamicUITableList, null, dynamicUITableList.get(0).getCoRelationID());
             }
         });
 
@@ -760,7 +753,7 @@ public class BaseFragment extends Fragment {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.gravity=Gravity.CENTER;
+        params.gravity = Gravity.CENTER;
         textView.setLayoutParams(params);
         textView.setTextSize(18);
     }
@@ -768,9 +761,7 @@ public class BaseFragment extends Fragment {
     private void setTextViewAttributesForLable(TextView textView, DynamicUITable dynamicUITable) {
 
         textView.setTextColor(Color.BLACK);
-
         textView.setTypeface(textView.getTypeface(), Typeface.BOLD);
-
         textView.setTextSize(18);
     }
 
@@ -799,7 +790,7 @@ public class BaseFragment extends Fragment {
                 && viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_REFERRAL_INFO)){
             textView.setTextColor(Color.BLACK);
             textView.setTextSize(18);
-        }else if(viewParameters !=null && ! TextUtils.isEmpty(viewParameters.getFieldTag())
+        }else if(viewParameters != null && ! TextUtils.isEmpty(viewParameters.getFieldTag())
                 && viewParameters.getScreenName().equalsIgnoreCase(SCREEN_NAME_LOAN_APPROVAL_MSME) &&
                 viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_TOTAL_MONTHLY_SALES_IN_LOAN_APPROVAL_MSME)){
             textView.setTextColor(Color.RED);
@@ -851,7 +842,6 @@ public class BaseFragment extends Fragment {
             e.printStackTrace();
         }
     }
-
 
     public void clearDataUptoTheFieldTAG(ViewGroup group, String FieldTAG) {
         try {
@@ -939,7 +929,7 @@ public class BaseFragment extends Fragment {
                         "Mfg of Household Items",
                         "Mfg  of Building Materials",
                         "Mfg of food and eatable items",
-                        "Powerloom or Handloom ",
+                        "Power loom or Hand loom ",
                         "Mfg  of Agri allied products",
                         "Rice Mill ",
                         "Flour Mill",
@@ -985,10 +975,10 @@ public class BaseFragment extends Fragment {
                         "Agro Merchant",
                         "Snacks Parlour",
                         "Footwear Leather Dealer/Distributor",
-                        "Textile Readymade Garment Shop",
+                        "Textile Ready made Garment Shop",
                         "Building Material Paints Trader",
                         "Plywood and Glass Shop",
-                        "Automobile and spareparts shop",
+                        "Automobile and spare parts shop",
                         "Domestic Products Trader",
                         "Computer and Electronic Shop"};
             }
@@ -1002,11 +992,11 @@ public class BaseFragment extends Fragment {
             }   else if (spinnerItem.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_PENSIONER)) {
                 newSpinnerlist = new String[]{ "Army","Government Employee", "Others"};
             } else if(spinnerItem.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_NOT_WORKING)){
-                newSpinnerlist = new String[]{ "Not Working"};
+                newSpinnerlist = new String[]{"Not Working"};
             } else if(spinnerItem.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_STUDENT)){
-                newSpinnerlist = new String[]{ "Student"};
+                newSpinnerlist = new String[]{"Student"};
             }else if(spinnerItem.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_HOUSEWIFE)||spinnerItem.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_HOUSE_WIFE)){
-                newSpinnerlist = new String[]{ "HomeMaker"};
+                newSpinnerlist = new String[]{"HomeMaker"};
             }else{
                 newSpinnerlist = new String[]{};
             }
@@ -1110,7 +1100,7 @@ public class BaseFragment extends Fragment {
 
         LinearLayout attrControlsSubContainer = new LinearLayout(context);
         attrControlsSubContainer.setOrientation(LinearLayout.VERTICAL);
-        LinearLayout.LayoutParams layoutParams= new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         attrControlsSubContainer.setLayoutParams(layoutParams);
 
        /* FrameLayout frameLayout=new FrameLayout(context);
@@ -1143,15 +1133,14 @@ public class BaseFragment extends Fragment {
         }
     }
 
-    public void initChild(String loanType,String ClientId,String projectId,String moduleId,String screenNO,
-                          String SCREEN_NAME,List<DynamicUITable> dynamicUITableListFromParentScreen,
-                          DynamicUITable dynamicUITable,String correlationId) {
-        addFragmentToContainer(ChildFragment.newInstance(loanType,ClientId,projectId,moduleId,screenNO,SCREEN_NAME,
-                dynamicUITableListFromParentScreen,dynamicUITable,USER_ID,MODULE_TYPE,correlationId),
-                SCREEN_NAME);
+    public void initChild(String loanType, String ClientId, String projectId, String moduleId, String screenNO,
+                          String SCREEN_NAME, List<DynamicUITable> dynamicUITableListFromParentScreen,
+                          DynamicUITable dynamicUITable, String correlationId) {
+        addFragmentToContainer(ChildFragment.newInstance(loanType, ClientId, projectId, moduleId, screenNO, SCREEN_NAME,
+                dynamicUITableListFromParentScreen, dynamicUITable, USER_ID, MODULE_TYPE, correlationId), SCREEN_NAME);
     }
 
-    private void addFragmentToContainer(Fragment childFragment,String screenName) {
+    private void addFragmentToContainer(Fragment childFragment, String screenName) {
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -1161,11 +1150,11 @@ public class BaseFragment extends Fragment {
 
         int id = generateViewId();
         String tag = String.valueOf(id);
-        addTagToChildFragmentTagsMap(tag,mRootView.getId()+"");
+        addTagToChildFragmentTagsMap(tag,mRootView.getId() + "");
 
         FrameLayout frameLayout = new FrameLayout(getActivity());
         frameLayout.setId(id);
-        addViewToContainer(frameLayout, layoutParams,mRootView);
+        addViewToContainer(frameLayout, layoutParams, mRootView);
 
         /*getChildFragmentManager()
                 .beginTransaction()
@@ -1178,11 +1167,11 @@ public class BaseFragment extends Fragment {
             ft.remove(prev);
         }
         ft.addToBackStack(null);
-        DialogFragment dialogFragment = new MyCustomDialogFragment(childFragment,screenName);
+        DialogFragment dialogFragment = new MyCustomDialogFragment(childFragment, screenName);
         dialogFragment.show(ft, "dialog");
     }
 
-    private void addTagToChildFragmentTagsMap(String childFragmentTag,String mParentId) {
+    private void addTagToChildFragmentTagsMap(String childFragmentTag, String mParentId) {
         List<String> childFragmentTags = CHILD_FRAGMENT_TAGS_MAP.get(mParentId);
         if (childFragmentTags == null) {
             List<String> initialChildFragmentTags = new ArrayList<>();
@@ -1196,7 +1185,7 @@ public class BaseFragment extends Fragment {
     /**
      * Add view to container with configurable layout params
      */
-    private void addViewToContainer(View view, LinearLayout.LayoutParams layoutParams,FrameLayout mRootView) {
+    private void addViewToContainer(View view, LinearLayout.LayoutParams layoutParams, FrameLayout mRootView) {
         view.setFocusable(false);
         view.setFocusableInTouchMode(false);
         mRootView.addView(view, layoutParams);
@@ -1220,14 +1209,12 @@ public class BaseFragment extends Fragment {
         }
     }
 
-    public HashMap<String,Object> setKeyValueForObject(RawDataTable rawDataTable) {
-        HashMap<String,Object> rawDataHashMap=new HashMap<>();
+    public HashMap<String, Object> setKeyValueForObject(RawDataTable rawDataTable) {
+        HashMap<String, Object> rawDataHashMap = new HashMap<>();
         try{
-            if( !TextUtils.isEmpty(rawDataTable.getRawdata())){
-                String rawData=rawDataTable.getRawdata();
-
-                rawDataHashMap= App.createHashMapFromJsonString(rawData);
-                Log.d(TAG,"Hashmap ==> "+rawDataHashMap);
+            if(!TextUtils.isEmpty(rawDataTable.getRawdata())){
+                String rawData = rawDataTable.getRawdata();
+                rawDataHashMap = App.createHashMapFromJsonString(rawData);
             }
 
         }catch (Exception ex){
@@ -1236,9 +1223,8 @@ public class BaseFragment extends Fragment {
         return rawDataHashMap;
     }
 
-
-    public DynamicUITable createNewRow(DynamicUITable dynamicUITable, RawDataTable rawDataTable,String fieldName, HashMap<String, Object> hashMap){
-        DynamicUITable newDynamicUITable=new DynamicUITable();
+    public DynamicUITable createNewRow(DynamicUITable dynamicUITable, RawDataTable rawDataTable, String fieldName, HashMap<String, Object> hashMap){
+        DynamicUITable newDynamicUITable = new DynamicUITable();
         try {
             newDynamicUITable.setScreenID(dynamicUITable.getScreenID());
             newDynamicUITable.setScreenName(dynamicUITable.getScreenName());
@@ -1257,36 +1243,41 @@ public class BaseFragment extends Fragment {
             newDynamicUITable.setValue(dynamicUITable.getValue());
             if(dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC)
                     ||dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC)){
-                if(hashMap!=null && hashMap.containsKey(TAG_NAME_KYC_ID)) {
+                if(hashMap != null && hashMap.containsKey(TAG_NAME_KYC_ID)) {
                     newDynamicUITable.setValue(hashMap.get(TAG_NAME_KYC_ID).toString());
+                }
+            }
+            if(dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)){
+                if(hashMap != null && hashMap.containsKey(TAG_NAME_GUARANTOR_KYC_ID)) {
+                    newDynamicUITable.setValue(hashMap.get(TAG_NAME_GUARANTOR_KYC_ID).toString());
                 }
             }
 
             if(dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_BUSINESS_PROOF)){
-                if(hashMap!=null && hashMap.containsKey(TAG_NAME_BUSINESS_ID)) {
+                if(hashMap != null && hashMap.containsKey(TAG_NAME_BUSINESS_ID)) {
                     newDynamicUITable.setValue(hashMap.get(TAG_NAME_BUSINESS_ID).toString());
                 }
             }
             if(dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_BANK_DETAILS)
                     || dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_BANK_DETAILS)){
 
-                if(hashMap!=null && hashMap.containsKey(TAG_NAME_BANK_NAME)) {
+                if(hashMap != null && hashMap.containsKey(TAG_NAME_BANK_NAME)) {
                     newDynamicUITable.setFieldName(hashMap.get(TAG_NAME_BANK_NAME).toString());
                 }
-                if(hashMap!=null && hashMap.containsKey(TAG_NAME_ACCOUNT_NUMBER)) {
+                if(hashMap != null && hashMap.containsKey(TAG_NAME_ACCOUNT_NUMBER)) {
                     newDynamicUITable.setValue(hashMap.get(TAG_NAME_ACCOUNT_NUMBER).toString());
                 }
             }
             if(dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_REFERENCE_CHECK)){
-                if(hashMap!=null && hashMap.containsKey(TAG_NAME_REFERENCE_TYPE)) {
+                if(hashMap != null && hashMap.containsKey(TAG_NAME_REFERENCE_TYPE)) {
                     newDynamicUITable.setValue(hashMap.get(TAG_NAME_REFERENCE_TYPE).toString());
                 }
-                if(hashMap!=null && hashMap.containsKey(TAG_NAME_FULL_NAME)) {
+                if(hashMap != null && hashMap.containsKey(TAG_NAME_FULL_NAME)) {
                     newDynamicUITable.setFieldName(hashMap.get(TAG_NAME_FULL_NAME).toString());
                 }
             }
             if(dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_GENERAL_INCOME)){
-                if (hashMap!=null &&hashMap.containsKey(TAG_NAME_VERIFIED_IN_GENERAL_INCOME)) {
+                if (hashMap != null &&hashMap.containsKey(TAG_NAME_VERIFIED_IN_GENERAL_INCOME)) {
                     String verified = hashMap.get(TAG_NAME_VERIFIED_IN_GENERAL_INCOME).toString();
                     if (!TextUtils.isEmpty(verified)) {
                         if (verified.equalsIgnoreCase("Yes")) {
@@ -1301,12 +1292,12 @@ public class BaseFragment extends Fragment {
                     }
                 }
 
-                if(hashMap!=null && hashMap.containsKey(TAG_NAME_NAME_IN_GENERAL_INCOME)) {
+                if(hashMap != null && hashMap.containsKey(TAG_NAME_NAME_IN_GENERAL_INCOME)) {
                     newDynamicUITable.setFieldName(hashMap.get(TAG_NAME_NAME_IN_GENERAL_INCOME).toString());
                 }
             }
             if(dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_OTHER_INCOME_SOURCE)){
-                if (hashMap!=null &&hashMap.containsKey(TAG_NAME_VERIFIED_IN_OTHER_INCOME)) {
+                if (hashMap != null &&hashMap.containsKey(TAG_NAME_VERIFIED_IN_OTHER_INCOME)) {
                     String verified = hashMap.get(TAG_NAME_VERIFIED_IN_OTHER_INCOME).toString();
                     if (!TextUtils.isEmpty(verified)) {
                         if (verified.equalsIgnoreCase("Yes")) {
@@ -1321,19 +1312,19 @@ public class BaseFragment extends Fragment {
                     }
                 }
 
-                if(hashMap!=null && hashMap.containsKey(TAG_NAME_NAME_IN_OTHER_INCOME)) {
+                if(hashMap != null && hashMap.containsKey(TAG_NAME_NAME_IN_OTHER_INCOME)) {
                     newDynamicUITable.setFieldName(hashMap.get(TAG_NAME_NAME_IN_OTHER_INCOME).toString());
                 }
             }
             if(dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_REFERENCES)){
-                if(hashMap!=null && hashMap.containsKey(TAG_NAME_CONTACT_NO)) {
+                if(hashMap != null && hashMap.containsKey(TAG_NAME_CONTACT_NO)) {
                     newDynamicUITable.setValue(hashMap.get(TAG_NAME_CONTACT_NO).toString());
                 }
-                if(hashMap!=null && hashMap.containsKey(TAG_NAME_FULL_NAME)) {
+                if(hashMap != null && hashMap.containsKey(TAG_NAME_FULL_NAME)) {
                     newDynamicUITable.setFieldName(hashMap.get(TAG_NAME_FULL_NAME).toString());
                 }
             }
-            if(hashMap !=null && hashMap.size()>0 && hashMap.containsKey(rawDataTable.getTag_name())){
+            if(hashMap != null && hashMap.size() > 0 && hashMap.containsKey(rawDataTable.getTag_name())){
                 newDynamicUITable.setValue(hashMap.get(rawDataTable.getTag_name()).toString());
             }
             newDynamicUITable.setDataEntryType(dynamicUITable.getDataEntryType());
@@ -1369,7 +1360,6 @@ public class BaseFragment extends Fragment {
                             contactNo = jsonObject.optString(TAG_NAME_CONTACT_NO_1, "");
                         }
                         referenceCheckContactDTOList.add(new ReferenceCheckContactDTO(fullName, contactNo));
-                        Log.d("Tusar", "Contact No: "+contactNo);
                     } catch (JSONException err) {
                         Log.d("Error", err.toString());
                     }
@@ -1413,7 +1403,6 @@ public class BaseFragment extends Fragment {
                         newRawDataTableList.add(rawDataTable);
                         coApplicantPersonalDetailList = refactorRawData(newRawDataTableList);
                         if (coApplicantPersonalDetailList != null && coApplicantPersonalDetailList.size() > 0) {
-                            Log.d("tusar", "getCoApplicantPersonalDetails:: " + coApplicantPersonalDetailList.get(0).getContactNo());
                         }
                     }
                 }
@@ -1429,5 +1418,4 @@ public class BaseFragment extends Fragment {
         dynamicUITable.setLoanType(LOAN_TYPE);
         return dynamicUITable;
     }
-
 }

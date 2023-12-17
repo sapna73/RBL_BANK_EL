@@ -70,7 +70,6 @@ import static com.saartak.el.constants.AppConstant.PARAM_USER_NAME;
 
 public class CenterCreationActivity extends LOSBaseActivity implements CenterCreationAdapter.SyncCallbackInterface {
 
-
     private static final String TAG = CenterCreationActivity.class.getCanonicalName();
     RecyclerView rvLeadDetails;
     SearchView searchByPhoneNo;

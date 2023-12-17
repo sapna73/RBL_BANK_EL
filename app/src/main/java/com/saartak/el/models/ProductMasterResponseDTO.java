@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 public class ProductMasterResponseDTO {
 
-
     @Expose
     ArrayList<ProductMasterTable> Table;
 

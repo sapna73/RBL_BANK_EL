@@ -132,14 +132,14 @@ public class CourseDetailsFragment extends LOSBaseFragment implements LOSBaseFra
 
     public void configureViewModel() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(DynamicUIViewModel.class);
-        viewModel.init(SCREEN_ID,SCREEN_NAME,LOAN_TYPE,PROJECT_ID,PRODUCT_ID,CLIENT_ID,USER_ID,MODULE_TYPE);
+        viewModel.init(SCREEN_ID, SCREEN_NAME, LOAN_TYPE, PROJECT_ID, PRODUCT_ID, CLIENT_ID, USER_ID, MODULE_TYPE);
         Observer observer=new Observer() {
             @Override
             public void onChanged(@Nullable Object o) {
-                List<DynamicUITable> list=(List<DynamicUITable>)o;
+                List<DynamicUITable> list = (List<DynamicUITable>)o;
                 viewModel.getDynamicUITableLiveData().removeObserver(this);
                 if(list !=null && list.size()>0) {
-                    getTenureInMonths(list,SCREEN_NAME);
+                    getTenureInMonths(list, SCREEN_NAME);
                 }
             }
         };

@@ -57,8 +57,8 @@ public class ApplicationToPDAdapter extends RecyclerView.Adapter<ApplicationToPD
         this.context = context;
         this.masterTableList = masterTableList;
         this.masterTableListFiltered = masterTableList;
-        this.syncCallbackInterface=syncCallbackInterface;
-        this.appHelper=appHelper;
+        this.syncCallbackInterface = syncCallbackInterface;
+        this.appHelper = appHelper;
     }
 
     @NonNull
@@ -67,7 +67,6 @@ public class ApplicationToPDAdapter extends RecyclerView.Adapter<ApplicationToPD
         View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.application_to_pd_row_item,viewGroup,false);
         return new LoanTypeViewHolder(view);
     }
-
 
     @Override
     public void onBindViewHolder(@NonNull LoanTypeViewHolder loanTypeViewHolder, int i) {
@@ -232,8 +231,7 @@ public class ApplicationToPDAdapter extends RecyclerView.Adapter<ApplicationToPD
 
     @Override
     public int getItemCount() {
-        if(masterTableListFiltered!=null){
-
+        if(masterTableListFiltered != null){
             return masterTableListFiltered.size();
         }else{
             return 0;
@@ -242,11 +240,11 @@ public class ApplicationToPDAdapter extends RecyclerView.Adapter<ApplicationToPD
 
     public void setItem(List<MasterTable> masterTableList){
         try{
-            if(this.masterTableList!=null && this.masterTableList.size()>0)
+            if(this.masterTableList != null && this.masterTableList.size() > 0)
                 this.masterTableList.clear();
                 this.masterTableListFiltered.clear();
-            this.masterTableList = masterTableList;
-            this.masterTableListFiltered = masterTableList;
+                this.masterTableList = masterTableList;
+                this.masterTableListFiltered = masterTableList;
             notifyDataSetChanged();
         }catch (Exception ex){
             ex.printStackTrace();
@@ -254,7 +252,7 @@ public class ApplicationToPDAdapter extends RecyclerView.Adapter<ApplicationToPD
     }
     public void clearItems(){
         try{
-            if(masterTableList!=null && masterTableList.size()>0){
+            if(masterTableList!=null && masterTableList.size() > 0){
                 masterTableList.clear();
                 masterTableListFiltered.clear();
                 notifyDataSetChanged();
@@ -266,7 +264,7 @@ public class ApplicationToPDAdapter extends RecyclerView.Adapter<ApplicationToPD
 
     public class LoanTypeViewHolder extends RecyclerView.ViewHolder{
 //         ImageView ivLoanIcon;
-         TextView tvName,tvPhone,tvloantype, tvamount, tvclientid;;
+         TextView tvName, tvPhone, tvloantype, tvamount, tvclientid;;
          ImageView ivStatus;
          CardView cvLead;
         LinearLayout llLeadDetails,llApproveOrReject;
@@ -289,8 +287,6 @@ public class ApplicationToPDAdapter extends RecyclerView.Adapter<ApplicationToPD
             btnFinalStatus=(Button)itemView.findViewById(R.id.btn_final_status);
         }
     }
-
-
     @Override
     public Filter getFilter() {
         return new Filter() {

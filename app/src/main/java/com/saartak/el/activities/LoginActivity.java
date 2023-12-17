@@ -93,7 +93,7 @@ public class LoginActivity extends LOSBaseActivity implements View.OnClickListen
     private TextView btLogin;
     private CustomTextInputLayout tilUserId, tilPassword;
     public static LogInTable loginResponseDTO;
-    private TextView tvForgot,tvAppVersion;
+    private TextView tvForgot, tvAppVersion;
     CustomEditText edt_login_id;
     List<RoleNameTable> roleNamesTableList;
     Spinner spinner_roleNames;
@@ -105,7 +105,7 @@ public class LoginActivity extends LOSBaseActivity implements View.OnClickListen
     boolean ldapvalue;
     ArrayList<UserLoginMenuTable>  userLoginMemuList;
     private final SecureRandom mRandom = new SecureRandom();
-    String selectedItemText="";
+    String selectedItemText = "";
 
     @Inject
     public ViewModelProvider.Factory viewModelFactory;
@@ -185,10 +185,7 @@ public class LoginActivity extends LOSBaseActivity implements View.OnClickListen
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                  selectedItemText = (String) adapterView.getItemAtPosition(position);
                 updateSelectedRoleNameInDB(selectedItemText);
-
-
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -197,7 +194,7 @@ public class LoginActivity extends LOSBaseActivity implements View.OnClickListen
 
         try {
             PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            String appVersion=packageInfo.versionName;
+            String appVersion = packageInfo.versionName;
             if( ! TextUtils.isEmpty(appVersion)){
                 tvAppVersion.setText("App Version : "+appVersion);
             }
@@ -205,8 +202,6 @@ public class LoginActivity extends LOSBaseActivity implements View.OnClickListen
             ex.printStackTrace();
             INSERT_LOG("packageInfo","Exception : "+ex.getMessage());
         }
-
-
 
         // TODO: Clearing shared preference
         appHelper.getSharedPrefObj().edit().remove(AUTHORIZATION_TOKEN_KEY).apply();
@@ -218,29 +213,28 @@ public class LoginActivity extends LOSBaseActivity implements View.OnClickListen
         configureViewModel();
 
         // TODO: Check Rooted device or not
-        RootBeer rootBeer = new RootBeer(this);
-        if (rootBeer.isRooted()) {
-            //we found indication of root
-            appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ALERT,
-                    MESSAGE_ROOTED_DEVICE_NOT_SUPPORTED, new ConfirmationDialog.ActionCallback() {
-                        @Override
-                        public void onAction() {
-                            finish();
-                        }
-                    });
-        } else {
-            //we didn't find indication of root
-            // TODO: Check App Permission
-            checkAllPermissions();
-        }
-       // checkAllPermissions();
+//        RootBeer rootBeer = new RootBeer(this);
+//        if (rootBeer.isRooted()) {
+//            //we found indication of root
+//            appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ALERT,
+//                    MESSAGE_ROOTED_DEVICE_NOT_SUPPORTED, new ConfirmationDialog.ActionCallback() {
+//                        @Override
+//                        public void onAction() {
+//                            finish();
+//                        }
+//                    });
+//        } else {
+//            //we didn't find indication of root
+//            // TODO: Check App Permission
+//            checkAllPermissions();
+//        }
+        checkAllPermissions();
     }
 
     private void updateSelectedRoleNameInDB(String selectedItemText) {
-        if(viewModel !=null){
+        if(viewModel != null){
             viewModel.updateSelectedRoleName(selectedItemText);
         }
-
     }
 
     @Override
@@ -254,31 +248,11 @@ public class LoginActivity extends LOSBaseActivity implements View.OnClickListen
     @Override
     protected void onResume() {
         super.onResume();
-        ldapvalue=false;
+        ldapvalue = false;
         ldap.setChecked(false);
-//        tilUserId.getEditText().setText("SIF1004535");
-//        tilUserId.getEditText().setText("SIF7001006"); // TODO: LO
-//        tilUserId.getEditText().setText("SIF1000156"); // TODO:  LO for LEAD
-//        tilUserId.getEditText().setText("SIF1005591"); // TODO:  Nagsen user id
-//        tilUserId.getEditText().setText("SIF1004141"); // TODO:  LO -Sandy
-          tilUserId.getEditText().setText("C45278"); // TODO:  LO/SM -NAVEEN
-//        tilUserId.getEditText().setText("SIF1000059"); // TODO:  BOE - Eligibility testing
-//        tilUserId.getEditText().setText("SIF1000677"); // TODO:  BOE - OD Testing
-//        tilUserId.getEditText().setText("SIF1000059"); // TODO:  BOE - Eligibility testing
-//        tilUserId.getEditText().setText("SIF1000386"); // TODO:  RO/BM -Ali Testing
-//        tilUserId.getEditText().setText("SIF7001011"); // TODO:  RBL BANK CB -LOS UAT Testing
-//        tilUserId.getEditText().setText("SIF1004028"); // TODO:  BCM
-//        tilUserId.getEditText().setText("SIF1003 834"); // TODO:  LO -PRODUCTION
-//        tilUserId.getEditText().setText("SIF7001011"); // TODO:  LO -Ram babu Testing
-//        tilUserId.getEditText().setText("SIF1009962"); // TODO:  LO - Prashant Mehta
-//        tilUserId.getEditText().setText("SIF1009874"); // TODO:  LO - Srinivas Vadla
-//        tilUserId.getEditText().setText("SIF1003318"); // TODO:  LO - production testing
-//        tilUserId.getEditText().setText("SIF1007762"); // TODO:  User - Center Meeting testing
-//        tilPassword.getEditText().setText("Pass@123");
-
-       tilPassword.getEditText().setText("fhce3036FH");
+        tilUserId.getEditText().setText("C27060"); // TODO:  LO/SM
+        tilPassword.getEditText().setText("uojb8114UO");
     }
-
 
     private void configureDagger(){
         AndroidInjection.inject(this);
@@ -290,8 +264,8 @@ public class LoginActivity extends LOSBaseActivity implements View.OnClickListen
     private void INSERT_LOG(String methodName,String message){
         try{
             if(viewModel !=null){
-                viewModel.insertLog(methodName,message,userId,"","LoginActivity",
-                        CLIENT_ID,loanType,moduleType);
+                viewModel.insertLog(methodName, message, userId,"", "LoginActivity",
+                        CLIENT_ID, loanType, moduleType);
             }
         }catch (Exception ex){
             ex.printStackTrace();
@@ -303,7 +277,7 @@ public class LoginActivity extends LOSBaseActivity implements View.OnClickListen
             userId = appHelper.getTILText(tilUserId);
             String password = appHelper.getTILText(tilPassword);
 
-            SharedPreferences sharedPreferences=getSharedPreferences("shared preferences",MODE_PRIVATE);
+            SharedPreferences sharedPreferences=getSharedPreferences("shared preferences", MODE_PRIVATE);
             SharedPreferences.Editor editor=sharedPreferences.edit();
             Gson gson= new Gson();
             String json =gson.toJson(userLoginMemuList);
@@ -315,23 +289,23 @@ public class LoginActivity extends LOSBaseActivity implements View.OnClickListen
                         // TODO: Role name validation
                         // TODO: dropdown validation
                         if (roleNameList != null && roleNameList.size() > 1) {
-                            if(spinner_roleNames.getSelectedItemPosition()>0) {
+                            if(spinner_roleNames.getSelectedItemPosition() > 0) {
                                 String selectedRoleName = spinner_roleNames.getSelectedItem().toString();
 
-                                byte[] byteArrrayPassword = password.getBytes();
-                                String  loginPassword = Base64.encodeToString(byteArrrayPassword, Base64.DEFAULT);
+                                byte[] byteArrayPassword = password.getBytes();
+                                String  loginPassword = Base64.encodeToString(byteArrayPassword, Base64.DEFAULT);
                                 callLDAPLoginService(userId,loginPassword);
                                 /*if (selectedRoleName.equalsIgnoreCase(ROLE_NAME_LO) || selectedRoleName.equalsIgnoreCase(ROLE_NAME_RO)
                                         || selectedRoleName.equalsIgnoreCase(ROLE_NAME_SM)
                                         || selectedRoleName.equalsIgnoreCase(ROLE_NAME_BM)
                                         || selectedRoleName.equalsIgnoreCase(ROLE_NAME_BCM)) {
 
-                                        byte[] byteArrrayPassword = password.getBytes();
-                                        String  loginPassword = Base64.encodeToString(byteArrrayPassword, Base64.DEFAULT);
+                                        byte[] byteArrayPassword = password.getBytes();
+                                        String  loginPassword = Base64.encodeToString(byteArrayPassword, Base64.DEFAULT);
                                         callLDAPLoginService(userId,loginPassword);
                                         //TODO This is Comitted For Disabled LOS Login
-                                    *//*if(ldapvalue==true){
-                                    } else if(ldapvalue==false) {
+                                    *//*if(ldapvalue == true){
+                                    } else if(ldapvalue == false) {
                                         callLoginService(userId, password);
                                     }*//*
                                 } else {
@@ -355,7 +329,6 @@ public class LoginActivity extends LOSBaseActivity implements View.OnClickListen
                                     callLoginService(userId, password);
                                 } else {
                                     appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ALERT, roleNameFromServer + " not allowed to login from LOS APP");
-
                                 }
                             } else {
                                 appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ALERT, "Invalid login ID");

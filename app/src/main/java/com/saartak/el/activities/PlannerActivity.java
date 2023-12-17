@@ -547,7 +547,7 @@ public class PlannerActivity extends LOSBaseActivity {
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            INSERT_LOG("onResume","Exception : "+ex.getMessage());
+            INSERT_LOG("onResume","Exception : " + ex.getMessage());
         }
     }
 

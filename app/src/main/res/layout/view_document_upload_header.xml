@@ -16,7 +16,6 @@
         android:background="@color/gray_background"
         android:orientation="vertical">
 
-
         <TextView
             android:id="@+id/tv_header_name"
             android:layout_width="match_parent"
@@ -29,6 +28,7 @@
             android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"
             android:textStyle="bold" />
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

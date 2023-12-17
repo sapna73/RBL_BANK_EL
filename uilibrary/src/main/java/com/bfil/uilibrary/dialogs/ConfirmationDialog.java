@@ -27,6 +27,7 @@ public class ConfirmationDialog {
     public static final String SUCCESS = "success";
     public static final String ERROR = "error";
     public static final String ALERT = "alert";
+    public static final String DOCUMENT = "document";
 
     public interface ActionCallback {
         void onAction();
@@ -67,6 +68,10 @@ public class ConfirmationDialog {
                     break;
 
                 case ALERT:
+                    notificationDialogView = LayoutInflater.from(context).inflate(R.layout.popup_alert_new, null);
+                    notificationDialog.setView(notificationDialogView);
+                    break;
+                case DOCUMENT:
                     notificationDialogView = LayoutInflater.from(context).inflate(R.layout.popup_alert_new, null);
                     notificationDialog.setView(notificationDialogView);
                     break;

@@ -43,7 +43,6 @@ public class DocumentUploadTableNew {
     @Expose
     private boolean isHeader;
 
-
     @SerializedName("CUSTOMER TYPE")
     @Expose
     private String customer_type;
@@ -122,12 +121,10 @@ public class DocumentUploadTableNew {
     public DocumentUploadTableNew() {
 
     }
-
     public DocumentUploadTableNew(String screen_id, String client_id, String document_name, String document_full_name,
-                                  String document_tag, String customer_type,
-                                  String display_name, String full_display_name, String file_format, String loan_type, String module_type,
-                                  String user_id,String product_id,
-                                  boolean isHeader,int noOfImagesToCapture,boolean isEditable) {
+                                  String document_tag, String customer_type, String display_name, String full_display_name, String file_format,
+                                  String loan_type, String module_type, String user_id,String product_id,
+                                  boolean isHeader,int noOfImagesToCapture, boolean isEditable) {
         this.screen_id = screen_id;
         this.client_id = client_id;
         this.document_name = document_name;
@@ -139,14 +136,12 @@ public class DocumentUploadTableNew {
         this.file_format = file_format;
         this.loan_type = loan_type;
         this.module_type = module_type;
-        this.user_id=user_id;
-        this.product_id=product_id;
-        this.isHeader=isHeader;
-        this.NumberOfImages=noOfImagesToCapture;
-        this.isEditable=isEditable;
-
+        this.user_id = user_id;
+        this.product_id = product_id;
+        this.isHeader = isHeader;
+        this.NumberOfImages = noOfImagesToCapture;
+        this.isEditable = isEditable;
     }
-
     public int getId() {
         return id;
     }

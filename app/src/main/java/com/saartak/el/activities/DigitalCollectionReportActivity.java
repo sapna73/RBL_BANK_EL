@@ -55,7 +55,6 @@ public class DigitalCollectionReportActivity extends LOSBaseActivity {
     private Toolbar toolbar;
     RelativeLayout rlNoLeads;
     TextView tvAppVersion,tvCurrentDate,tvUserName;
-
     LinearLayout ll_fromDate, ll_view;
     TextView et_fromdate;
 

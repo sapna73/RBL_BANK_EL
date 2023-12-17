@@ -423,7 +423,6 @@ public class ENachFragment extends LOSBaseFragment implements FragmentInterface 
             ex.printStackTrace();
             appHelper.getDialogHelper().getLoadingDialog().closeDialog();
         }
-
     }
 
     public void getCreditApprovalScreenPricing(String clientId, String projectId, String productId ,String tenureInMonth,String loanAmount) {
@@ -468,7 +467,6 @@ public class ENachFragment extends LOSBaseFragment implements FragmentInterface 
         }
     }
 
-
     private void getCibilSuccessOrFailurStatus() {
         try {
             viewModel.getRawDataByClientIDAndModuleType(SCREEN_NAME_CIBIL_SUCCESS_FAILED, CLIENT_ID, MODULE_TYPE);
@@ -486,7 +484,6 @@ public class ENachFragment extends LOSBaseFragment implements FragmentInterface 
                                     btn_enach.setEnabled(false);
                                 }
                         }
-
                     }
                 });
             }
@@ -494,6 +491,4 @@ public class ENachFragment extends LOSBaseFragment implements FragmentInterface 
             ex.printStackTrace();
         }
     }
-
-
 }

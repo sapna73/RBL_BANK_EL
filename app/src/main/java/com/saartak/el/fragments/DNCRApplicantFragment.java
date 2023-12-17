@@ -36,7 +36,6 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.AndroidSupportInjection;
 import dagger.android.support.HasSupportFragmentInjector;
 
-///
 public class DNCRApplicantFragment extends LOSBaseFragment implements LOSBaseFragment.DynamiUIinterfacce, HasSupportFragmentInjector, FragmentInterface {
     private static final String TAG = DNCRApplicantFragment.class.getCanonicalName();
 
@@ -169,5 +168,3 @@ public class DNCRApplicantFragment extends LOSBaseFragment implements LOSBaseFra
         return this;
     }
 }
-
-///

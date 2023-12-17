@@ -87,7 +87,7 @@ import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_NO_
 
 public class ClientDetailsActivity extends LOSBaseActivity implements View.OnClickListener, ClientDetailsAdapter.ClientDetailsInterface {
     private static final String TAG = ClientDetailsActivity.class.getCanonicalName();
-    LinearLayout llApplicant, llCoApplicant, llBusiness, llSalary, llLoanProposal, llDocument, llUserConsent, llGenerateCibil;
+    LinearLayout llApplicant, llCoApplicant, llBusiness, llSalary, llLoanProposal, llDocument, llUserConsent, llGenerateCibil, llGuarantor;
     ImageButton ibAddCoApplicant;
     String loanType;
     TextView tvClientDetails;
@@ -95,7 +95,7 @@ public class ClientDetailsActivity extends LOSBaseActivity implements View.OnCli
     ImageView ivApplicant, ivCoApplicant, ivBusiness, ivSalary, ivLoanProposal, ivDocument, ivUserConsent, ivGenerateCibil;
     TextView tvApplicant, tvCoApplicant, tvBusiness, tvSalary, tvLoanProposal, tvDocuments, tvUserConsent;
     TextView tvAppVersion, tvCurrentDate, tvUserName,clientId;
-    String screenEditValidation="";
+    String screenEditValidation = "";
 
     @Inject
     public ViewModelProvider.Factory viewModelFactory;
@@ -110,15 +110,22 @@ public class ClientDetailsActivity extends LOSBaseActivity implements View.OnCli
         tvUserName = (TextView) findViewById(R.id.tv_user_name);
         tvCurrentDate = (TextView) findViewById(R.id.tv_currentdate);
         tvAppVersion = (TextView) findViewById(R.id.tv_app_version);
+
         llApplicant = (LinearLayout) findViewById(R.id.ll_applicant);
         llCoApplicant = (LinearLayout) findViewById(R.id.ll_co_applicant);
         llBusiness = (LinearLayout) findViewById(R.id.ll_business);
         llSalary = (LinearLayout) findViewById(R.id.ll_salary);
         llLoanProposal = (LinearLayout) findViewById(R.id.ll_loan_proposal_with_nominee);
+
+//        llGuarantor = (LinearLayout) findViewById(R.id.ll_guarantor);
+//        llGuarantor.setOnClickListener(this);
+
         llDocument = (LinearLayout) findViewById(R.id.ll_document_upload);
         llDocument.setOnClickListener(this);
+
         llUserConsent = (LinearLayout) findViewById(R.id.ll_user_consent);
         llUserConsent.setOnClickListener(this);
+
         llGenerateCibil = (LinearLayout) findViewById(R.id.ll_generate_cibil);
         llGenerateCibil.setOnClickListener(this);
 
@@ -243,7 +250,7 @@ public class ClientDetailsActivity extends LOSBaseActivity implements View.OnCli
                     appHelper.getDialogHelper().getLoadingDialog().closeDialog();
                     if (screenEditValidationResponseTables != null && screenEditValidationResponseTables.size() > 0) {
                         try {
-                            screenEditValidation=screenEditValidationResponseTables.get(0).getIsEditValue();
+                            screenEditValidation = screenEditValidationResponseTables.get(0).getIsEditValue();
                             if(screenEditValidation.equalsIgnoreCase("true")){
                                 llLoanProposal.setOnClickListener(this);
                                /* llSalary.setOnClickListener(this);
@@ -509,7 +516,6 @@ public class ClientDetailsActivity extends LOSBaseActivity implements View.OnCli
                                 HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
                                 allClientHashMapList.add(hashMap);
                             }
-                            Log.d(TAG, "HashMapList ==> " + allClientHashMapList.toString());
                         }
                         if (allClientHashMapList.size() > 0) {
 

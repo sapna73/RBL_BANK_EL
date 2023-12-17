@@ -58,14 +58,9 @@
                             android:nestedScrollingEnabled="false"
                             android:id="@+id/rv_image_capture"/>
 
-
-
                     </LinearLayout>
 
                 </androidx.core.widget.NestedScrollView>
-
-
-
 
             </LinearLayout>
 

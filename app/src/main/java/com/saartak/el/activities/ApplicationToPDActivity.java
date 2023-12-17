@@ -215,7 +215,6 @@ public class ApplicationToPDActivity extends LOSBaseActivity implements Applicat
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) {
-
                     spinnerSortByDate.setSelection(0);
                     spinnerSortByInterested.setSelection(0);
                     searchByPhoneNo.setQuery("", false);
@@ -289,16 +288,14 @@ public class ApplicationToPDActivity extends LOSBaseActivity implements Applicat
 
         configureDagger();
         configureViewModel();
-
         getMyStages();
-
     }
 
     private void INSERT_LOG(String methodName,String message){
         try{
-            if(viewModel !=null){
-                viewModel.insertLog(methodName,message,userId,"",ApplicationToPDActivity.class.getCanonicalName()
-                        ,CLIENT_ID,loanType,moduleType);
+            if(viewModel != null){
+                viewModel.insertLog(methodName,message,userId,"",ApplicationToPDActivity.class.getCanonicalName(),
+                        CLIENT_ID, loanType, moduleType);
             }
         }catch (Exception ex){
             ex.printStackTrace();
@@ -337,7 +334,6 @@ public class ApplicationToPDActivity extends LOSBaseActivity implements Applicat
         }
     }
 
-
     private void syncSingleClientData(MasterTable masterTable) {
         try {
             if (appHelper.isNetworkAvailable()) {
@@ -360,7 +356,6 @@ public class ApplicationToPDActivity extends LOSBaseActivity implements Applicat
                                             }
                                         });
                             }else{
-
                                 appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ERROR,
                                         ERROR_MESSAGE_SYNC_FAILED, new ConfirmationDialog.ActionCallback() {
                                             @Override
@@ -370,7 +365,6 @@ public class ApplicationToPDActivity extends LOSBaseActivity implements Applicat
                                             }
                                         });
                             }
-
                         }
                     };
                     viewModel.getmasterTableLiveData().observe(this, syncSingleClientDataObserver);
@@ -410,7 +404,7 @@ public class ApplicationToPDActivity extends LOSBaseActivity implements Applicat
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            INSERT_LOG("updateMasterTableFromPD","Exception : "+ex.getMessage());
+            INSERT_LOG("updateMasterTableFromPD","Exception : " + ex.getMessage());
         }
     }
 
@@ -421,7 +415,7 @@ public class ApplicationToPDActivity extends LOSBaseActivity implements Applicat
                 appHelper.getDialogHelper().getLoadingDialog().showGIFLoading();
 
                 // TODO: **************** ALL HARDCODED VALUES *********************
-                String RoleId="8005";
+                String RoleId = "8005";
                 String ProjectId="1";
                 int AllSrc=1;
 
@@ -433,7 +427,7 @@ public class ApplicationToPDActivity extends LOSBaseActivity implements Applicat
                 spParametersClass.setRoleId(RoleId); // TODO: role id
                 spParametersClass.setProjectId(ProjectId); // TODO: project id
                 spParametersClass.setProductId(productId); // TODO: product id
-                spParametersClass.setAllSrc(AllSrc); // TODO: Allsrc
+                spParametersClass.setAllSrc(AllSrc); // TODO: All src
                 spNameWithParameter.setSpParameters(spParametersClass);
                 ArrayList<RawDataRequestDTO.SpNameWithParameterClass> SpNameWithParameterList = new ArrayList<RawDataRequestDTO.SpNameWithParameterClass>();
                 SpNameWithParameterList.add(spNameWithParameter);
@@ -474,7 +468,6 @@ public class ApplicationToPDActivity extends LOSBaseActivity implements Applicat
     private void getMetaDataForMultipleScreen( List<RawDataResponseDTO.Table> rawDataFromServerList,
                                                String loanType,String userId){
         try{
-
             appHelper.getDialogHelper().getLoadingDialog().showGIFLoading();
             viewModel.getMetaDataForMultipleScreen(rawDataFromServerList,loanType,userId,productId,CURRENT_STAGE_PD);
             if (viewModel.getmasterTableLiveDataList() != null) {
@@ -550,7 +543,7 @@ public class ApplicationToPDActivity extends LOSBaseActivity implements Applicat
             if (!TextUtils.isEmpty(table.getRwas())) {
                 // TODO: GETTING SCREEN DETAILS BY SCREEN ID & MODULE TYPE
                 ScreenDetailsDTO screenDetailsDTO= AppConstant.getScreenDetailsByScreenId(String.valueOf(table.getScreenId()),"");
-                if(screenDetailsDTO !=null && ! TextUtils.isEmpty(screenDetailsDTO.getScreenName())) {
+                if(screenDetailsDTO != null && ! TextUtils.isEmpty(screenDetailsDTO.getScreenName())) {
 
                     // TODO: Meta data service
                     viewModel.init(screenDetailsDTO.getScreenId(), screenDetailsDTO.getScreenName(),
@@ -837,10 +830,10 @@ public class ApplicationToPDActivity extends LOSBaseActivity implements Applicat
     }
 
 
-    private void getRawDataByAdditionalColumn(List<DynamicUITable> dynamicUITableList,String rawData){
+    private void getRawDataByAdditionalColumn(List<DynamicUITable> dynamicUITableList, String rawData){
         try{
-            DynamicUITable dynamicUITable=getObjectByTAG(FIELD_NAME_SAVE_AND_ADD_ANOTHER_KYC,dynamicUITableList);
-            if(dynamicUITable !=null) {
+            DynamicUITable dynamicUITable = getObjectByTAG(FIELD_NAME_SAVE_AND_ADD_ANOTHER_KYC,dynamicUITableList);
+            if(dynamicUITable != null) {
                 viewModel.getRawDataByAdditionalColumn(dynamicUITable);
                 if(viewModel.getRawDataTableLiveData() !=null){
                     Observer observer=new Observer() {
@@ -859,10 +852,9 @@ public class ApplicationToPDActivity extends LOSBaseActivity implements Applicat
                                 if(dynamicUITableObjForSelectedItem !=null) {
                                     final RawDataTable rawDataTableToInsert = new RawDataTable(rawData, dynamicUITable.getScreenID(),
                                             dynamicUITable.getScreenName(),
-                                            dynamicUITableObjForSelectedItem.getValue()
-                                            , dynamicUITable.getClientID(), dynamicUITable.getLoanType(), dynamicUITable.getUser_id()
-                                            , dynamicUITable.getModuleType()
-                                            , dynamicUITable.getCoRelationID());
+                                            dynamicUITableObjForSelectedItem.getValue(),
+                                            dynamicUITable.getClientID(), dynamicUITable.getLoanType(), dynamicUITable.getUser_id(),
+                                            dynamicUITable.getModuleType(), dynamicUITable.getCoRelationID());
 
                                     insertRawDataBag(rawDataTableToInsert, dynamicUITableList, dynamicUITable);
                                 }
@@ -901,9 +893,7 @@ public class ApplicationToPDActivity extends LOSBaseActivity implements Applicat
 
                                 final RawDataTable rawDataTableToInsert = new RawDataTable(rawData, dynamicUITable.getScreenID(),
                                         dynamicUITable.getScreenName(),
-                                        "", dynamicUITable.getClientID(), dynamicUITable.getLoanType(), dynamicUITable.getUser_id()
-                                        , dynamicUITable.getModuleType()
-                                        ,dynamicUITable.getCoRelationID());
+                                        "", dynamicUITable.getClientID(), dynamicUITable.getLoanType(), dynamicUITable.getUser_id(), dynamicUITable.getModuleType(),dynamicUITable.getCoRelationID());
                                 insertRawDataBag(rawDataTableToInsert,dynamicUITableList,dynamicUITable);
 
                             }
@@ -935,11 +925,11 @@ public class ApplicationToPDActivity extends LOSBaseActivity implements Applicat
             INSERT_LOG("insertRawDataBag","Exception : "+ex.getMessage());
         }
     }
-    private void updateRawDataBag(RawDataTable rawDataTable,List<DynamicUITable> dynamicUITableList,DynamicUITable dynamicUITable){
+    private void updateRawDataBag(RawDataTable rawDataTable, List<DynamicUITable> dynamicUITableList, DynamicUITable dynamicUITable){
         try{
             viewModel.updateRawDataBag(rawDataTable, dynamicUITableList, dynamicUITable,false);
 
-            if(viewModel.getUpdatedRawdataRow() !=null) {
+            if(viewModel.getUpdatedRawdataRow() != null) {
                 Observer rawDataUpdateObserver = new Observer() {
                     @Override
                     public void onChanged(@Nullable Object o) {

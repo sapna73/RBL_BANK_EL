@@ -41,7 +41,6 @@ import static com.saartak.el.dynamicui.constants.ParametersConstant.FIELD_TYPE_L
 import static com.saartak.el.dynamicui.constants.ParametersConstant.FIELD_TYPE_RADIOBUTTON;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.FIELD_TYPE_TEXT_BOX;
 
-
 public class DynamicViewBaseActivity extends EKYCActivity {
 
     private static final String TAG =DynamicViewBaseActivity.class.getCanonicalName() ;

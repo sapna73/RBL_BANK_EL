@@ -81,6 +81,7 @@ import com.saartak.el.models.KarzaModel.KarzaResponseDTO;
 import com.saartak.el.models.KnowledgeBankRequestDTO;
 import com.saartak.el.models.LDAP_Login.LoginNewRequestDTO;
 import com.saartak.el.models.LeadDropDownDetails.GetLeadDropDownDetailsRequestDTO;
+import com.saartak.el.models.LeadMasterRequestDTO;
 import com.saartak.el.models.LeadRawDataRequestDTO;
 import com.saartak.el.models.LoanAmountWisePricingDefaultValues.LoanAmountWisePricingDefaultValuesRequestDTO;
 import com.saartak.el.models.LoanTenure.TenureMonthsRequestDTO;
@@ -160,9 +161,7 @@ public interface  DynamicUIWebservice {
     @GET("metavalues/Get/{projectid}/{screen}/{moduleid}")
     Observable<List<DynamicUITable>> getMetaDataServer(@Path("screen") String screen,
                                                       @Path("projectid") String projectid,
-                                                      @Path("moduleid") String moduleid
-            , @Header("Authorization") String authHeader);
-
+                                                      @Path("moduleid") String moduleid, @Header("Authorization") String authHeader);
 
     /*   Get my stages*/
     @GET("Workflow/getmystage/{userId}/{productId}")
@@ -208,15 +207,11 @@ public interface  DynamicUIWebservice {
 
     /*  Post Entered data to server for JLG*/
     @POST("v1/uat/JLG/SubmitRequest")
-    Observable<String> postDataToServerJLG(@Body SubmitDataTable submitDataDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
-
+    Observable<String> postDataToServerJLG(@Body SubmitDataTable submitDataDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @Multipart
     @POST()
-    @Headers({
-            "Accept: application/json",
-            "User-Agent: Mozilla/5.0"
-    })
+    @Headers({"Accept: application/json", "User-Agent: Mozilla/5.0"})
     Observable<String> uploadImageToWebServerNew(@Url String url,
                                            @Part("ClientId") RequestBody ClientId,
                                            @Part("FileName") RequestBody FileName,
@@ -224,7 +219,6 @@ public interface  DynamicUIWebservice {
                                            @Part("FileType") RequestBody FileType,
                                            @Part("ProductName") RequestBody ProductName,
                                            @Part MultipartBody.Part UploadedFile, @Header("Authorization") String authHeader);
-
 
     @Multipart
     @POST()
@@ -246,7 +240,6 @@ public interface  DynamicUIWebservice {
                                              @Part("ProductName") RequestBody ProductName,
                                              @Part MultipartBody.Part UploadedFile, @Header("Authorization") String authHeader);
 
-
     /* Get Center Name tvName server */
     @POST("utility/GetDataUtil")
     Call<ResponseBody> getCenterNameFromServer(@Body CenterNameRequestDTO centerNameRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
@@ -263,7 +256,7 @@ public interface  DynamicUIWebservice {
     @POST("utility/GetDataUtil")
     Call<ResponseBody> getIFSCDataServiceCall(@Body IFSCRequestDTO ifscRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
 
-    // TODO: GETROLE NAMES SERVICE
+    // TODO: GET ROLE NAMES SERVICE
     @POST("UserList")
     Call<ResponseBody> getRoleNamesServiceCall(@Body RoleNamesRequestDTO roleNamesRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
 
@@ -323,7 +316,6 @@ public interface  DynamicUIWebservice {
     @POST("utility/GetDataUtil")
     Call<ResponseBody> qcReSubmissionDataFromServer(@Body QCReSubmissionDataRequestDTO qcReSubmissionDataRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
 
-
     /* Lead Raw data tvName server */
     @POST("utility/GetDataUtil")
     Call<ResponseBody> LeadRawDataFromServer(@Body LeadRawDataRequestDTO rawDataRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
@@ -343,7 +335,6 @@ public interface  DynamicUIWebservice {
     /* Planner Data post to server */
     @POST("utility/GetDataUtil")
     Call<ResponseBody> PlannerDataToServer(@Body PlannerDataRequestDTO plannerDataRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
-
 
     /* Collection Data post to server */
     @POST("utility/GetDataUtil")
@@ -369,6 +360,10 @@ public interface  DynamicUIWebservice {
     @POST("utility/GetDataUtil")
     Call<ResponseBody> getProductMasterFromServer(@Body ProductMasterRequestDTO productMasterRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
+    //Lead - loan scheme and loan product
+    @POST("utility/GetDataUtil")
+    Call<ResponseBody> getLeadMasterFromServer(@Body LeadMasterRequestDTO leadMasterRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+
     /* Product Master tvName server */
     @POST("utility/GetDataUtil")
     Call<ResponseBody> syncCGTDataToServer(@Body CGTServiceRequestDTO cgtServiceRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
@@ -380,7 +375,6 @@ public interface  DynamicUIWebservice {
     /* Knowledge Bank Master From server */
     @POST("utility/GetDataUtil")
     Call<ResponseBody> getKnowledgeBankFromServer(@Body KnowledgeBankRequestDTO documentMasterRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
-
 
     /* User Login Menu Bank Master From server */
     @POST("utility/GetDataUtil")
@@ -407,7 +401,6 @@ public interface  DynamicUIWebservice {
     @POST("utility/GetDataUtil")
     Call<ResponseBody> getInsertRawDataBag(@Body InsertRawDataBagRequestDTO insertRawDataBagRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
-
     @POST("utility/GetDataUtil")
     Call<ResponseBody> getLoanAmountWisePricingDefaultValues(@Body LoanAmountWisePricingDefaultValuesRequestDTO loanAmountWisePricingDefaultValuesRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
@@ -425,7 +418,6 @@ public interface  DynamicUIWebservice {
 
     @POST("utility/GetDataUtil")
     Call<ResponseBody> getTenureInMonths(@Body TenureMonthsRequestDTO studentGradeRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
-
 
     @POST("utility/GetDataUtil")
     Call<ResponseBody> getBreSnsManageResults(@Body BreSnsManageResultsRequestDTO breSnsManageResultsRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);

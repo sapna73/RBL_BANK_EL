@@ -71,7 +71,7 @@ public class LoanApplicationActivity extends LOSBaseActivity implements View.OnC
     RecyclerView rvApplicant,rvLoanProposal, rvDocument, rvUserConsent;
     ImageView ivApplicant,ivLoanProposal, ivDocument, ivUserConsent;
     TextView tvApplicant,tvLoanProposal, tvDocuments, tvUserConsent;
-    TextView tvAppVersion,tvCurrentDate,tvUserName;
+    TextView tvAppVersion, tvCurrentDate, tvUserName;
 
     CenterCreationTable CENTER_CREATION_TABLE;
 
@@ -91,13 +91,15 @@ public class LoanApplicationActivity extends LOSBaseActivity implements View.OnC
 
         llApplicant = (LinearLayout) findViewById(R.id.ll_applicant);
         llApplicant.setOnClickListener(this);
+
         llLoanProposal = (LinearLayout) findViewById(R.id.ll_loan_proposal_with_nominee);
         llLoanProposal.setOnClickListener(this);
+
         llDocument = (LinearLayout) findViewById(R.id.ll_document_upload);
         llDocument.setOnClickListener(this);
+
         llUserConsent = (LinearLayout) findViewById(R.id.ll_user_consent);
         llUserConsent.setOnClickListener(this);
-
 
         rvApplicant = (RecyclerView) findViewById(R.id.rv_add_applicant);
         rvLoanProposal = (RecyclerView) findViewById(R.id.rv_add_loan_proposal);
@@ -330,8 +332,8 @@ public class LoanApplicationActivity extends LOSBaseActivity implements View.OnC
     }
 
 
-    public void getRawDataForLoanProposalSection(List<String> screenNoList, List<String> screenNameList, String client, String loanType,
-                                                 String moduleType) {
+    public void getRawDataForLoanProposalSection(List<String> screenNoList, List<String> screenNameList, String client,
+                                                 String loanType, String moduleType) {
         ArrayList<HashMap<String, Object>> allClientHashMapList = new ArrayList<>();
         try {
             viewModel.getRawDataForSingleClient(screenNameList, client, loanType, moduleType);
@@ -364,7 +366,6 @@ public class LoanApplicationActivity extends LOSBaseActivity implements View.OnC
                             ivLoanProposal.setVisibility(View.VISIBLE);
                             tvLoanProposal.setVisibility(View.VISIBLE);
                         }
-
                     }
                 };
                 viewModel.getRawTableLiveData().observe(this, getRawDataForAllClientObserver);
@@ -411,8 +412,7 @@ public class LoanApplicationActivity extends LOSBaseActivity implements View.OnC
         }
     }
 
-
-
+    //Data from master by client Id
     private void getMasterTableByClientId() {
         try {
 
@@ -433,6 +433,7 @@ public class LoanApplicationActivity extends LOSBaseActivity implements View.OnC
                             if (masterTableResponse != null && masterTableResponse.isDataNeedsToCaptureFromServer()) {
                                 // TODO: Calling Raw Data From Server
                                 getRawDataFromServerForSingleCustomerApplication();
+                                Log.d(TAG, "get the master table data by client id " + masterTableResponse.isDataNeedsToCaptureFromServer());
                             } else {
                                 // TODO: getRawDataForAllsections
                                 getRawDataForAllSections();
@@ -459,7 +460,7 @@ public class LoanApplicationActivity extends LOSBaseActivity implements View.OnC
 
                 appHelper.getDialogHelper().getLoadingDialog().showGIFLoading();
 
-                viewModel.getRawDataFromServerForSingleCustomerApplication(CLIENT_ID, userId, loanType, productId,SERVICE_CONNECTION_STRING_JLG);
+                viewModel.getRawDataFromServerForSingleCustomerApplication(CLIENT_ID, userId, loanType, productId, SERVICE_CONNECTION_STRING_JLG);
                 if (viewModel.getRawDataFromServerList() != null) {
                     Observer syncDataToServerObserver = new Observer() {
                         @Override
@@ -476,7 +477,6 @@ public class LoanApplicationActivity extends LOSBaseActivity implements View.OnC
                             } else {
                                 // TODO:  getRawData For All sections
                                 getRawDataForAllSections();
-
                             }
                         }
                     };
@@ -507,9 +507,9 @@ public class LoanApplicationActivity extends LOSBaseActivity implements View.OnC
                         List<MasterTable> masterTableList = (List<MasterTable>) o;
                         viewModel.getmasterTableLiveDataList().removeObserver(this);
 
-                        // TODO:  getRawDataForAllsections
+                        // TODO:  getRawData For All sections
                         getRawDataForAllSections();
-                        // TODO: getdocumentrawdata
+                        // TODO: get document rawData
                         getDocumentRawData();
                     }
                 };
@@ -527,8 +527,8 @@ public class LoanApplicationActivity extends LOSBaseActivity implements View.OnC
 
             appHelper.getDialogHelper().getLoadingDialog().showGIFLoading();
 
-            String folderPath = Environment.getExternalStorageDirectory()
-                    .getAbsolutePath() + File.separator + APP_FOLDER + File.separator + IMAGE_UPLOAD_FOLDER_NAME + File.separator
+            String folderPath = Environment.getExternalStorageDirectory().getAbsolutePath() +
+                    File.separator + APP_FOLDER + File.separator + IMAGE_UPLOAD_FOLDER_NAME + File.separator
                     + CLIENT_ID + File.separator;
 
             if (!TextUtils.isEmpty(folderPath)) {
@@ -545,9 +545,9 @@ public class LoanApplicationActivity extends LOSBaseActivity implements View.OnC
                                 List<DocumentUploadRawdataResponseDTO> rawdataResponseDTOList = (List<DocumentUploadRawdataResponseDTO>) o;
                                 viewModel.getDocumentUploadRawDataResponseList().removeObserver(this);
 
-                                if( rawdataResponseDTOList !=null && rawdataResponseDTOList.size()>0){
+                                if( rawdataResponseDTOList != null && rawdataResponseDTOList.size() > 0){
                                     // TODO: DOWNLOAD DOCUMENTS
-                                    downloadDocuments(rawdataResponseDTOList,CLIENT_ID,moduleType);
+                                    downloadDocuments(rawdataResponseDTOList, CLIENT_ID, moduleType);
                                 }
                             }
                         };

@@ -40,6 +40,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -150,6 +151,10 @@ public class HunterFragment extends LOSBaseFragment implements FragmentInterface
                             getHunterNonIndividualServiceData(USER_ID, CLIENT_ID, LOAN_TYPE, MODULE_TYPE_GENERATE_CIBIL);
                         } else {
                             callHunterService(USER_ID, CLIENT_ID, LOAN_TYPE, MODULE_TYPE_GENERATE_CIBIL);
+                            Log.d(TAG, "get the user id..." + USER_ID);
+                            Log.d(TAG, "get the client id....." + CLIENT_ID);
+                            Log.d(TAG, "get the loan type......" + LOAN_TYPE);
+                            Log.d(TAG, "get the module type" + MODULE_TYPE);
                         }
                     }else {
                         appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ALERT, "KYC Details and Loan proposal And Business/Salary screens should be mandatory");
@@ -440,6 +445,7 @@ public class HunterFragment extends LOSBaseFragment implements FragmentInterface
                     } else {
                         if (hunterResponseDTO.getErrorMessage() != null)
                             tv_error_message.setText(hunterResponseDTO.getErrorMessage());
+                        Log.d(TAG, "get the hunter salaried error message..............." + hunterResponseDTO.getErrorMessage());
                     }
 
                 });

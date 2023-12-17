@@ -36,6 +36,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
 
+import static com.saartak.el.constants.AppConstant.LOAN_NAME_EL;
 import static com.saartak.el.constants.AppConstant.LOAN_NAME_JLG;
 import static com.saartak.el.constants.AppConstant.PARAM_CLIENT_ID;
 import static com.saartak.el.constants.AppConstant.PARAM_DOCUMENT_UPLOAD_JSON;
@@ -48,18 +49,9 @@ import static com.saartak.el.constants.AppConstant.PARAM_SCREEN_NO;
 import static com.saartak.el.constants.AppConstant.PARAM_USER_ID;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.DOCUMENT_NAME_APPLICANT_PHOTO;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link DocumentUploadFragmentNew#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class DocumentUploadFragmentNew extends LOSBaseFragment implements LOSBaseFragment.DynamiUIinterfacce , DocumentUploadSubHeaderAdapter.DocumentUploadSubHeaderInterface{
     private static final String TAG = DocumentUploadFragmentNew.class.getCanonicalName() ;
     // TODO: Rename parameter arguments, choose names that match
-
     // TODO: Rename and change types of parameters
 
     private OnFragmentInteractionListener mListener;
@@ -72,8 +64,7 @@ public class DocumentUploadFragmentNew extends LOSBaseFragment implements LOSBas
         // Required empty public constructor
     }
 
-
-    String LOAN_TYPE,CLIENT_ID,PROJECT_ID,PRODUCT_ID,SCREEN_ID,SCREEN_NAME,USER_ID,MODULE_TYPE;
+    String LOAN_TYPE, CLIENT_ID, PROJECT_ID, PRODUCT_ID, SCREEN_ID, SCREEN_NAME, USER_ID, MODULE_TYPE;
     private RecyclerView rvDocUploadHeader;
     private Button btnUpload;
     List<DocumentUploadTableNew> documentUploadTableNewList;
@@ -110,7 +101,6 @@ public class DocumentUploadFragmentNew extends LOSBaseFragment implements LOSBas
         }
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -120,11 +110,12 @@ public class DocumentUploadFragmentNew extends LOSBaseFragment implements LOSBas
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        //appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ALERT, "KYC documents to be uploaded after OSV");
         super.onViewCreated(view, savedInstanceState);
-        rvDocUploadHeader=(RecyclerView) view.findViewById(R.id.rv_doc_upload_header);
-        btnUpload=(Button) view.findViewById(R.id.btn_upload);
+        rvDocUploadHeader = (RecyclerView) view.findViewById(R.id.rv_doc_upload_header);
+        btnUpload = (Button) view.findViewById(R.id.btn_upload);
 
-        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getActivity());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rvDocUploadHeader.setLayoutManager(layoutManager);
 
         btnUpload.setOnClickListener(new View.OnClickListener() {
@@ -164,11 +155,10 @@ public class DocumentUploadFragmentNew extends LOSBaseFragment implements LOSBas
     @Override
     public void openImageCaptureCallBack(DocumentUploadTableNew documentUploadTableNew, int position) {
         try {
-            Log.d(TAG,"openImageCaptureCallBack ==> " + position);
-            String json=new Gson().toJson(documentUploadTableNew,DocumentUploadTableNew.class);
-            if( ! TextUtils.isEmpty(json)) {
-                if(documentUploadTableNew.getLoan_type().equalsIgnoreCase(LOAN_NAME_JLG)){
-                    Intent intent = new Intent(getActivity(), ImageCaptureActivityJLG.class);
+            String json = new Gson().toJson(documentUploadTableNew, DocumentUploadTableNew.class);
+            if( !TextUtils.isEmpty(json)) {
+                if(documentUploadTableNew.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)){
+                    Intent intent = new Intent(getActivity(), ImageCaptureActivity.class);
                     intent.putExtra(PARAM_DOCUMENT_UPLOAD_JSON, json);
                     startActivity(intent);
                 }else {
@@ -188,7 +178,6 @@ public class DocumentUploadFragmentNew extends LOSBaseFragment implements LOSBas
         void onFragmentInteraction(Uri uri);
     }
 
-
     @Override
     public Fragment getFragment() {
         return this;
@@ -202,7 +191,6 @@ public class DocumentUploadFragmentNew extends LOSBaseFragment implements LOSBas
         getDocumentUploadHeader();
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
@@ -215,14 +203,14 @@ public class DocumentUploadFragmentNew extends LOSBaseFragment implements LOSBas
 
     private void getDocumentUploadHeader(){
         try{
-            viewModel.getDocumentUploadHeader(CLIENT_ID,LOAN_TYPE,true);
-            if(viewModel.getStringListLiveData()!=null){
-                Observer observer=new Observer() {
+            viewModel.getDocumentUploadHeader(CLIENT_ID, LOAN_TYPE, true);
+            if(viewModel.getStringListLiveData() != null){
+                Observer observer = new Observer() {
                     @Override
                     public void onChanged(Object o) {
-                        List<String> headerList=(List<String>) o;
+                        List<String> headerList = (List<String>) o;
                         viewModel.getStringListLiveData().removeObserver(this);
-                        if(headerList!=null && headerList.size()>0){
+                        if(headerList != null && headerList.size() > 0){
                             // TODO: get sub header
                             getDocumentUploadSubHeader(headerList);
                         }
@@ -237,27 +225,26 @@ public class DocumentUploadFragmentNew extends LOSBaseFragment implements LOSBas
 
     private void uploadDocumentsToServer(DocumentUploadTableNew documentUploadTableNew){
         try{
-
             appHelper.getDialogHelper().getLoadingDialog().showGIFLoading();
 
             viewModel.uploadDocumentsToServer(documentUploadTableNew);
             if(viewModel.getDocumentUploadLiveDataList()!=null){
-                Observer observer=new Observer() {
+                Observer observer = new Observer() {
                     @Override
                     public void onChanged(Object o) {
                         appHelper.getDialogHelper().getLoadingDialog().closeDialog();
 
                        List<DocumentUploadTableNew> documentUploadTableNewList=(List<DocumentUploadTableNew>) o;
                         viewModel.getDocumentUploadLiveDataList().removeObserver(this);
-                        if(documentUploadTableNewList!=null && documentUploadTableNewList.size()>0){
+                        if(documentUploadTableNewList != null && documentUploadTableNewList.size() > 0){
                             // TODO: VALIDATION
-                            boolean allDocumentsUploaded=false;
+                            boolean allDocumentsUploaded = false;
                             for( DocumentUploadTableNew documentUploadTableNew1:documentUploadTableNewList){
-                                if( ! documentUploadTableNew1.isDocument_status() && ! TextUtils.isEmpty(documentUploadTableNew1.getFile_path())){
-                                    allDocumentsUploaded=false;
+                                if( !documentUploadTableNew1.isDocument_status() && !TextUtils.isEmpty(documentUploadTableNew1.getFile_path())){
+                                    allDocumentsUploaded = false;
                                     break;
                                 }else{
-                                    allDocumentsUploaded=true;
+                                    allDocumentsUploaded = true;
                                 }
                             }
 
@@ -296,23 +283,23 @@ public class DocumentUploadFragmentNew extends LOSBaseFragment implements LOSBas
 
     private void getDocumentUploadSubHeader(List<String> headerList){
         try{
-            viewModel.getDocumentUploadSubHeader(CLIENT_ID,LOAN_TYPE,true);
-            if(viewModel.getDocumentUploadLiveDataList()!=null){
-                Observer observer=new Observer() {
+            viewModel.getDocumentUploadSubHeader(CLIENT_ID, LOAN_TYPE, true);
+            if(viewModel.getDocumentUploadLiveDataList() != null){
+                Observer observer = new Observer() {
                     @Override
                     public void onChanged(Object o) {
-                        documentUploadTableNewList=(List<DocumentUploadTableNew>) o;
+                        documentUploadTableNewList = (List<DocumentUploadTableNew>) o;
                         viewModel.getDocumentUploadLiveDataList().removeObserver(this);
-                        if(documentUploadTableNewList!=null && documentUploadTableNewList.size()>0){
-                           DocumentUploadHeaderAdapter documentUploadHeaderAdapter=new DocumentUploadHeaderAdapter(getActivity(),
-                                    documentUploadTableNewList,headerList,DocumentUploadFragmentNew.this::openImageCaptureCallBack);
+                        if(documentUploadTableNewList != null && documentUploadTableNewList.size() > 0){
+                           DocumentUploadHeaderAdapter documentUploadHeaderAdapter = new DocumentUploadHeaderAdapter(getActivity(),
+                                    documentUploadTableNewList, headerList, DocumentUploadFragmentNew.this :: openImageCaptureCallBack);
 
                            rvDocUploadHeader.setAdapter(documentUploadHeaderAdapter);
                             documentUploadHeaderAdapter.notifyDataSetChanged();
                         }
                     }
                 };
-                viewModel.getDocumentUploadLiveDataList().observe(this,observer);
+                viewModel.getDocumentUploadLiveDataList().observe(this, observer);
             }
         }catch (Exception ex){
             ex.printStackTrace();

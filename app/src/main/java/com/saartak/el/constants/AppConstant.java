@@ -152,9 +152,9 @@ public class AppConstant {
 
     // TODO: LATEST UAT URLS FOR TESTING 2 December
     public static String env = "PP"; // TODO: UAT ENVIRONMENT
-    public static String APP_ENVIRONMENT="UAT"; // TODO: UAT APP ENVIRONMENT
-    public static String RESET_PASSWORD_TOKEN="Bearer GqQa12BcEWqPP6x7F0UqTzCzTdias6K8mESlhNmFPH7v6EqFnfXXk8mkP1VZ+Dyetb8l952pne6yHl5XCcrpPFRG4M1K8U3mFQECWctEyx2X0deT4A1Xw9x/QL+64TJu+nenKBVy1dNa27irWPTiQ6FE3DhP5pFxQhVI92xBEIaVmwHHaGGNZ7hHw22vI950V7+a8mPgprIQl1ln4lk3k8jfUKeyA05AHWbo2h92vaWhij3ulutCxXpgG+o2m8jQuyEkk1AU7+90e6MCmF+bw6pRhbQLsFtnGzFVBtzfbfnLYcIyMx6pq2J4lMyHHWq4F6Uh5vtNBE9ms4xQmpH2GQ=="; // TODO: HARDCODED TOKEN FOR RESET PASSWORD
-    public static String EKYC_TOKEN=" Bearer EBy1rxqFbAwXLWUvSdoEb+GrDn2XiLuOLsSCDWJQ2n7r2S+/fp98pIoK1ZlUZecF4lPWB12BhXtQNkQcQAzcMPLWnaG6yQjx65xbVtaNszzcLtP9/9mkH1SUBvkXMHXX/zQQV9tswzto01fGcL99ACnCqO/YmHmopracZmuNM1rYuaMZ+eHbGdz5ZqfJ0lCHMtH45uZRIaCkzXL04ErF3uG7iVRbISsIgsYaZQEphEBjQ6B5xfcTN5GcMgei21W9Lq0Yfmhw2kCpHFY8F+h/fyQ86Ev23kcGkfjvHzXN3zYXt70Lke0r+gm3o7RMC4biy38jlMQV0QsXAV/BKZdIOg=="; // TODO: HARDCODED TOKEN FOR RESET PASSWORD
+    public static String APP_ENVIRONMENT = "UAT"; // TODO: UAT APP ENVIRONMENT
+    public static String RESET_PASSWORD_TOKEN = "Bearer GqQa12BcEWqPP6x7F0UqTzCzTdias6K8mESlhNmFPH7v6EqFnfXXk8mkP1VZ+Dyetb8l952pne6yHl5XCcrpPFRG4M1K8U3mFQECWctEyx2X0deT4A1Xw9x/QL+64TJu+nenKBVy1dNa27irWPTiQ6FE3DhP5pFxQhVI92xBEIaVmwHHaGGNZ7hHw22vI950V7+a8mPgprIQl1ln4lk3k8jfUKeyA05AHWbo2h92vaWhij3ulutCxXpgG+o2m8jQuyEkk1AU7+90e6MCmF+bw6pRhbQLsFtnGzFVBtzfbfnLYcIyMx6pq2J4lMyHHWq4F6Uh5vtNBE9ms4xQmpH2GQ=="; // TODO: HARDCODED TOKEN FOR RESET PASSWORD
+    public static String EKYC_TOKEN = " Bearer EBy1rxqFbAwXLWUvSdoEb+GrDn2XiLuOLsSCDWJQ2n7r2S+/fp98pIoK1ZlUZecF4lPWB12BhXtQNkQcQAzcMPLWnaG6yQjx65xbVtaNszzcLtP9/9mkH1SUBvkXMHXX/zQQV9tswzto01fGcL99ACnCqO/YmHmopracZmuNM1rYuaMZ+eHbGdz5ZqfJ0lCHMtH45uZRIaCkzXL04ErF3uG7iVRbISsIgsYaZQEphEBjQ6B5xfcTN5GcMgei21W9Lq0Yfmhw2kCpHFY8F+h/fyQ86Ev23kcGkfjvHzXN3zYXt70Lke0r+gm3o7RMC4biy38jlMQV0QsXAV/BKZdIOg=="; // TODO: HARDCODED TOKEN FOR RESET PASSWORD
     public static String LOGIN_URL = "https://saartakuat.rblbank.com/balApi/"; // TODO: LOGIN URL
     public static String LDAP_LOGIN_URL = "https://losservicesuat.rblbank.com/LosLdap/api/v1/uat/RVF/"; // TODO:LDAP LOGIN URL
     public static String LOGOUT_URL = "https://saartakuat.rblbank.com/balApi/"; // TODO: LOGOUT URL
@@ -173,9 +173,9 @@ public class AppConstant {
     //public static String EKYC_URL= "https://losservicesuat.rblbank.com/EkycLOS/api/"; // TODO: EKYC URL
     public static String OTP_TRIGGER_URL = "https://losservicesuat.rblbank.com/otp/api/v1/uat/"; // TODO: OTP TRIGGER
     public static String OTP_VERIFY_URL = "https://losservicesuat.rblbank.com/otp/api/v1/uat/"; // TODO: OTP VERIFY
-    //    public static String DOCUMENT_UPLOAD_URL = "https://losservicesuat.rblbank.com/LosDocuploadIL/api/uat/V1/uploadImages"; // TODO: DOCUMENT UPLOAD URL
+        public static String DOCUMENT_UPLOAD_URL = "https://losservicesuat.rblbank.com/Docupload/api/uat/V1/uploadImages"; // TODO: DOCUMENT UPLOAD URL UAT EL
     //public static String DOCUMENT_UPLOAD_URL = "https://losservicesuat.rblbank.com/Docupload1/api/uat/V1/uploadImages1"; // TODO: DOCUMENT UPLOAD URL
-    public static String DOCUMENT_UPLOAD_URL = "https://losservices.rblbank.com/LosDocupload1/api/uat/V1/uploadImages1"; // TODO: DOCUMENT UPLOAD URL
+//    public static String DOCUMENT_UPLOAD_URL = "https://losservices.rblbank.com/LosDocupload1/api/uat/V1/uploadImages1"; // TODO: DOCUMENT UPLOAD URL
     public static String DOCUMENT_DOWNLOAD_URL = "https://losservicesuat.rblbank.com/DownloadImg/api/uat/"; // TODO: DOCUMENT DOWNLOAD URL
     public static String LOG_TO_SERVER_URL = "https://losservicesuat.rblbank.com/LogsService/api/v1/prod/"; // TODO: LOG TO SERVER URL
     public static String PAN_VALIDATION_URL = "https://losservicesuat.rblbank.com/bankproxy/api/v1/uat/"; // TODO: PAN VALIDATION URL
@@ -188,12 +188,12 @@ public class AppConstant {
     public static String CB_MFI_URL = " https://losservicesuat.rblbank.com/bankproxy/api/v1/prod/"; // TODO: CB MFI
     public static String SALES_TOOL_URL = "https://losservicesuat.rblbank.com/SalesTool/api/v1/uat/"; // TODO: SALES TOOL
     public static String INITIATE_TRANSACTION_URL = " https://losservicesuat.rblbank.com/collections/api/v1/prod/"; // TODO: TWINLINE FOR DIGITAL PAYMENT
-    public static String POSIDEX_DILIQUENCY ="https://losservicesuat.rblbank.com/PosidexService/api/";
-    public static String RAMP_HUNTER ="https://losservicesuat.rblbank.com/LosBankService/api/v1/uat/";
-    public static String SENTINEL_SERVICE ="https://losservicesuat.rblbank.com/SentinelService/api/v1/uat/";
-    public static String ESIGN_ESTAMP ="https://losservicesuat.rblbank.com/EsignService/api/";
-    public static String ESIGN_ESTAMP_INITIATION ="https://losservicesuat.rblbank.com/EsignService/api/v1/uat/";
-    public static String PRE_SUBMIT_DATA ="https://losservicesuat.rblbank.com/UatLosNew/api/";
+    public static String POSIDEX_DILIQUENCY = "https://losservicesuat.rblbank.com/PosidexService/api/";
+    public static String RAMP_HUNTER = "https://losservicesuat.rblbank.com/LosBankService/api/v1/uat/";
+    public static String SENTINEL_SERVICE = "https://losservicesuat.rblbank.com/SentinelService/api/v1/uat/";
+    public static String ESIGN_ESTAMP = "https://losservicesuat.rblbank.com/EsignService/api/";
+    public static String ESIGN_ESTAMP_INITIATION = "https://losservicesuat.rblbank.com/EsignService/api/v1/uat/";
+    public static String PRE_SUBMIT_DATA = "https://losservicesuat.rblbank.com/UatLosNew/api/";
 
     // TODO: LATEST PRODUCTION URLS FOR TESTING
 //      public static String env="P"; // TODO: PRODUCTION ENVIRONMENT
@@ -238,11 +238,11 @@ public class AppConstant {
 
 
   // TODO: APP FOLDER INFORMATION
-    public static final String APP_FOLDER="EL";
-    public static final String DB_FOLDER="EL_DB";
-    public static final String DB_SUB_FOLDER=APP_ENVIRONMENT;
-    public static final String DB_NAME="DynamicUIDatabase.db";
-    public static final String IMAGE_UPLOAD_FOLDER_NAME="ImageUpload";
+    public static final String APP_FOLDER = "EL";
+    public static final String DB_FOLDER = "EL_DB";
+    public static final String DB_SUB_FOLDER = APP_ENVIRONMENT;
+    public static final String DB_NAME = "DynamicUIDatabase.db";
+    public static final String IMAGE_UPLOAD_FOLDER_NAME = "ImageUpload";
 
     // TODO: BIOMETRIC INFORMATION
     public final static int INFO_REQUEST = 0;
@@ -255,67 +255,66 @@ public class AppConstant {
     public static String AquirerID = "210039";//production
     public static int envType=0;  // production
 
-    public static String QUERY_PARAM_CLIENT_ID="dc3012af-2b1c-4cc3-ae50-85d5bd5a7855";
-    public static String QUERY_PARAM_CLIENT_SECRET="aA5pU1cU2kO0tM1gS1vU5nK0tQ2bI5pO5mV2lD6aQ7hQ5hJ1mX";
+    public static String QUERY_PARAM_CLIENT_ID = "dc3012af-2b1c-4cc3-ae50-85d5bd5a7855";
+    public static String QUERY_PARAM_CLIENT_SECRET = "aA5pU1cU2kO0tM1gS1vU5nK0tQ2bI5pO5mV2lD6aQ7hQ5hJ1mX";
 
     // concatenate username and password with colon for authentication
-    public static String AUTHENTICATION_USERNAME="SANDEEPPAN";
+    public static String AUTHENTICATION_USERNAME = "SANDEEPPAN";
     public static String AUTHENTICATION_PASSWORD="PL<qaz@123";
     public static String CREDENTIALS = AUTHENTICATION_USERNAME + ":" + AUTHENTICATION_PASSWORD;
 
 
-    public static String IMAGE_ENC_PSWD="longestPasswordEverCreatedInAllTheUniverseOrMore";
-    public static String IMAGE_ENC_SALT="FFD7BADF2FBB1999";
+    public static String IMAGE_ENC_PSWD = "longestPasswordEverCreatedInAllTheUniverseOrMore";
+    public static String IMAGE_ENC_SALT = "FFD7BADF2FBB1999";
 
-
-  public static  final String EKYC="EKYC";
-  public static  final String DOCUMENT_FILE="DOCUMENT_FILE";
+    public static  final String EKYC = "EKYC";
+    public static  final String DOCUMENT_FILE = "DOCUMENT_FILE";
 
 
     // TODO: OTP SMS FORMAT
-    public static final String OTP_SMS_FORMAT="As per your request we are processing loan application. Enter OTP XXXXXX as consent on Loan application, Credit Bureau Check & Submission of scanned original docs";
+    public static final String OTP_SMS_FORMAT = "As per your request we are processing loan application. Enter OTP XXXXXX as consent on Loan application, Credit Bureau Check & Submission of scanned original docs";
     // TODO: COLLECTION OTP SMS FORMAT
-    public static final String COLLECTION_SMS_FORMAT="XXXXXX, we have received Rs YYYYYY against the installment amount due for ZZZZZZ";
+    public static final String COLLECTION_SMS_FORMAT = "XXXXXX, we have received Rs YYYYYY against the installment amount due for ZZZZZZ";
     // TODO: DAILY COLLECTION OTP SMS FORMAT
-    public static final String DAILY_COLLECTION_SMS_FORMAT="Dear XXXXXX, we have received collection of YYYYYY for your center ZZZZZZ. Thanks for the payment.";
+    public static final String DAILY_COLLECTION_SMS_FORMAT = "Dear XXXXXX, we have received collection of YYYYYY for your center ZZZZZZ. Thanks for the payment.";
 
-    public static String MESSAGE_ROOTED_DEVICE_NOT_SUPPORTED ="App does not support rooted device due to security reasons";
+    public static String MESSAGE_ROOTED_DEVICE_NOT_SUPPORTED = "App does not support rooted device due to security reasons";
 
-    public static final String PARAM_USER_NAME="USER NAME";
-    public static final String PARAM_USER_ID="USER ID";
-    public static final String PARAM_EMPLOYEE_ID="EMPLOYEE ID";
-    public static final String PARAM_BRANCH_ID="BRANCH ID";
-    public static final String PARAM_BRANCH_NAME="BRANCH NAME";
-    public static final String PARAM_BRANCH_GST_CODE="BRANCH GST CODE";
-    public static final String PARAM_CLIENT_ID="CLIENT ID";
-    public static final String PARAM_CURRENT_STAGE="CURRENT STAGE";
-    public static final String PARAM_CURRENT_STAGE_ID="CURRENT STAGE ID";
-    public static final String PARAM_HASH_MAP="HASH MAP";
-    public static final String PARAM_AUTO_FILL="AUTO FILL";
-    public static final String PARAM_DYNAMIC_UI_LIST="DYNAMIC UI LIST";
-    public static final String PARAM_DYNAMIC_UI="DYNAMIC UI";
-    public static final String PARAM_DOCUMENT_UPLOAD_JSON="DOCUMENT UPLOAD JSON";
-    public static final String PARAM_OLD_PASSWORD="OLD PASSWORD";
-    public static final String PARAM_GET_APPLICATION_ID="GET APPLICATION ID";
-    public static final String PARAM_CALLING_FROM_CONNECT_APP="CALLING FROM CONNECT APP";
-    public static final String PARAM_REQUEST_FROM_SAARTHI_APP="REQUEST_FROM_SAARTHI";
+    public static final String PARAM_USER_NAME = "USER NAME";
+    public static final String PARAM_USER_ID = "USER ID";
+    public static final String PARAM_EMPLOYEE_ID = "EMPLOYEE ID";
+    public static final String PARAM_BRANCH_ID = "BRANCH ID";
+    public static final String PARAM_BRANCH_NAME = "BRANCH NAME";
+    public static final String PARAM_BRANCH_GST_CODE = "BRANCH GST CODE";
+    public static final String PARAM_CLIENT_ID = "CLIENT ID";
+    public static final String PARAM_CURRENT_STAGE = "CURRENT STAGE";
+    public static final String PARAM_CURRENT_STAGE_ID = "CURRENT STAGE ID";
+    public static final String PARAM_HASH_MAP = "HASH MAP";
+    public static final String PARAM_AUTO_FILL = "AUTO FILL";
+    public static final String PARAM_DYNAMIC_UI_LIST = "DYNAMIC UI LIST";
+    public static final String PARAM_DYNAMIC_UI = "DYNAMIC UI";
+    public static final String PARAM_DOCUMENT_UPLOAD_JSON = "DOCUMENT UPLOAD JSON";
+    public static final String PARAM_OLD_PASSWORD = "OLD PASSWORD";
+    public static final String PARAM_GET_APPLICATION_ID = "GET APPLICATION ID";
+    public static final String PARAM_CALLING_FROM_CONNECT_APP = "CALLING FROM CONNECT APP";
+    public static final String PARAM_REQUEST_FROM_SAARTHI_APP = "REQUEST_FROM_SAARTHI";
 
-    public static final String PARAM_KNOWLEDGE_BANK_TABLE="knowledgeBankTableParam";
+    public static final String PARAM_KNOWLEDGE_BANK_TABLE = "knowledgeBankTableParam";
 
-    public static final String AUTHORIZATION_TOKEN_KEY="AUTHORIZATION TOKEN";
+    public static final String AUTHORIZATION_TOKEN_KEY = "AUTHORIZATION TOKEN";
 
-    public static final String UCIC_ID="UCICID";
-    public static final String UCIC_ID_APPLICANT="UCICID APPLICANT";
+    public static final String UCIC_ID = "UCICID";
+    public static final String UCIC_ID_APPLICANT = "UCICID APPLICANT";
 
-    public static final String UCIC_ID_CO_APPLICANT="UCICID CO APPLICANT";
-    public static final String AUTHORIZATION_PROD_TOKEN_KEY="AUTHORIZATION PROD TOKEN";
-    public static final String USER_API_KEY="USER API KEY";
+    public static final String UCIC_ID_CO_APPLICANT = "UCICID CO APPLICANT";
+    public static final String AUTHORIZATION_PROD_TOKEN_KEY = "AUTHORIZATION PROD TOKEN";
+    public static final String USER_API_KEY = "USER API KEY";
 
     public static final String PARAM_LOAN_TYPE = "LoanType";
     public static final String PARAM_PROJECT_ID = "ProjectId";
     //    public static final String PARAM_MODULE_ID = "ModuleId";
     public static final String PARAM_PRODUCT_ID = "ProductId";
-    public static final String PARAM_WORKFLOW_ID= "WorkFlowId";
+    public static final String PARAM_WORKFLOW_ID = "WorkFlowId";
     public static final String PARAM_SCREEN_NO = "ScreenNo";
     public static final String PARAM_SCREEN_NAME = "ScreenName";
     public static final String PARAM_MODULE_TYPE = "ModuleType";
@@ -328,43 +327,42 @@ public class AppConstant {
     public static final String PARAM_ACTION_TO_DO = "ActionToDo";
     public static final String PARAM_ROLE_NAME = "ParamRoleName";
 
-
-    public static final int REQUEST_CODE_NEW_LEAD=301;
-    public static final int REQUEST_CODE_UPDATE_LEAD=302;
-    public static final int REQUEST_CODE_UPDATE_SALES_TOOL=303;
+    public static final int REQUEST_CODE_NEW_LEAD = 301;
+    public static final int REQUEST_CODE_UPDATE_LEAD = 302;
+    public static final int REQUEST_CODE_UPDATE_SALES_TOOL = 303;
 
     // TODO: BCID
-    public static final String BCID ="1031";
-    public static final String BCID_PHL ="1031";
+    public static final String BCID = "1031";
+    public static final String BCID_PHL = "1031";
 
     // TODO: PROJECT NAME
-    public static final String PROJECT_NAME_LOS ="EL";
+    public static final String PROJECT_NAME_LOS = "EL";
 
     // TODO: PROJECT ID
-    public static final String PROJECT_ID_EL ="1";
+    public static final String PROJECT_ID_EL = "1";
 
     // TODO: PRODUCT ID
-    public static final String PRODUCT_ID_MSME="1";
-    public static final String PRODUCT_ID_IL="3";
-    public static final String PRODUCT_ID_TW="4";
-    public static final String PRODUCT_ID_JLG="5";
+    public static final String PRODUCT_ID_MSME = "1";
+    public static final String PRODUCT_ID_IL = "3";
+    public static final String PRODUCT_ID_TW = "4";
+    public static final String PRODUCT_ID_JLG = "5";
     // TODO: ahl product id 12
-    public static final String PRODUCT_ID_AHL="12";
+    public static final String PRODUCT_ID_AHL = "12";
     // TODO: phl product id 22
-    //public static final String PRODUCT_ID_PHL="22";
-    public static final String PRODUCT_ID_PHL="25";
-    public static final String PRODUCT_ID_EL ="26";
-    public static final String PRODUCT_ID_TWL="25";
+    //public static final String PRODUCT_ID_PHL = "22";
+    public static final String PRODUCT_ID_PHL = "25";
+    public static final String PRODUCT_ID_EL = "26";
+    public static final String PRODUCT_ID_TWL = "25";
 
     // TODO: WORKFLOW ID
-    public static final String WORKFLOW_ID_JLG="1";
-    public static final String WORKFLOW_ID_IL="3";
-    public static final String WORKFLOW_ID_MSME="4";
-    public static final String WORKFLOW_ID_AHL="12";
+    public static final String WORKFLOW_ID_JLG = "1";
+    public static final String WORKFLOW_ID_IL = "3";
+    public static final String WORKFLOW_ID_MSME = "4";
+    public static final String WORKFLOW_ID_AHL = "12";
     // TODO: phl workflow id 16
-    public static final String WORKFLOW_ID_PHL="19";//WORKFLOW_ID_PHL="16";
-    public static final String WORKFLOW_ID_EL ="20";//WORKFLOW_ID_EL="20";
-    public static final String WORKFLOW_ID_TWL="19";//WORKFLOW_ID_TWL="20";
+    public static final String WORKFLOW_ID_PHL = "19";//WORKFLOW_ID_PHL="16";
+    public static final String WORKFLOW_ID_EL = "20";//WORKFLOW_ID_EL="20";
+    public static final String WORKFLOW_ID_TWL = "19";//WORKFLOW_ID_TWL="20";
 
     // TODO: STAGE ID
     public static final String STAGE_ID_ZERO = "0";
@@ -380,16 +378,16 @@ public class AppConstant {
 
 
   // TODO: google verification api start
-  public static String safetynet_api_key="AIzaSyDbw9jUbisAtC6hWz2J4-dY7-BMzvJmWlU";
-  public static final String CERTIFICATE_SHA256_KEY ="CERTIFICATE SHA256 KEY";
+  public static String safetynet_api_key = "AIzaSyDbw9jUbisAtC6hWz2J4-dY7-BMzvJmWlU";
+  public static final String CERTIFICATE_SHA256_KEY = "CERTIFICATE SHA256 KEY";
   public static final String GOOGLE_API_VERIFY_URL = "https://www.googleapis.com/androidcheck/v1/attestations/";
   public static String Update_Google_Play_Services ="Update Google Play Services";
   public static String internet_connection ="No internet connection";
-  public static String CTS_Profile ="Authenticate Error , CTS Profile Match Failed";
-  public static String Integrity_Failed ="Authenticate Error , Basic Integrity Failed";
+  public static String CTS_Profile ="Authenticate Error, CTS Profile Match Failed";
+  public static String Integrity_Failed = "Authenticate Error, Basic Integrity Failed";
   public static String Integrity_Checks ="Application Integrity Checks Failed";
-  public static String Verification_Error="Verification Error !";
-  public static String rooted_device="App does not support rooted device due to security reasons";
+  public static String Verification_Error = "Verification Error!";
+  public static String rooted_device = "App does not support rooted device due to security reasons";
 
     public static final String SCREEN_NAME_APPLICANT_KYC = "APPLICANT KYC";
     public static final String SCREEN_NAME_APPLICANT_PAN_DETAILS = "APPLICANT PAN DETAILS";
@@ -544,7 +542,6 @@ public class AppConstant {
     public static final String SCREEN_NAME_HOUSE_ASSETS_FURNITURE_DETAIL_MSME = "HOUSE ASSETS - FURNITURE";
     public static final String SCREEN_NAME_HOUSE_ASSETS_COMMERCIAL_VEHICLE_DETAIL_MSME = "HOUSE ASSETS - COMMERCIAL VEHICLE";
 
-
     // TODO: BUSINESS ASSETS SCREEN NAMES MSME
     public static final String SCREEN_NAME_BUSINESS_ASSETS_BUILDING_DETAIL_MSME = "BUSINESS ASSETS - BUILDING";
     public static final String SCREEN_NAME_BUSINESS_ASSETS_LAND_DETAIL_MSME = "BUSINESS ASSETS - LAND";
@@ -668,7 +665,7 @@ public class AppConstant {
     public static final String SCREEN_NO_VILLAGE_SURVEY_JLG = "245";
     public static final String SCREEN_NO_CENTER_CREATION_JLG = "246";
     public static final String SCREEN_NO_CGT_JLG = "247"; // TODO: Dummy Screen without metadata
-    public static final String SCREEN_NO_GRT_JLG = "249"; // TODO: Dummy Screen without metadata
+    public static final String SCREEN_NO_GRT_JLG = "249";
 
 
     // TODO: PHL INCOME ASSESSMENT
@@ -704,7 +701,9 @@ public class AppConstant {
     public static final String SCREEN_NO_REFERENCES_PHL = "210";
 
     // TODO: DOCUMENT UPLOAD SCREEN NUMBER PHL
-    public static final String SCREEN_N0_DOCUMENT_UPLOAD_PHL = "1271";
+    public static final String SCREEN_N0_DOCUMENT_UPLOAD_EL = "739";//1271
+
+  public static final String SCREEN_N0_DOCUMENT_UPLOAD_PHL = "1271";
 
     // TODO: PHL BALANCE SHEET
     public static final String SCREEN_N0_HOUSE_LIABILITIES_PHL = "136";
@@ -730,9 +729,6 @@ public class AppConstant {
     public static final String SCREEN_N0_LOAN_SUGGESTION_PHL = "218";
     public static final String SCREEN_N0_DECISIONS_HYPOTHECATION_PHL = "176";
     public static final String SCREEN_N0_DECISIONS_HYPOTHECATION_DETAIL_PHL = "196";
-
-
-    /////////////////////////////PHL///////////////////////////
 
     // TODO: AHL SCREEN NUMBERS
     public static final String SCREEN_NO_COLD_CALLING_PHL = "550";
@@ -843,7 +839,7 @@ public class AppConstant {
     public static final String SCREEN_NO_REFERENCES_AHL = "210";
 
     // TODO: DOCUMENT UPLOAD SCREEN NUMBER AHL
-    public static final String SCREEN_N0_DOCUMENT_UPLOAD_AHL = "739";
+    public static final String SCREEN_N0_DOCUMENT_UPLOAD_AHL = "1272";//739
 
     // TODO: AHL BALANCE SHEET
     public static final String SCREEN_N0_HOUSE_LIABILITIES_AHL = "136";
@@ -1105,6 +1101,16 @@ public class AppConstant {
 
     // TODO: INDIVIDUAL
 
+
+  public static String[] APPLICANT_TAB_SCREEN_NAMES_JLG = {
+         SCREEN_NAME_APPLICANT_KYC,
+         SCREEN_NAME_PERSONAL_DETAIL,
+         SCREEN_NAME_SOCIO_ECONOMIC_DETAIL,
+  };
+  public static String[] LOAN_PROPOSAL_WITH_NOMINEE_MODULE_SCREEN_NAMES_JLG = {
+         MODULE_TYPE_APPLICANT,
+         MODULE_TYPE_LOAN_PROPOSAL_WITH_NOMINEE,
+  };
     // TODO: APPLICANT IL
     public static String[] APPLICANT_TAB_SCREEN_NAMES_BUSINESS_IL = {
             SCREEN_NAME_APPLICANT_KYC,
@@ -1120,8 +1126,8 @@ public class AppConstant {
             SCREEN_NAME_REFERENCE_CHECK,
             SCREEN_NAME_CPV,
             SCREEN_NAME_RAMP,
-//            SCREEN_NAME_GUARANTOR_DETAILS,
             SCREEN_NAME_DEDUPE,
+            SCREEN_NAME_APPLICANT_REGULATORY_FIELDS,
             SCREEN_NAME_DNCR_APPLICANT
     };
 
@@ -1140,6 +1146,7 @@ public class AppConstant {
             SCREEN_NO_CPV,
             SCREEN_NO_RAMP,
             SCREEN_NO_DEDUPE,
+            SCREEN_NO_APPLICANT_REGULATORY_FIELDS,
             SCREEN_NO_DNCR_APPLICANT
     };
 
@@ -1157,6 +1164,7 @@ public class AppConstant {
           SCREEN_NAME_CPV,
           SCREEN_NAME_RAMP,
           SCREEN_NAME_DEDUPE,
+          SCREEN_NAME_APPLICANT_REGULATORY_FIELDS,
           SCREEN_NAME_DNCR_APPLICANT
   };
 
@@ -1174,6 +1182,7 @@ public class AppConstant {
           SCREEN_NO_CPV,
           SCREEN_NO_RAMP,
           SCREEN_NO_DEDUPE,
+          SCREEN_NO_APPLICANT_REGULATORY_FIELDS,
           SCREEN_NO_DNCR_APPLICANT
   };
 
@@ -1192,6 +1201,7 @@ public class AppConstant {
             SCREEN_NAME_CPV,
             SCREEN_NAME_RAMP,
             SCREEN_NAME_DEDUPE,
+            SCREEN_NAME_APPLICANT_REGULATORY_FIELDS,
             SCREEN_NAME_DNCR_APPLICANT
     };
     public static String[] APPLICANT_TAB_SCREEN_NUMBERS_EL = {
@@ -1208,6 +1218,7 @@ public class AppConstant {
             SCREEN_NO_CPV,
             SCREEN_NO_RAMP,
             SCREEN_NO_DEDUPE,
+            SCREEN_NO_APPLICANT_REGULATORY_FIELDS,
             SCREEN_NO_DNCR_APPLICANT
     };
 
@@ -1220,6 +1231,7 @@ public class AppConstant {
             R.drawable.ic_business_add_proof2_24,
             R.drawable.ic_person_pin_black_24dp,
             R.drawable.ic_account_bank_24dp,
+            R.drawable.ic_person_pin_black_24dp,
             R.drawable.ic_person_pin_black_24dp,
             R.drawable.ic_person_pin_black_24dp,
             R.drawable.ic_person_pin_black_24dp,
@@ -1243,6 +1255,7 @@ public class AppConstant {
           SCREEN_NAME_CPV,
           SCREEN_NAME_RAMP,
           SCREEN_NAME_DEDUPE,
+          SCREEN_NAME_APPLICANT_REGULATORY_FIELDS,
           SCREEN_NAME_DNCR_APPLICANT
   };
   public static String[] APPLICANT_TAB_SCREEN_NUMBERS_BUSINESS_EL = {
@@ -1260,10 +1273,47 @@ public class AppConstant {
           SCREEN_NO_CPV,
           SCREEN_NO_RAMP,
           SCREEN_NO_DEDUPE,
+          SCREEN_NO_APPLICANT_REGULATORY_FIELDS,
+          SCREEN_NO_DNCR_APPLICANT
+  };
+  public static String[] CO_APPLICANT_TAB_SCREEN_NUMBERS_BUSINESS_EL = {
+          SCREEN_NO_APPLICANT_KYC_EL,
+          SCREEN_NO_APPLICANT_PAN_DETAILS_EL,
+          SCREEN_NO_PERSONAL_DETAIL_EL,
+          SCREEN_NO_SOCIO_ECONOMIC_DETAIL_EL,
+          SCREEN_NO_ADDRESS_DETAIL_EL,
+          SCREEN_NO_BUSINESS_PROFILE_EL,
+          SCREEN_NO_BUSINESS_PROOF_EL,
+          SCREEN_NO_BUSINESS_ADDRESS_PROOF_EL,
+          SCREEN_NO_STUDENT_DETAILS_APPLICANT,
+          SCREEN_NO_BANK_DETAILS_EL,
+          SCREEN_NO_REFERENCE_CHECK_EL,
+          SCREEN_NO_CPV,
+          SCREEN_NO_RAMP,
+          SCREEN_NO_DEDUPE,
+          SCREEN_NO_APPLICANT_REGULATORY_FIELDS,
           SCREEN_NO_DNCR_APPLICANT
   };
 
   public static int[] APPLICANT_TAB_ICONS_NAMES_BUSINESS_EL = {
+          R.drawable.ic_fingerprint_24dp,
+          R.drawable.ic_person_white_24dp,
+          R.drawable.ic_domain_black_24dp,
+          R.drawable.ic_home_black_24dp,
+          R.drawable.ic_business_center_black_24dp,
+          R.drawable.ic_business_proof_24,
+          R.drawable.ic_business_add_proof2_24,
+          R.drawable.ic_account_bank_24dp,
+          R.drawable.ic_person_pin_black_24dp,
+          R.drawable.ic_person_pin_black_24dp,
+          R.drawable.ic_person_pin_black_24dp,
+          R.drawable.ic_person_pin_black_24dp,
+          R.drawable.ic_person_pin_black_24dp,
+          R.drawable.ic_person_pin_black_24dp,
+          R.drawable.ic_person_pin_black_24dp,
+          R.drawable.ic_person_pin_black_24dp
+  };
+  public static int[] CO_APPLICANT_TAB_ICONS_NAMES_BUSINESS_EL = {
           R.drawable.ic_fingerprint_24dp,
           R.drawable.ic_person_white_24dp,
           R.drawable.ic_domain_black_24dp,
@@ -1293,7 +1343,9 @@ public class AppConstant {
             SCREEN_NAME_GUARANTOR_DETAILS,
             SCREEN_NAME_CPV,
             SCREEN_NAME_RAMP,
-            SCREEN_NAME_DEDUPE
+            SCREEN_NAME_DEDUPE,
+            SCREEN_NAME_CO_APPLICANT_REGULATORY_FIELDS,
+            SCREEN_NAME_DNCR_APPLICANT
     };
 
     public static String[] CO_APPLICANT_TAB_SCREEN_NUMBERS_IL = {
@@ -1306,7 +1358,10 @@ public class AppConstant {
             SCREEN_NO_CO_APPLICANT_GUARANTOR_EL,
             SCREEN_NO_CPV,
             SCREEN_NO_RAMP,
-            SCREEN_NO_DEDUPE/*,
+            SCREEN_NO_DEDUPE,
+            SCREEN_NO_APPLICANT_REGULATORY_FIELDS,
+            SCREEN_NAME_DNCR_APPLICANT
+            /*,
             SCREEN_NO_DEDUPE,
             SCREEN_NO_RAMP,
             SCREEN_NO_RAT,
@@ -1325,6 +1380,8 @@ public class AppConstant {
             SCREEN_NAME_CPV,
             SCREEN_NAME_RAMP,
             SCREEN_NAME_DEDUPE,
+            SCREEN_NAME_CO_APPLICANT_REGULATORY_FIELDS,
+            SCREEN_NAME_DNCR_APPLICANT
 
     };
 
@@ -1339,6 +1396,8 @@ public class AppConstant {
             SCREEN_NO_CPV,
             SCREEN_NO_RAMP,
             SCREEN_NO_DEDUPE,
+            SCREEN_NO_CO_APPLICANT_REGULATORY_FIELDS,
+            SCREEN_NO_DNCR_APPLICANT
     };
 
     public static int[] CO_APPLICANT_TAB_ICONS_NAMES_EL = {
@@ -1350,11 +1409,11 @@ public class AppConstant {
             R.drawable.ic_person_pin_black_24dp,
             R.drawable.ic_person_pin_black_24dp,
             R.drawable.ic_person_pin_black_24dp,
+            R.drawable.ic_person_pin_black_24dp,
+            R.drawable.ic_person_pin_black_24dp,
+            R.drawable.ic_person_pin_black_24dp,
             R.drawable.ic_person_pin_black_24dp
-
     };
-
-
 
     // TODO: SALARY AHL
     public static String[] SALARY_TAB_SCREEN_NAMES_AHL = {
@@ -1362,7 +1421,6 @@ public class AppConstant {
             SCREEN_NAME_OFFICE_ADDRESS_PROOF,
             SCREEN_NAME_CPV
     };
-
 
     public static String[] REFERENCES_MODULE_SCREEN_NUMBERS_IL = {
             SCREEN_NO_REFERENCES_IL
@@ -1416,6 +1474,9 @@ public class AppConstant {
     public static String[] LOAN_PROPOSAL_MODULE_SCREEN_NAMES_AHL = {
             SCREEN_NAME_LOAN_PROPOSAL
     };
+  public static String[] LOAN_PROPOSAL_MODULE_SCREEN_NAMES_EL = {
+          SCREEN_NAME_LOAN_PROPOSAL
+  };
     public static String[] LOAN_PROPOSAL_MODULE_SCREEN_NUMBERS_PHL = {
             SCREEN_NO_APPLICANT_LOAN_PROPOSAL_EL
     };
@@ -1426,12 +1487,21 @@ public class AppConstant {
     public static String[] DOCUMENTS_MODULE_SCREEN_NAMES_AHL = {
             SCREEN_NAME_DOCUMENT_UPLOAD
     };
+  public static String[] DOCUMENTS_MODULE_SCREEN_NAMES_EL = {
+          SCREEN_NAME_DOCUMENT_UPLOAD
+  };
     public static String[] DOCUMENTS_MODULE_SCREEN_NUMBERS_PHL = {
             SCREEN_N0_DOCUMENT_UPLOAD_PHL
     };
+  public static String[] DOCUMENTS_MODULE_SCREEN_NUMBERS_EL = {
+          SCREEN_N0_DOCUMENT_UPLOAD_EL
+  };
     public static int[] DOCUMENTS_MODULE_ICONS_AHL = {
             R.drawable.ic_collections_black_24dp
     };
+  public static int[] DOCUMENTS_MODULE_ICONS_EL = {
+          R.drawable.ic_collections_black_24dp
+  };
 
     // TODO: OTP VERIFICATION ( common for all loan )
     public static String[] OTP_VERIFICATION_MODULE_SCREEN_NAMES = {
@@ -1534,6 +1604,9 @@ public class AppConstant {
     public static String[] LEAD_TAB_SCREEN_NAMES_AHL = {
             SCREEN_NAME_LEAD
     };
+  public static String[] LEAD_TAB_SCREEN_NAMES_EL = {
+          SCREEN_NAME_LEAD
+  };
     public static String[] LEAD_TAB_SCREEN_NUMBERS_PHL = {
             SCREEN_N0_LEAD_EL
     };
@@ -1611,16 +1684,16 @@ public class AppConstant {
         } else if (screenName.equalsIgnoreCase(SCREEN_NAME_BANK_DETAILS)) {
             fragment = BankDetailsFragment.newInstance(loanType, clientId, projectId, productId, screenNo,
                     SCREEN_NAME_BANK_DETAILS, userId, moduleType);
-        } else if (screenName.equalsIgnoreCase( SCREEN_NAME_STUDENT_DETAILS)) {
+        } else if (screenName.equalsIgnoreCase(SCREEN_NAME_STUDENT_DETAILS)) {
             fragment = StudentDetailsFragment.newInstance(loanType, clientId, projectId, productId, screenNo,
                     SCREEN_NAME_STUDENT_DETAILS, userId, moduleType);
         }else if (screenName.equalsIgnoreCase(SCREEN_NAME_APPLICANT_PAN_DETAILS)) {
             fragment = ApplicantPANDetailsFragment.newInstance(loanType, clientId, projectId, productId, screenNo,
                     SCREEN_NAME_APPLICANT_PAN_DETAILS, userId, moduleType);
-        }else if (screenName.equalsIgnoreCase( SCREEN_NAME_CO_APPLICANT_PAN)) {
+        }else if (screenName.equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_PAN)) {
             fragment = CoApplicantPANDetailsFragment.newInstance(loanType, clientId, projectId, productId, screenNo,
                     SCREEN_NAME_CO_APPLICANT_PAN, userId, moduleType);
-        }else if (screenName.equalsIgnoreCase( SCREEN_NAME_COURSE_DETAILS)) {
+        }else if (screenName.equalsIgnoreCase(SCREEN_NAME_COURSE_DETAILS)) {
             fragment = CourseDetailsFragment.newInstance(loanType, clientId, projectId, productId, screenNo,
                     SCREEN_NAME_COURSE_DETAILS, userId, moduleType);
         } else if (screenName.equalsIgnoreCase(SCREEN_NAME_NOMINEE_DETAIL)) {
@@ -1639,45 +1712,41 @@ public class AppConstant {
             fragment = CoApplicantNomineeDetailFragment.newInstance(loanType, clientId, projectId, productId, screenNo,
                     SCREEN_NAME_COAPPLICANT_NOMINEE_DETAIL, userId, moduleType);
         } else if (screenName.equalsIgnoreCase(SCREEN_NAME_REFERENCE_CHECK)) {
-            fragment = ReferenceCheckFragment.newInstance(loanType, clientId, projectId, productId, screenNo
-                    , SCREEN_NAME_REFERENCE_CHECK, userId, moduleType);
+            fragment = ReferenceCheckFragment.newInstance(loanType, clientId, projectId, productId, screenNo,
+                    SCREEN_NAME_REFERENCE_CHECK, userId, moduleType);
         }else if (screenName.equalsIgnoreCase(SCREEN_NAME_CPV)) {
           fragment = CPVFragment.newInstance(loanType, clientId, projectId, productId, screenNo,
                   SCREEN_NAME_CPV, userId, moduleType);
         }else if (screenName.equalsIgnoreCase(SCREEN_NAME_POSIDEX)) {
-            fragment = PosidexFragment.newInstance(loanType, clientId, projectId, productId, screenNo
-                    , SCREEN_NAME_POSIDEX, userId, moduleType);
+            fragment = PosidexFragment.newInstance(loanType, clientId, projectId, productId, screenNo,
+                    SCREEN_NAME_POSIDEX, userId, moduleType);
         } else if (screenName.equalsIgnoreCase(SCREEN_NAME_DELINQUENCY)) {
-          fragment = DeliquencyFragment.newInstance(loanType, clientId, projectId, productId, screenNo
-                  , SCREEN_NAME_DELINQUENCY, userId, moduleType);
+          fragment = DeliquencyFragment.newInstance(loanType, clientId, projectId, productId, screenNo,
+                  SCREEN_NAME_DELINQUENCY, userId, moduleType);
         }else if (screenName.equalsIgnoreCase(SCREEN_NAME_DEDUPE)) {
-          fragment = DEDUPEFragment.newInstance(loanType, clientId, projectId, productId, screenNo
-                  , SCREEN_NAME_DEDUPE, userId, moduleType);
+          fragment = DEDUPEFragment.newInstance(loanType, clientId, projectId, productId, screenNo,
+                  SCREEN_NAME_DEDUPE, userId, moduleType);
         }else if (screenName.equalsIgnoreCase(SCREEN_NAME_RAMP)) {
-          fragment = RampFragment.newInstance(loanType, clientId, projectId, productId, screenNo
-                  , SCREEN_NAME_RAMP, userId, moduleType);
+          fragment = RampFragment.newInstance(loanType, clientId, projectId, productId, screenNo,
+                  SCREEN_NAME_RAMP, userId, moduleType);
         }else if (screenName.equalsIgnoreCase(SCREEN_NAME_RAT)) {
           fragment = RATFragment.newInstance(loanType, clientId, projectId, productId, screenNo,
                   SCREEN_NAME_RAT, userId, moduleType);
         }else if (screenName.equalsIgnoreCase(SCREEN_NAME_APPLICANT_REGULATORY_FIELDS)) {
           fragment = ApplicantRegulatoryFieldsFragment.newInstance(loanType, clientId, projectId, productId, screenNo,
                   SCREEN_NAME_APPLICANT_REGULATORY_FIELDS, userId, moduleType);
-        }
-        //
-        else if (screenName.equalsIgnoreCase(SCREEN_NAME_DNCR_APPLICANT)) {
+        } else if (screenName.equalsIgnoreCase(SCREEN_NAME_DNCR_APPLICANT)) {
           fragment = DNCRApplicantFragment.newInstance(loanType, clientId, projectId, productId, screenNo,
                   SCREEN_NAME_DNCR_APPLICANT, userId, moduleType);
-        }
-        //
-        else if (screenName.equalsIgnoreCase(SCREEN_NAME_DOCUMENT_UPLOAD)) {
+        } else if (screenName.equalsIgnoreCase(SCREEN_NAME_DOCUMENT_UPLOAD)) {
             fragment = DocumentUploadFragmentNew.newInstance(loanType, clientId, projectId, productId, screenNo,
                     SCREEN_NAME_DOCUMENT_UPLOAD, userId, moduleType);
         } else if (screenName.equalsIgnoreCase(SCREEN_NAME_OTP_VERIFICATION)) {
             fragment = OTPVerificationFragment.newInstance(loanType, clientId, projectId, productId, screenNo,
                     SCREEN_NAME_OTP_VERIFICATION, userId, moduleType);
         }else if (screenName.equalsIgnoreCase(SCREEN_NAME_HUNTER)) {
-          fragment = HunterFragment.newInstance(loanType, clientId, projectId, productId, screenNo
-                  , SCREEN_NAME_HUNTER, userId, moduleType);
+          fragment = HunterFragment.newInstance(loanType, clientId, projectId, productId, screenNo,
+                  SCREEN_NAME_HUNTER, userId, moduleType);
         }else if (screenName.equalsIgnoreCase(SCREEN_NAME_GENERATE_CIBIL)) {
             fragment = GenerateCIBILFragment.newInstance(loanType, clientId, projectId, productId, screenNo,
                     SCREEN_NAME_OTP_VERIFICATION, userId, moduleType);
@@ -1696,7 +1765,6 @@ public class AppConstant {
         } else if (screenName.equalsIgnoreCase(SCREEN_NAME_BALANCE_SHEET)) {
             fragment = BusinessLiabilitiesFragment.newInstance(loanType, clientId, projectId, productId, screenNo,
                     SCREEN_NAME_BALANCE_SHEET, userId, moduleType);
-
         } else if (loanType.equalsIgnoreCase(LOAN_NAME_INDIVIDUAL) && screenName.equalsIgnoreCase(SCREEN_NAME_HOUSE_ASSETS)) {
             fragment = HouseAssetsFragment.newInstance(loanType, clientId, projectId, productId, screenNo,
                     SCREEN_NAME_HOUSE_ASSETS, userId, moduleType);
@@ -1785,16 +1853,11 @@ public class AppConstant {
             fragment = LeadSummaryFragment.newInstance(loanType, clientId, projectId, productId, screenNo, SCREEN_NAME_LEAD, userId, moduleType);
         }else if (screenName.equalsIgnoreCase(SCREEN_NAME_SALES_TOOL)&& loanType.equalsIgnoreCase(LOAN_NAME_MSME)) {
             fragment = SalesToolFragment.newInstance(loanType, clientId, projectId, productId, screenNo, SCREEN_NAME_SALES_TOOL, userId, moduleType);
-        }
-        else if (screenName.equalsIgnoreCase(SCREEN_NAME_LEAD)&& loanType.equalsIgnoreCase(LOAN_NAME_PHL))
-        {
+        } else if (screenName.equalsIgnoreCase(SCREEN_NAME_LEAD)&& loanType.equalsIgnoreCase(LOAN_NAME_PHL)) {
             fragment = LeadSummaryFragment.newInstance(loanType, clientId, projectId, productId, screenNo, SCREEN_NAME_LEAD, userId, moduleType);
-        }else if (screenName.equalsIgnoreCase(SCREEN_NAME_LEAD)&& loanType.equalsIgnoreCase(LOAN_NAME_EL))
-        {
+        }else if (screenName.equalsIgnoreCase(SCREEN_NAME_LEAD)&& loanType.equalsIgnoreCase(LOAN_NAME_EL)) {
             fragment = LeadSummaryFragment.newInstance(loanType, clientId, projectId, productId, screenNo, SCREEN_NAME_LEAD, userId, moduleType);
-        }
-        else if (screenName.equalsIgnoreCase(SCREEN_NAME_LEAD)&& loanType.equalsIgnoreCase(LOAN_NAME_AHL))
-        {
+        } else if (screenName.equalsIgnoreCase(SCREEN_NAME_LEAD)&& loanType.equalsIgnoreCase(LOAN_NAME_AHL)) {
             fragment = LeadSummaryFragment.newInstance(loanType, clientId, projectId, productId, screenNo, SCREEN_NAME_LEAD, userId, moduleType);
         } else if (screenName.equalsIgnoreCase(SCREEN_NAME_LEAD)&& loanType.equalsIgnoreCase(LOAN_NAME_INDIVIDUAL)) {
             fragment = LeadFragment.newInstance(loanType, clientId, projectId, productId, screenNo, SCREEN_NAME_LEAD, userId, moduleType);
@@ -1812,7 +1875,12 @@ public class AppConstant {
         }else if (screenName.equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_REGULATORY_FIELDS)) {
             fragment = CoApplicantRegulatoryFieldsFragment.newInstance(loanType, clientId, projectId, productId,
                     screenNo, SCREEN_NAME_CO_APPLICANT_REGULATORY_FIELDS, userId, moduleType);
-        } else if (screenName.equalsIgnoreCase(SCREEN_NAME_GENERAL_INCOME)) {
+        }else if (screenName.equalsIgnoreCase(SCREEN_NAME_DNCR_APPLICANT)) {
+          fragment = DNCRApplicantFragment.newInstance(loanType, clientId, projectId, productId, screenNo,
+                  SCREEN_NAME_DNCR_APPLICANT, userId, moduleType);
+        }
+        // ----------------CO APPLICANT FRAGMENTS---------ABOVE
+        else if (screenName.equalsIgnoreCase(SCREEN_NAME_GENERAL_INCOME)) {
             fragment = GeneralIncomeFragment.newInstance(loanType, clientId, projectId, productId,
                     screenNo, screenName, userId, moduleType);
         } else if (screenName.equalsIgnoreCase(SCREEN_NAME_OTHER_INCOME_SOURCE)) {
@@ -1887,17 +1955,8 @@ public class AppConstant {
         } else if (loanType.equalsIgnoreCase(LOAN_NAME_MSME) && screenName.equalsIgnoreCase(SCREEN_NAME_INCOME_ASSESSMENT_SUMMARY_MSME)) {
             fragment = IncomeAssessmentSummaryMsmeFragment.newInstance(loanType, clientId, projectId, productId,
                     screenNo, screenName, userId, moduleType);
-        } else if (loanType.equalsIgnoreCase(LOAN_NAME_MSME) && screenName.equalsIgnoreCase(SCREEN_NAME_MORTGAGE_MSME)) {
-            fragment = MortgageMSMEFragment.newInstance(loanType, clientId, projectId, productId,
-                    screenNo, screenName, userId, moduleType);
         } else if (loanType.equalsIgnoreCase(LOAN_NAME_MSME) && screenName.equalsIgnoreCase(SCREEN_NAME_LOAN_INFORMATION_MSME)) {
             fragment = LoanInformationMsmeFragment.newInstance(loanType, clientId, projectId, productId,
-                    screenNo, screenName, userId, moduleType);
-        } else if (loanType.equalsIgnoreCase(LOAN_NAME_MSME) && screenName.equalsIgnoreCase(SCREEN_NAME_SUBJECT_TO_CONDITIONS_MSME)) {
-            fragment = SubjectToConditionsMsmeFragment.newInstance(loanType, clientId, projectId, productId,
-                    screenNo, screenName, userId, moduleType);
-        } else if (loanType.equalsIgnoreCase(LOAN_NAME_MSME) && screenName.equalsIgnoreCase(SCREEN_NAME_HYPOTHECATION_MSME)) {
-            fragment = HypothecationMsmeFragment.newInstance(loanType, clientId, projectId, productId,
                     screenNo, screenName, userId, moduleType);
         } else if (loanType.equalsIgnoreCase(LOAN_NAME_MSME) && screenName.equalsIgnoreCase(SCREEN_NAME_CASH_FLOW_SUMMARY_MSME)) {
             fragment = CashFlowSummaryMSMEFragment.newInstance(loanType, clientId, projectId, productId,
@@ -1905,23 +1964,20 @@ public class AppConstant {
         } else if (loanType.equalsIgnoreCase(LOAN_NAME_MSME) && screenName.equalsIgnoreCase(SCREEN_NAME_LOAN_APPROVAL_MSME)) {
             fragment = LoanApprovalMSMEFragment.newInstance(loanType, clientId, projectId, productId,
                     screenNo, screenName, userId, moduleType);
-        } else if (loanType.equalsIgnoreCase(LOAN_NAME_JLG) && screenName.equalsIgnoreCase(SCREEN_NAME_VILLAGE_SURVEY)) {
-            fragment = VillageSurveyFragment.newInstance(loanType, clientId, projectId, productId,
-                    screenNo, screenName, userId, moduleType);
-        }else if (loanType.equalsIgnoreCase(LOAN_NAME_JLG) && screenName.equalsIgnoreCase(SCREEN_NAME_CENTER_CREATION)) {
-            fragment = CenterCreationFragment.newInstance(loanType, clientId, projectId, productId,
-                    screenNo, screenName, userId, moduleType);
+        } else if (loanType.equalsIgnoreCase(LOAN_NAME_EL) && screenName.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) {
+          fragment = GuarantorDetailsFragment.newInstance(loanType, clientId, projectId, productId,
+                  screenNo, screenName, userId, moduleType);
         }
         return fragment;
     }
 
     public static ScreenDetailsDTO getScreenDetailsByScreenId(String screenId, String moduleType){
-        ScreenDetailsDTO screenDetailsDTO=null;
+        ScreenDetailsDTO screenDetailsDTO = null;
         try{
             if( TextUtils.isEmpty(screenId)){
                 return screenDetailsDTO;
             }else {
-                screenDetailsDTO=new ScreenDetailsDTO();
+                screenDetailsDTO = new ScreenDetailsDTO();
             }
 
             if(screenId.equalsIgnoreCase(SCREEN_NO_APPLICANT_KYC_IL)){
@@ -1998,12 +2054,18 @@ public class AppConstant {
                 screenDetailsDTO.setScreenName(SCREEN_NAME_CO_APPLICANT_REGULATORY_FIELDS);
                 screenDetailsDTO.setProductId(PRODUCT_ID_IL);
                 screenDetailsDTO.setModuleType(MODULE_TYPE_CO_APPLICANT);
-            } /*else if(screenId.equalsIgnoreCase(SCREEN_NO_CO_APPLICANT_GUARANTOR_EL)) {
+            } else if(screenId.equalsIgnoreCase(SCREEN_NO_CO_APPLICANT_GUARANTOR_EL)) {
               screenDetailsDTO.setScreenId(screenId);
               screenDetailsDTO.setScreenName(SCREEN_NAME_GUARANTOR_DETAILS);
               screenDetailsDTO.setProductId(PRODUCT_ID_EL);
               screenDetailsDTO.setModuleType(MODULE_TYPE_CO_APPLICANT);
-            }*/
+              screenDetailsDTO.setModuleType("CoApplicant 1");
+            }else if(screenId.equalsIgnoreCase(SCREEN_NO_DNCR_APPLICANT)){
+              screenDetailsDTO.setScreenId(screenId);
+              screenDetailsDTO.setScreenName(SCREEN_NAME_DNCR_APPLICANT);
+              screenDetailsDTO.setProductId(PRODUCT_ID_IL);
+              screenDetailsDTO.setModuleType(MODULE_TYPE_CO_APPLICANT);
+            }
 
             // TODO: BUSINESS PROOF IL
             else if(screenId.equalsIgnoreCase(SCREEN_NO_BUSINESS_PROFILE_IL)){
@@ -2034,7 +2096,7 @@ public class AppConstant {
               screenDetailsDTO.setScreenId(screenId);
               screenDetailsDTO.setScreenName(SCREEN_NAME_CO_APPLICANT_KYC);
               screenDetailsDTO.setProductId(PRODUCT_ID_TWL);
-              screenDetailsDTO.setModuleType("CoApplicant1");
+              screenDetailsDTO.setModuleType("CoApplicant 1");
             }
 ///////EL product Condition/////////////////
             else if (screenId.equalsIgnoreCase(SCREEN_NO_APPLICANT_KYC_EL)) {
@@ -2048,11 +2110,11 @@ public class AppConstant {
               screenDetailsDTO.setScreenId(screenId);
               screenDetailsDTO.setScreenName(SCREEN_NAME_CO_APPLICANT_KYC);
               screenDetailsDTO.setProductId(PRODUCT_ID_EL);
-              screenDetailsDTO.setModuleType("CoApplicant1");
+              screenDetailsDTO.setModuleType("CoApplicant 1");
             }
           //END tusar added this code
 
-            // TODO: LOAN PROPOSAL WOTH NOMINEE DETAILS
+            // TODO: LOAN PROPOSAL WITH NOMINEE DETAILS
 
             if(screenId.equalsIgnoreCase(SCREEN_NO_LOAN_PROPOSAL_IL)){
                 screenDetailsDTO.setScreenId(screenId);
@@ -2073,10 +2135,7 @@ public class AppConstant {
                 screenDetailsDTO.setProductId(PRODUCT_ID_IL);
                 screenDetailsDTO.setModuleType(MODULE_TYPE_DOCUMENTS);
             }
-
-
             // TODO: MSME screens
-
             if(screenId.equalsIgnoreCase(SCREEN_NO_APPLICANT_KYC_MSME)){
                 screenDetailsDTO.setScreenId(screenId);
                 screenDetailsDTO.setScreenName(SCREEN_NAME_APPLICANT_KYC);
@@ -2180,7 +2239,6 @@ public class AppConstant {
 
 
             // TODO: JLG screens
-
             if(screenId.equalsIgnoreCase(SCREEN_NO_APPLICANT_KYC_JLG)){
                 screenDetailsDTO.setScreenId(screenId);
                 screenDetailsDTO.setScreenName(SCREEN_NAME_APPLICANT_KYC);
@@ -2198,8 +2256,7 @@ public class AppConstant {
                 screenDetailsDTO.setModuleType(MODULE_TYPE_APPLICANT);
             }
 
-            // TODO: LOAN PROPOSAL WOTH NOMINEE DETAILS JLG
-
+            // TODO: LOAN PROPOSAL WITH NOMINEE DETAILS JLG
             if(screenId.equalsIgnoreCase(SCREEN_NO_APPLICANT_LOAN_PROPOSAL_JLG)){
                 screenDetailsDTO.setScreenId(screenId);
                 screenDetailsDTO.setScreenName(SCREEN_NAME_APPLICANT_LOAN_PROPOSAL);

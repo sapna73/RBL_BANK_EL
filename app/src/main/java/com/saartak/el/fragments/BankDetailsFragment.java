@@ -100,7 +100,7 @@ public class BankDetailsFragment extends LOSBaseFragment implements LOSBaseFragm
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mRootView=(FrameLayout) inflater.inflate(R.layout.fragment_common_layout, container, false);
+        mRootView = (FrameLayout) inflater.inflate(R.layout.fragment_common_layout, container, false);
         return mRootView;
     }
 
@@ -137,7 +137,6 @@ public class BankDetailsFragment extends LOSBaseFragment implements LOSBaseFragm
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
@@ -208,7 +207,7 @@ public class BankDetailsFragment extends LOSBaseFragment implements LOSBaseFragm
         return this;
     }
 
-    public void getRawData(String screen,List<DynamicUITable> list) {
+    public void getRawData(String screen, List<DynamicUITable> list) {
         ArrayList<HashMap<String,Object>> hashMapList=new ArrayList<>();
         try {
             viewModel.getRawData(screen,CLIENT_ID,MODULE_TYPE);
@@ -224,7 +223,7 @@ public class BankDetailsFragment extends LOSBaseFragment implements LOSBaseFragm
                                 hashMapList.add(hashMap);
                             }
                             Log.d(TAG,"HashMapList ==> "+hashMapList.toString());
-                            if(hashMapList !=null && hashMapList.size()>0){
+                            if(hashMapList != null && hashMapList.size()>0){
                                 // TODO: Already saved data
                                 HashMap<String,Object> hashMap=hashMapList.get(0);
                                 if(hashMap!=null && hashMap.size()>0){
@@ -247,13 +246,18 @@ public class BankDetailsFragment extends LOSBaseFragment implements LOSBaseFragm
                                         }
                                     }
 
-                                    updateDynamicUITable(list,SCREEN_ID);
+                                    updateDynamicUITable(list, SCREEN_ID);
                                 }
-                            }else{
+                                else{
+                                    updateUI(list);
+                                }
+                            }
+                            else{
                                 // TODO: Fresh Data
                                 updateUI(list);
                             }
-                        }else{
+                        }
+                        else{
                             // TODO: Fresh Data
                             updateUI(list);
                         }
@@ -265,5 +269,4 @@ public class BankDetailsFragment extends LOSBaseFragment implements LOSBaseFragm
             ex.printStackTrace();
         }
     }
-
 }

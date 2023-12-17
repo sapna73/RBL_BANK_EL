@@ -131,5 +131,4 @@ Context context;
         textView.setTypeface(textView.getTypeface(), Typeface.BOLD);
         textView.setLayoutParams(params);
     }
-
 }

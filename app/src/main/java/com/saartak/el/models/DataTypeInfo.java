@@ -10,8 +10,14 @@ import static com.saartak.el.dynamicui.constants.ParametersConstant.DATATYPE_NUM
 import static com.saartak.el.dynamicui.constants.ParametersConstant.DATATYPE_STRING;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.SPINNER_ITEM_FIELD_NAME_VOTER_ID;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_KYC_TYPE_AADHAAR;
+import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_KYC_TYPE_ADDRESS_ELECTRICITY_BILL;
+import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_KYC_TYPE_ADDRESS_GST;
+import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_KYC_TYPE_ADDRESS_JOB_CARD_NREGA;
+import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_KYC_TYPE_ADDRESS_SHOP_ESTABLISHMENT_ACT;
+import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_KYC_TYPE_ADDRESS_UTILITY_BILL;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_KYC_TYPE_AUTHORIZED_SIGNATURE_PROOF;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_KYC_TYPE_BANKPASSBOOK;
+import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_KYC_TYPE_BANK_STATEMENT;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_KYC_TYPE_BANK_STATEMENT_WITH_PASSBOOK;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_KYC_TYPE_DEEMED_OVD;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_KYC_TYPE_DRIVINGLICENSE;
@@ -95,7 +101,13 @@ public class DataTypeInfo {
             "RBL Reference ID",
             "Authorized Signature Proof",
             "Deemed OVD",
-            "UIDAI Eligible Documents"
+            "UIDAI Eligible Documents",
+            "Job Card issued by NREGA",
+            "Shop Establishment Act",
+            "GST",
+            "Electricity Bill",
+            "Bank Statement",
+            "Utility Bill",
     };
     String[] HintTagArray = {
             TAG_NAME_KYC_TYPE_AADHAAR,
@@ -114,7 +126,13 @@ public class DataTypeInfo {
             TAG_NAME_KYC_TYPE_RBL_REFERENCE_ID,
             TAG_NAME_KYC_TYPE_AUTHORIZED_SIGNATURE_PROOF,
             TAG_NAME_KYC_TYPE_DEEMED_OVD,
-            TAG_NAME_KYC_TYPE_UIDAI_ELIGIBLE_DOCUMENTS
+            TAG_NAME_KYC_TYPE_UIDAI_ELIGIBLE_DOCUMENTS,
+            TAG_NAME_KYC_TYPE_ADDRESS_JOB_CARD_NREGA,
+            TAG_NAME_KYC_TYPE_ADDRESS_SHOP_ESTABLISHMENT_ACT,
+            TAG_NAME_KYC_TYPE_ADDRESS_GST,
+            TAG_NAME_KYC_TYPE_ADDRESS_ELECTRICITY_BILL,
+            TAG_NAME_KYC_TYPE_BANK_STATEMENT,
+            TAG_NAME_KYC_TYPE_ADDRESS_UTILITY_BILL
     };
     String[] HintArray = {
             "Enter Aadhaar",
@@ -134,6 +152,12 @@ public class DataTypeInfo {
             "Enter Authorized Signature Proof",
             "Enter Deemed OVD",
             "Enter UIDAI Eligible Documents",
+            "Enter Job Card issued by NREGA",
+            "Enter Shop Establishment Act",
+            "Enter GST",
+            "Enter Electricity Bill",
+            "Enter Bank Statement",
+            "Enter Utility Bill"
     };
     // TODO: 09-04-2019 needs to check proper length
     String[] LengthArray = {
@@ -153,7 +177,13 @@ public class DataTypeInfo {
             "20",
             "20",
             "20",
-            "20"
+            "20",
+            "40",
+            "40",
+            "40",
+            "40",
+            "40",
+            "40"
     };
 
     String[] InputTypeArray = {
@@ -173,6 +203,12 @@ public class DataTypeInfo {
             DATATYPE_STRING,
             DATATYPE_STRING,
             DATATYPE_STRING,
+            DATATYPE_STRING,
+            DATATYPE_STRING,
+            DATATYPE_STRING,
+            DATATYPE_STRING,
+            DATATYPE_STRING,
+            DATATYPE_STRING,
             DATATYPE_STRING
     };
     int[] DataEntryTypeArray = {
@@ -185,6 +221,12 @@ public class DataTypeInfo {
             DATATYPE_ALPHA_NUMERIC,
             DATATYPE_ALPHA_NUMERIC,
             DATATYPE_NUMERIC,
+            DATATYPE_ALPHA_NUMERIC,
+            DATATYPE_ALPHA_NUMERIC,
+            DATATYPE_ALPHA_NUMERIC,
+            DATATYPE_ALPHA_NUMERIC,
+            DATATYPE_ALPHA_NUMERIC,
+            DATATYPE_ALPHA_NUMERIC,
             DATATYPE_ALPHA_NUMERIC,
             DATATYPE_ALPHA_NUMERIC,
             DATATYPE_ALPHA_NUMERIC,

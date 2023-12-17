@@ -14,6 +14,7 @@ public class AppConstants {
     public static final String REGEX_PATTERN_LAND_LINE_NUMBER = "((\\+*)((0[ -]+)*|(91 )*)(\\d{12}+|\\d{10}+))|\\d{5}([- ]*)\\d{6}";
     public static final String EMAIL_VALIDATION_PATTERN = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,4})$";
 
+
     public static final String REGEX_PATTERN_PANCARD = "[A-Za-z]{5}[0-9]{4}[A-Za-z]{1}";
     public static final String REGEX_PATTERN_PASSPORT = "(([a-zA-Z]{1})\\d{7})";
     public static final String REGEX_PATTERN_VOTERID = "[A-Za-z]{3}[0-9]{7}";

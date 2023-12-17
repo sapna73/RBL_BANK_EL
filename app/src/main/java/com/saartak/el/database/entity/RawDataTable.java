@@ -99,7 +99,6 @@ public class RawDataTable {
     public RawDataTable(){
 
     }
-
     public RawDataTable(/*int id,*/ String rawdata, String screen_no, String screen_name,
                                     String additional, String client_id,String loan_type,String user_id,String moduleType,String coRelationID) {
 //        this.id = id;
@@ -113,7 +112,6 @@ public class RawDataTable {
         this.moduleType=moduleType;
         this.CoRelationID=coRelationID;
     }
-
     public String getModuleType() {
         return moduleType;
     }
@@ -133,7 +131,6 @@ public class RawDataTable {
     public String getTag_name() {
         return tag_name;
     }
-
     public void setTag_name(String tag_name) {
         this.tag_name = tag_name;
     }

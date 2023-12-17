@@ -46,7 +46,6 @@ import static com.saartak.el.constants.AppConstant.SCREEN_NAME_LOAN_SUGGESTION_M
 import static com.saartak.el.constants.AppConstant.SCREEN_NAME_RECEIVABLES_BUSINESS_ASSETS_MSME;
 import static com.saartak.el.constants.AppConstant.SCREEN_NAME_SAVINGS_CHITS_BUSINESS_ASSETS_MSME;
 
-
 public class ChildFragment extends LOSBaseFragment implements LOSBaseFragment.DynamiUIinterfacce, HasSupportFragmentInjector {
     private static final String TAG = ChildFragment.class.getCanonicalName();
     // TODO: Rename parameter arguments, choose names that match
@@ -101,7 +100,6 @@ public class ChildFragment extends LOSBaseFragment implements LOSBaseFragment.Dy
         }
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -115,7 +113,6 @@ public class ChildFragment extends LOSBaseFragment implements LOSBaseFragment.Dy
         ll = (LinearLayout) view.findViewById(R.id.ll_child);
         setDynamiUIinterfacce(ChildFragment.this);
     }
-
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -133,7 +130,6 @@ public class ChildFragment extends LOSBaseFragment implements LOSBaseFragment.Dy
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
@@ -154,7 +150,6 @@ public class ChildFragment extends LOSBaseFragment implements LOSBaseFragment.Dy
 
     }
 
-
     // -----------------
     // CONFIGURATION
     // -----------------
@@ -162,7 +157,6 @@ public class ChildFragment extends LOSBaseFragment implements LOSBaseFragment.Dy
     public void configureDagger() {
         AndroidSupportInjection.inject(this);
     }
-
 
     public void configureViewModel() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(DynamicUIViewModel.class);
@@ -219,7 +213,6 @@ public class ChildFragment extends LOSBaseFragment implements LOSBaseFragment.Dy
         }
     }
 
-
     // -----------------
     // UPDATE UI
     // -----------------
@@ -229,7 +222,6 @@ public class ChildFragment extends LOSBaseFragment implements LOSBaseFragment.Dy
             dynamicUI(dynamicUITable);
         }
     }
-
 
     @Override
     public Fragment getFragment() {
@@ -282,8 +274,9 @@ public class ChildFragment extends LOSBaseFragment implements LOSBaseFragment.Dy
 //                        DynamicUITable dynamicUITable = dynamicUITableListFromDB.get(dynamicUITableListFromDB.size() - 1);
                         DynamicUITable dynamicUITable = dynamicUITableListFromDB.get(0);//did
 
-                        final RawDataTable rawDataTable = new RawDataTable(submittedValues, dynamicUITable.getScreenID()
-                                , dynamicUITable.getScreenName(), "", dynamicUITable.getClientID(),
+                        final RawDataTable rawDataTable = new RawDataTable(submittedValues, dynamicUITable.getScreenID(),
+
+                                dynamicUITable.getScreenName(), "", dynamicUITable.getClientID(),
                                 dynamicUITable.getLoanType(), dynamicUITable.getUser_id(),
                                 dynamicUITable.getModuleType(),dynamicUITable.getCoRelationID());
 
@@ -301,5 +294,4 @@ public class ChildFragment extends LOSBaseFragment implements LOSBaseFragment.Dy
             ex.printStackTrace();
         }
     }
-
 }

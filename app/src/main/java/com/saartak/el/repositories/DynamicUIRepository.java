@@ -402,9 +402,7 @@ public class DynamicUIRepository {
                                                                         break;
                                                                     }
                                                                 }
-
                                                             }
-
                                                         }
                                                     }
                                                 }
@@ -1168,7 +1166,6 @@ public class DynamicUIRepository {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
         return finalBitmap;
     }
 
@@ -1410,7 +1407,6 @@ public class DynamicUIRepository {
         return data;
     }
 
-
     // TODO: VERIFY OTP SERVICE CALL
     public LiveData<OTPVerifyResponseDTO> verifyOTP(OTPVerifyDTO otpVerifyDTO, OTPVerificationTable otpVerificationTable) {
         final MutableLiveData<OTPVerifyResponseDTO> data = new MutableLiveData<>();
@@ -1484,7 +1480,7 @@ public class DynamicUIRepository {
                     } else if (!TextUtils.isEmpty(loanType) && loanType.equalsIgnoreCase(LOAN_NAME_PHL)) {
                         screenId = SCREEN_N0_DOCUMENT_UPLOAD_PHL;
                     } else if (!TextUtils.isEmpty(loanType) && loanType.equalsIgnoreCase(LOAN_NAME_EL)) {
-                        screenId = SCREEN_N0_DOCUMENT_UPLOAD_PHL;
+                        screenId = SCREEN_N0_DOCUMENT_UPLOAD_EL;
                     } else if (!TextUtils.isEmpty(loanType) && loanType.equalsIgnoreCase(LOAN_NAME_TWL)) {
                         screenId = SCREEN_N0_DOCUMENT_UPLOAD_PHL;
                     } else {
@@ -1747,9 +1743,7 @@ public class DynamicUIRepository {
 
                                                                     // TODO:Get Document Upload Header
                                                                     DocumentUploadTableNew documentUploadTableNewHeader = dynamicUIDao.
-                                                                            getDocumentHeaderByFileFormatAndClientId(fileFormat,
-                                                                                    clientId, true);
-
+                                                                            getDocumentHeaderByFileFormatAndClientId(fileFormat, clientId, true);
 
                                                                     if (documentUploadTableNewHeader != null) {
                                                                         DocumentUploadTableNew documentUploadTableNewImage = new DocumentUploadTableNew();
@@ -1771,10 +1765,7 @@ public class DynamicUIRepository {
                                                                         documentUploadTableNewImage.setProduct_id(documentUploadTableNewHeader.getProduct_id());
                                                                         documentUploadTableNewImage.setFile_name(fileName);
                                                                         documentUploadTableNewImage.setFile_path(filePath);
-
-
                                                                         documentList.add(documentUploadTableNewImage);
-
                                                                     }
 
                                                                 } catch (Exception ex) {
@@ -1804,8 +1795,7 @@ public class DynamicUIRepository {
                                                              }
 
                                                              // TODO: Updating Status And Response Message
-                                                             dynamicUIDao.updateDocumentResponseAndStatusByClientId(SUCCESS_RESPONSE_MESSAGE,
-                                                                     true, clientId);
+                                                             dynamicUIDao.updateDocumentResponseAndStatusByClientId(SUCCESS_RESPONSE_MESSAGE, true, clientId);
 
                                                              if (!TextUtils.isEmpty(documentUploadTableNewList.get(0).getLoan_type()) && documentUploadTableNewList.get(0).getLoan_type().equalsIgnoreCase(LOAN_NAME_AHL)) {
                                                                  // TODO: Insert or Update Document Upload Raw Data
@@ -1817,13 +1807,38 @@ public class DynamicUIRepository {
                                                                          documentUploadTableNewList);
                                                              } else if (!TextUtils.isEmpty(documentUploadTableNewList.get(0).getLoan_type()) && documentUploadTableNewList.get(0).getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)) {
                                                                  // TODO: Insert or Update Document Upload Raw Data
-                                                                 insertDocumentRawData(SCREEN_N0_DOCUMENT_UPLOAD_PHL, documentUploadTableNewList.get(0),
+                                                                 insertDocumentRawData(SCREEN_N0_DOCUMENT_UPLOAD_EL, documentUploadTableNewList.get(0),
                                                                          documentUploadTableNewList);
                                                              } else if (!TextUtils.isEmpty(documentUploadTableNewList.get(0).getLoan_type()) && documentUploadTableNewList.get(0).getLoan_type().equalsIgnoreCase(LOAN_NAME_TWL)) {
                                                                  // TODO: Insert or Update Document Upload Raw Data
                                                                  insertDocumentRawData(SCREEN_N0_DOCUMENT_UPLOAD_PHL, documentUploadTableNewList.get(0),
                                                                          documentUploadTableNewList);
-                                                             } else {
+                                                             } else if (!TextUtils.isEmpty(documentUploadTableNewList.get(0).getLoan_type()) && documentUploadTableNewList.get(0).getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)) {
+                                                                 // TODO: Insert or Update Document Upload Raw Data
+                                                                 insertDocumentRawData(SCREEN_N0_DOCUMENT_UPLOAD_EL, documentUploadTableNewList.get(0),
+                                                                         documentUploadTableNewList);
+                                                             }
+                                                             else if (!TextUtils.isEmpty(documentUploadTableNewList.get(0).getLoan_type()) && documentUploadTableNewList.get(0).getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)) {
+                                                                 // TODO: Insert or Update Document Upload Raw Data
+                                                                 insertDocumentRawData(SCREEN_N0_DOCUMENT_UPLOAD_EL, documentUploadTableNewList.get(0),
+                                                                         documentUploadTableNewList);
+                                                             }
+                                                             else if (!TextUtils.isEmpty(documentUploadTableNewList.get(0).getLoan_type()) && documentUploadTableNewList.get(0).getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)) {
+                                                                 // TODO: Insert or Update Document Upload Raw Data
+                                                                 insertDocumentRawData(SCREEN_N0_DOCUMENT_UPLOAD_EL, documentUploadTableNewList.get(0),
+                                                                         documentUploadTableNewList);
+                                                             }
+                                                             else if (!TextUtils.isEmpty(documentUploadTableNewList.get(0).getLoan_type()) && documentUploadTableNewList.get(0).getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)) {
+                                                                 // TODO: Insert or Update Document Upload Raw Data
+                                                                 insertDocumentRawData(SCREEN_N0_DOCUMENT_UPLOAD_EL, documentUploadTableNewList.get(0),
+                                                                         documentUploadTableNewList);
+                                                             }
+                                                             else if (!TextUtils.isEmpty(documentUploadTableNewList.get(0).getLoan_type()) && documentUploadTableNewList.get(0).getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)) {
+                                                                 // TODO: Insert or Update Document Upload Raw Data
+                                                                 insertDocumentRawData(SCREEN_N0_DOCUMENT_UPLOAD_EL, documentUploadTableNewList.get(0),
+                                                                         documentUploadTableNewList);
+                                                             }
+                                                             else {
                                                                  // TODO: Insert or Update Document Upload Raw Data
                                                                  insertDocumentRawData(SCREEN_N0_DOCUMENT_UPLOAD_PHL, documentUploadTableNewList.get(0), documentUploadTableNewList);
                                                              }
@@ -1871,7 +1886,6 @@ public class DynamicUIRepository {
         }
         return data;
     }
-
 
     // TODO: VERIFY OTP SERVICE CALL
     public LiveData<ResponseBody> downloadDocumentsForKnowledgeBank(KnowledgeBankTable knowledgeBankTable) {
@@ -1943,8 +1957,7 @@ public class DynamicUIRepository {
                                 String raws = table.getRwas();
                                 if (!TextUtils.isEmpty(raws)) {
                                     try {
-                                        List<DocumentUploadRawdataResponseDTO> documentRawDataResponseDTOList = new Gson().fromJson(raws
-                                                , type);
+                                        List<DocumentUploadRawdataResponseDTO> documentRawDataResponseDTOList = new Gson().fromJson(raws, type);
                                         if (documentRawDataResponseDTOList != null && documentRawDataResponseDTOList.size() > 0) {
                                             for (DocumentUploadRawdataResponseDTO rawDataResponseDTO : documentRawDataResponseDTOList) {
                                                 if (rawDataResponseDTO != null && rawDataResponseDTO.getFILES() != null &&
@@ -2012,7 +2025,6 @@ public class DynamicUIRepository {
                                                                             getDocumentHeaderByFileFormatAndClientId(fileFormat,
                                                                                     clientId, true);
 
-
                                                                     if (documentUploadTableNewHeader != null) {
                                                                         DocumentUploadTableNew documentUploadTableNewImage = new DocumentUploadTableNew();
 
@@ -2034,9 +2046,7 @@ public class DynamicUIRepository {
                                                                         documentUploadTableNewImage.setFile_name(fileName);
                                                                         documentUploadTableNewImage.setFile_path(filePath);
 
-
                                                                         documentList.add(documentUploadTableNewImage);
-
                                                                     }
                                                                 } catch (Exception ex) {
                                                                     ex.printStackTrace();
@@ -2078,7 +2088,7 @@ public class DynamicUIRepository {
                                                                          documentUploadTableNewList);
                                                              } else if (!TextUtils.isEmpty(documentUploadTableNewList.get(0).getLoan_type()) && documentUploadTableNewList.get(0).getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)) {
                                                                  // TODO: Insert or Update Document Upload Raw Data
-                                                                 insertDocumentRawData(SCREEN_N0_DOCUMENT_UPLOAD_PHL, documentUploadTableNewList.get(0),
+                                                                 insertDocumentRawData(SCREEN_N0_DOCUMENT_UPLOAD_EL, documentUploadTableNewList.get(0),
                                                                          documentUploadTableNewList);
                                                              } else if (!TextUtils.isEmpty(documentUploadTableNewList.get(0).getLoan_type()) && documentUploadTableNewList.get(0).getLoan_type().equalsIgnoreCase(LOAN_NAME_TWL)) {
                                                                  // TODO: Insert or Update Document Upload Raw Data
@@ -2664,7 +2674,6 @@ public class DynamicUIRepository {
 
         return data;
     }
-
     public LiveData<List<FTOverDueCMDTO>> getCMDetailsFromServerForPendingFTOD(String staffId) {
 
         final MutableLiveData<List<FTOverDueCMDTO>> data = new MutableLiveData<>();
@@ -2772,7 +2781,6 @@ public class DynamicUIRepository {
 
         return data;
     }
-
     public LiveData<List<String>> getCenterNamesFromServerForFetchOtherDay(String staffId) {
 
         final MutableLiveData<List<String>> data = new MutableLiveData<>();
@@ -2861,7 +2869,6 @@ public class DynamicUIRepository {
                 insertLog("getCenterMeetingDetailsFromServer", ex.getMessage(), "", "", TAG, "", "", "");
             });
         }
-
         return data;
     }
 
@@ -2946,10 +2953,8 @@ public class DynamicUIRepository {
                 insertLog("getEligibilityDataFromServer", ex.getMessage(), "", "", TAG, "", "", "");
             });
         }
-
         return data;
     }
-
 
     public LiveData<String> getBranchProductFeatureMasterDataFromServer(String userId) {
 
@@ -3045,10 +3050,8 @@ public class DynamicUIRepository {
                 insertLog("getBranchProductFeatureMasterDataFromServer", ex.getMessage(), "", "", TAG, "", "", "");
             });
         }
-
         return data;
     }
-
 
     // TODO: SEND LOG TO SERVER
     public LiveData<String> sendLOGToServer(String staffId) {
@@ -3841,8 +3844,7 @@ public class DynamicUIRepository {
                         if (screenList != null && screenList.size() > 0) {
                             for (String screenNo : screenList) {
                                 if (!TextUtils.isEmpty(screenNo) && !screenNo.equalsIgnoreCase(SCREEN_NO_ZERO)) { // TODO: Screen id should not be zero
-                                    requests.add(service.getMetaDataServer(screenNo, PROJECT_ID_EL
-                                            , productId,
+                                    requests.add(service.getMetaDataServer(screenNo, PROJECT_ID_EL, productId,
                                             appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, "")));
                                 }
                             }
@@ -4118,7 +4120,12 @@ public class DynamicUIRepository {
 
                                                                                          dynamicUITable = getObjectByTAG(TAG_NAME_ADD_ANOTHER_REFERENCE, dynamicUITableListFromDB);
                                                                                          dynamicUITableObjForSelectedItem = getObjectByTAG(TAG_NAME_FULL_NAME, dynamicUITableListFromDB);
-                                                                                     } else if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_BUSINESS_PROOF)) {
+                                                                                     }/*else if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) {
+
+                                                                                         dynamicUITable = getObjectByTAG(TAG_NAME_ADD_ANOTHER_KYC_PLUS_BUTTON, dynamicUITableListFromDB);
+                                                                                         dynamicUITableObjForSelectedItem = getObjectByTAG(TAG_NAME_GUARANTOR_KYC_TYPE, dynamicUITableListFromDB);
+                                                                                     }*/
+                                                                                     else if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_BUSINESS_PROOF)) {
                                                                                          dynamicUITable = getObjectByTAG(TAG_NAME_ADD_ANOTHER_BUSINESS_PROOF_PLUS_BUTTON, dynamicUITableListFromDB);
                                                                                          dynamicUITableObjForSelectedItem = getObjectByTAG(TAG_NAME_BUSINESS_DOCUMENT_PROOF, dynamicUITableListFromDB);
                                                                                      } else if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_BANK_DETAILS)
@@ -4134,11 +4141,9 @@ public class DynamicUIRepository {
                                                                                          // TODO: Insert Raw Data Bag [ dynamicUITableObjForSelectedItem - Multiple data capture screens ]
                                                                                          if (dynamicUITableObjForSelectedItem != null && !TextUtils.isEmpty(dynamicUITableObjForSelectedItem.getValue())) {
                                                                                              RawDataTable rawDataTableToInsert = new RawDataTable(jsonObject.toString(), dynamicUITable.getScreenID(),
-                                                                                                     dynamicUITable.getScreenName(),
-                                                                                                     dynamicUITableObjForSelectedItem.getValue()
-                                                                                                     , dynamicUITable.getClientID(), dynamicUITable.getLoanType(), dynamicUITable.getUser_id()
-                                                                                                     , dynamicUITable.getModuleType()
-                                                                                                     , dynamicUITable.getCoRelationID());
+                                                                                                     dynamicUITable.getScreenName(), dynamicUITableObjForSelectedItem.getValue(),
+                                                                                                     dynamicUITable.getClientID(), dynamicUITable.getLoanType(), dynamicUITable.getUser_id(),
+                                                                                                     dynamicUITable.getModuleType(), dynamicUITable.getCoRelationID());
                                                                                              if (!TextUtils.isEmpty(rawDataTableToInsert.getScreen_name())) {
 
                                                                                                  if (rawDataTableToInsert.getScreen_name().equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC)
@@ -4300,11 +4305,8 @@ public class DynamicUIRepository {
                                                                                              // TODO: Insert Raw Data Bag [ dynamicUITable - single data capture screens ]
 
                                                                                              RawDataTable rawDataTableToInsert = new RawDataTable(jsonObject.toString(), dynamicUITable.getScreenID(),
-                                                                                                     dynamicUITable.getScreenName(),
-                                                                                                     ""
-                                                                                                     , dynamicUITable.getClientID(), dynamicUITable.getLoanType(), dynamicUITable.getUser_id()
-                                                                                                     , dynamicUITable.getModuleType()
-                                                                                                     , dynamicUITable.getCoRelationID());
+                                                                                                     dynamicUITable.getScreenName(), "", dynamicUITable.getClientID(), dynamicUITable.getLoanType(), dynamicUITable.getUser_id(),
+                                                                                                     dynamicUITable.getModuleType(), dynamicUITable.getCoRelationID());
 
                                                                                              if (!TextUtils.isEmpty(rawDataTableToInsert.getScreen_name())) {
 
@@ -4774,7 +4776,6 @@ public class DynamicUIRepository {
                     contactNo = jsonObject.optString(TAG_NAME_CONTACT_NO_1, "");
                 }
                 referenceCheckContactDTO = new ReferenceCheckContactDTO(fullName, contactNo);
-                Log.d("Tusarrr", "refactorRawData:: jsonObject: " + jsonObject);
             } catch (JSONException err) {
                 Log.d("Error", err.toString());
             }
@@ -4927,7 +4928,7 @@ public class DynamicUIRepository {
                                                         masterTableToInsert.setBranchId(branchId);
                                                         masterTableToInsert.setBranchGSTcode(branchGSTCode);
                                                         masterTableToInsert.setCreatedBy(userId); // TODO: STAFF ID
-                                                        masterTableToInsert.setReviewBy(userId); // TODO: STAFF ID
+                                                        masterTableToInsert.setReviewBy(userId);
                                                         masterTableToInsert.setDataNeedsToCaptureFromServer(true);// TODO: data needs to capture true
                                                         ApplicationStatusTable applicationStatusTable = dynamicUIDao.getApplicationStatusByClientId(stageDetailsTable.getCustomerUniqueId());
                                                         if (applicationStatusTable != null && !TextUtils.isEmpty(applicationStatusTable.getClientName())) {
@@ -4970,7 +4971,6 @@ public class DynamicUIRepository {
                                     }
                                 }
                             });
-
                 }
             });
         } catch (Exception ex) {
@@ -4985,7 +4985,6 @@ public class DynamicUIRepository {
         }
         return data;
     }
-
 
     public LiveData<List<DynamicUITable>> postPlannerDataToServer(PlannerTable plannerTable, String screenNumber) {
         final MutableLiveData<List<DynamicUITable>> data = new MutableLiveData<>();
@@ -5916,8 +5915,8 @@ public class DynamicUIRepository {
                 final SubmitDataDTO submitDataDTO = new SubmitDataDTO();
                 insertRawDataRequest.setActionName("N/A");
                 if(loanType.equalsIgnoreCase(LOAN_NAME_EL)){
-                    if(currentStage!=null&&currentStage.equalsIgnoreCase("Document Execution")){
-                        // TODO: STAGE ID 148 MEANS RBL OPS OR DiSBUSMENT
+                    if(currentStage != null && currentStage.equalsIgnoreCase("Document Execution")){
+                        // TODO: STAGE ID 148 MEANS RBL OPS OR DISBUSMENT
                         insertRawDataRequest.setStageId(148);
                     }else {
                         // TODO: STAGE ID 0 MEANS  PD STAGE
@@ -5925,7 +5924,6 @@ public class DynamicUIRepository {
                     }
                 }else {
                     List<RawDataTable> cibilStatusrawDataTableList = dynamicUIDao.getRawDataByClientAndScreenNameModuleTye(SCREEN_NAME_CIBIL_STATUS, CLIENT_ID, MODULE_TYPE_GENERATE_CIBIL);
-
                     CibilResponseModel cibilResponseModel = null;
                     if (cibilStatusrawDataTableList != null && cibilStatusrawDataTableList.size() > 0) {
                         for (RawDataTable datalist : cibilStatusrawDataTableList) {
@@ -5960,13 +5958,12 @@ public class DynamicUIRepository {
                 insertRawDataRequest.setRoleId("4001");
                 insertRawDataRequest.setFieldId(0);
 
-
                 List<String> stringList = new ArrayList<>();
                 JsonParser jsonParser = new JsonParser();
                 if (screenName.equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC)
-                        || screenName.equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC)||
-                        screenName.equalsIgnoreCase(SCREEN_NAME_REFERENCE_CHECK)
-                        || screenName.equalsIgnoreCase(SCREEN_NAME_BANK_DETAILS)
+                        ||screenName.equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC)
+                        ||screenName.equalsIgnoreCase(SCREEN_NAME_REFERENCE_CHECK)
+                        ||screenName.equalsIgnoreCase(SCREEN_NAME_BANK_DETAILS)
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_BANK_DETAILS)
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_PERSONAL_DETAIL)
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_PERSONAL_DETAIL)
@@ -5975,40 +5972,37 @@ public class DynamicUIRepository {
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_ADDRESS_DETAIL)
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL)
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_NOMINEE_DETAIL)
-
-                ) {
+                        /*||screenName.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)*/) {
                     // TODO: Need to check the raw data table and add it into list
-                    List<RawDataTable> rawDataTableList = dynamicUIDao.loadRawDataFromClientId(screenNumber,CLIENT_ID);
+                    List<RawDataTable> rawDataTableList = dynamicUIDao.loadRawDataFromClientId(screenNumber, CLIENT_ID);
                     if (rawDataTableList != null) {
                         for (RawDataTable rawdataTable : rawDataTableList) {
                             if (rawdataTable != null && !TextUtils.isEmpty(rawdataTable.getRawdata())) {
                                 stringList.add(rawdataTable.getRawdata());
                                 JsonArray jsonArrayStringList = (JsonArray) jsonParser.parse(stringList.toString());
-                                byte[] byteArrrayPassword = stringList.toString().getBytes();
-                                String  submittedValues = Base64.encodeToString(byteArrrayPassword, Base64.DEFAULT);
+                                byte[] byteArrayPassword = stringList.toString().getBytes();
+                                String  submittedValues = Base64.encodeToString(byteArrayPassword, Base64.DEFAULT);
                                 insertRawDataRequest.setRawDataBag(submittedValues);
                             }
                         }
                     }
                 } else if (screenName.equalsIgnoreCase(SCREEN_NAME_CPV)
-                        || screenName.equalsIgnoreCase(SCREEN_NAME_POSIDEX)||
-                        screenName.equalsIgnoreCase(SCREEN_NAME_RAMP)
-                        || screenName.equalsIgnoreCase(SCREEN_NAME_VKYC_UP_STREAM)
+                        ||screenName.equalsIgnoreCase(SCREEN_NAME_POSIDEX)
+                        ||screenName.equalsIgnoreCase(SCREEN_NAME_RAMP)
+                        ||screenName.equalsIgnoreCase(SCREEN_NAME_VKYC_UP_STREAM)
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_DELINQUENCY)
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_DEDUPE)
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_RAT)
-                        ||screenName.equalsIgnoreCase(SCREEN_NAME_GENERATE_CIBIL)
-
-                ) {
+                        ||screenName.equalsIgnoreCase(SCREEN_NAME_GENERATE_CIBIL)) {
                     // TODO: Need to check the raw data table and add it into list
-                    List<RawDataTable> rawDataTableList = dynamicUIDao.loadRawDataFromClientId(screenNumber,CLIENT_ID);
+                    List<RawDataTable> rawDataTableList = dynamicUIDao.loadRawDataFromClientId(screenNumber, CLIENT_ID);
                     if (rawDataTableList != null) {
                         for (RawDataTable rawdataTable : rawDataTableList) {
                             if (rawdataTable != null && !TextUtils.isEmpty(rawdataTable.getRawdata())) {
                                 stringList.add(rawdataTable.getRawdata());
                                 JsonArray jsonArrayStringList = (JsonArray) jsonParser.parse(stringList.toString());
-                                byte[] byteArrrayPassword = stringList.toString().getBytes();
-                                String  submittedValues = Base64.encodeToString(byteArrrayPassword, Base64.DEFAULT);
+                                byte[] byteArrayPassword = stringList.toString().getBytes();
+                                String  submittedValues = Base64.encodeToString(byteArrayPassword, Base64.DEFAULT);
                                 insertRawDataRequest.setRawDataBag(submittedValues);
                             }
                         }
@@ -6037,7 +6031,6 @@ public class DynamicUIRepository {
                         insertRawDataRequest.setBCBRID(branchId);}
                     insertRawDataRequest.setBCID(branchId);
                 }
-
                 insertRawDataRequest.setProjectId("1");
                 insertRawDataRequest.setUniqueid(CLIENT_ID);
                 String baseString = new Gson().toJson(insertRawDataRequest, InsertRawDataRequest.class).replace("\\u003d", "=");
@@ -6158,7 +6151,6 @@ public class DynamicUIRepository {
         return data;
     }
 
-
     public LiveData<SubmitDataTable> syncSingleVillageSurveyData(VillageSurveyTable villageSurveyTable) {
 
         final LiveData<SubmitDataTable> data = new MutableLiveData<>();
@@ -6215,8 +6207,7 @@ public class DynamicUIRepository {
                     submitDataDTO.setRequest(request);
                     String baseString = new Gson().toJson(submitDataDTO, SubmitDataDTO.class).replace("\\u003d", "=");
                     String k1 = SHA256Encrypt.sha256(baseString);
-                    DynamicUIWebService.createService(DynamicUIWebservice.class).postDataToServer(submitDataDTO,
-                                    appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).enqueue(new Callback<String>() {
+                    DynamicUIWebService.createService(DynamicUIWebservice.class).postDataToServer(submitDataDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).enqueue(new Callback<String>() {
                                 @Override
                                 public void onResponse(Call<String> call, Response<String> response) {
                                     executor.execute(() -> {
@@ -6265,10 +6256,8 @@ public class DynamicUIRepository {
 
             insertLog("syncSingleVillageSurveyData", ex.getMessage(), "", "", TAG, "", "", "");
         }
-
         return data;
     }
-
     public LiveData<SubmitDataTable> syncSingleCenterCreationData(CenterCreationTable centerCreationTable) {
 
         final LiveData<SubmitDataTable> data = new MutableLiveData<>();
@@ -6321,7 +6310,6 @@ public class DynamicUIRepository {
                                                 // TODO: Update center creation table status
                                                 dynamicUIDao.updateCenterCreationTableSyncAndStatus(true, FINAL_STATUS_SUBMITTED,
                                                         centerCreationTable.getId());
-
                                             }
 
                                         } else {
@@ -6362,7 +6350,6 @@ public class DynamicUIRepository {
 
         return data;
     }
-
     public LiveData<String> syncGRTData(List<GRTTable> grtTableList) {
 
         final LiveData<String> data = new MutableLiveData<>();
@@ -6504,7 +6491,6 @@ public class DynamicUIRepository {
                                     loanDetailDto.setExpectedDisbursalDate(startDate);
                                 }
                                 loanDetailDto.setRepaymentFrequency("monthly");
-
 
                                 if (applicantRawDataTable != null) {
                                     HashMap<String, Object> hashMap = setKeyValueForObject(applicantRawDataTable);
@@ -6809,6 +6795,14 @@ public class DynamicUIRepository {
                                         }
                                     }
                                     if (hashMap != null && hashMap.size() > 0) {
+                                        if (hashMap.containsKey(TAG_NAME_LEAD_LOAN_PRODUCT)) {
+                                            String value = hashMap.get(TAG_NAME_LEAD_LOAN_PRODUCT).toString();
+                                            if (!TextUtils.isEmpty(value)) {
+                                                loanDetailDto.setLoanProductCode(value);
+                                            }
+                                        }
+                                    }
+                                    if (hashMap != null && hashMap.size() > 0) {
                                         if (hashMap.containsKey(TAG_NAME_PURPOSE)) {
                                             String value = hashMap.get(TAG_NAME_PURPOSE).toString();
                                             if (!TextUtils.isEmpty(value)) {
@@ -6849,7 +6843,6 @@ public class DynamicUIRepository {
                                         }
                                     }
                                 }
-
                             }
                         }
                     }
@@ -7723,7 +7716,6 @@ public class DynamicUIRepository {
         return data;
     }
 
-
     public LiveData<MasterTable> syncAllScreenByClient(MasterTable masterTable) {
 
         final LiveData<MasterTable> data = new MutableLiveData<>();
@@ -8108,7 +8100,6 @@ public class DynamicUIRepository {
     public LiveData<MultipleSyncResponseDTO> syncAllScreenDataForMultipleClient(List<CGTTable> cgtTwoCompletedList) {
 
         final LiveData<MultipleSyncResponseDTO> data = new MutableLiveData<>();
-
         try {
 
 //            DynamicUIWebService.changeApiBaseUrl(SUBMIT_DATA_POST_URL);
@@ -8147,8 +8138,7 @@ public class DynamicUIRepository {
                                 requests.add(service.postDataToServerJLG(submitDataTable, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1));
                             }
                             // Zip all requests with the Function, which will receive the results.
-                            Disposable disposable = Observable.zip(requests,
-                                    new Function<Object[], List<SubmitDataTable>>() {
+                            Disposable disposable = Observable.zip(requests, new Function<Object[], List<SubmitDataTable>>() {
                                         @Override
                                         public List<SubmitDataTable> apply(Object[] objects) throws Exception {
                                             try {
@@ -8372,7 +8362,6 @@ public class DynamicUIRepository {
                                                     submitDataDTO.setWorkflowId(WORKFLOW_ID_TWL); // TODO: WORKFLOW ID PHL
                                                     submitDataDTO.setProductId(PRODUCT_ID_TWL); // TODO: PRODUCT ID PHL
                                                 }
-
                                             }
 
                                             if (rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_DOCUMENT_UPLOAD)) {
@@ -8407,9 +8396,7 @@ public class DynamicUIRepository {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
     }
-
 
     public LiveData<LoanTable> syncMemberLoanApplicationDetail(LoanTable loanTable) {
 
@@ -8659,7 +8646,7 @@ public class DynamicUIRepository {
                 List<RawDataTable>  applicantRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_APPLICANT_KYC, masterTable.getClientId(), MODULE_TYPE_APPLICANT, masterTable.getLoan_type());
                 RawDataTable leadRawData = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_LEAD, masterTable.getClientId(), masterTable.getLoan_type());
                 int applicantAgeValue=0;
-                String outSideIndia="",earningCapacityOfStudent="";
+                String outSideIndia = "", earningCapacityOfStudent = "";
                 APPLICANT_MODULE_NAME_LIST_BASED_ON_LOAN = APPLICANT_MODULE_NAME_LIST;
                 String[] APPLICANT_TAB_SCREEN_NAMES = null;
                 if (leadRawData != null) {
@@ -8685,21 +8672,16 @@ public class DynamicUIRepository {
                     if (leadRawData != null) {
                         HashMap<String, Object> hashMap = setKeyValueForObject(leadRawData);
                         if (hashMap != null && hashMap.size() > 0) {
-                            if (hashMap != null && hashMap.size() > 0) {
                                 if (hashMap.containsKey(TAG_NAME_APPLICATION_ENTER_AGE)) {
                                     applicantAgeValue = Integer.valueOf(hashMap.get(TAG_NAME_APPLICATION_ENTER_AGE).toString());
                                 }
-                            }
-                            if (hashMap != null && hashMap.size() > 0) {
+
                                 if (hashMap.containsKey(TAG_NAME_EARNING_CAPACITY_OF_STUDENT)) {
                                     earningCapacityOfStudent = hashMap.get(TAG_NAME_EARNING_CAPACITY_OF_STUDENT).toString();
                                 }
-                            }
-                            if (hashMap != null && hashMap.size() > 0) {
                                 if (hashMap.containsKey(TAG_NAME_PROPOSED_INSTITUTE_WITHIN_INDIA_OUTSIDE_INDIA)) {
                                     outSideIndia =hashMap.get(TAG_NAME_PROPOSED_INSTITUTE_WITHIN_INDIA_OUTSIDE_INDIA).toString();
                                 }
-                            }
                             if(applicantAgeValue <= 18 || outSideIndia.equalsIgnoreCase(TAG_NAME_OUTSIDE_INDIA) || earningCapacityOfStudent.equalsIgnoreCase("No")){
                                 APPLICANT_MODULE_NAME_LIST_BASED_ON_LOAN = APPLICANT_MODULE_NAME_LIST_OUT_SIDE_INDIA;
                             }else {
@@ -8835,8 +8817,6 @@ public class DynamicUIRepository {
                                     } else {
 
                                         if (screenName.equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC)) {
-                                            boolean idProof = false;
-                                            boolean signatureProof = false;
 
                                             for (RawDataTable rawDataTableFromDB : rawDataTableList) {
                                                 HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTableFromDB);
@@ -8846,16 +8826,12 @@ public class DynamicUIRepository {
                                                         String proofType = getProofType(kycType);
                                                         if (!TextUtils.isEmpty(proofType) &&
                                                                 proofType.contains(PROOF_TYPE_SPINNER_ITEM_ID_CUM_ADDRESS_PROOF)) {
-                                                            idProof = true;
                                                         }
                                                         if (!TextUtils.isEmpty(proofType) &&
                                                                 proofType.contains(PROOF_TYPE_SPINNER_ITEM_SIGNATURE_PROOF)) {
-                                                            signatureProof = true;
                                                         }
                                                         if (!TextUtils.isEmpty(proofType) &&
                                                                 proofType.contains(PROOF_TYPE_SPINNER_ITEM_ID_CUM_SIGNATURE_PROOF)) {
-                                                            idProof = true;
-                                                            signatureProof = true;
                                                             break;
                                                         }
                                                     }
@@ -9017,8 +8993,7 @@ public class DynamicUIRepository {
 
         return data;
     }
-
-    public LiveData<LoanTable> updateMemberLoanDetailTableStatus(LoanTable loanTable, String status) {
+      public LiveData<LoanTable> updateMemberLoanDetailTableStatus(LoanTable loanTable, String status) {
         final MutableLiveData<LoanTable> data = new MutableLiveData<>();
         try {
             executor.execute(() -> {
@@ -9027,11 +9002,89 @@ public class DynamicUIRepository {
                 boolean allDataCaptured = true; // TODO: Initially it will be true
                 boolean allModuleExist = false; // TODO: Initially it will be false
                 String message = ERROR_MESSAGE_CAPTURE_ALL_DETAILS;
+                String[] APPLICANT_TAB_SCREEN_NAMES = APPLICANT_TAB_SCREEN_NAMES_JLG;
+                String[] LOAN_PROPOSAL_WITH_NOMINEE_MODULE_SCREEN_NAMES = LOAN_PROPOSAL_WITH_NOMINEE_MODULE_SCREEN_NAMES_JLG;
 
                 // TODO: GET DISTINCT MODULE TYPE
 
                 List<String> distinctModuleType = dynamicUIDao.getDistinctModuleType(loanTable.getClientId());
 
+                if (distinctModuleType != null && distinctModuleType.size() > 0) {
+
+
+                    if (allModuleExist) {
+                        parentLoop:
+                        for (String moduleType : distinctModuleType) {
+                            if (moduleType.equalsIgnoreCase(MODULE_TYPE_APPLICANT)) { // TODO: APPLICANT
+                                for (String screenName : APPLICANT_TAB_SCREEN_NAMES) {
+                                    List<RawDataTable> rawDataTableList = dynamicUIDao.getRawDataByClientAndScreenName(screenName, loanTable.getClientId());
+
+                                    if (rawDataTableList.size() == 0) {
+                                        allDataCaptured = false;
+                                        message = ERROR_MESSAGE_CAPTURE_ALL_DETAILS.replace("ALL SCREEN", screenName);
+                                        break parentLoop;
+                                    } else {
+                                        if (screenName.equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC)) {
+                                            boolean idProof = false;
+                                            boolean signatureProof = false;
+
+                                            for (RawDataTable rawDataTableFromDB : rawDataTableList) {
+                                                HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTableFromDB);
+                                                if (hashMap != null && hashMap.size() > 0) {
+                                                    if (hashMap.containsKey(TAG_NAME_KYC_TYPE)) {
+                                                        String kycType = hashMap.get(TAG_NAME_KYC_TYPE).toString();
+                                                        String proofType = getProofType(kycType);
+                                                        if (!TextUtils.isEmpty(proofType) &&
+                                                                proofType.contains(PROOF_TYPE_SPINNER_ITEM_ID_CUM_ADDRESS_PROOF)) {
+                                                            idProof = true;
+                                                        }
+                                                        if (!TextUtils.isEmpty(proofType) &&
+                                                                proofType.contains(PROOF_TYPE_SPINNER_ITEM_SIGNATURE_PROOF)) {
+                                                            signatureProof = true;
+                                                        }
+                                                        if (!TextUtils.isEmpty(proofType) &&
+                                                                proofType.contains(PROOF_TYPE_SPINNER_ITEM_ID_CUM_SIGNATURE_PROOF)) {
+                                                            idProof = true;
+                                                            signatureProof = true;
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                           /* if (!idProof) {
+                                                allDataCaptured = false;
+                                                message = ERROR_MESSAGE_ID_PROOF_MISSING.replace("KYC SCREEN", screenName);
+                                                break parentLoop;
+                                            }*/
+
+                                        }
+                                    }
+                                }
+
+                            } else if (!loanType.equalsIgnoreCase(LOAN_NAME_EL) && moduleType.equalsIgnoreCase(MODULE_TYPE_LOAN_PROPOSAL_WITH_NOMINEE)) { // TODO: LOAN PROPOSAL WITH NOMINEE
+
+                                for (String screenName : LOAN_PROPOSAL_WITH_NOMINEE_MODULE_SCREEN_NAMES) {
+                                    RawDataTable rawDataTable = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(screenName,
+                                            loanTable.getClientId(), moduleType);
+
+                                   /* if (rawDataTable == null) {
+                                        allDataCaptured = false;
+                                        message = ERROR_MESSAGE_CAPTURE_ALL_DETAILS.replace("ALL SCREEN", screenName);
+                                        break parentLoop;
+                                    }*/
+                                }
+
+                            }
+                        } // TODO: parent loop ending
+                    } else {
+                        allDataCaptured = false;
+                        message = ERROR_MESSAGE_CAPTURE_ALL_DETAILS;
+                    }
+                } else {
+                    allDataCaptured = false;
+                    message = ERROR_MESSAGE_CAPTURE_ALL_DETAILS;
+                }
                 if (allDataCaptured) {
 
                     dynamicUIDao.updateMemberLoanDetailAllDataCaptured(true, message, loanTable.getId());
@@ -9048,9 +9101,7 @@ public class DynamicUIRepository {
                             // TODO: Non Mandatory Documents
                             if (!documentUploadTable.getDocument_name().equalsIgnoreCase(DOCUMENT_NAME_BILLS)
                                     && !documentUploadTable.getDocument_name().equalsIgnoreCase(DOCUMENT_NAME_BANK_STATEMENT)
-                                    && !documentUploadTable.getDocument_name().equalsIgnoreCase(DOCUMENT_NAME_M_NACH)
-                                    && !documentUploadTable.getDocument_name().equalsIgnoreCase(DOCUMENT_NAME_OTHERS)
-                            ) {
+                                    && !documentUploadTable.getDocument_name().equalsIgnoreCase(DOCUMENT_NAME_OTHERS)) {
                                 if (!documentUploadTable.isDocument_status()) {
                                     alldocumentsuploaded = false;
                                     documentName = documentUploadTable.getFull_display_name();
@@ -9149,14 +9200,11 @@ public class DynamicUIRepository {
 
     public LiveData<List<RawDataResponseDTO.Table>> getRawDataFromServerForMultipleCustomer(RawDataRequestDTO rawDataRequestDTO, String userId,
                                                                                             String loanType) {
-
         final LiveData<List<RawDataResponseDTO.Table>> data = new MutableLiveData<>();
         try {
 
             DynamicUIWebService.changeApiBaseUrl(RAW_DATA_URL);
             executor.execute(() -> {
-
-
                 List<StageDetailsTable> stageDetailsTableList = dynamicUIDao.getDistinctClientIDFromStageTable();
 
                 if (stageDetailsTableList != null && stageDetailsTableList.size() > 0) {
@@ -11729,7 +11777,6 @@ public class DynamicUIRepository {
                                         // TODO: Non Mandatory Documents
                                         if (!documentUploadTable.getDocument_name().equalsIgnoreCase(DOCUMENT_NAME_BILLS)
                                                 && !documentUploadTable.getDocument_name().equalsIgnoreCase(DOCUMENT_NAME_BANK_STATEMENT)
-                                                && !documentUploadTable.getDocument_name().equalsIgnoreCase(DOCUMENT_NAME_M_NACH)
                                                 && !documentUploadTable.getDocument_name().equalsIgnoreCase(DOCUMENT_NAME_OTHERS)
                                         ) {
                                             if (!documentUploadTable.isDocument_status()) {
@@ -13199,7 +13246,6 @@ public class DynamicUIRepository {
                     }
                 } else {
                     // TODO: save button click calculation
-
                     for (int i = 0; i < FromfieldNameList.size(); i++) {
                         String fromfieldTag = FromfieldNameList.get(i);
                         String toFieldTag = TofieldNameList.get(i);
@@ -13219,8 +13265,7 @@ public class DynamicUIRepository {
                                     }
                                     RawDataTable rawDataTable = dynamicUIDao.getTopRawData(fromScreen, dynamicUITable.getClientID());
                                     DynamicUITable newDynamicUITable = createNewRow(dynamicUITable, rawDataTable);
-                                    dynamicUITableListLiability.add(positionToAdd,
-                                            newDynamicUITable);
+                                    dynamicUITableListLiability.add(positionToAdd, newDynamicUITable);
                                     dynamicUIDao.deleteRecords(toScreen);
                                     removeAllId(dynamicUITableListLiability);
                                     dynamicUIDao.save(dynamicUITableListLiability);
@@ -13318,40 +13363,6 @@ public class DynamicUIRepository {
             newDynamicUITable.setModuleType(dynamicUITable.getModuleType());
             newDynamicUITable.setCoRelationID(rawDataTable.getCoRelationID());
             newDynamicUITable.setUniqueId(rawDataTable.getUniqueId());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return newDynamicUITable;
-    }
-
-    private DynamicUITable createNewRowForLabel(DynamicUITable dynamicUITable, String fieldName) {
-        DynamicUITable newDynamicUITable = new DynamicUITable();
-        try {
-            newDynamicUITable.setScreenID(dynamicUITable.getScreenID());
-            newDynamicUITable.setScreenName(dynamicUITable.getScreenName());
-            newDynamicUITable.setFieldTag(TAG_NAME_LABEL);// TODO: initial tag name
-            newDynamicUITable.setFieldName(fieldName); // TODO: FieldName
-            newDynamicUITable.setValue(""); // TODO: Value
-            newDynamicUITable.setFieldType(FIELD_TYPE_TEXT_LABEL); // TODO: Hardcoded field type
-            newDynamicUITable.setIsRequired(dynamicUITable.getIsRequired());
-            newDynamicUITable.setDataType(dynamicUITable.getDataType());
-            newDynamicUITable.setLoanType(dynamicUITable.getLoanType());
-            newDynamicUITable.setVisibility(dynamicUITable.isVisibility());
-            newDynamicUITable.setClientID(dynamicUITable.getClientID());
-            newDynamicUITable.setDataEntryType(dynamicUITable.getDataEntryType());
-            newDynamicUITable.setParamlist(dynamicUITable.getParamlist());
-            newDynamicUITable.setPlusSignName(dynamicUITable.getPlusSignName());
-            newDynamicUITable.setEditable(dynamicUITable.isEditable());
-            newDynamicUITable.setSpinnerItemPosition(dynamicUITable.getSpinnerItemPosition());
-            newDynamicUITable.setLength(dynamicUITable.getLength());
-            newDynamicUITable.setDefaultValue(dynamicUITable.getDefaultValue());
-            newDynamicUITable.setErrorMessage(dynamicUITable.getErrorMessage());
-            newDynamicUITable.setHint(dynamicUITable.getHint());
-            newDynamicUITable.setFeatureID(2); // TODO: Hardcoded as 2
-            newDynamicUITable.setUser_id(dynamicUITable.getUser_id());
-            newDynamicUITable.setModuleType(dynamicUITable.getModuleType());
-            newDynamicUITable.setCoRelationID(dynamicUITable.getCoRelationID());
-            newDynamicUITable.setUniqueId(dynamicUITable.getUniqueId());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -14632,8 +14643,7 @@ public class DynamicUIRepository {
 
                         final RawDataTable rawDataTable = new RawDataTable(rawData, screenId, SCREEN_NAME_DOCUMENT_UPLOAD,
                                 "", documentUploadTableNew.getClient_id(), documentUploadTableNew.getLoan_type(),
-                                documentUploadTableNew.getUser_id(), documentUploadTableNew.getModule_type()
-                                , "");
+                                documentUploadTableNew.getUser_id(), documentUploadTableNew.getModule_type(), "");
 
                         int refId = 1;
                         rawDataTable.setRef_id(refId);
@@ -14703,8 +14713,6 @@ public class DynamicUIRepository {
 
         dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_PERMANENT_LANDMARK, dynamicUITable.getScreenName(),
                 "", true, true);
-
-
     }
 
 
@@ -15761,6 +15769,7 @@ public class DynamicUIRepository {
                                     String value = hashMap.get(TAG_NAME_KYC_TYPE).toString();
                                     if (!TextUtils.isEmpty(value) &&
                                             (!value.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_PAN_CARD)&&!value.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_MOA_AOA)
+                                                    &&!value.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_NREGA)
                                                     && !value.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_AUTHORIZED_SIGNATURE_PROOF))) {
                                         applicantRawDataSpinnerList.add(value);
                                     }
@@ -15771,15 +15780,12 @@ public class DynamicUIRepository {
 
                     // TODO: Applicant Permanent address ( YES )
                     if (dynamicUITable.getValue().equalsIgnoreCase("yes")) {
-
-
                         // TODO: Change Spinner List
                         changeSpinnerList(applicantRawDataSpinnerList, dynamicUITable.getScreenID(), TAG_NAME_PERMANENT_KYC_TYPE);
                     } else {
                         // TODO: Applicant Permanent address ( NO )
                         DuplicateDynamicUITable duplicateDynamicUITable = dynamicUIDao.getRowByTAGandScreenInDuplicateTable(
-                                TAG_NAME_PERMANENT_KYC_TYPE,
-                                dynamicUITable.getScreenID());
+                                TAG_NAME_PERMANENT_KYC_TYPE, dynamicUITable.getScreenID());
 
                         List<String> duplicateSpinnerList = new ArrayList<>();
 
@@ -15792,6 +15798,7 @@ public class DynamicUIRepository {
                         if (applicantRawDataSpinnerList.size() > 0) {
                             for (String spinnerItem : applicantRawDataSpinnerList) {
                                 if (!spinnerItem.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_PAN_CARD)||!spinnerItem.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_MOA_AOA)
+                                        ||!spinnerItem.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_NREGA)
                                         || !spinnerItem.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_AUTHORIZED_SIGNATURE_PROOF)) {
                                     duplicateSpinnerList.remove(spinnerItem);
                                 }
@@ -16083,7 +16090,6 @@ public class DynamicUIRepository {
                             }
                         }
                     }
-
                 }
 
                 String toScreenNo = dynamicUITableList.get(0).getScreenID();
@@ -16141,8 +16147,6 @@ public class DynamicUIRepository {
                             if (!TextUtils.isEmpty(hashMap.get(TAG_NAME_APPLICATION_DISTRICT).toString()))
                                 dynamicUIDao.updateDynamicTableValue(TAG_NAME_ADDRESS_PERMANENT_DISTRICT, toScreenNo, hashMap.get(TAG_NAME_APPLICATION_DISTRICT).toString());
                         }
-
-
                     }
                 }
             }
@@ -16175,6 +16179,7 @@ public class DynamicUIRepository {
                                     String value = hashMap.get(TAG_NAME_KYC_TYPE).toString();
                                     if (!TextUtils.isEmpty(value) &&
                                             (!value.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_PAN_CARD)&&!value.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_MOA_AOA)
+                                                    &&!value.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_NREGA)
                                                     && !value.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_AUTHORIZED_SIGNATURE_PROOF))) {
                                         applicantRawDataSpinnerList.add(value);
                                     }
@@ -16191,8 +16196,7 @@ public class DynamicUIRepository {
                         changeSpinnerList(applicantRawDataSpinnerList, dynamicUITable.getScreenID(), TAG_NAME_PERMANENT_KYC_TYPE);
                     } else {
                         // TODO: Applicant Permanent address ( NO )
-                        DuplicateDynamicUITable duplicateDynamicUITable = dynamicUIDao.getRowByTAGandScreenInDuplicateTable(
-                                TAG_NAME_PERMANENT_KYC_TYPE,
+                        DuplicateDynamicUITable duplicateDynamicUITable = dynamicUIDao.getRowByTAGandScreenInDuplicateTable(TAG_NAME_PERMANENT_KYC_TYPE,
                                 dynamicUITable.getScreenID());
 
                         List<String> duplicateSpinnerList = new ArrayList<>();
@@ -16206,6 +16210,7 @@ public class DynamicUIRepository {
                         if (applicantRawDataSpinnerList.size() > 0) {
                             for (String spinnerItem : applicantRawDataSpinnerList) {
                                 if (!spinnerItem.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_PAN_CARD)||!spinnerItem.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_MOA_AOA)
+                                        ||!spinnerItem.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_NREGA)
                                         || !spinnerItem.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_AUTHORIZED_SIGNATURE_PROOF)) {
                                     duplicateSpinnerList.remove(spinnerItem);
                                 }
@@ -16214,7 +16219,6 @@ public class DynamicUIRepository {
 
                         // TODO: Changing spinner list
                         changeSpinnerList(duplicateSpinnerList, dynamicUITable.getScreenID(), TAG_NAME_PERMANENT_KYC_TYPE);
-
                     }
                 }
                 // TODO: ( RADIO BUTTON ) COMMUNICATION ADDRESS SAME AS PERMANENT
@@ -16273,8 +16277,6 @@ public class DynamicUIRepository {
                                 dynamicUITable.getScreenID(), true, false);
                         dynamicUIDao.copyValuesBasedOnScreen(TAG_NAME_PERMANENT_LANDMARK, TAG_NAME_COMMUNICATION_LANDMARK, dynamicUITable.getScreenID(),
                                 dynamicUITable.getScreenID(), true, false);
-
-
                     }
                     // TODO: Co Applicant Communication address ( NO )
                     else {
@@ -16510,7 +16512,6 @@ public class DynamicUIRepository {
                             }
                         }
                     }
-
                 }
 
                 String toScreenNo = dynamicUITableList.get(0).getScreenID();
@@ -16525,7 +16526,6 @@ public class DynamicUIRepository {
                             if (!TextUtils.isEmpty(hashMapapplicant.get(TAG_NAME_FULL_NAME).toString())) {
                                 dynamicUIDao.updateDynamicTableValue(TAG_NAME_FULL_NAME, toScreenNo, hashMapapplicant.get(TAG_NAME_FULL_NAME).toString());
                             }
-
                         }
                     }
                     if (hashMap != null && hashMap.size() > 0) {
@@ -16568,8 +16568,6 @@ public class DynamicUIRepository {
                             if (!TextUtils.isEmpty(hashMap.get(TAG_NAME_APPLICATION_DISTRICT).toString()))
                                 dynamicUIDao.updateDynamicTableValue(TAG_NAME_ADDRESS_PERMANENT_DISTRICT, toScreenNo, hashMap.get(TAG_NAME_APPLICATION_DISTRICT).toString());
                         }
-
-
                     }
                 }
             }
@@ -16632,7 +16630,6 @@ public class DynamicUIRepository {
             ex.printStackTrace();
         }
     }
-
 
     public LiveData<List<DynamicUITable>> copyBusinessProofAddressBasedOnDropDown(DynamicUITable dynamicUITable,
                                                                                   List<DynamicUITable> dynamicUITableList) {
@@ -17063,8 +17060,6 @@ public class DynamicUIRepository {
                     }
 
                 }
-
-
             }
 
 
@@ -17073,7 +17068,6 @@ public class DynamicUIRepository {
 //        return  dynamicUIDao.loadUpdatedData(parameterInfoList.get(0).getscreenName());
         return data;
     }
-
 
     public LiveData<List<DynamicUITable>> copyValuesFromPersonalScreenToNomineeScreen(String fromScreen, String toScreen, List<DynamicUITable> dynamicUITableList) {
         final MutableLiveData<List<DynamicUITable>> data = new MutableLiveData<>();
@@ -17084,7 +17078,6 @@ public class DynamicUIRepository {
                 String moduleType = dynamicUITableList.get(0).getModuleType();
                 String loanType = dynamicUITableList.get(0).getLoanType();
 
-
                 dynamicUIDao.updateDynamicUITable(dynamicUITableList); // TODO: update list first
                 RawDataTable rawDataPersonalDetail = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_PERSONAL_DETAIL, clientId, loanType);
                 RawDataTable rawDataNomineeDetail = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_NOMINEE_DETAIL, clientId, loanType);
@@ -17092,11 +17085,10 @@ public class DynamicUIRepository {
                 if (rawDataPersonalDetail != null) {
                     HashMap<String, Object> hashMap = setKeyValueForObject(rawDataPersonalDetail);
 
-
                     if (hashMap != null && hashMap.size() > 0) {
                         if (hashMap.containsKey(TAG_NAME_MARITAL_STATUS)) {
-                            String maritialStatus = hashMap.get(TAG_NAME_MARITAL_STATUS).toString();
-                            if (!TextUtils.isEmpty(maritialStatus) && maritialStatus.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_MARRIED)) {
+                            String maritalStatus = hashMap.get(TAG_NAME_MARITAL_STATUS).toString();
+                            if (!TextUtils.isEmpty(maritalStatus) && maritalStatus.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_MARRIED)) {
 
                                 // TODO: Autopopulate fields in Nominee details
                                 if (hashMap.containsKey(TAG_NAME_SPOUSE_NAME)) {
@@ -17121,7 +17113,6 @@ public class DynamicUIRepository {
                                         if (dynamicUITablekycid != null && dynamicUITablekycid.getFieldTag() != null) {
                                             dynamicUIDao.updateDynamicTableValueAndNonEditable(dynamicUITablekycid.getFieldTag(), toScreen, kycId, false);
                                         }
-
                                     }
                                 }
 
@@ -17129,7 +17120,6 @@ public class DynamicUIRepository {
                                     String spouseName = hashMap.get(TAG_NAME_SPOUSE_DATE_OF_BIRTH).toString();
                                     if (!TextUtils.isEmpty(spouseName)) {
                                         dynamicUIDao.updateDynamicTableValueAndNonEditable(TAG_NAME_NOMINEE_DATE_OF_BIRTH, toScreen, spouseName, false);
-
                                     }
                                 }
 
@@ -17137,13 +17127,9 @@ public class DynamicUIRepository {
                                     String spouseName = hashMap.get(TAG_NAME_SPOUSE_AGE).toString();
                                     if (!TextUtils.isEmpty(spouseName)) {
                                         dynamicUIDao.updateDynamicTableValueAndNonEditable(TAG_NAME_NOMINEE_AGE, toScreen, spouseName, false);
-
                                     }
                                 }
-
                             } else {
-
-
                                 // TODO: get full name value
                                 DynamicUITable fullnameObj = getObjectByTAG(TAG_NAME_NOMINEE_FULL_NAME, dynamicUITableList);
                                 if (fullnameObj != null && !TextUtils.isEmpty(fullnameObj.getValue())) {
@@ -17177,9 +17163,7 @@ public class DynamicUIRepository {
                     }
                 }
                 data.postValue(dynamicUIDao.loadUpdatedDataNew(toScreenNo));
-
             }
-
         });
         return data;
     }
@@ -17303,7 +17287,6 @@ public class DynamicUIRepository {
                                 if (!TextUtils.isEmpty(loanSubType) && !loanSubType.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_TOP_UP)) {
                                     dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_MARK_AS_DISBURSEMENT_ACCOUNT, screenNameToUpdate, "", true, false);
                                 }
-
                             }
                         }
                     }
@@ -17346,7 +17329,6 @@ public class DynamicUIRepository {
                                 dynamicUIDao.updateDynamicTableOptionalValueForPremiumLead(TAG_NAME_MOBILE_NUMBER,
                                         toScreenNo, TAG_NAME_PREMIUM_COLD_CALL, false);
                             }
-
                         }
                     }
                 }
@@ -17378,7 +17360,6 @@ public class DynamicUIRepository {
                         }
                     }
                 }
-
 
                 // TODO:  Socio economic screen AHL
                 if (!TextUtils.isEmpty(screenNameToUpdate) && screenNameToUpdate.equalsIgnoreCase(SCREEN_NAME_SOCIO_ECONOMIC_DETAIL)) {
@@ -17421,12 +17402,11 @@ public class DynamicUIRepository {
                                     }
                                 }
                             }
-
                         }
                     }
                 }
 
-                // TODO:  Socio economic screen PHL
+                // TODO:  Socio-economic screen PHL
                 if (!TextUtils.isEmpty(screenNameToUpdate) && screenNameToUpdate.equalsIgnoreCase(SCREEN_NAME_SOCIO_ECONOMIC_DETAIL)) {
                     RawDataTable leadRawData = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_LEAD, clientId, loanType);
                     if (leadRawData != null) {
@@ -17467,8 +17447,6 @@ public class DynamicUIRepository {
 
                                 }
                             }
-
-
                         }
                     }
                 }
@@ -17515,8 +17493,6 @@ public class DynamicUIRepository {
                                     , dynamicUITableFather.getScreenName(),
                                     dynamicUITableFather.getValue(), true, false);
                         }
-
-
                     }
 
                     RawDataTable leadRawData = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_LEAD, clientId, loanType);
@@ -17609,6 +17585,22 @@ public class DynamicUIRepository {
                                 if (!TextUtils.isEmpty(value)) {
                                     dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_ACCOUNT_HOLDER_NAME, SCREEN_NAME_BANK_DETAILS,
                                             value, true, true);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Fetch DOB from Applicant KYC screen------------------------
+                if(!TextUtils.isEmpty(screenNameToUpdate) && screenNameToUpdate.equalsIgnoreCase(SCREEN_NAME_APPLICANT_PAN_DETAILS)){
+                    RawDataTable kycRawData = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_APPLICANT_KYC, clientId, loanType);
+                    if(kycRawData != null){
+                        HashMap<String, Object> hashMap = setKeyValueForObject(kycRawData);
+                        if(hashMap != null && hashMap.size() > 0){
+                            if(hashMap.containsKey(TAG_NAME_APPLICATION_DATE_OF_BIRTH)){
+                                String dob = hashMap.get(TAG_NAME_APPLICATION_DATE_OF_BIRTH).toString();
+                                if(!TextUtils.isEmpty(dob)){
+                                    dynamicUIDao.updateDynamicTableValue(TAG_NAME_PAN_APPLICANT_DOB, SCREEN_NO_APPLICANT_PAN_DETAILS_EL, dob);
                                 }
                             }
                         }
@@ -17922,7 +17914,129 @@ public class DynamicUIRepository {
                     }
                 }
 
+                if(TextUtils.isEmpty(screenNameToUpdate) && screenNameToUpdate.equalsIgnoreCase(SCREEN_NAME_APPLICANT_PAN_DETAILS)
+                && loanType.equalsIgnoreCase(LOAN_NAME_EL)){
+                    RawDataTable rawDataFromLead = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_APPLICANT_KYC, clientId, loanType);
 
+                    if (rawDataFromLead != null) {
+                        HashMap<String, Object> hashMap = setKeyValueForObject(rawDataFromLead);
+                        if (hashMap != null && hashMap.size() > 0) {
+                            if (hashMap.containsKey(TAG_NAME_GENDER)) {
+                                String gender = hashMap.get(TAG_NAME_GENDER).toString();
+                                if (!TextUtils.isEmpty(gender) && gender.equalsIgnoreCase(TAG_NAME_GENDER)) {
+
+                                    // TODO: If Marital status is married in personal details screen
+                                    // TODO: Nominee Relation drop down list include spouse
+                                    // TODO: Auto populate Nominee Relation, Nominee Kyc Type , Nominee kyc id ( non editable )
+                                    // TODO: Nominee full name , Nominee DOB , Nominee Age , Nominee gender by default male ( non editable )
+                                    // TODO: Disable QR Scan
+                                    // TODO: Insurance - if age is greater than 60 then insurance is single otherwise double ( non editable )
+                                    // TODO: Insurance - Hospi cash required -yes ( editable )
+
+                                    DuplicateDynamicUITable duplicateDynamicUITable = dynamicUIDao.getRowByTAGAndScreenNameInDuplicateTable(TAG_NAME_GENDER, screenNameToUpdate);
+                                    if (duplicateDynamicUITable != null && duplicateDynamicUITable.getParamlist().length > 0) {
+                                        // TODO: Drop down list include spouse
+                                        dynamicUIDao.changeSpinnerList(TAG_NAME_GENDER,
+                                                DataTypeConverter.someObjectListToString(duplicateDynamicUITable.getParamlist()),
+                                                duplicateDynamicUITable.getScreenID());
+                                    }
+                                    dynamicUIDao.updateDynamicTableValueAndNonEditable(TAG_NAME_GENDER, screenNameToUpdate, "MALE", false);
+
+                                    // TODO: Auto populate fields in Nominee details
+                                    if (hashMap.containsKey(TAG_NAME_GENDER)) {
+                                        String kycType = hashMap.get(TAG_NAME_GENDER).toString();
+                                        if (!TextUtils.isEmpty(kycType)) {
+                                            dynamicUIDao.updateDynamicTableValueAndNonEditable(TAG_NAME_GENDER, screenNameToUpdate, kycType, false);
+
+                                        }
+                                    }
+
+//                                    if (hashMap.containsKey(TAG_NAME_KYC_ID)) {
+//                                        String kycId = hashMap.get(TAG_NAME_KYC_ID).toString();
+//                                        if (!TextUtils.isEmpty(kycId)) {
+//                                            dynamicUIDao.updateDynamicTableValueAndNonEditable(TAG_NAME_GENDER, screenNameToUpdate, kycId, false);
+//
+//                                        }
+//                                    }
+
+                                    if (hashMap.containsKey(TAG_NAME_CONTAINS_DOB)) {
+                                        String DOB = hashMap.get(TAG_NAME_CONTAINS_DOB).toString();
+                                        if (!TextUtils.isEmpty(DOB)) {
+                                            dynamicUIDao.updateDynamicTableValueAndNonEditable(TAG_NAME_CONTAINS_DOB, screenNameToUpdate, DOB, false);
+
+                                        }
+                                    }
+                                }
+//                                else {
+//
+//                                    // TODO: If Marital status is other than married in personal details screen
+//                                    // TODO: Nominee Relation drop down list exclude spouse
+//                                    // TODO: Gender - editable true ( allow to select any option )
+//                                    // TODO: Enable QR Scan
+//                                    // TODO: Insurance single by default & non editable
+//                                    // TODO: Hospi cash required -No ( non editable )
+//                                    // TODO: visibility false for Hospi no of years & hospi cash type
+//
+//                                    DuplicateDynamicUITable duplicateDynamicUITable = dynamicUIDao.getRowByTAGAndScreenNameInDuplicateTable(TAG_NAME_NOMINEE_RELATIONSHIP_WITH_THE_APPLICANT, screenNameToUpdate);
+//                                    if (duplicateDynamicUITable != null && duplicateDynamicUITable.getParamlist().length > 0) {
+//                                        List<String> newSpinnerList = new ArrayList<>();
+//                                        newSpinnerList.addAll(Arrays.asList(duplicateDynamicUITable.getParamlist()));
+//
+//                                        // TODO: Drop down list exclude spouse
+//                                        if (newSpinnerList.size() > 0) {
+//                                            try {
+//                                                for (String spinnerItem : newSpinnerList) {
+//                                                    if (spinnerItem.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_SPOUSE)) {
+//                                                        newSpinnerList.remove(spinnerItem);
+//                                                        break;
+//                                                    }
+//                                                }
+//                                            } catch (Exception ex) {
+//                                                ex.printStackTrace();
+//                                            }
+//
+//                                            changeSpinnerList(newSpinnerList, duplicateDynamicUITable.getScreenID(),
+//                                                    TAG_NAME_NOMINEE_RELATIONSHIP_WITH_THE_APPLICANT);
+//                                        }
+//                                    }
+//
+//                                    dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_NOMINEE_GENDER, screenNameToUpdate, "", true, true);
+//                                    dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_NOMINEE_QR_SCAN, screenNameToUpdate, "", true, true);
+//                                    dynamicUIDao.updateDynamicTableValueAndNonEditable(TAG_NAME_INSURANCE, screenNameToUpdate, SPINNER_ITEM_FIELD_NAME_SINGLE, false);
+//                                    dynamicUIDao.updateDynamicTableValueAndNonEditable(TAG_NAME_HOSPI_CASH_REQUIRED, screenNameToUpdate, "No", false);
+//
+//                                    dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_HOSPI_NO_OF_YEARS, screenNameToUpdate, "", true, false);
+//                                    dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_HOSPI_CASH_TYPE, screenNameToUpdate, "", true, false);
+//
+//                                    // TODO: get relation value
+//                                    DynamicUITable nomineeRelationObj = getObjectByTAG(TAG_NAME_NOMINEE_RELATIONSHIP_WITH_THE_APPLICANT, dynamicUITableList);
+//                                    if (nomineeRelationObj != null && !TextUtils.isEmpty(nomineeRelationObj.getValue())) {
+//                                        dynamicUIDao.updateDynamicTableValueAndNonEditable(TAG_NAME_NOMINEE_RELATIONSHIP_WITH_THE_APPLICANT, screenNameToUpdate, nomineeRelationObj.getValue(), true);
+//                                    }
+//
+//                                    // TODO: get full name value
+//                                    DynamicUITable fullnameObj = getObjectByTAG(TAG_NAME_NOMINEE_FULL_NAME, dynamicUITableList);
+//                                    if (fullnameObj != null && !TextUtils.isEmpty(fullnameObj.getValue())) {
+//                                        dynamicUIDao.updateDynamicTableValueAndNonEditable(TAG_NAME_NOMINEE_FULL_NAME, screenNameToUpdate, fullnameObj.getValue(), true);
+//                                    }
+//
+//                                    // TODO: get kyc type value
+//                                    DynamicUITable kyctypeObj = getObjectByTAG(TAG_NAME_NOMINEE_KYC_TYPE, dynamicUITableList);
+//                                    if (kyctypeObj != null && !TextUtils.isEmpty(kyctypeObj.getValue())) {
+//                                        dynamicUIDao.updateDynamicTableValueAndNonEditable(TAG_NAME_NOMINEE_KYC_TYPE, screenNameToUpdate, kyctypeObj.getValue(), true);
+//                                    }
+//
+//                                    // TODO: get kyc id value
+//                                    DynamicUITable kycidObj = getObjectByTAG(TAG_NAME_NOMINEE_KYC_ID, dynamicUITableList);
+//                                    if (kycidObj != null && !TextUtils.isEmpty(kycidObj.getValue())) {
+//                                        dynamicUIDao.updateDynamicTableValueAndNonEditable(TAG_NAME_NOMINEE_KYC_ID, screenNameToUpdate, kycidObj.getValue(), true);
+//                                    }
+//
+//                                }
+                            }
+                        }
+                    }
+                }
                 // TODO: Nominee detail screen
                 else if (!TextUtils.isEmpty(screenNameToUpdate) && screenNameToUpdate.equalsIgnoreCase(SCREEN_NAME_NOMINEE_DETAIL)) {
 
@@ -19709,7 +19823,6 @@ public class DynamicUIRepository {
                 }
             }
 
-
             if (!TextUtils.isEmpty(loanType) && !TextUtils.isEmpty(pickMethodSales)) {
 
                 DynamicUIWebService.changeApiBaseUrl(RAW_DATA_URL);
@@ -20542,16 +20655,13 @@ public class DynamicUIRepository {
                                     deleteAndInsertNewRecordInTable(dynamicUITableListLatest, dynamicUITable.getScreenName());
                                 } else {
                                     // TODO: updating field name
-                                    dynamicUIDao.updateDynamicTableFieldNameAndVisibility(rawDataTable.getTag_name()
-                                            , dynamicUITable.getScreenName(),
-                                            fieldName, true, true);
+                                    dynamicUIDao.updateDynamicTableFieldNameAndVisibility(rawDataTable.getTag_name(),
+                                            dynamicUITable.getScreenName(), fieldName, true, true);
 
                                     // TODO: updating value
-                                    dynamicUIDao.updateDynamicTableValueAndVisibility(rawDataTable.getTag_name()
-                                            , dynamicUITable.getScreenName(),
-                                            value, true, true);
+                                    dynamicUIDao.updateDynamicTableValueAndVisibility(rawDataTable.getTag_name(),
+                                            dynamicUITable.getScreenName(), value, true, true);
                                 }
-
                             }
                         }
                     }
@@ -20576,16 +20686,16 @@ public class DynamicUIRepository {
 
                             // TODO: Kyc Type ( Default Aadhaar )
                             else if (dynamicUITableNew.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE)) {
-                                RawDataTable rawDataTable = dynamicUIDao.getRawdataByFieldName(dynamicUITableNew.getScreenName()
-                                        , dynamicUITableNew.getLoanType(), dynamicUITableNew.getClientID(), SPINNER_ITEM_FIELD_NAME_AADHAAR);
+                                RawDataTable rawDataTable = dynamicUIDao.getRawdataByFieldName(dynamicUITableNew.getScreenName(),
+                                        dynamicUITableNew.getLoanType(), dynamicUITableNew.getClientID(), SPINNER_ITEM_FIELD_NAME_AADHAAR);
                                 if (rawDataTable == null) {
                                     dynamicUITableNew.setValue(SPINNER_ITEM_FIELD_NAME_AADHAAR);
                                 }
                             }
                             // TODO: Kyc Id ( Default Aadhaar )
                             else if (dynamicUITableNew.getFieldName().equalsIgnoreCase(TAG_NAME_KYC_ID)) {
-                                RawDataTable rawDataTable = dynamicUIDao.getRawdataByFieldName(dynamicUITableNew.getScreenName()
-                                        , dynamicUITableNew.getLoanType(), dynamicUITableNew.getClientID(), SPINNER_ITEM_FIELD_NAME_AADHAAR);
+                                RawDataTable rawDataTable = dynamicUIDao.getRawdataByFieldName(dynamicUITableNew.getScreenName(),
+                                        dynamicUITableNew.getLoanType(), dynamicUITableNew.getClientID(), SPINNER_ITEM_FIELD_NAME_AADHAAR);
                                 if (rawDataTable == null) {
                                     DataTypeInfo datatypeInfo = new DataTypeInfo(SPINNER_ITEM_FIELD_NAME_AADHAAR, dynamicUITableNew);
                                     // TODO: Only here we need to check with field name
@@ -20618,14 +20728,12 @@ public class DynamicUIRepository {
 
                                 }
                             } else if (dynamicUITableNew.getFieldTag().equalsIgnoreCase(TAG_NAME_EKYC_BUTTON)) {
-                                RawDataTable rawDataTable = dynamicUIDao.getRawdataByFieldName(dynamicUITableNew.getScreenName()
-                                        , dynamicUITableNew.getLoanType(), dynamicUITableNew.getClientID(), SPINNER_ITEM_FIELD_NAME_AADHAAR);
+                                RawDataTable rawDataTable = dynamicUIDao.getRawdataByFieldName(dynamicUITableNew.getScreenName(),
+                                        dynamicUITableNew.getLoanType(), dynamicUITableNew.getClientID(), SPINNER_ITEM_FIELD_NAME_AADHAAR);
                                 if (rawDataTable == null) {
                                     dynamicUITableNew.setVisibility(true);
                                 }
                             }
-
-
                         } else {
                             dynamicUITableNew.setValue("");
                         }
@@ -20685,11 +20793,10 @@ public class DynamicUIRepository {
                         }
                     }
                 }
-
-
                 deleteAndInsertNewRecordInTable(dynamicUITableListNew, dynamicUITable.getScreenName());
 
                 // TODO: After adding 2 kycs hide kyc related fields in JLG
+                // Add same to EL Guarantor screen
 
                 DynamicUITable dynamicUITable_kycType = dynamicUIDao.getRowByTAGandScreen(TAG_NAME_KYC_TYPE, dynamicUITable.getScreenID());
                 if (dynamicUITable_kycType != null && dynamicUITable_kycType.getLoanType().equalsIgnoreCase(LOAN_NAME_JLG)) {
@@ -20704,9 +20811,7 @@ public class DynamicUIRepository {
                         dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_EKYC_BUTTON, dynamicUITable_kycType.getScreenName(),
                                 "", true, false);
                     }
-
                 }
-
             }
 
             List<DynamicUITable> dynamicUITableListFinal = dynamicUIDao.loadUpdatedDataNew(dynamicUITableList.get(0).getScreenID());
@@ -20754,16 +20859,15 @@ public class DynamicUIRepository {
                                     deleteAndInsertNewRecordInTable(dynamicUITableListLatest, dynamicUITable.getScreenName());
                                 } else {
                                     // TODO: updating field name
-                                    dynamicUIDao.updateDynamicTableFieldNameAndVisibility(rawDataTable.getTag_name()
-                                            , dynamicUITable.getScreenName(),
+                                    dynamicUIDao.updateDynamicTableFieldNameAndVisibility(rawDataTable.getTag_name(),
+                                            dynamicUITable.getScreenName(),
                                             fieldName, true, true);
 
                                     // TODO: updating value
-                                    dynamicUIDao.updateDynamicTableValueAndVisibility(rawDataTable.getTag_name()
-                                            , dynamicUITable.getScreenName(),
+                                    dynamicUIDao.updateDynamicTableValueAndVisibility(rawDataTable.getTag_name(),
+                                            dynamicUITable.getScreenName(),
                                             value, true, true);
                                 }
-
                             }
                         }
                     }
@@ -20828,22 +20932,18 @@ public class DynamicUIRepository {
 
                                     List<DynamicUITable> dynamicUITableListLatest = dynamicUIDao.loadUpdatedDataNew(dynamicUITableList.get(0).getScreenID());
 
-                                    dynamicUITableListLatest.add(dynamicUITableListLatest.size() - 1,
-                                            newDynamicUITable);
+                                    dynamicUITableListLatest.add(dynamicUITableListLatest.size() - 1, newDynamicUITable);
                                     // TODO: delete old record and insert
                                     deleteAndInsertNewRecordInTable(dynamicUITableListLatest, dynamicUITable.getScreenName());
                                 } else {
                                     // TODO: updating field name
-                                    dynamicUIDao.updateDynamicTableFieldNameAndVisibility(rawDataTable.getTag_name()
-                                            , dynamicUITable.getScreenName(),
-                                            fieldName, true, true);
+                                    dynamicUIDao.updateDynamicTableFieldNameAndVisibility(rawDataTable.getTag_name(),
+                                            dynamicUITable.getScreenName(), fieldName, true, true);
 
                                     // TODO: updating value
-                                    dynamicUIDao.updateDynamicTableValueAndVisibility(rawDataTable.getTag_name()
-                                            , dynamicUITable.getScreenName(),
-                                            value, true, true);
+                                    dynamicUIDao.updateDynamicTableValueAndVisibility(rawDataTable.getTag_name(),
+                                            dynamicUITable.getScreenName(), value, true, true);
                                 }
-
                             }
                         }
                     }
@@ -20874,13 +20974,9 @@ public class DynamicUIRepository {
                     }
                 }
 
-                //if (rawDataSpinnerList.size() > 0) {
                 String[] newSpinnerStringArray = rawDataSpinnerList.toArray(new String[0]);
-                // if (newSpinnerStringArray != null && newSpinnerStringArray.length > 0) {
                 dynamicUIDao.changeSpinnerList(TAG_NAME_FULL_NAME,
                         DataTypeConverter.someObjectListToString(newSpinnerStringArray), dynamicUITable.getScreenID());
-                // }
-                //}
             }
 
             List<DynamicUITable> dynamicUITableListNew = dynamicUIDao.loadUpdatedDataNew(dynamicUITableList.get(0).getScreenID());
@@ -20935,7 +21031,6 @@ public class DynamicUIRepository {
                 deleteAndInsertNewRecordInTable(dynamicUITableListNew, dynamicUITable.getScreenName());
 
             }
-
 
             List<DynamicUITable> dynamicUITableListFinal = dynamicUIDao.loadUpdatedDataNew(dynamicUITableList.get(0).getScreenID());
             data.postValue(dynamicUITableListFinal);
@@ -20999,11 +21094,9 @@ public class DynamicUIRepository {
                                             fieldName, true, true);
 
                                     // TODO: updating value
-                                    dynamicUIDao.updateDynamicTableValueAndVisibility(rawDataTable.getTag_name()
-                                            , dynamicUITable.getScreenName(),
+                                    dynamicUIDao.updateDynamicTableValueAndVisibility(rawDataTable.getTag_name(), dynamicUITable.getScreenName(),
                                             value, true, true);
                                 }
-
                             }
                         }
                     }
@@ -21099,7 +21192,6 @@ public class DynamicUIRepository {
                                 }
                             }
 
-
                             if (!TextUtils.isEmpty(fieldName)) {
 //                                DynamicUITable dynamicUITableForNewRow = getObjectByTAG(rawDataTable.getTag_name(), dynamicUITableList);
                                 DynamicUITable dynamicUITableForNewRow = dynamicUIDao.getRowByTAGandScreen(rawDataTable.getTag_name(),
@@ -21116,16 +21208,13 @@ public class DynamicUIRepository {
                                     deleteAndInsertNewRecordInTable(dynamicUITableListLatest, dynamicUITable.getScreenName());
                                 } else {
                                     // TODO: updating field name
-                                    dynamicUIDao.updateDynamicTableFieldNameAndVisibility(rawDataTable.getTag_name()
-                                            , dynamicUITable.getScreenName(),
-                                            fieldName, true, true);
+                                    dynamicUIDao.updateDynamicTableFieldNameAndVisibility(rawDataTable.getTag_name(),
+                                            dynamicUITable.getScreenName(), fieldName, true, true);
 
                                     // TODO: updating value
-                                    dynamicUIDao.updateDynamicTableValueAndVisibility(rawDataTable.getTag_name()
-                                            , dynamicUITable.getScreenName(),
-                                            value, true, true);
+                                    dynamicUIDao.updateDynamicTableValueAndVisibility(rawDataTable.getTag_name(),
+                                            dynamicUITable.getScreenName(), value, true, true);
                                 }
-
                             }
                         }
                     }
@@ -21200,8 +21289,8 @@ public class DynamicUIRepository {
     }
 
     // TODO: LOAN PROPOSAL APPLICANT SCREEN MSME
-    public LiveData<List<DynamicUITable>> applicantLoanProposalScreenChangesByDropdown(DynamicUITable
-                                                                                               dynamicUITable, List<DynamicUITable> dynamicUITableList) {
+    public LiveData<List<DynamicUITable>> applicantLoanProposalScreenChangesByDropdown(DynamicUITable dynamicUITable,
+                                                                                       List<DynamicUITable> dynamicUITableList) {
         final MutableLiveData<List<DynamicUITable>> data = new MutableLiveData<>();
         executor.execute(() -> {
             dynamicUIDao.updateDynamicUITable(dynamicUITableList); // TODO: update list first
@@ -21256,7 +21345,6 @@ public class DynamicUIRepository {
                                 changeSpinnerList(productParamList, dynamicUITable.getScreenID(), TAG_NAME_LOAN_PRODUCT);
                             }
                         }
-
                     }
                 }
                 // TODO: LOAN SCHEME VALIDATION
@@ -21280,8 +21368,6 @@ public class DynamicUIRepository {
                         dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_SECURITY_VALUE, dynamicUITable.getScreenName(), "",
                                 true, true);
                     }
-
-
                     // TODO: scheme drop down changes by product
                     if (!TextUtils.isEmpty(dynamicUITable.getValue())) {
                         List<String> schemeParamList = dynamicUIDao.getSchemeByProduct();
@@ -21376,6 +21462,7 @@ public class DynamicUIRepository {
                     }
                 }
             }
+
             else if (dynamicUITable.getLoanType().equalsIgnoreCase(LOAN_NAME_AHL)) {
 
                 List<String> productParamList = dynamicUIDao.getDistinctProducts();
@@ -21561,9 +21648,7 @@ public class DynamicUIRepository {
                                     true, false);
                         }
                     }
-
                 }
-
             }
             else if (dynamicUITable.getLoanType().equalsIgnoreCase(LOAN_NAME_EL)) {
                 List<String> productParamList = dynamicUIDao.getDistinctProducts();
@@ -22015,9 +22100,7 @@ public class DynamicUIRepository {
                                     true, false);
                         }
                     }
-
                 }
-
             }
             else if (dynamicUITable.getLoanType().equalsIgnoreCase(LOAN_NAME_TWL)) {
 
@@ -25029,6 +25112,68 @@ public class DynamicUIRepository {
         return data;
     }
 
+    public LiveData<List<ProductMasterTable>> getLeadProductDetailsFromServer(String productId, String bcId){
+        final MutableLiveData<List<ProductMasterTable>> data = new MutableLiveData<>();
+        DynamicUIWebService.changeApiBaseUrl(RAW_DATA_URL);
+        executor.execute(() ->{
+            try {
+              final LeadMasterRequestDTO leadMasterRequestDTO = new LeadMasterRequestDTO();
+              leadMasterRequestDTO.setIMEINumber(appHelper.getIMEI());
+              LeadMasterRequestDTO.SpLeadNameWithParameterClass spLeadNameWithParameterClass = new LeadMasterRequestDTO.SpLeadNameWithParameterClass();
+              spLeadNameWithParameterClass.setSpName(SP_NAME_TO_GET_PRODUCT_MASTER);
+              LeadMasterRequestDTO.SpParametersClass spParametersClass = new LeadMasterRequestDTO.SpParametersClass();
+              spParametersClass.getSegmentId(productId);
+              spParametersClass.setBCID(bcId);
+              spLeadNameWithParameterClass.setSpParameters(spParametersClass);
+              ArrayList<LeadMasterRequestDTO.SpLeadNameWithParameterClass> spLeadNameWithParameterClassArrayList = new ArrayList<>();
+              spLeadNameWithParameterClassArrayList.add(spLeadNameWithParameterClass);
+              leadMasterRequestDTO.setSpNameWithParameter(spLeadNameWithParameterClassArrayList);
+              String baseString = new Gson().toJson(leadMasterRequestDTO, LeadMasterRequestDTO.class).replace("\\u003d", "=");
+              String k1 = SHA256Encrypt.sha256(baseString);
+              DynamicUIWebService.createService(DynamicUIWebservice.class).getLeadMasterFromServer(leadMasterRequestDTO,
+                      appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
+                      enqueue(new Callback<ResponseBody>() {
+                          @Override
+                          public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                              executor.execute(() -> {
+                                  if(response.isSuccessful()){
+                                      try {
+                                          String strResponse = response.body().string();
+                                          JSONObject json = new JSONObject(strResponse);
+                                          String key = json.keys().next();
+                                          String tableJson = json.get(key).toString();
+                                          LeadMasterResponseDTO leadMasterResponseDTO = new Gson().fromJson(tableJson, LeadMasterResponseDTO.class);
+                                          if (leadMasterResponseDTO != null && leadMasterResponseDTO.getTable().size() > 0) {
+                                              Log.d(TAG, "raw data server =======> " + new Gson().toJson(leadMasterResponseDTO));
+                                              List<ProductMasterTable> productMasterTableList = new ArrayList<>();
+
+                                              for (ProductMasterTable productMasterTable : leadMasterResponseDTO.getTable()) {
+                                                  productMasterTableList.add(productMasterTable);
+                                                  Log.d(TAG, "raw data Loan scheme list...... server =======> " + productMasterTableList.add(productMasterTable));
+                                              }
+                                              data.postValue(productMasterTableList);
+
+                                              dynamicUIDao.insertAndDeleteProductMasterTable(productMasterTableList);
+
+                                          }
+                                      } catch (Exception e) {
+                                          throw new RuntimeException(e);
+                                      }
+                                  }
+                              });
+                          }
+
+                          @Override
+                          public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                          }
+                      });
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+        return data;
+    }
     public LiveData<List<ProductMasterTable>> getProductMasterFromServer(String productId, String bcId) {
         final MutableLiveData<List<ProductMasterTable>> data = new MutableLiveData<>();
         DynamicUIWebService.changeApiBaseUrl(RAW_DATA_URL);
@@ -25106,115 +25251,84 @@ public class DynamicUIRepository {
         return data;
     }
 
-
-    private void getDBRFromServer(String dbrCallMethod, String loanType, String pickMethod, DynamicUITable dynamicUITable) {
-
-
-        DynamicUIWebService.changeApiBaseUrl(RAW_DATA_URL);
-
-        try {
-            final DBRRequestDTO rawDataRequestDTO = new DBRRequestDTO();
-            rawDataRequestDTO.setIMEINumber(appHelper.getIMEI());
-            DBRRequestDTO.SpNameWithParameterClass spNameWithParameter = new DBRRequestDTO.SpNameWithParameterClass();
-            spNameWithParameter.setSpName(SP_NAME_TO_GET_DBR);
-            DBRRequestDTO.SpParametersClass spParametersClass = new DBRRequestDTO.SpParametersClass();
-            spParametersClass.setDBRCalMtd(dbrCallMethod); // TODO: DBRCallMtd
-            spParametersClass.setBCID(AppConstant.BCID); // TODO: BC id ( Hard coded )
-            spParametersClass.setLoanType(loanType); // TODO: Loan Type
-            spParametersClass.setPickmtd(pickMethod); // TODO: Pick Method
-            spNameWithParameter.setSpParameters(spParametersClass);
-            ArrayList<DBRRequestDTO.SpNameWithParameterClass> SpNameWithParameterList = new ArrayList<DBRRequestDTO.SpNameWithParameterClass>();
-            SpNameWithParameterList.add(spNameWithParameter);
-            rawDataRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-            String baseString = new Gson().toJson(rawDataRequestDTO, DBRRequestDTO.class).replace("\\u003d", "=");
-            String k1 = SHA256Encrypt.sha256(baseString);
-            DynamicUIWebService.createService(DynamicUIWebservice.class).getDBRFromServer(rawDataRequestDTO,
-                            appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                    enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            executor.execute(() -> {
-                                if (response.isSuccessful()) {
-                                    try {
-                                        String strResponse = response.body().string();
-                                        JSONObject json = new JSONObject(strResponse);
-                                        String key = json.keys().next();
-
-                                        String tableJson = json.get(key).toString();
-                                        DBRResponseDTO dbrResponseDTO = new Gson().fromJson(tableJson, DBRResponseDTO.class);
-                                        if (dbrResponseDTO != null && dbrResponseDTO.getTable().size() > 0) {
-                                            Log.d(TAG, "raw data tvName server =======> " + new Gson().toJson(dbrResponseDTO));
-
-                                            if (dbrResponseDTO.getTable().size() > 1) {
-                                                DBRResponseDTO.Table table = dbrResponseDTO.getTable().get(0);
-                                            } else {
-                                                DBRResponseDTO.Table table = dbrResponseDTO.getTable().get(0);
-                                                if (table != null && !TextUtils.isEmpty(table.getRuleInPercent())) {
-                                                    dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_DEBT_SERVICE_RATIO_IN_CASH_FLOW_SUMMARY_MSME,
-                                                            dynamicUITable.getScreenName(), String.valueOf(table.getRuleInPercent()), false, true);
-
-                                                    double DBR = Double.valueOf(table.getRuleInPercent());
-                                                    String totalMonthlySurplus = dynamicUIDao.getValueByTAGAndScreenName(dynamicUITable.getScreenName(),
-                                                            TAG_NAME_TOTAL_MONTHLY_SURPLUS_IN_CASH_FLOW_SUMMARY_MSME);
-                                                    if (!TextUtils.isEmpty(totalMonthlySurplus)) {
-
-                                                        double dTotalMonthlySurplus = Double.valueOf(totalMonthlySurplus);
-                                                        if (DBR > 0 && dTotalMonthlySurplus > 0) {
-                                                            double SUGGESTED_EMI_BASED_ON_CFA = (DBR / 100) * dTotalMonthlySurplus;
-                                                            dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_SUGGESTED_EMI_BASED_ON_CFA_IN_CASH_FLOW_SUMMARY_MSME,
-                                                                    dynamicUITable.getScreenName(), String.valueOf(SUGGESTED_EMI_BASED_ON_CFA), false, true);
-
-                                                            String declaredRepaymentCapacity = dynamicUIDao.getValueByTAGAndScreenName(dynamicUITable.getScreenName(),
-                                                                    TAG_NAME_DECLARED_REPAYMENT_CAPACITY_IN_CASH_FLOW_SUMMARY_MSME);
-                                                            if (!TextUtils.isEmpty(declaredRepaymentCapacity)) {
-
-                                                                double DECLARED_REPAYMENT_CAPACITY = Double.valueOf(declaredRepaymentCapacity);
-                                                                double SUGGESTED_EMI = 0;
-                                                                if (SUGGESTED_EMI_BASED_ON_CFA < DECLARED_REPAYMENT_CAPACITY) {
-                                                                    SUGGESTED_EMI = SUGGESTED_EMI_BASED_ON_CFA;
-                                                                } else {
-                                                                    SUGGESTED_EMI = DECLARED_REPAYMENT_CAPACITY;
-                                                                }
-
-                                                                // TODO: Updating suggested EMI
-                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_SUGGESTED_EMI_IN_CASH_FLOW_SUMMARY_MSME,
-                                                                        dynamicUITable.getScreenName(), String.valueOf(SUGGESTED_EMI), false, true);
-
-                                                                double RPI = 0.021666666666;
-                                                                int NO_OF_INSTALLMENT = 24;
-                                                                // TODO: Calculate Recommended Loan Amount
-                                                                double RECOMMENDED_LOAN_AMOUNT = SUGGESTED_EMI * ((Math.pow(RPI + 1, NO_OF_INSTALLMENT) - 1) / (RPI * Math.pow(RPI + 1, NO_OF_INSTALLMENT)));
-                                                                RECOMMENDED_LOAN_AMOUNT = Math.round(RECOMMENDED_LOAN_AMOUNT);
-                                                                // TODO: Updating Recommended Loan Amount
-                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_RECOMMENDED_LOAN_AMOUNT_IN_CASH_FLOW_SUMMARY_MSME,
-                                                                        dynamicUITable.getScreenName(), String.valueOf(RECOMMENDED_LOAN_AMOUNT), false, true);
-
-                                                            }
-                                                        }
-                                                    }
-
-                                                }
-                                            }
-
-                                        }
-                                    } catch (Exception ex) {
-                                        ex.printStackTrace();
-                                    }
-                                }
-
-                            });
-                        }
-
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            t.printStackTrace();
-                        }
-                    });
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-    }
+//    public LiveData<List<ProductMasterTable>> getLeadProductMasterFromServer(String productId, String bcId) {
+//        final MutableLiveData<List<ProductMasterTable>> data = new MutableLiveData<>();
+//        DynamicUIWebService.changeApiBaseUrl(RAW_DATA_URL);
+//        executor.execute(() -> {
+//            try {
+//                final LeadMasterRequestDTO rawDataRequestDTO = new LeadMasterRequestDTO();
+//                rawDataRequestDTO.setIMEINumber(appHelper.getIMEI());
+//                LeadMasterRequestDTO.SpLeadNameWithParameterClass spNameWithParameter = new LeadMasterRequestDTO.SpLeadNameWithParameterClass();
+//                spNameWithParameter.setSpName(SP_NAME_TO_GET_PRODUCT_MASTER);
+//                LeadMasterRequestDTO.SpParametersClass spParametersClass = new LeadMasterRequestDTO.SpParametersClass();
+//                spParametersClass.setSegmentId(productId); // TODO: segment id ( product id )
+//                spParametersClass.setBCID(bcId); // TODO: BCid
+//                spNameWithParameter.setSpParameters(spParametersClass);
+//                Log.d(TAG, "get the sp parameters.................." + spParametersClass.getBCID());
+//                Log.d(TAG, "get the sp parameters.................." + spParametersClass.getSegmentId());
+//                ArrayList<LeadMasterRequestDTO.SpLeadNameWithParameterClass> SpNameWithParameterList = new ArrayList<LeadMasterRequestDTO.SpLeadNameWithParameterClass>();
+//                SpNameWithParameterList.add(spNameWithParameter);
+//                rawDataRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
+//                String baseString = new Gson().toJson(rawDataRequestDTO, LeadMasterRequestDTO.class).replace("\\u003d", "=");
+//                String k1 = SHA256Encrypt.sha256(baseString);
+//                DynamicUIWebService.createService(DynamicUIWebservice.class).getLeadMasterFromServer(rawDataRequestDTO,
+//                                appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
+//                        enqueue(new Callback<ResponseBody>() {
+//                            @Override
+//                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                                executor.execute(() -> {
+//                                    if (response.isSuccessful()) {
+//                                        try {
+//                                            String strResponse = response.body().string();
+//                                            JSONObject json = new JSONObject(strResponse);
+//                                            String key = json.keys().next();
+//
+//                                            String tableJson = json.get(key).toString();
+//                                            LeadMasterResponseDTO rawDataResponseDTO = new Gson().fromJson(tableJson, LeadMasterResponseDTO.class);
+//                                            if (rawDataResponseDTO != null && rawDataResponseDTO.getTable().size() > 0) {
+//                                                Log.d(TAG, "raw data server =======> " + new Gson().toJson(rawDataResponseDTO));
+//                                                List<ProductMasterTable> productMasterTableList = new ArrayList<>();
+//
+//                                                for (ProductMasterTable productMasterTable : rawDataResponseDTO.getTable()) {
+//                                                    productMasterTableList.add(productMasterTable);
+//                                                    Log.d(TAG, "raw data Loan scheme list...... server =======> " + productMasterTableList.add(productMasterTable));
+//                                                }
+//                                                data.postValue(productMasterTableList);
+//
+//                                                dynamicUIDao.insertAndDeleteProductMasterTable(productMasterTableList);
+//                                            }
+//                                        } catch (Exception ex) {
+//                                            ex.printStackTrace();
+//
+//                                            insertLog("getProductMasterFromServer", ex.getMessage(), "", "", TAG, "", "", "");
+//                                        }
+//                                    } else {
+//                                        insertLog("getProductMasterFromServer", response.message(), "", "", TAG, "", "", "");
+//                                    }
+//
+//                                    // TODO: Final result
+//                                    List<ProductMasterTable> productMasterTableList = dynamicUIDao.getProductMasterTable();
+//                                    data.postValue(productMasterTableList);
+//
+//                                });
+//                            }
+//
+//                            @Override
+//                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                                t.printStackTrace();
+//
+//                                insertLog("getProductMasterFromServer", t.getMessage(), "", "", TAG, "", "", "");
+//                            }
+//                        });
+//            } catch (Exception ex) {
+//                ex.printStackTrace();
+//
+//                insertLog("getProductMasterFromServer", ex.getMessage(), "", "", TAG, "", "", "");
+//            }
+//
+//        });
+//        return data;
+//    }
 
     // TODO:  IFSC Service call
     public LiveData<List<DynamicUITable>> getIFSCDataFromServer(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList) {
@@ -25411,7 +25525,7 @@ public class DynamicUIRepository {
                                                             }
                                                         }
                                                         if (leadRawData != null||coApplicantKYCDetailRawDataList!=null) {
-                                                            String mobileNumber="";
+                                                            String mobileNumber = "";
                                                             if (hashMap != null && hashMap.size() > 0) {
                                                                 if (hashMap.containsKey(TAG_NAME_CUSTOMER_TYPE)) {
                                                                     String customerType = hashMap.get(TAG_NAME_CUSTOMER_TYPE).toString();
@@ -25530,8 +25644,6 @@ public class DynamicUIRepository {
 
                                                         }
 
-
-
                                                         /*if(pantitle.equalsIgnoreCase("")) {
                                                             dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_TITLE, dynamicUITable.getScreenName(), "", false, true);
                                                             dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_SALUTATION, dynamicUITable.getScreenName(), "", true, true);
@@ -25583,11 +25695,8 @@ public class DynamicUIRepository {
                                     insertLog("panValidationServiceCall", t.getMessage(), "", "", TAG, "", "", "");
 
                                 });
-
                             }
                         });
-
-
             });
 
         } catch (Exception ex) {
@@ -25598,7 +25707,6 @@ public class DynamicUIRepository {
                 data.postValue(dynamicUITableListResult);
 
                 insertLog("panValidationServiceCall", ex.getMessage(), "", "", TAG, "", "", "");
-
             });
 
         }
@@ -25610,7 +25718,6 @@ public class DynamicUIRepository {
         final MutableLiveData<List<DynamicUITable>> data = new MutableLiveData<>();
 
         DynamicUIWebService.changeApiBaseUrl(AADHAAR_VAULT_URL);
-
         try {
             executor.execute(() -> {
                 dynamicUIDao.updateDynamicUITable(dynamicUITableList); // TODO: update list first
@@ -25659,13 +25766,10 @@ public class DynamicUIRepository {
                                                 dynamicUIDao.updateDynamicTableOptionalValue(dynamicUITable.getFieldTag(),
                                                         dynamicUITable.getScreenName(), aadhaarRefKey);
                                             }
-
                                         }
                                     } else {
                                         insertLog("aadhaarVaultServiceCall", response.message(), "", "", TAG, "", "", "");
                                     }
-
-
                                     // TODO: Final Result
                                     List<DynamicUITable> dynamicUITableListResult = dynamicUIDao.loadUpdatedDataNew(dynamicUITable.getScreenID());
                                     data.postValue(dynamicUITableListResult);
@@ -25684,8 +25788,6 @@ public class DynamicUIRepository {
                                 });
                             }
                         });
-
-
             });
 
         } catch (Exception ex) {
@@ -25833,7 +25935,6 @@ public class DynamicUIRepository {
                                             ex.printStackTrace();
                                         }
                                     }
-
                                 }
                             }
                             if (hashMap.containsKey(TAG_NAME_CONTAINS_DOB)) {
@@ -25860,7 +25961,7 @@ public class DynamicUIRepository {
                             if (hashMap.containsKey(TAG_NAME_KYC_ID)) {
                                 String value = hashMap.get(TAG_NAME_KYC_ID).toString();
                                 if (!TextUtils.isEmpty(value)) {
-                                    // TODO: check pan card,passport,driving license,voter id , aadhaar, ration card no
+                                    // TODO: check pan card, passport, driving license, voter id, aadhaar, ration card no
                                     if (hashMap.containsKey(TAG_NAME_KYC_TYPE)) {
                                         String kycType = hashMap.get(TAG_NAME_KYC_TYPE).toString();
                                         if (!TextUtils.isEmpty(kycType)) {
@@ -26125,8 +26226,8 @@ public class DynamicUIRepository {
         return data;
     }
 
-    public LiveData<List<DynamicUITable>> calculateLoanProposalNew(DynamicUITable
-                                                                           dynamicUITable, List<DynamicUITable> dynamicUITableList) {
+    public LiveData<List<DynamicUITable>> calculateLoanProposalNew(DynamicUITable dynamicUITable,
+                                                                   List<DynamicUITable> dynamicUITableList) {
         final MutableLiveData<List<DynamicUITable>> data = new MutableLiveData<>();
         executor.execute(() -> {
             dynamicUIDao.updateDynamicUITable(dynamicUITableList); // TODO: update list first
@@ -26421,8 +26522,6 @@ public class DynamicUIRepository {
         });
         return data;
     }
-
-
     public LiveData<List<DynamicUITable>> calculateLoanProposalFinalPDNew
             (DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList, boolean loanAmountChanges) {
         final MutableLiveData<List<DynamicUITable>> data = new MutableLiveData<>();
@@ -26936,7 +27035,6 @@ public class DynamicUIRepository {
         return data;
     }
 
-
     public LiveData<List<GroupTable>> insertAndDeleteGroupTableListByMemberId(List<GroupTable> groupTableList) {
         final MutableLiveData<List<GroupTable>> data = new MutableLiveData<>();
         executor.execute(() -> {
@@ -26994,7 +27092,6 @@ public class DynamicUIRepository {
         });
         return data;
     }
-
     public LiveData<List<GRTAttendanceTable>> updateGRTTableAttendance(List<GRTAttendanceTable> grtAttendanceTableList,
                                                                        GRTTable grtTable) {
         final MutableLiveData<List<GRTAttendanceTable>> data = new MutableLiveData<>();
@@ -27315,7 +27412,6 @@ public class DynamicUIRepository {
         }
         return data;
     }
-
 
     public LiveData<CMCollectionLocalResponseDTO> saveCenterMeetingCollection(String centerName, String collectionType) {
         final MutableLiveData<CMCollectionLocalResponseDTO> data = new MutableLiveData<>();
@@ -28101,8 +28197,8 @@ public class DynamicUIRepository {
                 if (leadTableFromDB.isSync() && leadTableFromDB.getInterestedInLoan() == 1) {
                     // TODO: no need to insert or update---------is sync 1 or 0
                 } else {
-
-                    leadTableFromDB.setSync(false);
+                //Sync the data in lead details and fetch the synced data from application stage
+                    leadTableFromDB.setSync(true);
                     leadTableFromDB.setIsDataCaptured(true);
 
                     HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
@@ -28141,8 +28237,6 @@ public class DynamicUIRepository {
                             }
                         }
                     }
-
-
                     dynamicUIDao.insertLeadTable(leadTableFromDB);
                 }
 
@@ -28181,8 +28275,7 @@ public class DynamicUIRepository {
         });
     }
 
-    public LiveData<List<RawDataTable>> insertRawData(RawDataTable
-                                                              rawDataTable, List<DynamicUITable> viewParametersList,
+    public LiveData<List<RawDataTable>> insertRawData(RawDataTable rawDataTable, List<DynamicUITable> viewParametersList,
                                                       DynamicUITable dynamicUITable, boolean isDataFromServer) {
         final MutableLiveData<List<RawDataTable>> data = new MutableLiveData<>();
         executor.execute(() -> {
@@ -28442,16 +28535,6 @@ public class DynamicUIRepository {
             if (rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_LEAD) && rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_MSME)) {
                 // TODO: insert lead data
                 insertorUpdateLeadData(rawDataTable, dynamicUITable);
-            }
-            // TODO: AHL insert lead data
-            else if (rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_LEAD) && rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_AHL)) {
-                // TODO: insert lead data
-                insertorUpdateLeadData(rawDataTable, dynamicUITable);
-            }
-            // TODO: PHL insert lead data
-            else if (rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_LEAD) && rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_PHL)) {
-                // TODO: insert lead data
-                insertorUpdateLeadData(rawDataTable, dynamicUITable);
             } else if (rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_LEAD) && rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)) {
                 // TODO: insert lead data
                 insertorUpdateLeadData(rawDataTable, dynamicUITable);
@@ -28507,7 +28590,6 @@ public class DynamicUIRepository {
                 }
             }
 
-
             RawDataTable newlyAddedRow = dynamicUIDao.loadSingleRawData(rawDataTable.getScreen_no(), rawDataTable.getScreen_name(),
                     rawDataTable.getClient_id(), rawDataTable.getModuleType());
 
@@ -28525,8 +28607,6 @@ public class DynamicUIRepository {
                     MasterTable masterTable = dynamicUIDao.getMasterTableByClientId(newlyAddedRow.getClient_id());
                     if (masterTable != null)
                         dynamicUIDao.updateLoanAmountInMasterTable(dynamicUITable1.getValue(), masterTable.getId());
-
-
                 }
             }
 
@@ -28591,7 +28671,6 @@ public class DynamicUIRepository {
                 rawDataTable.setCoRelationID(dynamicUITable.getCoRelationID());
                 rawDataTable.setProductId(dynamicUITable.getProductId());
             }
-
             try {
                 JSONObject jsonObject = new JSONObject(rawDataTable.getRawdata());
                 // TODO: Adding save button as tag
@@ -28608,7 +28687,6 @@ public class DynamicUIRepository {
                         jsonObject.put(correlationIdObj.getFieldTag(), dynamicUITable.getCoRelationID());
                     }
 
-
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -28623,7 +28701,6 @@ public class DynamicUIRepository {
             if (!TextUtils.isEmpty(dynamicUiRawData)) {
                 rawDataTable.setDynamic_ui_rawdata(dynamicUiRawData);
             }
-
 
 //            dynamicUIDao.insertRawData(rawDataTable); // TODO: Then insert json in raw data table
 
@@ -28802,8 +28879,6 @@ public class DynamicUIRepository {
                                 if (masterTable != null) {
                                     dynamicUIDao.updateMasterTableClientName(hashMap.get(TAG_NAME_FULL_NAME).toString(),
                                             masterTable.getId());
-
-
                                 }
                             }
                         }
@@ -28829,6 +28904,763 @@ public class DynamicUIRepository {
 
     }
 
+//    private void documentUploadNew(RawDataTable rawDataTable, DynamicUITable dynamicUITable) {
+//        try {
+//            // TODO: ********* validation for document upload *************
+//            int applicantAgeValue=0;
+//            String outSideIndia = "", earningCapacityOfStudent = "";
+//            RawDataTable leadRawData = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_LEAD, rawDataTable.getClient_id(), rawDataTable.getLoan_type());
+//            if (leadRawData != null) {
+//                HashMap<String, Object> hashMap = setKeyValueForObject(leadRawData);
+//                if (hashMap != null && hashMap.size() > 0) {
+//                    if (hashMap != null && hashMap.size() > 0) {
+//                        if (hashMap.containsKey(TAG_NAME_APPLICATION_ENTER_AGE)) {
+//                            applicantAgeValue = Integer.valueOf(hashMap.get(TAG_NAME_APPLICATION_ENTER_AGE).toString());
+//                        }
+//                        if (hashMap.containsKey(TAG_NAME_EARNING_CAPACITY_OF_STUDENT)) {
+//                            earningCapacityOfStudent = hashMap.get(TAG_NAME_EARNING_CAPACITY_OF_STUDENT).toString();
+//                        }
+//                    }
+//                }
+//            }
+//
+//
+//            // TODO: APPLICANT KYC SCREEN
+//            if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
+//                    rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC)) {
+//                DynamicUITable applicantKycType = dynamicUIDao.getRowByTAGandScreen(TAG_NAME_KYC_TYPE, rawDataTable.getScreen_no());
+//                if (applicantKycType != null && !TextUtils.isEmpty(applicantKycType.getValue())) {
+//
+//                    // TODO: Document upload table
+//
+//                    // TODO: Applicant Photo
+//                    insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+//                            DOCUMENT_NAME_APPLICANT_PHOTO, rawDataTable, "", "");
+//                    if(applicantAgeValue >= 19 && earningCapacityOfStudent.equalsIgnoreCase("Yes")){
+//                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_APPLICANT_STUDENT_ADMIT_LETTER, rawDataTable, "", "");
+//
+//                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_APPLICANT_FEE_STRUCTURE, rawDataTable, "", "");
+//
+//                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_10_MARK_SHEET, rawDataTable, "", "");
+//
+//                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_12_MARK_SHEET, rawDataTable, "", "");
+//
+//                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_GRADUATION, rawDataTable, "", "");
+//
+//                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_EXAM_SCORE_CARD, rawDataTable, "", "");
+//
+//                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_FEE_INSTITUTE, rawDataTable, "", "");
+//
+////                        // TODO: House Photo
+////                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+////                                DOCUMENT_NAME_HOUSE_PHOTO, rawDataTable, "", "");
+//                    }else{
+//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_APPLICANT_STUDENT_ADMIT_LETTER, rawDataTable, "", "");
+//
+//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_APPLICANT_FEE_STRUCTURE, rawDataTable, "", "");
+//
+//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_10_MARK_SHEET, rawDataTable, "", "");
+//
+//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_12_MARK_SHEET, rawDataTable, "", "");
+//
+//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_GRADUATION, rawDataTable, "", "");
+//
+//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_EXAM_SCORE_CARD, rawDataTable, "", "");
+//
+//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_FEE_INSTITUTE, rawDataTable, "", "");
+//
+//                        // TODO: House Photo
+//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_HOUSE_PHOTO, rawDataTable, "", "");
+//                    }
+//
+//
+//                    if (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)) {
+//                        // TODO: Shop Photo
+//                        if (leadRawData != null) {
+//                            HashMap<String, Object> hashMap = setKeyValueForObject(leadRawData);
+//                            if (hashMap != null && hashMap.size() > 0) {
+//                                if (hashMap.containsKey(TAG_NAME_CUSTOMER_TYPE)) {
+//
+//                                    String customerType = hashMap.get(TAG_NAME_CUSTOMER_TYPE).toString();
+//                                    if (!TextUtils.isEmpty(customerType) && (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SELF_EMPLOYED)
+//                                            || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SEP) || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP))) {
+//
+//                                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+//                                                , DOCUMENT_NAME_SHOP_PHOTO, rawDataTable, "", "");
+//                                    }
+//                                }
+//
+//                            }
+//                        }
+//
+//
+//                        // TODO: Income Proof Bank Statement
+//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+//                                , DOCUMENT_NAME_BANK_STATEMENT, rawDataTable, "", "");
+//
+//                       /* insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+//                                , DOCUMENT_NAME_M_NACH, rawDataTable, "", "");*/
+//
+//                    }
+//
+//
+//                    /*if (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_TWL)) {
+//                        // TODO: Shop Photo
+//
+//                        RawDataTable leadRawData = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_LEAD, rawDataTable.getClient_id(), rawDataTable.getLoan_type());
+//                        if (leadRawData != null) {
+//                            HashMap<String, Object> hashMap = setKeyValueForObject(leadRawData);
+//                            if (hashMap != null && hashMap.size() > 0) {
+//                                if (hashMap.containsKey(TAG_NAME_CUSTOMER_TYPE)) {
+//
+//                                    String customerType = hashMap.get(TAG_NAME_CUSTOMER_TYPE).toString();
+//                                    if (!TextUtils.isEmpty(customerType) && (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SELF_EMPLOYED)
+//                                            || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SEP) || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP))) {
+//
+//                                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+//                                                , DOCUMENT_NAME_SHOP_PHOTO, rawDataTable, "", "");
+//                                    }
+//                                }
+//
+//                            }
+//                        }
+//
+//
+//                        // TODO: Income Proof Bank Statement
+//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+//                                , DOCUMENT_NAME_BANK_STATEMENT, rawDataTable, "", "");
+//
+//                        *//*insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+//                                , DOCUMENT_NAME_M_NACH, rawDataTable, "", "");*//*
+//
+//                    }
+//                    else {
+//                        RawDataTable leadRawData = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_LEAD, rawDataTable.getClient_id(), rawDataTable.getLoan_type());
+//                        if (leadRawData != null) {
+//                            HashMap<String, Object> hashMap = setKeyValueForObject(leadRawData);
+//                            if (hashMap != null && hashMap.size() > 0) {
+//                                if (hashMap.containsKey(TAG_NAME_CUSTOMER_TYPE)) {
+//
+//                                    String customerType = hashMap.get(TAG_NAME_CUSTOMER_TYPE).toString();
+//                                    if (!TextUtils.isEmpty(customerType) && (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SELF_EMPLOYED)
+//                                            || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SEP) || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP))) {
+//
+//                                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+//                                                , DOCUMENT_NAME_SHOP_PHOTO, rawDataTable, "", "");
+//                                    }
+//                                }
+//
+//                            }
+//                        }
+//
+//
+//                        // TODO: Income Proof Bank Statement
+//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+//                                , DOCUMENT_NAME_BANK_STATEMENT, rawDataTable, "", "");
+//
+//                        *//*insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+//                                , DOCUMENT_NAME_M_NACH, rawDataTable, "", "");*//*
+//                    }*/
+//
+//
+//                    // TODO: Others Photos
+//                    insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+//                            , DOCUMENT_NAME_OTHERS, rawDataTable, "", "");
+//
+//                    /*insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+//                            , DOCUMENT_NAME_M_NACH, rawDataTable, "", "");*/
+//
+//                    // TODO: ID PROOF
+//                    insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id(),
+//                            applicantKycType.getValue(), rawDataTable, "", "");
+//
+//                }
+//            }
+//
+//            // TODO: PERSONAL DETAILS SCREEN
+//
+//            if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
+//                    rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_PERSONAL_DETAIL)) {
+//
+//                // TODO: Only for JLG
+//                if (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_JLG)) {
+//
+//                    RawDataTable rawDataPersonalDetail = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_PERSONAL_DETAIL, rawDataTable.getClient_id(), rawDataTable.getLoan_type());
+//                    if (rawDataPersonalDetail != null) {
+//                        HashMap<String, Object> hashMap = setKeyValueForObject(rawDataPersonalDetail);
+//                        if (hashMap != null && hashMap.size() > 0) {
+//                            if (hashMap.containsKey(TAG_NAME_MARITAL_STATUS)) {
+//                                String maritialStatus = hashMap.get(TAG_NAME_MARITAL_STATUS).toString();
+//                                if (!TextUtils.isEmpty(maritialStatus) && maritialStatus.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_MARRIED)) {
+//                                    // TODO: Spouse KYC
+//                                    insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id()
+//                                            , DOCUMENT_NAME_SPOUSE_KYC, rawDataTable, "", "");
+//                                } else {
+//                                    // TODO: deletee Spouse KYC
+//                                    deleteDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id()
+//                                            , DOCUMENT_NAME_SPOUSE_KYC, rawDataTable, "", "");
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//
+//
+//            }
+//           /* if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
+//                    rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_ENACH)) {
+//                RawDataTable rawDataPersonalDetail = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_ENACH, rawDataTable.getClient_id(), rawDataTable.getLoan_type());
+//                if (rawDataPersonalDetail != null) {
+//                    HashMap<String, Object> hashMap = setKeyValueForObject(rawDataPersonalDetail);
+//                    if (hashMap != null && hashMap.size() > 0) {
+//                        insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id(), DOCUMENT_NAME_M_NACH, rawDataTable, "", "");
+//                    }
+//                }
+//            }*/
+//
+//            // TODO: Nominee DETAILS SCREEN
+//
+//            if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
+//                    rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_NOMINEE_DETAIL)) {
+//
+//                // TODO: Only for JLG
+//                if (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_JLG)) {
+//
+//                    RawDataTable rawDataNomineeDetail = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_NOMINEE_DETAIL, rawDataTable.getClient_id(), rawDataTable.getLoan_type());
+//                    if (rawDataNomineeDetail != null) {
+//                        // TODO: Nominee KYC
+//                        insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id()
+//                                , DOCUMENT_NAME_NOMINEE_KYC, rawDataTable, "", "");
+//
+////                        HashMap<String, Object> hashMap = setKeyValueForObject(rawDataNomineeDetail);
+////                        if (hashMap != null && hashMap.size() > 0) {
+////                            if (hashMap.containsKey(TAG_NAME_MARITAL_STATUS)) {
+////                                String maritialStatus = hashMap.get(TAG_NAME_MARITAL_STATUS).toString();
+////                                if (!TextUtils.isEmpty(maritialStatus) && maritialStatus.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_MARRIED)) {
+////                                    // TODO: Spouse KYC
+////                                    insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id()
+////                                            , DOCUMENT_NAME_SPOUSE_KYC, rawDataTable, "", "");
+////                                }else {
+////                                    // TODO: deletee Spouse KYC
+////                                    deleteDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id()
+////                                            , DOCUMENT_NAME_SPOUSE_KYC, rawDataTable, "", "");
+////                                }
+////                            }
+////                        }
+//                    }
+//                }
+//
+//
+//            }
+//
+//            // TODO: APPLICANT BANK DETAILS SCREEN
+//
+//            if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
+//                    rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_BANK_DETAILS)) {
+//
+//                // TODO: BANK ACCOUNT DETAILS
+//                insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id()
+//                        , DOCUMENT_NAME_BANK_ACCOUNT_DETAILS, rawDataTable, "", "");
+//
+//                // TODO: Only for JLG
+//                if (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_JLG)) {
+//                    RawDataTable rawDataBankDetail = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_BANK_DETAILS, rawDataTable.getClient_id(), rawDataTable.getLoan_type());
+//
+//                    if (rawDataBankDetail != null) {
+//                        HashMap<String, Object> hashMap = setKeyValueForObject(rawDataBankDetail);
+//                        if (hashMap != null && hashMap.size() > 0) {
+//                            if (hashMap.containsKey(TAG_NAME_DUAL_NAME_DECLARATION)) {
+//                                String dualNameDeclaration = hashMap.get(TAG_NAME_DUAL_NAME_DECLARATION).toString();
+//                                if (!TextUtils.isEmpty(dualNameDeclaration) && dualNameDeclaration.equalsIgnoreCase(CHECKBOX_DUAL_NAME_DECLARATION_YES)) {
+//                                    // TODO: Dual Name Declaration
+//                                    insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+//                                            , DOCUMENT_NAME_DUAL_NAME_DECLARATION, rawDataTable, "", "");
+//
+//
+//                                } else {
+//                                    // TODO:deletion of Dual Name Declaration
+//                                    deleteDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+//                                            , DOCUMENT_NAME_DUAL_NAME_DECLARATION, rawDataTable, "", "");
+//                                }
+//                            } else {
+//                                // TODO: Delation of Dual Name Declaration
+//                                deleteDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+//                                        , DOCUMENT_NAME_DUAL_NAME_DECLARATION, rawDataTable, "", "");
+//                            }
+//                        }
+//                    }
+//
+//                }
+//
+//
+//            }
+//
+//            // TODO: CO APPLICANT BANK DETAILS SCREEN
+//
+//            if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
+//                    rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_BANK_DETAILS)) {
+//
+//               /* // TODO: Document upload table
+//                String documentName = "coappbankproof";
+//                String photoDisplayName = DOCUMENT_DISPLAY_NAME_CO_APPLICANT_BANK_PHOTO;
+//                String photoTagName = DOCUMENT_TAG_NAME_CO_APPLICANT_BANK_STATEMENT;
+//
+//                if (!TextUtils.isEmpty(rawDataTable.getModuleType())) {
+//                    String noOfCoApplicant;
+//                    noOfCoApplicant = rawDataTable.getModuleType().substring(rawDataTable.getModuleType().length() - 1);
+//
+//                    photoTagName = photoTagName.replace("coapbankst", DOCUMENT_TAG_NAME_CO_APPLICANT_BANK_STATEMENT + noOfCoApplicant);
+//                    photoDisplayName = photoDisplayName.replace("CoApplicant", rawDataTable.getModuleType());
+//                }
+//
+//                // TODO: Co App Bank Photo
+//                insertDocumentUpload(rawDataTable.getId(),
+//                        rawDataTable.getScreen_no(), rawDataTable.getScreen_name(), rawDataTable.getClient_id(),
+//                        documentName, photoTagName, photoDisplayName,
+//                        dynamicUITable.getLoanType(), dynamicUITable.getModuleType());*/
+//
+//                // TODO: CO APPLICANT BANK ACCOUNT DETAILS
+//                insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id()
+//                        , DOCUMENT_NAME_BANK_ACCOUNT_DETAILS, rawDataTable, "", "");
+//
+//
+//            }
+//            // TODO: APPLICANT ADDRESS DETAIL SCREEN
+//            else if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
+//                    rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_ADDRESS_DETAIL)) {
+//                // TODO: Only for MSME & IL & AHL & PHL
+//                if (!rawDataTable.getLoan_type().equalsIgnoreCase("")) {
+//                    DynamicUITable permAddress = dynamicUIDao.getRowByTAGandScreen(TAG_NAME_PERMANENT_ADDRESS_SAME_AS_KYC, rawDataTable.getScreen_no());
+//                    DynamicUITable commAddress = dynamicUIDao.getRowByTAGandScreen(TAG_NAME_COMMUNICATION_ADDRESS_SAME_AS_PERMANENT, rawDataTable.getScreen_no());
+//
+//                /*if (permAddress != null && commAddress != null) {
+//                    // TODO: Delete document if already exist
+//                    DocumentUploadTable documentUploadTable = dynamicUIDao.getDocumentUploadByRawId(rawDataTable.getId());
+//                    if (documentUploadTable != null) {
+//                        dynamicUIDao.deleteDocumentByRawId(rawDataTable.getId());
+//                    }
+//                }*/
+//
+//                    if (permAddress != null && !TextUtils.isEmpty(permAddress.getValue())) {
+//
+//                        if (permAddress.getValue().equalsIgnoreCase("no")) {
+//                            DynamicUITable permKycType = dynamicUIDao.getRowByTAGandScreen(TAG_NAME_PERMANENT_KYC_TYPE, rawDataTable.getScreen_no());
+//                            if (permKycType != null && !TextUtils.isEmpty(permKycType.getValue())) {
+//
+////                            String displayName = DOCUMENT_DISPLAY_NAME_APPLICANT_PERMANENT_ADDRESS_PROOF.replace("Permanent Address", permKycType.getValue());
+//
+//                 /*           // TODO: Document upload table
+//                            insertDocumentUpload(rawDataTable.getId(),
+//                                    rawDataTable.getScreen_no(), rawDataTable.getScreen_name(), rawDataTable.getClient_id(),
+//                                    permKycType.getValue(), DOCUMENT_TAG_NAME_APPLICANT_PERMANENT_ADDRESS_PROOF, displayName,
+//                                    dynamicUITable.getLoanType(), dynamicUITable.getModuleType());*/
+//
+//                                // TODO: APPLICANT PERMANENT ADDRESS
+//                                insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id()
+//                                        , permKycType.getValue(), rawDataTable, "", "");
+//
+//                            }
+//                        }
+//                    }
+//                    if (commAddress != null && !TextUtils.isEmpty(commAddress.getValue())) {
+//
+//                        if (commAddress.getValue().equalsIgnoreCase("no")) {
+//                            DynamicUITable comKycType = dynamicUIDao.getRowByTAGandScreen(TAG_NAME_COMMUNICATION_KYC_TYPE, rawDataTable.getScreen_no());
+//                            if (comKycType != null && !TextUtils.isEmpty(comKycType.getValue())) {
+//
+//                                String value = removeSpace(comKycType.getValue());
+//                                if (!TextUtils.isEmpty(value)) {
+//                                    List<DocumentUploadTableNew> documentUploadTableList = dynamicUIDao.getDocumentUploadTableList(dynamicUITable.getClientID());
+//                                    if (documentUploadTableList != null && documentUploadTableList.size() > 0) {
+//                                        boolean isExist = false;
+//
+//                                        for (DocumentUploadTableNew documentUploadTable : documentUploadTableList) {
+//                                            if (!TextUtils.isEmpty(documentUploadTable.getDocument_name())
+//                                                    && documentUploadTable.getDocument_name().equalsIgnoreCase(value)) {
+//                                                isExist = true;
+//                                            }
+//                                        }
+//
+//                                        if (!isExist) {
+//
+////                            String displayName = DOCUMENT_DISPLAY_NAME_APPLICANT_COMMUNICATION_ADDRESS_PROOF.replace("Communication Address", comKycType.getValue());
+//
+//                          /*  insertDocumentUpload(rawDataTable.getId(),
+//                                    rawDataTable.getScreen_no(), rawDataTable.getScreen_name(), rawDataTable.getClient_id(),
+//                                    comKycType.getValue(), DOCUMENT_TAG_NAME_APPLICANT_COMMUNICATION_ADDRESS_PROOF, displayName,
+//                                    dynamicUITable.getLoanType(), dynamicUITable.getModuleType());*/
+//
+//                                            // TODO: APPLICANT COMMUNICATION ADDRESS
+//                                            insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id()
+//                                                    , comKycType.getValue(), rawDataTable, "", "");
+//                                        }
+//                                    }
+//                                }
+//
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                // TODO: Only for JLG
+//                if (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_JLG)) {
+//                    DynamicUITable permAddress = dynamicUIDao.getRowByTAGandScreen(TAG_NAME_PERMANENT_ADDRESS_SAME_AS_KYC, rawDataTable.getScreen_no());
+//
+//                    if (permAddress != null && !TextUtils.isEmpty(permAddress.getValue())) {
+//                        // TODO: APPLICANT PERMANENT ADDRESS
+//                        insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id()
+//                                , DOCUMENT_NAME_ADDRESS_PROOF, rawDataTable, "", "");
+//                    }
+//                }
+//            }
+//            // TODO: BUSINESS ID PROOF SCREEN
+//            else if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
+//                    rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_BUSINESS_PROOF)) {
+//
+//                DynamicUITable businessIdProof = dynamicUIDao.getRowByTAGandScreen(TAG_NAME_BUSINESS_DOCUMENT_PROOF, rawDataTable.getScreen_no());
+//                if (businessIdProof != null && !TextUtils.isEmpty(businessIdProof.getValue())) {
+//
+//                    String value = removeSpace(businessIdProof.getValue());
+//                    if (!TextUtils.isEmpty(value)) {
+//                        List<DocumentUploadTableNew> documentUploadTableList = dynamicUIDao.getDocumentUploadTableList(dynamicUITable.getClientID());
+//                        if (documentUploadTableList != null && documentUploadTableList.size() > 0) {
+//                            boolean isExist = false;
+//
+//                            for (DocumentUploadTableNew documentUploadTable : documentUploadTableList) {
+//                                if (!TextUtils.isEmpty(documentUploadTable.getDocument_name())
+//                                        && documentUploadTable.getDocument_name().equalsIgnoreCase(value)) {
+//                                    isExist = true;
+//                                }
+//                            }
+//
+//                            if (!isExist) {
+//
+////                                String displayName = DOCUMENT_DISPLAY_NAME_APPLICANT_BUSINESS_PROOF.replace("Business", businessIdProof.getValue());
+//
+//                                /*insertDocumentUpload(rawDataTable.getId(),
+//                                        rawDataTable.getScreen_no(), rawDataTable.getScreen_name(), rawDataTable.getClient_id(),
+//                                        businessIdProof.getValue(), DOCUMENT_TAG_NAME_APPLICANT_BUSINESS_PROOF, displayName,
+//                                        dynamicUITable.getLoanType(), dynamicUITable.getModuleType());*/
+//
+//                                // TODO: BUSINESS PROOF
+//                                insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id()
+//                                        , businessIdProof.getValue(), rawDataTable, "", "");
+//
+//                            }
+//                        }
+//                    }
+//                }
+//
+//            } // TODO: BUSINESS ADDRESS PROOF SCREEN
+//            else if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
+//                    rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_BUSINESS_ADDRESS_PROOF)) {
+//
+//                DynamicUITable businessAddressProof = dynamicUIDao.getRowByTAGandScreen(TAG_NAME_BUSINESS_ADDRESS_PROOF, rawDataTable.getScreen_no());
+//                if (businessAddressProof != null && !TextUtils.isEmpty(businessAddressProof.getValue())) {
+//
+//                    String value = removeSpace(businessAddressProof.getValue());
+//                    if (!TextUtils.isEmpty(value)) {
+//                        List<DocumentUploadTableNew> documentUploadTableList = dynamicUIDao.getDocumentUploadTableList(dynamicUITable.getClientID());
+//                        if (documentUploadTableList != null && documentUploadTableList.size() > 0) {
+//                            boolean isExist = false;
+//
+//                            for (DocumentUploadTableNew documentUploadTable : documentUploadTableList) {
+//                                if (!TextUtils.isEmpty(documentUploadTable.getDocument_name())
+//                                        && documentUploadTable.getDocument_name().equalsIgnoreCase(value)) {
+//                                    isExist = true;
+//                                }
+//                            }
+//
+//                            if (!isExist) {
+//
+//                                if (!businessAddressProof.getValue().equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_SAME_AS_PERMANENT_ADDRESS)
+//                                        && !businessAddressProof.getValue().equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_SAME_AS_COMMUNICATION_ADDRESS)
+//                                        && !businessAddressProof.getValue().equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_SAME_AS_KYC_ID_PROOF)
+//                                        && !businessAddressProof.getValue().equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_SAME_AS_BUSINESS_PROOF)) {
+//
+////                                    String displayName = DOCUMENT_DISPLAY_NAME_APPLICANT_BUSINESS_PROOF.replace("Business", businessAddressProof.getValue());
+//
+//                                    /*insertDocumentUpload(rawDataTable.getId(),
+//                                            rawDataTable.getScreen_no(), rawDataTable.getScreen_name(), rawDataTable.getClient_id(),
+//                                            businessAddressProof.getValue(), DOCUMENT_TAG_NAME_APPLICANT_BUSINESS_ADDRESS_PROOF, displayName,
+//                                            dynamicUITable.getLoanType(), dynamicUITable.getModuleType());*/
+//
+//
+//                                    // TODO: BUSINESS ADDRESS PROOF
+//                                    insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id()
+//                                            , businessAddressProof.getValue(), rawDataTable, "", "");
+//
+//
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//
+//            }
+//            // TODO: Office ADDRESS PROOF SCREEN
+//            else if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
+//                    rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_OFFICE_ADDRESS_PROOF)) {
+//
+//                DynamicUITable officeAddressProof = dynamicUIDao.getRowByTAGandScreen(TAG_NAME_ADDRESS_PROOF_IN_OFFICE_ADDRESS_PROOF, rawDataTable.getScreen_no());
+//                if (officeAddressProof != null && !TextUtils.isEmpty(officeAddressProof.getValue())) {
+//
+//                    String value = removeSpace(officeAddressProof.getValue());
+//                    if (!TextUtils.isEmpty(value)) {
+//                        List<DocumentUploadTableNew> documentUploadTableList = dynamicUIDao.getDocumentUploadTableList(dynamicUITable.getClientID());
+//                        if (documentUploadTableList != null && documentUploadTableList.size() > 0) {
+//                            boolean isExist = false;
+//
+//                            for (DocumentUploadTableNew documentUploadTable : documentUploadTableList) {
+//                                if (!TextUtils.isEmpty(documentUploadTable.getDocument_name())
+//                                        && documentUploadTable.getDocument_name().equalsIgnoreCase(value)) {
+//                                    isExist = true;
+//                                }
+//                            }
+//
+//                            if (!isExist) {
+//
+//                               /* if (!businessAddressProof.getValue().equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_SAME_AS_PERMANENT_ADDRESS)
+//                                        && !businessAddressProof.getValue().equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_SAME_AS_COMMUNICATION_ADDRESS)
+//                                        && !businessAddressProof.getValue().equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_SAME_AS_KYC_ID_PROOF)
+//                                        && !businessAddressProof.getValue().equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_SAME_AS_BUSINESS_PROOF)) {
+//*/
+////                                    String displayName = DOCUMENT_DISPLAY_NAME_APPLICANT_BUSINESS_PROOF.replace("Business", businessAddressProof.getValue());
+//
+//                                    /*insertDocumentUpload(rawDataTable.getId(),
+//                                            rawDataTable.getScreen_no(), rawDataTable.getScreen_name(), rawDataTable.getClient_id(),
+//                                            businessAddressProof.getValue(), DOCUMENT_TAG_NAME_APPLICANT_BUSINESS_ADDRESS_PROOF, displayName,
+//                                            dynamicUITable.getLoanType(), dynamicUITable.getModuleType());*/
+//
+//
+//                                if (!officeAddressProof.getValue().equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_NOT_AVAILABLE)
+//                                        || !officeAddressProof.getValue().equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_OTHERS))
+//                                    // TODO: Office ADDRESS PROOF
+//                                    insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id()
+//                                            , officeAddressProof.getValue(), rawDataTable, "", "");
+//
+//
+//                            }
+//                        }
+//                    }
+//                }
+//
+//            }
+//
+//            // TODO: SALARY PROFILE SCREEN
+//            else if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
+//                    rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_SALARY_PROFILE)) {
+//                // TODO: ONLY FOR AHL
+//                if (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_AHL)) {
+//                    RawDataTable rawDataSalaryProfile = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_SALARY_PROFILE, rawDataTable.getClient_id(), rawDataTable.getLoan_type());
+//                    if (rawDataSalaryProfile != null) {
+//                        // TODO: Nominee KYC
+//                        insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id()
+//                                , DOCUMENT_NAME_SALARY_PROOF, rawDataTable, "", "");
+//
+//
+//                    }
+//                }
+//                // TODO: ONLY FOR PHL
+//                if (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)) {
+//                    RawDataTable rawDataSalaryProfile = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_SALARY_PROFILE, rawDataTable.getClient_id(), rawDataTable.getLoan_type());
+//                    if (rawDataSalaryProfile != null) {
+//                        // TODO: Nominee KYC
+//                        insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id()
+//                                , DOCUMENT_NAME_SALARY_PROOF, rawDataTable, "", "");
+//
+//
+//                    }
+//                } else {
+//                    RawDataTable rawDataSalaryProfile = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_SALARY_PROFILE, rawDataTable.getClient_id(), rawDataTable.getLoan_type());
+//                    if (rawDataSalaryProfile != null) {
+//                        // TODO: Nominee KYC
+//                        insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id()
+//                                , DOCUMENT_NAME_SALARY_PROOF, rawDataTable, "", "");
+//
+//
+//                    }
+//                }
+//
+//            }
+//
+//            // TODO: CO APPLICANT KYC SCREEN
+//            else if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
+//                    rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC)) {
+//                DynamicUITable coApplicantKycType = dynamicUIDao.getRowByTAGandScreen(TAG_NAME_KYC_TYPE, rawDataTable.getScreen_no());
+//                if (coApplicantKycType != null && !TextUtils.isEmpty(coApplicantKycType.getValue())) {
+//
+//                    // TODO: Co Applicant Photo
+//                    insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+//                            , DOCUMENT_NAME_CO_APPLICANT_PHOTO, rawDataTable, "", "");
+//
+//                    // TODO: CO APPLICANT ID PROOF
+//                    insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id()
+//                            , coApplicantKycType.getValue(), rawDataTable, "", "");
+//
+//                    if(applicantAgeValue <= 18 || earningCapacityOfStudent.equalsIgnoreCase("No")){
+//
+//                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_CO_APPLICANT_STUDENT_ADMIT_LETTER, rawDataTable, "", "");
+//
+//                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_CO_APPLICANT_FEE_STRUCTURE , rawDataTable, "", "");
+//
+//                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_CO_10_MARK_SHEET , rawDataTable, "", "");
+//
+//                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_CO_12_MARK_SHEET, rawDataTable, "", "");
+//
+//                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_CO_GRADUATION, rawDataTable, "", "");
+//
+//                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_CO_EXAM_SCORE_CARD, rawDataTable, "", "");
+//
+//                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_CO_FEE_INSTITUTE , rawDataTable, "", "");
+//                    }else {
+//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_APPLICANT_STUDENT_ADMIT_LETTER, rawDataTable, "", "");
+//
+//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_APPLICANT_FEE_STRUCTURE, rawDataTable, "", "");
+//
+//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_10_MARK_SHEET, rawDataTable, "", "");
+//
+//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_12_MARK_SHEET, rawDataTable, "", "");
+//
+//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_GRADUATION, rawDataTable, "", "");
+//
+//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_EXAM_SCORE_CARD, rawDataTable, "", "");
+//
+//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_FEE_INSTITUTE, rawDataTable, "", "");
+//
+//                        // TODO: House Photo
+//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+//                                DOCUMENT_NAME_HOUSE_PHOTO, rawDataTable, "", "");
+//                    }
+//                }
+//            }
+////            // TODO: CO APPLICANT ADDRESS DETAIL SCREEN  old validation
+////            else if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
+////                    rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL)) {
+////                DynamicUITable commAddress = dynamicUIDao.getRowByTAGandScreen(TAG_NAME_COMMUNICATION_ADDRESS_SAME_AS_KYC, rawDataTable.getScreen_no());
+////
+////                if (commAddress != null && !TextUtils.isEmpty(commAddress.getValue())) {
+////                    // TODO: Delete document upload if already exist
+//////                    DocumentUploadTable documentUploadTable = dynamicUIDao.getDocumentUploadByRawId(rawDataTable.getId());
+//////                    if (documentUploadTable != null) {
+//////                        dynamicUIDao.deleteDocumentByRawId(rawDataTable.getId());
+//////                    }
+////
+////                    if (commAddress.getValue().equalsIgnoreCase("no")) {
+////                        DynamicUITable comKycType = dynamicUIDao.getRowByTAGandScreen(TAG_NAME_COMMUNICATION_KYC_TYPE, rawDataTable.getScreen_no());
+////                        if (comKycType != null && !TextUtils.isEmpty(comKycType.getValue())) {
+////
+////                            // TODO: should not add if drop down item is applicant permanent and communication address
+////                            if (!comKycType.getValue().equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_SAME_AS_APPLICANT_PERMANENT_ADDRESS)
+////                                    && !comKycType.getValue().equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_SAME_AS_APPLICANT_COMMUNICATION_ADDRESS)) {
+////
+////                                /*String noOfCoApplicant;
+////                                noOfCoApplicant = rawDataTable.getModuleType().substring(rawDataTable.getModuleType().length() - 1);
+////
+////                                String displayName = DOCUMENT_DISPLAY_NAME_CO_APPLICANT_COMMUNICATION_ADDRESS_PROOF;
+////                                String proofTagName = DOCUMENT_TAG_NAME_CO_APPLICANT_COMMUNICATION_ADDRESS_PROOF;
+////                                proofTagName = proofTagName.replace("coappcomadd", DOCUMENT_TAG_NAME_CO_APPLICANT_COMMUNICATION_ADDRESS_PROOF + noOfCoApplicant);
+////                                displayName = displayName.replace("CoApplicant", rawDataTable.getModuleType());
+////                                displayName = displayName.replace("Communication Address", comKycType.getValue());
+////
+////                                // TODO: Document upload table
+////                                insertDocumentUpload(rawDataTable.getId(),
+////                                        rawDataTable.getScreen_no(), rawDataTable.getScreen_name(), rawDataTable.getClient_id(),
+////                                        comKycType.getValue(), proofTagName, displayName,
+////                                        dynamicUITable.getLoanType(), dynamicUITable.getModuleType());*/
+////
+////                                // TODO: CO APPLICANT ADDRESS PROOF
+////                                insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id()
+////                                        , comKycType.getValue(), rawDataTable, "", "");
+////
+////
+////                            }
+////                        }
+////                    }
+////                }
+////            }
+//
+//            // TODO: CO APPLICANT ADDRESS DETAIL SCREEN  new validation
+//            else if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
+//                    rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL)) {
+//                // TODO: Only for MSME & IL & AHL
+//                if (!rawDataTable.getLoan_type().equalsIgnoreCase("")) {
+//                    DynamicUITable permAddress = dynamicUIDao.getRowByTAGandScreen(TAG_NAME_PERMANENT_ADDRESS_SAME_AS_KYC, rawDataTable.getScreen_no());
+//                    DynamicUITable commAddress = dynamicUIDao.getRowByTAGandScreen(TAG_NAME_COMMUNICATION_ADDRESS_SAME_AS_PERMANENT, rawDataTable.getScreen_no());
+//
+//
+//                    if (permAddress != null && !TextUtils.isEmpty(permAddress.getValue())) {
+//
+//                        if (permAddress.getValue().equalsIgnoreCase("no")) {
+//                            DynamicUITable permKycType = dynamicUIDao.getRowByTAGandScreen(TAG_NAME_PERMANENT_KYC_TYPE, rawDataTable.getScreen_no());
+//                            if (permKycType != null && !TextUtils.isEmpty(permKycType.getValue())) {
+//                                // TODO: should not add if drop down item is applicant permanent and communication address
+//                                if (!permKycType.getValue().equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_SAME_AS_APPLICANT_PERMANENT_ADDRESS)
+//                                        && !permKycType.getValue().equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_SAME_AS_APPLICANT_COMMUNICATION_ADDRESS)) {
+//
+//                                    // TODO: APPLICANT PERMANENT ADDRESS
+//                                    insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id()
+//                                            , permKycType.getValue(), rawDataTable, "", "");
+//                                }
+//
+//                            }
+//                        }
+//                    }
+//                    if (commAddress != null && !TextUtils.isEmpty(commAddress.getValue())) {
+//
+//                        if (commAddress.getValue().equalsIgnoreCase("no")) {
+//                            DynamicUITable comKycType = dynamicUIDao.getRowByTAGandScreen(TAG_NAME_COMMUNICATION_KYC_TYPE, rawDataTable.getScreen_no());
+//                            if (comKycType != null && !TextUtils.isEmpty(comKycType.getValue())) {
+//                                // TODO: should not add if drop down item is applicant permanent and communication address
+//                                if (!comKycType.getValue().equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_SAME_AS_APPLICANT_PERMANENT_ADDRESS)
+//                                        && !comKycType.getValue().equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_SAME_AS_APPLICANT_COMMUNICATION_ADDRESS)) {
+//
+//                                    // TODO: APPLICANT COMMUNICATION ADDRESS
+//                                    insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id()
+//                                            , comKycType.getValue(), rawDataTable, "", "");
+//                                }
+//
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//
+//
+//            // TODO: ********* validation for document upload *************
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+//    }
 
     private void documentUploadNew(RawDataTable rawDataTable, DynamicUITable dynamicUITable) {
         try {
@@ -28863,8 +29695,8 @@ public class DynamicUIRepository {
                         insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
                                 , DOCUMENT_NAME_BANK_STATEMENT, rawDataTable, "", "");
 
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
-                                , DOCUMENT_NAME_M_NACH, rawDataTable, "", "");
+//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+//                                , DOCUMENT_NAME_M_NACH, rawDataTable, "", "");
 
                         // TODO: Ownership proof ( only for applicant )
                         insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
@@ -28898,8 +29730,8 @@ public class DynamicUIRepository {
                         insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
                                 , DOCUMENT_NAME_BANK_STATEMENT, rawDataTable, "", "");
 
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
-                                , DOCUMENT_NAME_M_NACH, rawDataTable, "", "");
+//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+//                                , DOCUMENT_NAME_M_NACH, rawDataTable, "", "");
 
                     }
                     // TODO: Only for PHL
@@ -28929,40 +29761,40 @@ public class DynamicUIRepository {
                         insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
                                 , DOCUMENT_NAME_BANK_STATEMENT, rawDataTable, "", "");
 
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
-                                , DOCUMENT_NAME_M_NACH, rawDataTable, "", "");
+//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+//                                , DOCUMENT_NAME_M_NACH, rawDataTable, "", "");
 
                     }
-                    if (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)) {
-                        // TODO: Shop Photo
-
-                        RawDataTable leadRawData = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_LEAD, rawDataTable.getClient_id(), rawDataTable.getLoan_type());
-                        if (leadRawData != null) {
-                            HashMap<String, Object> hashMap = setKeyValueForObject(leadRawData);
-                            if (hashMap != null && hashMap.size() > 0) {
-                                if (hashMap.containsKey(TAG_NAME_CUSTOMER_TYPE)) {
-
-                                    String customerType = hashMap.get(TAG_NAME_CUSTOMER_TYPE).toString();
-                                    if (!TextUtils.isEmpty(customerType) && (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SELF_EMPLOYED)
-                                            || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SEP) || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP))) {
-
-                                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
-                                                , DOCUMENT_NAME_SHOP_PHOTO, rawDataTable, "", "");
-                                    }
-                                }
-
-                            }
-                        }
-
-
-                        // TODO: Income Proof Bank Statement
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
-                                , DOCUMENT_NAME_BANK_STATEMENT, rawDataTable, "", "");
-
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
-                                , DOCUMENT_NAME_M_NACH, rawDataTable, "", "");
-
-                    }
+//                    if (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_UCL)) {
+//                        // TODO: Shop Photo
+//
+//                        RawDataTable leadRawData = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_LEAD, rawDataTable.getClient_id(), rawDataTable.getLoan_type());
+//                        if (leadRawData != null) {
+//                            HashMap<String, Object> hashMap = setKeyValueForObject(leadRawData);
+//                            if (hashMap != null && hashMap.size() > 0) {
+//                                if (hashMap.containsKey(TAG_NAME_CUSTOMER_TYPE)) {
+//
+//                                    String customerType = hashMap.get(TAG_NAME_CUSTOMER_TYPE).toString();
+//                                    if (!TextUtils.isEmpty(customerType) && (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SELF_EMPLOYED)
+//                                            || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SEP) || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP))) {
+//
+//                                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+//                                                , DOCUMENT_NAME_SHOP_PHOTO, rawDataTable, "", "");
+//                                    }
+//                                }
+//
+//                            }
+//                        }
+//
+//
+//                        // TODO: Income Proof Bank Statement
+//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+//                                , DOCUMENT_NAME_BANK_STATEMENT, rawDataTable, "", "");
+//
+//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+//                                , DOCUMENT_NAME_M_NACH, rawDataTable, "", "");
+//
+//                    }
 
 
                     if (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_TWL)) {
@@ -28991,8 +29823,8 @@ public class DynamicUIRepository {
                         insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
                                 , DOCUMENT_NAME_BANK_STATEMENT, rawDataTable, "", "");
 
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
-                                , DOCUMENT_NAME_M_NACH, rawDataTable, "", "");
+//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+//                                , DOCUMENT_NAME_M_NACH, rawDataTable, "", "");
 
                     }
                     else {
@@ -29019,8 +29851,8 @@ public class DynamicUIRepository {
                         insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
                                 , DOCUMENT_NAME_BANK_STATEMENT, rawDataTable, "", "");
 
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
-                                , DOCUMENT_NAME_M_NACH, rawDataTable, "", "");
+//                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+//                                , DOCUMENT_NAME_M_NACH, rawDataTable, "", "");
                     }
 
 
@@ -29036,8 +29868,8 @@ public class DynamicUIRepository {
 //                                , DOCUMENT_NAME_NOMINEE_KYC, rawDataTable, "", "");
 
                         // TODO: Signature Photo
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
-                                , DOCUMENT_NAME_SIGNATURE_PHOTO, rawDataTable, "", "");
+                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
+                                DOCUMENT_NAME_SIGNATURE_PHOTO, rawDataTable, "", "");
 
 
                         // TODO: AOF
@@ -29050,8 +29882,8 @@ public class DynamicUIRepository {
                     insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
                             , DOCUMENT_NAME_OTHERS, rawDataTable, "", "");
 
-                    insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
-                            , DOCUMENT_NAME_M_NACH, rawDataTable, "", "");
+//                    insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id()
+//                            , DOCUMENT_NAME_M_NACH, rawDataTable, "", "");
 
                     // TODO: ID PROOF
                     insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id(),
@@ -29090,6 +29922,18 @@ public class DynamicUIRepository {
 
 
             }
+           /* if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
+                    rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_ENACH)) {
+                RawDataTable rawDataPersonalDetail = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_ENACH, rawDataTable.getClient_id(), rawDataTable.getLoan_type());
+                if (rawDataPersonalDetail != null) {
+                    HashMap<String, Object> hashMap = setKeyValueForObject(rawDataPersonalDetail);
+                    if (hashMap != null && hashMap.size() > 0) {
+                        insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id(), DOCUMENT_NAME_M_NACH, rawDataTable, "", "");
+                    }
+                }
+            }*/
+
+            // TODO: Nominee DETAILS SCREEN
 
             if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
                     rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_NOMINEE_DETAIL)) {
@@ -29694,8 +30538,8 @@ public class DynamicUIRepository {
                         }
 
                         OTPVerificationTable otpVerificationTableFromDB = dynamicUIDao.
-                                getOTPVerificationByModuleTypeAndScreenName(rawDataTable.getClient_id(), rawDataTable.getModuleType()
-                                        , rawDataTable.getScreen_name());
+                                getOTPVerificationByModuleTypeAndScreenName(rawDataTable.getClient_id(), rawDataTable.getModuleType(),
+                                        rawDataTable.getScreen_name());
 
                         if (otpVerificationTableFromDB == null) {
                             // TODO: if not exist then insert
@@ -29722,9 +30566,7 @@ public class DynamicUIRepository {
                                         mobileNumberObj.getValue(), "", otpVerificationTableFromDB.isOTPVerified(), false);
                             }
                         }
-
                     }
-
                 }
 
                 // TODO: KYC SCREEN - UPDATE NAME
@@ -29774,12 +30616,10 @@ public class DynamicUIRepository {
                         OTPVerificationTable otpVerificationTableFromDB = null;
                         if (rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC)) {
                             otpVerificationTableFromDB = dynamicUIDao.
-                                    getOTPVerificationByModuleTypeAndScreenName(rawDataTable.getClient_id(), rawDataTable.getModuleType()
-                                            , SCREEN_NAME_PERSONAL_DETAIL);
+                                    getOTPVerificationByModuleTypeAndScreenName(rawDataTable.getClient_id(), rawDataTable.getModuleType(), SCREEN_NAME_PERSONAL_DETAIL);
                         } else if (rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC)) {
                             otpVerificationTableFromDB = dynamicUIDao.
-                                    getOTPVerificationByModuleTypeAndScreenName(rawDataTable.getClient_id(), rawDataTable.getModuleType()
-                                            , SCREEN_NAME_COAPPLICANT_PERSONAL_DETAIL);
+                                    getOTPVerificationByModuleTypeAndScreenName(rawDataTable.getClient_id(), rawDataTable.getModuleType(), SCREEN_NAME_COAPPLICANT_PERSONAL_DETAIL);
                         }
                         // TODO: update name
                         if (otpVerificationTableFromDB != null) {
@@ -29789,20 +30629,16 @@ public class DynamicUIRepository {
                             // TODO: if not exist then insert
                             dynamicUIDao.insertOTPVerification(otpVerificationTable);
                         }
-
                     }
-
                 }
             }
 
             // TODO: update otp verified only for Raw data tvName server
             if (isDataFromServer) {
                 OTPVerificationTable otpVerificationTableDB = dynamicUIDao.
-                        getOTPVerificationByModuleTypeAndScreenName(rawDataTable.getClient_id(), rawDataTable.getModuleType()
-                                , rawDataTable.getScreen_name());
+                        getOTPVerificationByModuleTypeAndScreenName(rawDataTable.getClient_id(), rawDataTable.getModuleType(), rawDataTable.getScreen_name());
                 if (otpVerificationTableDB != null)
-                    dynamicUIDao.updateOTPVerified(otpVerificationTableDB.getId(), otpVerificationTableDB.getMobileNumber()
-                            , true);
+                    dynamicUIDao.updateOTPVerified(otpVerificationTableDB.getId(), otpVerificationTableDB.getMobileNumber(),true);
             }
 
             // TODO: ********* OTP Verification *************
@@ -29883,9 +30719,7 @@ public class DynamicUIRepository {
                             dynamicUIDao.updateCIBILTableMobileAndName(cibilTableFromDB.getId(),
                                     mobileNumberObj.getValue(), name, cibilTableFromDB.isCBChecked());
                         }
-
                     }
-
                 }
 
                 // TODO: KYC SCREEN - UPDATE NAME
@@ -29944,9 +30778,7 @@ public class DynamicUIRepository {
                             // TODO: if not exist then insert
                             dynamicUIDao.insertCIBILTable(cibilTable);
                         }
-
                     }
-
                 }
             }
 
@@ -29955,7 +30787,6 @@ public class DynamicUIRepository {
             ex.printStackTrace();
         }
     }
-
 
     public LiveData<List<RawDataTable>> insertOrUpdateParentRawDataObserver
             (RawDataTable rawDataTable, List<DynamicUITable> viewParametersList,
@@ -29991,8 +30822,8 @@ public class DynamicUIRepository {
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }
-                        dynamicUIDao.updateRawDataBagAndDynamicRawData(rawDataTableFromDBByCorrelationId.getScreen_no(), rawDataTableFromDBByCorrelationId.getId()
-                                , rawDataTable.getRawdata(), rawDataTable.getDynamic_ui_rawdata());
+                        dynamicUIDao.updateRawDataBagAndDynamicRawData(rawDataTableFromDBByCorrelationId.getScreen_no(),
+                                rawDataTableFromDBByCorrelationId.getId(), rawDataTable.getRawdata(), rawDataTable.getDynamic_ui_rawdata());
                     } else if (rawDataTableFromDB.getRef_id() != 0) {
                         // TODO: insert new record
                         int refId = rawDataTableFromDB.getRef_id() + 1;
@@ -30071,8 +30902,8 @@ public class DynamicUIRepository {
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
-                    dynamicUIDao.updateRawDataBagAndDynamicRawData(rawDataTableFromDB.getScreen_no(), rawDataTableFromDB.getId()
-                            , rawDataTable.getRawdata(), rawDataTable.getDynamic_ui_rawdata());
+                    dynamicUIDao.updateRawDataBagAndDynamicRawData(rawDataTableFromDB.getScreen_no(),
+                            rawDataTableFromDB.getId(), rawDataTable.getRawdata(), rawDataTable.getDynamic_ui_rawdata());
                 }
 
             } else {
@@ -30287,7 +31118,7 @@ public class DynamicUIRepository {
 
             }
            /* if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
-                    rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_OFFICE_ADDRESS_PROOF) && rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)) {
+                    rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_OFFICE_ADDRESS_PROOF) && rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_UCL)) {
                 customerType = MODULE_TYPE_APPLICANT;
                 dynamicUIDao.deleteDocumentUploadTableNewByScreenNoClientIDAndLoanType(rawDataTable.getScreen_no(), rawDataTable.getClient_id(), rawDataTable.getModuleType(), rawDataTable.getLoan_type());
 
@@ -30307,7 +31138,7 @@ public class DynamicUIRepository {
 
           /*  if (!TextUtils.isEmpty(rawDataTable.getScreen_name()) &&
                     rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_SALARY_PROFILE) &&
-                    (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL))) {
+                    (rawDataTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_UCL))) {
                 customerType = MODULE_TYPE_APPLICANT;
             }*/
 
@@ -30531,9 +31362,7 @@ public class DynamicUIRepository {
         return noOfImagesToCapture;
     }
 
-
-    public LiveData<RawDataTable> updateRawDataBag(RawDataTable
-                                                           rawDataTable, List<DynamicUITable> viewParametersList,
+    public LiveData<RawDataTable> updateRawDataBag(RawDataTable rawDataTable, List<DynamicUITable> viewParametersList,
                                                    DynamicUITable dynamicUITable, boolean isDataFromServer) {
         final MutableLiveData<RawDataTable> data = new MutableLiveData<>();
         executor.execute(() -> {
@@ -30558,7 +31387,16 @@ public class DynamicUIRepository {
                 if (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_SAVE_BUTTON))
                     dynamicUITable.setFieldName(TAG_NAME_SAVE_BUTTON);
 
-            }
+            }  /*else if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) {
+                // TODO: only for Plus Button
+                if (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_ADD_ANOTHER_KYC_PLUS_BUTTON)) {
+                    dynamicUITable.setFieldName(TAG_NAME_ADD_ANOTHER_KYC_PLUS_BUTTON);
+                }
+
+                if (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_SAVE_BUTTON))
+                    dynamicUITable.setFieldName(TAG_NAME_SAVE_BUTTON);
+
+            }*/
             else if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_GENERAL_INCOME)) {
                 // TODO: only for Plus Button
                 if (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_SAVE_AND_ADD_GENERAL_INCOME)) {
@@ -30660,7 +31498,7 @@ public class DynamicUIRepository {
                     // TODO: insert lead data
                     insertorUpdateLeadData(rawDataTable, dynamicUITable);
                 }
-                // TODO: update fieldname for co-applicants
+                // TODO: update field name for co-applicants
                 if (rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC)) {
                     HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
                     if (hashMap != null && hashMap.size() > 0) {
@@ -30761,7 +31599,6 @@ public class DynamicUIRepository {
                     }
                 }
 
-
                 // TODO: Update loan amount
                 if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_APPLICANT_LOAN_PROPOSAL)
                         && dynamicUITable.getModuleType().equalsIgnoreCase(MODULE_TYPE_LOAN_PROPOSAL_WITH_NOMINEE)) {
@@ -30779,7 +31616,6 @@ public class DynamicUIRepository {
                             dynamicUIDao.updateLoanAmountInMasterTable(dynamicUITable1.getValue(), masterTable.getId());
 
                     }
-
                 }
 
 
@@ -30814,8 +31650,7 @@ public class DynamicUIRepository {
         return data;
     }
 
-    public LiveData<List<RawDataTable>> getLeadRawData(String screenNo, String
-            userId) {
+    public LiveData<List<RawDataTable>> getLeadRawData(String screenNo, String userId) {
         final MutableLiveData<List<RawDataTable>> data = new MutableLiveData<>();
         executor.execute(() -> {
             boolean dataExist = (dynamicUIDao.loadRawDataFromDB(screenNo, userId) != null);
@@ -30867,7 +31702,6 @@ public class DynamicUIRepository {
         return data;
     }
 
-
     public LiveData<PlannerTable> getPlannerDataByPurposeAndCurrentDate(String userId, String purpose) {
         final MutableLiveData<PlannerTable> data = new MutableLiveData<>();
         executor.execute(() -> {
@@ -30884,9 +31718,7 @@ public class DynamicUIRepository {
         return data;
     }
 
-
-    public LiveData<List<ColdCallTable>> getColdCallingData(String screenNo, String
-            userId, String loanType) {
+    public LiveData<List<ColdCallTable>> getColdCallingData(String screenNo, String userId, String loanType) {
         final MutableLiveData<List<ColdCallTable>> data = new MutableLiveData<>();
         executor.execute(() -> {
             boolean dataExist = (dynamicUIDao.loadColdCallDataFromDB(userId, loanType) != null);
@@ -30897,8 +31729,7 @@ public class DynamicUIRepository {
         return data;
     }
 
-    public LiveData<List<SalesToolTable>> getSalesToolData(String screenNo, String
-            userId, String loanType) {
+    public LiveData<List<SalesToolTable>> getSalesToolData(String screenNo, String userId, String loanType) {
         final MutableLiveData<List<SalesToolTable>> data = new MutableLiveData<>();
         executor.execute(() -> {
             boolean dataExist = (dynamicUIDao.loadSalesToolDataFromDB(userId, loanType) != null);
@@ -30921,8 +31752,7 @@ public class DynamicUIRepository {
     }
 
     // TODO: Old method to get Lead Data
-    public LiveData<List<LeadTable>> getLeadData(String screenNo, String
-            userId, String loanType) {
+    public LiveData<List<LeadTable>> getLeadData(String screenNo, String userId, String loanType) {
         final MutableLiveData<List<LeadTable>> data = new MutableLiveData<>();
         executor.execute(() -> {
 
@@ -32297,12 +33127,12 @@ public class DynamicUIRepository {
                     // TODO: APPLICANT KYC
                     List<RawDataTable> applicantKYCDetailRawDataList = dynamicUIDao.getRawDataListByScreenNameAndLoanType(SCREEN_NAME_APPLICANT_KYC,
                             dynamicUITable.getClientID(), dynamicUITable.getLoanType());
-                    // TODO: COAPPLICANT KYC
+                    // TODO: CO APPLICANT KYC
                     List<RawDataTable> coApplicantKYCDetailRawDataList = dynamicUIDao.getRawDataListByScreenNameAndLoanType(SCREEN_NAME_CO_APPLICANT_KYC,
                             dynamicUITable.getClientID(), dynamicUITable.getLoanType());
 
                     if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC)) {
-                        // TODO: add coapplicant KYC details
+                        // TODO: add co applicant KYC details
                         if (coApplicantKYCDetailRawDataList != null && coApplicantKYCDetailRawDataList.size() > 0) {
                             allKYCDetailRawDataList.addAll(coApplicantKYCDetailRawDataList);
                         }
@@ -32363,7 +33193,6 @@ public class DynamicUIRepository {
                             }
                         }
                     }
-
                 }
 
                 // TODO: DE-DUPE VALIDATION FOR APPLICANT & CO APPLICANT PERSONAL DETAIL SCREEN ( MOBILE NUMBER )
@@ -32422,8 +33251,6 @@ public class DynamicUIRepository {
                             }
                         }
                     }
-
-
                 }
 
                 // TODO: DE-DUPE VALIDATION FOR APPLICANT & CO APPLICANT BANK DETAIL SCREEN ( ACCOUNT NUMBER )
@@ -32790,7 +33617,9 @@ public class DynamicUIRepository {
 
                         // TODO: Validation for Applicant KYC screen
                         if (screenName.equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC)
-                                || screenName.equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC)) {
+                                || screenName.equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC)
+                                || screenName.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)
+                        ) {
                             DynamicUITable saveObj = getObjectByTAG(TAG_NAME_SAVE_BUTTON, dynamicUITableListFromDB);
                             if (saveObj != null) {
                                 saveObj.setVisibility(false);
@@ -32854,6 +33683,7 @@ public class DynamicUIRepository {
                                 if ((screenName.equalsIgnoreCase(SCREEN_NAME_BUSINESS_PROOF)
                                         || screenName.equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC)
                                         || screenName.equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC)
+                                        || screenName.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)
                                         || screenName.equalsIgnoreCase(SCREEN_NAME_OTHER_INCOME_SOURCE)
                                         || screenName.equalsIgnoreCase(SCREEN_NAME_GENERAL_INCOME)
                                         || screenName.equalsIgnoreCase(SCREEN_NAME_BANK_DETAILS)
@@ -32867,7 +33697,6 @@ public class DynamicUIRepository {
                                     dynamicUITableApplicantKYC.setVisibility(false);
                                 }
                             }
-
                         }
 
 
@@ -33140,17 +33969,31 @@ public class DynamicUIRepository {
         return data;
     }
 
+    public LiveData<List<String>> getDocumentUploadHeaderEL(String clientId, String loanType, boolean isHeader) {
+        final MutableLiveData<List<String>> data = new MutableLiveData<>();
+        executor.execute(() -> {
+            List<String> headerList = new ArrayList<>();
+            if (!TextUtils.isEmpty(loanType) && loanType.equalsIgnoreCase(LOAN_NAME_EL)) {
+                // TODO: Only for JLG
+                headerList = dynamicUIDao.getDocumentUploadHeaderForJLG(clientId, loanType, isHeader, MODULE_TYPE_APPLICANT);
+            } else {
+                headerList = dynamicUIDao.getDocumentUploadHeader(clientId, loanType, isHeader);
+            }
+            data.postValue(headerList);
+        });
+        return data;
+    }
+
     public LiveData<List<DocumentUploadTableNew>> getDocumentUploadSubHeader(String clientId, String loanType, boolean isHeader) {
         final MutableLiveData<List<DocumentUploadTableNew>> data = new MutableLiveData<>();
         executor.execute(() -> {
-            boolean dataExist = (dynamicUIDao.getDocumentUploadSubHeader(clientId, loanType, isHeader) != null);
+            boolean dataExist = (dynamicUIDao.getDocumentUploadSubHeader(clientId, loanType, isHeader) != null); // get the sub header by doc table new
             if (dataExist) {
                 data.postValue(dynamicUIDao.getDocumentUploadSubHeader(clientId, loanType, isHeader));
             }
         });
         return data;
     }
-
 
     public LiveData<List<DocumentUploadTableNew>> uploadDocumentsToServer(DocumentUploadTableNew documentUploadTableNew) {
         final MutableLiveData<List<DocumentUploadTableNew>> data = new MutableLiveData<>();
@@ -33181,9 +34024,7 @@ public class DynamicUIRepository {
                 JealousSky jealousSky = JealousSky.getInstance();
 
                 try {
-                    jealousSky.initialize(
-                            IMAGE_ENC_PSWD,
-                            IMAGE_ENC_SALT);
+                    jealousSky.initialize(IMAGE_ENC_PSWD, IMAGE_ENC_SALT);
 
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -33246,7 +34087,6 @@ public class DynamicUIRepository {
                                 rbFileType, rbProductType, multiPart,
                                 appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, "")));
                     }
-
                 }
 
                 // paste here
@@ -33317,8 +34157,7 @@ public class DynamicUIRepository {
 
                                                              // TODO: Updating Response Message and Status For Header
                                                              dynamicUIDao.updateDocumentResponseAndStatus(documentUploadTableNew1.getResponseMessage(),
-                                                                     true, documentUploadTableNew1.getClient_id(),
-                                                                     documentUploadTableNew1.getLoan_type(), true,
+                                                                     true, documentUploadTableNew1.getClient_id(), documentUploadTableNew1.getLoan_type(), true,
                                                                      documentUploadTableNew1.getDocument_name(), documentUploadTableNew1.getModule_type());
 
                                                              // TODO: Updating Response Message and Status For SubHeader
@@ -33336,7 +34175,6 @@ public class DynamicUIRepository {
                                                              // TODO: Updating Response Message and Status For SubHeader
                                                              dynamicUIDao.updateDocumentResponseAndStatusByID(documentUploadTableNew1.getResponseMessage(),
                                                                      true, documentUploadTableNew1.getId());
-
                                                              break;
                                                          }
                                                      }
@@ -33353,7 +34191,7 @@ public class DynamicUIRepository {
                                                      }
                                                      if (!TextUtils.isEmpty(documentUploadTableNew.getLoan_type()) && documentUploadTableNew.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)) {
                                                          // TODO: Insert or Update Document Upload Raw Data
-                                                         insertDocumentRawData(SCREEN_N0_DOCUMENT_UPLOAD_PHL, documentUploadTableNewList.get(0),
+                                                         insertDocumentRawData(SCREEN_N0_DOCUMENT_UPLOAD_EL, documentUploadTableNewList.get(0),
                                                                  documentUploadTableNewList);
                                                      }
                                                      if (!TextUtils.isEmpty(documentUploadTableNew.getLoan_type()) && documentUploadTableNew.getLoan_type().equalsIgnoreCase(LOAN_NAME_TWL)) {
@@ -33379,9 +34217,7 @@ public class DynamicUIRepository {
                                                              }
                                                          }
                                                      }
-
                                                      ((MutableLiveData<List<DocumentUploadTableNew>>) data).postValue(documentListnew);
-
                                                  }
                                              }
                                          },
@@ -33414,7 +34250,7 @@ public class DynamicUIRepository {
                             }
                     );
                 } else {
-// TODO: Final Result
+                  // TODO: Final Result
                     List<DocumentUploadTableNew> documentUploadTableNewList = dynamicUIDao.getDocumentUploadSubHeader(documentUploadTableNew.getClient_id(),
                             documentUploadTableNew.getLoan_type(), false);
 
@@ -33448,13 +34284,11 @@ public class DynamicUIRepository {
                         }
                     }
                 }
-
                 ((MutableLiveData<List<DocumentUploadTableNew>>) data).postValue(documentListnew);
             }
         });
         return data;
     }
-
 
     public LiveData<List<DocumentUploadTableNew>> insertNewCapturedImageInTable(DocumentUploadTableNew documentUploadTableNewImage) {
         final MutableLiveData<List<DocumentUploadTableNew>> data = new MutableLiveData<>();
@@ -33530,7 +34364,6 @@ public class DynamicUIRepository {
                             }
                         }
                     }
-
                 }
 
                 // TODO: personal detail
@@ -33581,8 +34414,6 @@ public class DynamicUIRepository {
                     }
                 }
             }
-
-
             data.postValue(dynamicUIDao.getDocumentListByDocumentName(documentUploadTableNewImage.getClient_id(),
                     documentUploadTableNewImage.getLoan_type(), false, documentUploadTableNewImage.getDocument_name(),
                     documentUploadTableNewImage.getModule_type()));
@@ -33661,12 +34492,11 @@ public class DynamicUIRepository {
                                             }
                                         }
                                     } else {
-                                        // TODO: deletee Spouse KYC
+                                        // TODO: delete Spouse KYC
                                     }
                                 }
                             }
                         }
-
                     }
                     if (!TextUtils.isEmpty(documentUploadTableNewImage.getScreen_id()) && documentUploadTableNewImage.getScreen_id().equalsIgnoreCase(SCREEN_NO_NOMINEE_DETAILS_JLG)) {
                         RawDataTable rawDataAddressDetail = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_NOMINEE_DETAIL, documentUploadTableNewImage.getClient_id(), documentUploadTableNewImage.getLoan_type());
@@ -33678,11 +34508,11 @@ public class DynamicUIRepository {
                                     String value = hashMap.get(TAG_NAME_NOMINEE_RELATIONSHIP_WITH_THE_APPLICANT).toString();
                                     if (!TextUtils.isEmpty(value) && value.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_SPOUSE)) {
                                         if (rawDataApplicantDetail != null) {
-                                            HashMap<String, Object> hashMappersonal = setKeyValueForObject(rawDataApplicantDetail);
-                                            if (hashMappersonal != null && hashMappersonal.size() > 0) {
-                                                if (hashMappersonal.containsKey(TAG_NAME_MARITAL_STATUS)) {
-                                                    String maritialStatus = hashMappersonal.get(TAG_NAME_MARITAL_STATUS).toString();
-                                                    if (!TextUtils.isEmpty(maritialStatus) && maritialStatus.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_MARRIED)) {
+                                            HashMap<String, Object> hashMapPersonal = setKeyValueForObject(rawDataApplicantDetail);
+                                            if (hashMapPersonal != null && hashMapPersonal.size() > 0) {
+                                                if (hashMapPersonal.containsKey(TAG_NAME_MARITAL_STATUS)) {
+                                                    String maritalStatus = hashMapPersonal.get(TAG_NAME_MARITAL_STATUS).toString();
+                                                    if (!TextUtils.isEmpty(maritalStatus) && maritalStatus.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_MARRIED)) {
                                                         DocumentMasterTable documentMasterTable = dynamicUIDao.getDocumentMasterByScreenAndDocumentName(SCREEN_NO_PERSONAL_DETAIL_JLG, DOCUMENT_NAME_SPOUSE_KYC, MODULE_TYPE_APPLICANT);
                                                         if (documentMasterTable != null) {
                                                             String fileFormat = documentMasterTable.getFileFormat();
@@ -33734,7 +34564,6 @@ public class DynamicUIRepository {
                                 }
                             }
                         }
-
                     }
                 }
 
@@ -33751,7 +34580,6 @@ public class DynamicUIRepository {
         });
         return data;
     }
-
 
     public LiveData<List<DocumentUploadTableNew>> removeCapturedImageFromTable(DocumentUploadTableNew documentUploadTableNewImage) {
         final MutableLiveData<List<DocumentUploadTableNew>> data = new MutableLiveData<>();
@@ -33866,7 +34694,7 @@ public class DynamicUIRepository {
 
                 dynamicUIDao.updateDocumentFilePathAndStatusByID("", false, documentUploadTableNewImage.getId());
 
-                // TODO: Only for JLGG
+                // TODO: Only for JLG
                 if (!TextUtils.isEmpty(documentUploadTableNewImage.getLoan_type()) && documentUploadTableNewImage.getLoan_type().equalsIgnoreCase(LOAN_NAME_JLG)) {
                     if (!TextUtils.isEmpty(documentUploadTableNewImage.getScreen_id()) && documentUploadTableNewImage.getScreen_id().equalsIgnoreCase(SCREEN_NO_APPLICANT_KYC_JLG)) {
                         // TODO: applicant KYC  Details
@@ -33931,7 +34759,6 @@ public class DynamicUIRepository {
                                 }
                             }
                         }
-
                     }
                     // TODO: personal details
                     if (!TextUtils.isEmpty(documentUploadTableNewImage.getScreen_id()) && documentUploadTableNewImage.getScreen_id().equalsIgnoreCase(SCREEN_NO_PERSONAL_DETAIL_JLG)) {
@@ -33975,7 +34802,6 @@ public class DynamicUIRepository {
                                 }
                             }
                         }
-
                     }
                 }
             }
@@ -34004,9 +34830,8 @@ public class DynamicUIRepository {
                         documentUploadTableNewImage.getLoan_type(), true,
                         documentUploadTableNewImage.getDocument_name(), documentUploadTableNewImage.getModule_type());
             }
-
-
             data.postValue(documentUploadTableNewList);
+            Log.d(TAG, "GET THE DOCS NAMES "+ documentUploadTableNewList);
         });
         return data;
     }
@@ -34111,9 +34936,7 @@ public class DynamicUIRepository {
                                         // TODO: if not exist then insert
                                         dynamicUIDao.insertCIBILTable(cibilTable);
                                     }
-
                                 }
-
                             }
                         }
                     }
@@ -34130,6 +34953,7 @@ public class DynamicUIRepository {
         return data;
     }
 
+    //Document upload api call, sp = USP_LOS_GetSelectedDocumentDetails
     public LiveData<List<DocumentMasterTable>> getDocumentMasterFromServer(String productId, String projectId) {
         final MutableLiveData<List<DocumentMasterTable>> data = new MutableLiveData<>();
         DynamicUIWebService.changeApiBaseUrl(RAW_DATA_URL);
@@ -34163,10 +34987,11 @@ public class DynamicUIRepository {
                                                     String tableJson = json.get(key).toString();
                                                     DocumentMasterResponseDTO rawDataResponseDTO = new Gson().fromJson(tableJson, DocumentMasterResponseDTO.class);
                                                     if (rawDataResponseDTO != null && rawDataResponseDTO.getTable().size() > 0) {
-                                                        Log.d(TAG, " data tvName server =======> " + new Gson().toJson(rawDataResponseDTO));
+                                                        Log.d(TAG, " data tv Name server =======> " + new Gson().toJson(rawDataResponseDTO));
                                                         List<DocumentMasterTable> documentMasterTableList = new ArrayList<>();
                                                         for (DocumentMasterTable documentMasterTable : rawDataResponseDTO.getTable()) {
                                                             documentMasterTableList.add(documentMasterTable);
+                                                            Log.d(TAG, "get the list of docs data from master table --> " + documentMasterTable.getDocumentName());
                                                         }
                                                         dynamicUIDao.insertAndDeleteDocumentMasterTable(documentMasterTableList);
                                                     }
@@ -34319,9 +35144,7 @@ public class DynamicUIRepository {
         return data;
     }
 
-
-    public MutableLiveData<DynamicUITable> GetSpinnerItemFromDB(String
-                                                                        FieldTag, String fromScreen, String plusSign) {
+    public MutableLiveData<DynamicUITable> GetSpinnerItemFromDB(String FieldTag, String fromScreen, String plusSign) {
         final MutableLiveData<DynamicUITable> dynamicUITableMutableLiveData1 = new MutableLiveData<>();
         executor.execute(() -> {
             if (!TextUtils.isEmpty(plusSign) && plusSign.equalsIgnoreCase("yes") ||
@@ -34378,7 +35201,7 @@ public class DynamicUIRepository {
                 String rawData = rawDataTable.getRawdata();
 
                 rawDataHashMap = App.createHashMapFromJsonString(rawData);
-                Log.d(TAG, "Hashmap ==> " + rawDataHashMap);
+                Log.d(TAG, "Hashmap ==> get the data for NO " + rawDataHashMap);
             }
 
         } catch (Exception ex) {
@@ -34421,8 +35244,6 @@ public class DynamicUIRepository {
                 jsonObjectVal.put("save", "" + save);
 
                 dynamicUIDao.updateRawDataBag(SCREEN_NO_APPLICANT_LOAN_PROPOSAL_EL, rawDataTable.getId(), jsonObjectVal.toString());
-
-
             }else{
                 Log.e(getClass().getSimpleName(),"Raw data not found");
             }
@@ -34483,7 +35304,6 @@ public class DynamicUIRepository {
         }
     }
 
-
     public LiveData<List<UserLoginMenuTable>> getUserLoginMenuFromServer(String userId, String roleId) {
         final MutableLiveData<List<UserLoginMenuTable>> data = new MutableLiveData<>();
         DynamicUIWebService.changeApiBaseUrl(RAW_DATA_URL);
@@ -34528,8 +35348,6 @@ public class DynamicUIRepository {
 
                                                         // TODO: Delete And Insert Knowledge Bank Table
                                                         dynamicUIDao.deleteAndInsertUserLoginMenuTable(userLoginMenuTableList);
-
-//
                                                     }
                                                 }
                                             }
@@ -34575,7 +35393,6 @@ public class DynamicUIRepository {
         });
         return data;
     }
-
 
     //productName
     public LiveData<List<GetLeadDropDownProductNameTable>> getLeadDropDownProductNameServer(String userId, String sigmentId, String bcid, String productId) {
@@ -35384,7 +36201,6 @@ public class DynamicUIRepository {
         return data;
     }
 
-
     public LiveData<DeliquencyResponseDTO> getDeliquencyServiceData(String ucic_id, String clientId, String moduleType, String loanType) {
         final MutableLiveData<DeliquencyResponseDTO> data = new MutableLiveData<>();
         try {
@@ -35566,7 +36382,6 @@ public class DynamicUIRepository {
         return data;
     }
 
-
     public LiveData<CityResponseDTO> getCityServiceData(String forData, String clientId) {
         final MutableLiveData<CityResponseDTO> data = new MutableLiveData<>();
         try {
@@ -35656,7 +36471,6 @@ public class DynamicUIRepository {
                                     } else {
                                         // TODO: Failure Case
                                         data.postValue(new IBPResponse());
-
                                     }
                                 });
                             }
@@ -35669,7 +36483,6 @@ public class DynamicUIRepository {
                                 });
                             }
                         });
-
             });
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -35703,7 +36516,8 @@ public class DynamicUIRepository {
                 typeOfProfessionRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
                 String baseString = new Gson().toJson(typeOfProfessionRequestDTO, TypeOfProfessionRequestDTO.class).replace("\\u003d", "=");
                 String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getLeadDropDownTypeOfProfession(typeOfProfessionRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getLeadDropDownTypeOfProfession(typeOfProfessionRequestDTO,
+                                appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
                         enqueue(new Callback<ResponseBody>() {
                             @Override
                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -35978,6 +36792,124 @@ public class DynamicUIRepository {
         return data;
     }
 
+    public LiveData<List<GetKYCDropDownIDProofTable>> getDropDownGuarantorKYCType(String type, String clientId, String moduleType, String customerType, String profession) {
+        final MutableLiveData<List<GetKYCDropDownIDProofTable>> data = new MutableLiveData<>();
+        DynamicUIWebService.changeApiBaseUrl(RAW_DATA_URL);
+
+        executor.execute(() -> {
+
+            try {
+                RawDataTable leadRawData = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_LEAD, clientId, loanType);
+
+                final TypeOfProfessionRequestDTO typeOfProfessionRequestDTO = new TypeOfProfessionRequestDTO();
+                typeOfProfessionRequestDTO.setIMEINumber(appHelper.getIMEI());
+                typeOfProfessionRequestDTO.setProjectName(loanType);
+                TypeOfProfessionRequestDTO.SpNameWithParameterClass spNameWithParameter = new TypeOfProfessionRequestDTO.SpNameWithParameterClass();
+                spNameWithParameter.setSpName(SP_NAME_TO_LEAD_TYPE_OF_PROFESSION);
+                TypeOfProfessionRequestDTO.SpParametersClass spParametersClass = new TypeOfProfessionRequestDTO.SpParametersClass();
+                spNameWithParameter.setSpParameters(spParametersClass);
+                spParametersClass.setType(type);
+
+                if (moduleType.equalsIgnoreCase(MODULE_TYPE_APPLICANT)) {
+                    if (leadRawData != null) {
+                        HashMap<String, Object> hashMap = setKeyValueForObject(leadRawData);
+                        if (hashMap != null && hashMap.size() > 0) {
+
+                            if (hashMap.containsKey(TAG_NAME_CUSTOMER_TYPE)) {
+                                String value = hashMap.get(TAG_NAME_CUSTOMER_TYPE).toString();
+                                if (!TextUtils.isEmpty(value)) {
+                                    spParametersClass.setCustomerType(value);
+                                }
+                            }
+
+                            if (hashMap.containsKey(TAG_NAME_TYPE_OF_PROFESSION)) {
+                                String value = hashMap.get(TAG_NAME_TYPE_OF_PROFESSION).toString();
+                                if (!TextUtils.isEmpty(value)) {
+                                    spParametersClass.setTypeOfProfession(value);
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    spParametersClass.setTypeOfProfession(profession);
+                    spParametersClass.setCustomerType(customerType);
+                }
+                ArrayList<TypeOfProfessionRequestDTO.SpNameWithParameterClass> SpNameWithParameterList = new ArrayList<TypeOfProfessionRequestDTO.SpNameWithParameterClass>();
+                SpNameWithParameterList.add(spNameWithParameter);
+                typeOfProfessionRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
+                String baseString = new Gson().toJson(typeOfProfessionRequestDTO, TypeOfProfessionRequestDTO.class).replace("\\u003d", "=");
+                String k1 = SHA256Encrypt.sha256(baseString);
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getLeadDropDownTypeOfProfession(typeOfProfessionRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
+                        enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                executor.execute(() -> {
+                                    if (response.isSuccessful()) {
+                                        try {
+                                            String strResponse = response.body().string();
+                                            JSONObject json = new JSONObject(strResponse);
+                                            if (json.length() != 0) {
+                                                String key = json.keys().next();
+                                                if (!TextUtils.isEmpty(key)) {
+                                                    String tableJson = json.get(key).toString();
+
+                                                    KYCIdProofResponseDTO getKYCIdProofResponseDTO = new Gson().fromJson(tableJson, KYCIdProofResponseDTO.class);
+                                                    if (getKYCIdProofResponseDTO != null && getKYCIdProofResponseDTO.getGetKYCDropDownIDProofTable().size() > 0) {
+                                                        List<GetKYCDropDownIDProofTable> getKYCDropDownIDProofTables = new ArrayList<>();
+
+                                                        for (GetKYCDropDownIDProofTable getGetKYCDropDownIDProofTableTablesList : getKYCIdProofResponseDTO.getGetKYCDropDownIDProofTable()) {
+                                                            getKYCDropDownIDProofTables.add(getGetKYCDropDownIDProofTableTablesList);
+                                                        }
+
+                                                        // TODO: Delete And Insert Knowledge Bank Table
+                                                        dynamicUIDao.deleteAndInsertKYCIdProofTable(getKYCDropDownIDProofTables);
+
+//
+                                                    }
+                                                }
+                                            }
+                                        } catch (Exception ex) {
+                                            ex.printStackTrace();
+
+                                            insertLog("getLeadDropDownProductNameFromServer", ex.getMessage(), "", "", TAG, "", "", "");
+                                        }
+                                    } else {
+                                        insertLog("getLeadDropDownProductNameFromServer", response.message(), "", "", TAG, "", "", "");
+                                    }
+
+                                    // TODO: Final result
+                                    List<GetKYCDropDownIDProofTable> getGetKYCDropDownIDProofTablelList = dynamicUIDao.getGetKYCDropDownIDProofTableFromLocalDB();
+                                    data.postValue(getGetKYCDropDownIDProofTablelList);
+
+                                });
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                t.printStackTrace();
+                                // TODO: Final result
+                                executor.execute(() -> {
+                                    List<GetKYCDropDownIDProofTable> getGetKYCDropDownIDProofTablelList = dynamicUIDao.getGetKYCDropDownIDProofTableFromLocalDB();
+                                    data.postValue(getGetKYCDropDownIDProofTablelList);
+
+                                    insertLog("getLeadDropDownProductNameFromServer", t.getMessage(), "", "", TAG, "", "", "");
+                                });
+                            }
+                        });
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                // TODO: Final result
+                executor.execute(() -> {
+                    List<GetKYCDropDownIDProofTable> getGetKYCDropDownIDProofTablelList = dynamicUIDao.getGetKYCDropDownIDProofTableFromLocalDB();
+                    data.postValue(getGetKYCDropDownIDProofTablelList);
+
+                });
+            }
+
+        });
+        return data;
+    }
+
     public LiveData<List<GetAddressAddressProofTable>> getAddressAddressProof(String type, String clientId, String moduleType) {
         final MutableLiveData<List<GetAddressAddressProofTable>> data = new MutableLiveData<>();
         DynamicUIWebService.changeApiBaseUrl(RAW_DATA_URL);
@@ -36063,8 +36995,6 @@ public class DynamicUIRepository {
                                                         for (GetAddressAddressProofTable getGetAddressAddressProofTableList : getKYCAddressProofResponseDTO.getGetAddressAddressProofTable()) {
                                                             getKYCAddressProofResponseTables.add(getGetAddressAddressProofTableList);
                                                         }
-
-                                                        // TODO: Delete And Insert Knowledge Bank Table
                                                         dynamicUIDao.deleteAddressAddressProofTable(getKYCAddressProofResponseTables);
                                                     }
                                                 }
@@ -36296,7 +37226,6 @@ public class DynamicUIRepository {
                                     } else {
                                         // TODO: Failure Case
                                         data.postValue(new GetColorResponseDTO());
-
                                     }
                                 });
                             }
@@ -36332,10 +37261,10 @@ public class DynamicUIRepository {
                 rampRequestDTO.setClientID(clientId);
                 rampRequestDTO.setServiceType("RAMP");
                 rampRequestDTO.setKYCld("");
-                rampRequestDTO.setCreateBy("UCL");
+                rampRequestDTO.setCreateBy("EL");
                 rampRequestDTO.setModuleType(moduleType);
                 rampRequestDTO.setCoapplicantId(moduleType);
-                rampRequestDTO.setCreatedByProject("UCL");
+                rampRequestDTO.setCreatedByProject("EL");
                 rampRequestDTO.setCreatedDate(appHelper.getCurrentDate(DATE_FORMAT_YYYY_MM_DD));
                 rampRequestDTO.setExternalCustomerld("");
                 RampRequestDTO.RequestString requestStringClass = new RampRequestDTO.RequestString();
@@ -36464,12 +37393,19 @@ public class DynamicUIRepository {
                                 String value = hashMap.get(TAG_NAME_KYC_TYPE_DRIVINGLICENSE).toString();
                                 if (!TextUtils.isEmpty(value)) {
                                     requestVOList.setDrivingLicence(value);
+                                    Log.d(TAG, "get the driving license............." + requestVOList.drivingLicence);
                                 }
                             }
                             if (hashMap.containsKey(TAG_NAME_CITY)) {
                                 String value = hashMap.get(TAG_NAME_CITY).toString();
                                 if (!TextUtils.isEmpty(value)) {
                                     requestVOList.setCity(value);
+                                }
+                            }
+                            if (hashMap.containsKey(TAG_NAME_KYC_TYPE_AADHAAR)) {
+                                String value = hashMap.get(TAG_NAME_KYC_TYPE_AADHAAR).toString();
+                                if (!TextUtils.isEmpty(value)) {
+                                    requestVOList.setAadhar(value);
                                 }
                             }
 
@@ -36604,6 +37540,600 @@ public class DynamicUIRepository {
         return data;
     }
 
+//    public LiveData<HunterResponseDTO> getHunterServiceData(String userId, String clientId, String loanType, String moduleType) {
+//        final MutableLiveData<HunterResponseDTO> data = new MutableLiveData<>();
+//        try {
+//            DynamicUIWebService.changeApiBaseUrl(RAMP_HUNTER);
+//            executor.execute(() -> {
+//                final HunterRequestDTO hunterRequestDTO = new HunterRequestDTO();
+//                hunterRequestDTO.setCreatedDate(appHelper.getCurrentDate(DATE_FORMAT_YYYY_MM_DD));
+//                hunterRequestDTO.setUniqueId(String.valueOf(System.currentTimeMillis()));
+//                hunterRequestDTO.setClientID(clientId);
+//                List<RawDataTable> applicantRawDataTableList = null;
+//                List<RawDataTable> personalDetailRawDataTableList = null;
+//                List<RawDataTable> addressDetailRawDataTableList = null;
+//                List<RawDataTable> bankDetaiRawDataTableList = null;
+//
+//                List<RawDataTable> coapplicantRawDataTableList = null;
+//                List<RawDataTable> coApplicantsocioEcnomicDetailsRawDataTableList = null;
+//                List<RawDataTable> coApplicantaddressDetailRawDataTableList = null;
+//                List<RawDataTable> coApplicantOneaddressDetailSize = null;
+//                List<RawDataTable> coApplicantTwoaddressDetailSize = null;
+//                List<RawDataTable> loanProposalDetailsRawDataTableList = null;
+//
+//                List<RawDataTable> businessProfileList = null;
+//                List<RawDataTable> salaryProfileList = null;
+//                List<RawDataTable> businessProofList = null;
+//                List<RawDataTable> salaryProofList = null;
+//
+//                /* if (moduleType.equalsIgnoreCase(MODULE_TYPE_APPLICANT)) {*/
+//                applicantRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_APPLICANT_KYC, clientId, MODULE_TYPE_APPLICANT, loanType);
+//                personalDetailRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_PERSONAL_DETAIL, clientId, MODULE_TYPE_APPLICANT, loanType);
+//                addressDetailRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_ADDRESS_DETAIL, clientId, MODULE_TYPE_APPLICANT, loanType);
+//                bankDetaiRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_BANK_DETAILS, clientId, MODULE_TYPE_APPLICANT, loanType);
+//                businessProfileList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_BUSINESS_PROFILE, clientId, MODULE_TYPE_APPLICANT, loanType);
+//                salaryProfileList=dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_SALARY_PROFILE, clientId, MODULE_TYPE_APPLICANT, loanType);
+//                businessProofList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_BUSINESS_ADDRESS_PROOF, clientId, MODULE_TYPE_APPLICANT, loanType);
+//                salaryProofList=dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_OFFICE_ADDRESS_PROOF, clientId, MODULE_TYPE_APPLICANT, loanType);
+//
+//                //socioEcnomicDetailsRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_SOCIO_ECONOMIC_DETAIL, clientId, moduleType, loanType);
+//
+//               /* } else {
+//                    applicantRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_CO_APPLICANT_KYC, clientId, moduleType, loanType);
+//                    personalDetailRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_COAPPLICANT_PERSONAL_DETAIL, clientId, moduleType, loanType);
+//                    addressDetailRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL, clientId, moduleType, loanType);
+//                    bankDetaiRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_CO_APPLICANT_BANK_DETAILS, clientId, moduleType, loanType);
+//                    socioEcnomicDetailsRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_SOCIO_ECONOMIC_DETAIL, clientId, moduleType, loanType);
+//                }*/
+//                coapplicantRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_CO_APPLICANT_KYC, clientId, "CoApplicant1", loanType);
+//                coApplicantsocioEcnomicDetailsRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_SOCIO_ECONOMIC_DETAIL, clientId, "CoApplicant1", loanType);
+//                coApplicantaddressDetailRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL, clientId, "CoApplicant1", loanType);
+//                loanProposalDetailsRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_APPLICANT_LOAN_PROPOSAL, clientId, MODULE_TYPE_LOAN_PROPOSAL_WITH_NOMINEE, loanType);
+//                coApplicantOneaddressDetailSize = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL, clientId, "CoApplicant1", loanType);
+//
+//                coapplicantRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_CO_APPLICANT_KYC, clientId, "CoApplicant2", loanType);
+//                coApplicantsocioEcnomicDetailsRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_SOCIO_ECONOMIC_DETAIL, clientId, "CoApplicant2", loanType);
+//                coApplicantaddressDetailRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL, clientId, "CoApplicant2", loanType);
+//                coApplicantTwoaddressDetailSize= dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL, clientId, "CoApplicant2", loanType);
+//
+//                if (applicantRawDataTableList != null && applicantRawDataTableList.size() > 0) {
+//                    for (RawDataTable rawDataTable : applicantRawDataTableList) {
+//                        HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
+//                        if (hashMap != null && hashMap.size() > 0) {
+//
+//                            if (hashMap.containsKey(TAG_NAME_KYC_TYPE_AADHAAR)) {
+//                                String value = hashMap.get(TAG_NAME_KYC_TYPE_AADHAAR).toString();
+//                                if (!TextUtils.isEmpty(value)) {
+//                                    hunterRequestDTO.setAADHAR(value);
+//                                }
+//                            }
+//
+//                            if (hashMap.containsKey(TAG_NAME_KYC_ID)) {
+//                                String value = hashMap.get(TAG_NAME_KYC_ID).toString();
+//                                if (!TextUtils.isEmpty(value)) {
+//                                    hunterRequestDTO.setKYCId(value);
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//                hunterRequestDTO.setExternalCustomerId(clientId);
+//                hunterRequestDTO.setCreatedByProject("EL");
+//                hunterRequestDTO.setCreatedBy("EL");
+//                HunterRequestDTO.RequestString requestStringClass = new HunterRequestDTO.RequestString();
+//                HunterRequestDTO.RequestString.HunterVerificationRetail hunterVerificationRetail = new HunterRequestDTO.RequestString.HunterVerificationRetail();
+//                hunterVerificationRetail.setTerm("0");
+//                hunterVerificationRetail.setSubmissionNotificationRqd("");
+//                hunterVerificationRetail.setProduct("PL_I_ST");
+//                hunterVerificationRetail.setOriginator("");
+//                hunterVerificationRetail.setIdentifier("");
+//                hunterVerificationRetail.setDate(appHelper.getCurrentDate(DATE_FORMAT_YYYY_MM_DD));
+//                hunterVerificationRetail.setCount("");
+//                hunterVerificationRetail.setClassification("");
+//                hunterVerificationRetail.setAssOrigVal("0");
+//                if (loanProposalDetailsRawDataTableList != null && loanProposalDetailsRawDataTableList.size() > 0) {
+//                    for (RawDataTable rawDataTable : loanProposalDetailsRawDataTableList) {
+//                        HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
+//                        if (hashMap != null && hashMap.size() > 0) {
+//                            if (hashMap.containsKey(TAG_NAME_REQUESTED_LOAN_AMOUNT)) {
+//                                String value = hashMap.get(TAG_NAME_REQUESTED_LOAN_AMOUNT).toString();
+//                                if (!TextUtils.isEmpty(value)) {
+//                                    hunterVerificationRetail.setAppVal(value);
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                hunterVerificationRetail.setAppDte(appHelper.getCurrentDate(DATE_FORMAT_YYYY_MM_DD));
+//                hunterVerificationRetail.setModuleType(MODULE_TYPE_APPLICANT);
+//                HunterRequestDTO.RequestString.HunterVerificationRetail.Item item = new HunterRequestDTO.RequestString.HunterVerificationRetail.Item();
+//                HunterRequestDTO.RequestString.HunterVerificationRetail.Item.MainApplicant mainApplicant = new HunterRequestDTO.RequestString.HunterVerificationRetail.Item.MainApplicant();
+//
+//                if (personalDetailRawDataTableList != null && personalDetailRawDataTableList.size() > 0) {
+//                    for (RawDataTable rawDataTable : personalDetailRawDataTableList) {
+//                        HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
+//                        if (hashMap != null && hashMap.size() > 0) {
+//
+//                            if (hashMap.containsKey(TAG_NAME_CONTACT_NO_1)) {
+//                                String value = hashMap.get(TAG_NAME_CONTACT_NO_1).toString();
+//                                if (!TextUtils.isEmpty(value)) {
+//                                    mainApplicant.setMobile(value);
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//                if (applicantRawDataTableList != null && applicantRawDataTableList.size() > 0) {
+//                    boolean idProof = false;
+//                    for (RawDataTable rawDataTable : applicantRawDataTableList) {
+//                        HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
+//                        if (hashMap != null && hashMap.size() > 0) {
+//                            String kycType = "";
+//                            if (hashMap.containsKey(TAG_NAME_KYC_TYPE)) {
+//                                kycType = hashMap.get(TAG_NAME_KYC_TYPE).toString();
+//                                if(kycType.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_AADHAAR)){
+//                                    idProof = true;
+//                                }
+//                            }
+//                            if(kycType.equalsIgnoreCase(TAG_NAME_KYC_TYPE_AADHAAR)){
+//                                if (hashMap.containsKey(TAG_NAME_LAST_NAME)) {
+//                                    String value = hashMap.get(TAG_NAME_LAST_NAME).toString();
+//                                    if (!TextUtils.isEmpty(value)) {
+//                                        mainApplicant.setLastName(value);
+//                                    }
+//                                }
+//                                if (hashMap.containsKey(TAG_NAME_FIRST_NAME)) {
+//                                    String firstName = hashMap.get(TAG_NAME_FIRST_NAME).toString();
+//                                    if (!TextUtils.isEmpty(firstName)) {
+//                                        mainApplicant.setFirstName(firstName);
+//                                    }
+//                                }else if (hashMap.containsKey(TAG_NAME_FULL_NAME)) {
+//                                    mainApplicant.setFirstName(hashMap.get(TAG_NAME_FULL_NAME).toString());
+//                                }
+//                                if (hashMap.containsKey(TAG_NAME_APPLICATION_DATE_OF_BIRTH)) {
+//                                    String value = hashMap.get(TAG_NAME_APPLICATION_DATE_OF_BIRTH).toString();
+//                                    if (!TextUtils.isEmpty(value)) {
+//                                        mainApplicant.setDateOfBirth(value);
+//                                    }
+//                                }
+//                            }
+//                            else if(idProof == false){
+//                                if (hashMap.containsKey(TAG_NAME_LAST_NAME)) {
+//                                    String value = hashMap.get(TAG_NAME_LAST_NAME).toString();
+//                                    if (!TextUtils.isEmpty(value)) {
+//                                        mainApplicant.setLastName(value);
+//                                    }
+//                                }
+//                                if (hashMap.containsKey(TAG_NAME_FIRST_NAME)) {
+//                                    String firstName = hashMap.get(TAG_NAME_FIRST_NAME).toString();
+//                                    if (!TextUtils.isEmpty(firstName)) {
+//                                        mainApplicant.setFirstName(firstName);
+//                                    }
+//                                }else if (hashMap.containsKey(TAG_NAME_FULL_NAME)) {
+//                                    mainApplicant.setFirstName(hashMap.get(TAG_NAME_FULL_NAME).toString());
+//                                }
+//                                if (hashMap.containsKey(TAG_NAME_APPLICATION_DATE_OF_BIRTH)) {
+//                                    String value = hashMap.get(TAG_NAME_APPLICATION_DATE_OF_BIRTH).toString();
+//                                    if (!TextUtils.isEmpty(value)) {
+//                                        mainApplicant.setDateOfBirth(value);
+//                                    }
+//                                }else if (hashMap.containsKey(TAG_NAME_DATE_OF_INCORPORATION)) {
+//                                    String value = hashMap.get(TAG_NAME_DATE_OF_INCORPORATION).toString();
+//                                    if (!TextUtils.isEmpty(value)) {
+//                                        mainApplicant.setDateOfBirth(value);
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//                mainApplicant.setBusinessTelephone("");
+//                HunterRequestDTO.RequestString.HunterVerificationRetail.Item.MainApplicant.IdDocument idDocument = new HunterRequestDTO.RequestString.HunterVerificationRetail.Item.MainApplicant.IdDocument();
+//
+//                if (applicantRawDataTableList != null && applicantRawDataTableList.size() > 0) {
+//                    for (RawDataTable rawDataTable : applicantRawDataTableList) {
+//                        HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
+//                        if (hashMap != null && hashMap.size() > 0) {
+//                            String kycType="";
+//                            if (hashMap.containsKey(TAG_NAME_KYC_TYPE)) {
+//                                kycType = hashMap.get(TAG_NAME_KYC_TYPE).toString();
+//                            }
+//                            if(kycType.equalsIgnoreCase(TAG_NAME_KYC_TYPE_AADHAAR)){
+//                                if (hashMap.containsKey(TAG_NAME_KYC_ID)) {
+//                                    String value = hashMap.get(TAG_NAME_KYC_ID).toString();
+//                                    if (!TextUtils.isEmpty(value)) {
+//                                        idDocument.setDocNumber(value);
+//                                        idDocument.setRecDocCode(TAG_NAME_KYC_TYPE_AADHAAR);
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                HunterRequestDTO.RequestString.HunterVerificationRetail.Item.MainApplicant.ResidentialAddress residentialAddress = new HunterRequestDTO.RequestString.HunterVerificationRetail.Item.MainApplicant.ResidentialAddress();
+//
+//                if (addressDetailRawDataTableList != null && addressDetailRawDataTableList.size() > 0) {
+//                    for (RawDataTable rawDataTable : addressDetailRawDataTableList) {
+//                        HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
+//                        if (hashMap != null && hashMap.size() > 0) {
+//                            String addressline1 = "", addressline2 = "", addressline3 = "";
+//                            if (hashMap.containsKey(TAG_NAME_COMMUNICATION_ADDRESS_LINE_1)) {
+//                                String value = hashMap.get(TAG_NAME_COMMUNICATION_ADDRESS_LINE_1).toString();
+//                                if (!TextUtils.isEmpty(value)) {
+//                                    addressline1=value;
+//                                    // inquiryAddress.setAddressLine(value);
+//                                }
+//                            }
+//                            if (hashMap.containsKey(TAG_NAME_COMMUNICATION_ADDRESS_LINE_2)) {
+//                                String value = hashMap.get(TAG_NAME_COMMUNICATION_ADDRESS_LINE_2).toString();
+//                                if (!TextUtils.isEmpty(value)) {
+//                                    addressline2 = value;
+//                                }
+//                            }
+//                            if (hashMap.containsKey(TAG_NAME_COMMUNICATION_ADDRESS_LINE_3)) {
+//                                String value = hashMap.get(TAG_NAME_COMMUNICATION_ADDRESS_LINE_3).toString();
+//                                if (!TextUtils.isEmpty(value)) {
+//                                    addressline2 = value;
+//                                }
+//                            }
+//                            residentialAddress.setAddress(addressline1 + " " + addressline2 + " " + addressline3);
+//
+//                            if (hashMap.containsKey(TAG_NAME_COMMUNICATION_CITY)) {
+//                                String value = hashMap.get(TAG_NAME_COMMUNICATION_CITY).toString();
+//                                if (!TextUtils.isEmpty(value)) {
+//                                    residentialAddress.setCity(value);
+//                                }
+//                            }
+//
+//                            if (hashMap.containsKey(TAG_NAME_COMMUNICATION_PINCODE)) {
+//                                String value = hashMap.get(TAG_NAME_COMMUNICATION_PINCODE).toString();
+//                                if (!TextUtils.isEmpty(value)) {
+//                                    residentialAddress.setPincode(value);
+//                                }
+//                            }
+//
+//                            if (hashMap.containsKey(TAG_NAME_COMMUNICATION_STATE)) {
+//                                String value = hashMap.get(TAG_NAME_COMMUNICATION_STATE).toString();
+//                                if (!TextUtils.isEmpty(value)) {
+//                                    residentialAddress.setState(value);
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//                HunterRequestDTO.RequestString.HunterVerificationRetail.Item.MainApplicant.BankAccount bankAccount = new HunterRequestDTO.RequestString.HunterVerificationRetail.Item.MainApplicant.BankAccount();
+//                if (bankDetaiRawDataTableList != null && bankDetaiRawDataTableList.size() > 0) {
+//                    for (RawDataTable rawDataTable : bankDetaiRawDataTableList) {
+//                        HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
+//                        if (hashMap != null && hashMap.size() > 0) {
+//                            if (hashMap.containsKey(TAG_NAME_BANK_NAME)) {
+//                                String value = hashMap.get(TAG_NAME_BANK_NAME).toString();
+//                                if (!TextUtils.isEmpty(value)) {
+//                                    bankAccount.setBankName(value);
+//                                }
+//                            }
+//
+//                            if (hashMap.containsKey(TAG_NAME_ACCOUNT_NUMBER)) {
+//                                String value = hashMap.get(TAG_NAME_ACCOUNT_NUMBER).toString();
+//                                if (!TextUtils.isEmpty(value)) {
+//                                    bankAccount.setAccountInteger(value);
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                HunterRequestDTO.RequestString.HunterVerificationRetail.Item.MainApplicant.Email email = new HunterRequestDTO.RequestString.HunterVerificationRetail.Item.MainApplicant.Email();
+//                if (personalDetailRawDataTableList != null && personalDetailRawDataTableList.size() > 0) {
+//                    for (RawDataTable rawDataTable : personalDetailRawDataTableList) {
+//                        HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
+//                        if (hashMap != null && hashMap.size() > 0) {
+//                            if (hashMap.containsKey(TAG_NAME_E_MAIL_ID)) {
+//                                String value = hashMap.get(TAG_NAME_E_MAIL_ID).toString();
+//                                if (!TextUtils.isEmpty(value)) {
+//                                    email.setEmailAddress(value);
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//                HunterRequestDTO.RequestString.HunterVerificationRetail.Item.MainApplicant.Employer employer = new HunterRequestDTO.RequestString.HunterVerificationRetail.Item.MainApplicant.Employer();
+//
+//                if (salaryProfileList != null && salaryProfileList.size() > 0) {
+//                    for (RawDataTable rawDataTable : salaryProfileList) {
+//                        HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
+//                        if (hashMap != null && hashMap.size() > 0) {
+//                            if (hashMap.containsKey(TAG_NAME_EMPLOYER_NAME)) {
+//                                String value = hashMap.get(TAG_NAME_EMPLOYER_NAME).toString();
+//                                if (!TextUtils.isEmpty(value)) {
+//                                    employer.setOrgName(value);
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//                if (businessProfileList != null && businessProfileList.size() > 0) {
+//                    for (RawDataTable rawDataTable : businessProfileList) {
+//                        HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
+//                        if (hashMap != null && hashMap.size() > 0) {
+//                            if (hashMap.containsKey(TAG_NAME_ENTERPRISE_NAME)) {
+//                                String value = hashMap.get(TAG_NAME_ENTERPRISE_NAME).toString();
+//                                if (!TextUtils.isEmpty(value)) {
+//                                    employer.setOrgName(value);
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//                HunterRequestDTO.RequestString.HunterVerificationRetail.Item.MainApplicant.Employer.EmployerAddress employerAddress = new HunterRequestDTO.RequestString.HunterVerificationRetail.Item.MainApplicant.Employer.EmployerAddress();
+//                if (salaryProofList != null && salaryProofList.size() > 0) {
+//                    for (RawDataTable rawDataTable : salaryProofList) {
+//                        HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
+//                        if (hashMap != null && hashMap.size() > 0) {
+//                            String addressline1 = "", addressline2 = "", addressline3 = "";
+//                            if (hashMap.containsKey(TAG_NAME_ADDRESS_LINE_1)) {
+//                                String value = hashMap.get(TAG_NAME_ADDRESS_LINE_1).toString();
+//                                if (!TextUtils.isEmpty(value)) {
+//                                    addressline1 = value;
+//                                }
+//                            }
+//                            if (hashMap.containsKey(TAG_NAME_ADDRESS_LINE_2)) {
+//                                String value = hashMap.get(TAG_NAME_ADDRESS_LINE_2).toString();
+//                                if (!TextUtils.isEmpty(value)) {
+//                                    addressline2 = value;
+//                                }
+//                            }
+//                            if (hashMap.containsKey(TAG_NAME_ADDRESS_LINE_3)) {
+//                                String value = hashMap.get(TAG_NAME_ADDRESS_LINE_3).toString();
+//                                if (!TextUtils.isEmpty(value)) {
+//                                    addressline3 = value;
+//                                }
+//                            }
+//                            employerAddress.setAddress(addressline1 + " " + addressline2 + " " + addressline3);
+//                            if (hashMap.containsKey(TAG_NAME_CITY)) {
+//                                String value = hashMap.get(TAG_NAME_CITY).toString();
+//                                if (!TextUtils.isEmpty(value)) {
+//                                    employerAddress.setCity(value);
+//                                }
+//                            }
+//
+//                            if (hashMap.containsKey(TAG_NAME_PINCODE)) {
+//                                String value = hashMap.get(TAG_NAME_PINCODE).toString();
+//                                if (!TextUtils.isEmpty(value)) {
+//                                    employerAddress.setPincode(value);
+//                                }
+//                            }
+//
+//                            if (hashMap.containsKey(TAG_NAME_STATE)) {
+//                                String value = hashMap.get(TAG_NAME_STATE).toString();
+//                                if (!TextUtils.isEmpty(value)) {
+//                                    employerAddress.setState(value);
+//                                }
+//                            }
+//
+//                        }
+//                    }
+//                }
+//                if (businessProofList != null && businessProofList.size() > 0) {
+//                    for (RawDataTable rawDataTable : businessProofList) {
+//                        HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
+//                        if (hashMap != null && hashMap.size() > 0) {
+//                            String addressline1 = "", addressline2 = "";
+//                            if (hashMap.containsKey(TAG_NAME_ADDRESS_LINE_1)) {
+//                                String value = hashMap.get(TAG_NAME_ADDRESS_LINE_1).toString();
+//                                if (!TextUtils.isEmpty(value)) {
+//                                    addressline1  = value;
+//                                }
+//                            }
+//                            if (hashMap.containsKey(TAG_NAME_ADDRESS_LINE_2)) {
+//                                String value = hashMap.get(TAG_NAME_ADDRESS_LINE_2).toString();
+//                                if (!TextUtils.isEmpty(value)) {
+//                                    addressline2 = value;
+//                                }
+//                            }
+//                            employerAddress.setAddress(addressline1+" "+addressline2);
+//                            if (hashMap.containsKey(TAG_NAME_CITY)) {
+//                                String value = hashMap.get(TAG_NAME_CITY).toString();
+//                                if (!TextUtils.isEmpty(value)) {
+//                                    employerAddress.setCity(value);
+//                                }
+//                            }
+//
+//                            if (hashMap.containsKey(TAG_NAME_PINCODE)) {
+//                                String value = hashMap.get(TAG_NAME_PINCODE).toString();
+//                                if (!TextUtils.isEmpty(value)) {
+//                                    employerAddress.setPincode(value);
+//                                }
+//                            }
+//
+//                            if (hashMap.containsKey(TAG_NAME_STATE)) {
+//                                String value = hashMap.get(TAG_NAME_STATE).toString();
+//                                if (!TextUtils.isEmpty(value)) {
+//                                    employerAddress.setState(value);
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                employer.setEmployerAddress(employerAddress);
+//                mainApplicant.setIdDocument(idDocument);
+//                mainApplicant.setResidentialAddress(residentialAddress);
+//                mainApplicant.setBankAccount(bankAccount);
+//                mainApplicant.setEmail(email);
+//                mainApplicant.setEmployer(employer);
+//                item.setMainApplicant(mainApplicant);
+//
+//                ArrayList<String> coApplicantList = new ArrayList<>();
+//                if (coApplicantTwoaddressDetailSize != null && coApplicantTwoaddressDetailSize.size() > 0){
+//                    coApplicantList.add("CoApplicant1");
+//                    coApplicantList.add("CoApplicant2");
+//                }else if (coApplicantOneaddressDetailSize != null && coApplicantOneaddressDetailSize.size() > 0){
+//                    coApplicantList.add("CoApplicant1");
+//                }
+//                HunterRequestDTO.RequestString.HunterVerificationRetail.Item.JointApplicant jointApplicant =null;
+//                HunterRequestDTO.RequestString.HunterVerificationRetail.Item.JointApplicant.ResidentialAddress residentialAddress1 = null;
+//                ArrayList<HunterRequestDTO.RequestString.HunterVerificationRetail.Item.JointApplicant> jointApplicantslist = new ArrayList<HunterRequestDTO.RequestString.HunterVerificationRetail.Item.JointApplicant>();
+//
+//                for (int i = 0; i < coApplicantList.size(); i++) {
+//                    coapplicantRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_CO_APPLICANT_KYC, clientId, coApplicantList.get(i), loanType);
+//                    coApplicantsocioEcnomicDetailsRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_SOCIO_ECONOMIC_DETAIL, clientId, coApplicantList.get(i), loanType);
+//                    coApplicantaddressDetailRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL, clientId, coApplicantList.get(i), loanType);
+//                    jointApplicant = new HunterRequestDTO.RequestString.HunterVerificationRetail.Item.JointApplicant();
+//                    residentialAddress1 = new HunterRequestDTO.RequestString.HunterVerificationRetail.Item.JointApplicant.ResidentialAddress();
+//                    jointApplicant.setNationality("INDIA");
+//                    jointApplicant.setModuleType(coApplicantList.get(i));
+//                    jointApplicant.setIncome("0");
+//
+//                    if (coapplicantRawDataTableList != null && coapplicantRawDataTableList.size() > 0) {
+//                        for (RawDataTable rawDataTable : coapplicantRawDataTableList) {
+//                            HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
+//                            if (hashMap != null && hashMap.size() > 0) {
+//
+//                                if (hashMap.containsKey(TAG_NAME_KYC_ID)) {
+//                                    String value = hashMap.get(TAG_NAME_KYC_ID).toString();
+//                                    if (!TextUtils.isEmpty(value)) {
+//                                        // TODO: check pan card,passport,driving license,voter id , aadhaar, ration card no
+//                                        if (hashMap.containsKey(TAG_NAME_KYC_TYPE)) {
+//                                            String kycType = hashMap.get(TAG_NAME_KYC_TYPE).toString();
+//                                            if (!TextUtils.isEmpty(kycType)) {
+//                                                if (kycType.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_PAN_CARD)) {
+//                                                    jointApplicant.setPan(value);
+//                                                }
+//                                                if (kycType.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_DRIVING_LICENSE)) {
+//                                                    jointApplicant.setDLNo(value);
+//                                                }
+//                                                if (kycType.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_VOTER_ID)) {
+//                                                    jointApplicant.setVoterId(value);
+//                                                }
+//                                                if (kycType.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_AADHAAR)) {
+//                                                    jointApplicant.setUId(value);
+//                                                }
+//                                                if (kycType.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_PASSPORT)) {
+//                                                    jointApplicant.setPassport_Number(value);
+//                                                }
+//                                                if (kycType.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_RATION_CARD)) {
+//                                                    jointApplicant.setRationCard_Number(value);
+//                                                }
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//
+//                                if (hashMap.containsKey(TAG_NAME_FIRST_NAME)) {
+//                                    String value = hashMap.get(TAG_NAME_FIRST_NAME).toString();
+//                                    if (!TextUtils.isEmpty(value)) {
+//                                        jointApplicant.setFirstName(value);
+//                                    }
+//                                }
+//                                if (hashMap.containsKey(TAG_NAME_FULL_NAME)) {
+//                                    String value = hashMap.get(TAG_NAME_FULL_NAME).toString();
+//                                    if (!TextUtils.isEmpty(value)) {
+//                                        jointApplicant.setFirstName(value);
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                    if (coApplicantaddressDetailRawDataTableList != null && coApplicantaddressDetailRawDataTableList.size() > 0) {
+//                        for (RawDataTable rawDataTable : coApplicantaddressDetailRawDataTableList) {
+//                            HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
+//                            if (hashMap != null && hashMap.size() > 0) {
+//                                if (hashMap.containsKey(TAG_NAME_ADDRESS_PERMANENT_ADDRESS_LINE_ONE)) {
+//                                    String value = hashMap.get(TAG_NAME_ADDRESS_PERMANENT_ADDRESS_LINE_ONE).toString();
+//                                    if (!TextUtils.isEmpty(value)) {
+//                                        residentialAddress1.setAddress(value);
+//                                    }
+//                                }
+//                                if (hashMap.containsKey(TAG_NAME_PERMANENT_CITY)) {
+//                                    String value = hashMap.get(TAG_NAME_PERMANENT_CITY).toString();
+//                                    if (!TextUtils.isEmpty(value)) {
+//                                        residentialAddress1.setCity(value);
+//                                    }
+//                                }
+//
+//                                if (hashMap.containsKey(TAG_NAME_PERMANENT_PINCODE)) {
+//                                    String value = hashMap.get(TAG_NAME_PERMANENT_PINCODE).toString();
+//                                    if (!TextUtils.isEmpty(value)) {
+//                                        residentialAddress1.setPincode(value);
+//                                        residentialAddress1.setCountry("INDIA");
+//                                    }
+//                                }
+//
+//                                if (hashMap.containsKey(TAG_NAME_PERMANENT_STATE)) {
+//                                    String value = hashMap.get(TAG_NAME_PERMANENT_STATE).toString();
+//                                    if (!TextUtils.isEmpty(value)) {
+//                                        residentialAddress1.setState(value);
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                    jointApplicant.setResidentialAddress(residentialAddress1);
+//                    jointApplicantslist.add(jointApplicant);
+//
+//                }
+//                item.setJointApplicant(jointApplicantslist);
+//                hunterVerificationRetail.setItem(item);
+//                requestStringClass.setHunterVerificationRetail(hunterVerificationRetail);
+//                hunterRequestDTO.setRequestString(requestStringClass);
+//                String baseString = new Gson().toJson(hunterRequestDTO, HunterRequestDTO.class).replace("\\u003d", "=");
+//                String k1 = SHA256Encrypt.sha256(baseString);
+//                DynamicUIWebService.createService(DynamicUIWebservice.class).getHunterServiceData(hunterRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
+//                        enqueue(new Callback<HunterResponseDTO>() {
+//                            @Override
+//                            public void onResponse(Call<HunterResponseDTO> call, Response<HunterResponseDTO> response) {
+//                                executor.execute(() -> {
+//                                    if (response.isSuccessful()) {
+//                                        HunterResponseDTO hunterResponseDTO = response.body();
+//                                        data.postValue(hunterResponseDTO);
+//
+//                                        String hunterDataResponse = new Gson().toJson(hunterResponseDTO, HunterResponseDTO.class);
+//                                        String hunterData = hunterDataResponse.replace("|","");
+//                                        RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_HUNTER,
+//                                                clientId, moduleType);
+//                                        if (rawDataTableFromDB == null) {
+//                                            // TODO: Insert Raw Data Table
+//                                            RawDataTable rawDataTable = new RawDataTable(hunterData, SCREEN_NO_HUNTER, SCREEN_NAME_HUNTER, "", clientId,
+//                                                    loanType, userId, moduleType, "");
+//                                            dynamicUIDao.insertRawData(rawDataTable);
+//
+//                                        } else {
+//                                            // TODO: Update Raw Data Table
+//                                            dynamicUIDao.updateRawDataBag(SCREEN_NO_HUNTER, rawDataTableFromDB.getId(), hunterData);
+//                                        }
+//                                        dynamicUIDao.updateaForSyncTrueForAPIS(SCREEN_NO_HUNTER,MODULE_TYPE_GENERATE_CIBIL);
+//                                        postSubmittedAllScreensLiveData(hunterData, SCREEN_NO_HUNTER,"", userId,SCREEN_NAME_HUNTER, moduleType);
+//                                        dynamicUIDao.updateRawDataForSync(SCREEN_NO_HUNTER);
+//
+//                                    } else {
+//                                        // TODO: Failure Case
+//                                        data.postValue(new HunterResponseDTO());
+//                                    }
+//                                });
+//                            }
+//
+//                            @Override
+//                            public void onFailure(Call<HunterResponseDTO> call, Throwable t) {
+//                                Log.d(TAG, "onFailure ==> " + t.getMessage());
+//                                executor.execute(() -> {
+//                                    data.postValue(new HunterResponseDTO());
+//                                });
+//                            }
+//                        });
+//
+//            });
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//            executor.execute(() -> {
+//                data.postValue(new HunterResponseDTO());
+//            });
+//        }
+//        return data;
+//    }
+
     public LiveData<HunterResponseDTO> getHunterServiceData(String userId, String clientId, String loanType, String moduleType) {
         final MutableLiveData<HunterResponseDTO> data = new MutableLiveData<>();
         try {
@@ -36635,10 +38165,10 @@ public class DynamicUIRepository {
                 personalDetailRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_PERSONAL_DETAIL, clientId, MODULE_TYPE_APPLICANT, loanType);
                 addressDetailRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_ADDRESS_DETAIL, clientId, MODULE_TYPE_APPLICANT, loanType);
                 bankDetaiRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_BANK_DETAILS, clientId, MODULE_TYPE_APPLICANT, loanType);
-                businessProfileList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_BUSINESS_PROFILE, clientId, MODULE_TYPE_APPLICANT, loanType);
-                salaryProfileList=dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_SALARY_PROFILE, clientId, MODULE_TYPE_APPLICANT, loanType);
-                businessProofList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_BUSINESS_ADDRESS_PROOF, clientId, MODULE_TYPE_APPLICANT, loanType);
-                salaryProofList=dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_OFFICE_ADDRESS_PROOF, clientId, MODULE_TYPE_APPLICANT, loanType);
+                businessProfileList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_BUSINESS_PROFILE, clientId, MODULE_TYPE_BUSINESS, loanType);
+                salaryProfileList=dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_SALARY_PROFILE, clientId, MODULE_TYPE_SALARY, loanType);
+                businessProofList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_BUSINESS_ADDRESS_PROOF, clientId, MODULE_TYPE_BUSINESS, loanType);
+                salaryProofList=dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_OFFICE_ADDRESS_PROOF, clientId, MODULE_TYPE_SALARY, loanType);
 
                 //socioEcnomicDetailsRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_SOCIO_ECONOMIC_DETAIL, clientId, moduleType, loanType);
 
@@ -36659,6 +38189,7 @@ public class DynamicUIRepository {
                 coApplicantsocioEcnomicDetailsRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_SOCIO_ECONOMIC_DETAIL, clientId, "CoApplicant2", loanType);
                 coApplicantaddressDetailRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL, clientId, "CoApplicant2", loanType);
                 coApplicantTwoaddressDetailSize= dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL, clientId, "CoApplicant2", loanType);
+
 
                 if (applicantRawDataTableList != null && applicantRawDataTableList.size() > 0) {
                     for (RawDataTable rawDataTable : applicantRawDataTableList) {
@@ -36682,8 +38213,8 @@ public class DynamicUIRepository {
                     }
                 }
                 hunterRequestDTO.setExternalCustomerId(clientId);
-                hunterRequestDTO.setCreatedByProject("UCL");
-                hunterRequestDTO.setCreatedBy("UCL");
+                hunterRequestDTO.setCreatedByProject("EL");
+                hunterRequestDTO.setCreatedBy("EL");
                 HunterRequestDTO.RequestString requestStringClass = new HunterRequestDTO.RequestString();
                 HunterRequestDTO.RequestString.HunterVerificationRetail hunterVerificationRetail = new HunterRequestDTO.RequestString.HunterVerificationRetail();
                 hunterVerificationRetail.setTerm("0");
@@ -36725,6 +38256,7 @@ public class DynamicUIRepository {
                                     mainApplicant.setMobile(value);
                                 }
                             }
+
                         }
                     }
                 }
@@ -36733,7 +38265,7 @@ public class DynamicUIRepository {
                     for (RawDataTable rawDataTable : applicantRawDataTableList) {
                         HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
                         if (hashMap != null && hashMap.size() > 0) {
-                            String kycType = "";
+                            String kycType="";
                             if (hashMap.containsKey(TAG_NAME_KYC_TYPE)) {
                                 kycType = hashMap.get(TAG_NAME_KYC_TYPE).toString();
                                 if(kycType.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_AADHAAR)){
@@ -36767,6 +38299,7 @@ public class DynamicUIRepository {
                                     String value = hashMap.get(TAG_NAME_LAST_NAME).toString();
                                     if (!TextUtils.isEmpty(value)) {
                                         mainApplicant.setLastName(value);
+
                                     }
                                 }
                                 if (hashMap.containsKey(TAG_NAME_FIRST_NAME)) {
@@ -36792,6 +38325,7 @@ public class DynamicUIRepository {
                         }
                     }
                 }
+
                 mainApplicant.setBusinessTelephone("");
                 HunterRequestDTO.RequestString.HunterVerificationRetail.Item.MainApplicant.IdDocument idDocument = new HunterRequestDTO.RequestString.HunterVerificationRetail.Item.MainApplicant.IdDocument();
 
@@ -36822,7 +38356,7 @@ public class DynamicUIRepository {
                     for (RawDataTable rawDataTable : addressDetailRawDataTableList) {
                         HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
                         if (hashMap != null && hashMap.size() > 0) {
-                            String addressline1 = "", addressline2 = "", addressline3 = "";
+                            String addressline1="",addressline2="",addressline3="";
                             if (hashMap.containsKey(TAG_NAME_COMMUNICATION_ADDRESS_LINE_1)) {
                                 String value = hashMap.get(TAG_NAME_COMMUNICATION_ADDRESS_LINE_1).toString();
                                 if (!TextUtils.isEmpty(value)) {
@@ -36833,16 +38367,16 @@ public class DynamicUIRepository {
                             if (hashMap.containsKey(TAG_NAME_COMMUNICATION_ADDRESS_LINE_2)) {
                                 String value = hashMap.get(TAG_NAME_COMMUNICATION_ADDRESS_LINE_2).toString();
                                 if (!TextUtils.isEmpty(value)) {
-                                    addressline2 = value;
+                                    addressline2=value;
                                 }
                             }
                             if (hashMap.containsKey(TAG_NAME_COMMUNICATION_ADDRESS_LINE_3)) {
                                 String value = hashMap.get(TAG_NAME_COMMUNICATION_ADDRESS_LINE_3).toString();
                                 if (!TextUtils.isEmpty(value)) {
-                                    addressline2 = value;
+                                    addressline2=value;
                                 }
                             }
-                            residentialAddress.setAddress(addressline1 + " " + addressline2 + " " + addressline3);
+                            residentialAddress.setAddress(addressline1+" "+addressline2+" "+addressline3);
 
                             if (hashMap.containsKey(TAG_NAME_COMMUNICATION_CITY)) {
                                 String value = hashMap.get(TAG_NAME_COMMUNICATION_CITY).toString();
@@ -36941,18 +38475,21 @@ public class DynamicUIRepository {
                                 String value = hashMap.get(TAG_NAME_ADDRESS_LINE_1).toString();
                                 if (!TextUtils.isEmpty(value)) {
                                     addressline1 = value;
+                                    employerAddress.setAddress(value);
                                 }
                             }
                             if (hashMap.containsKey(TAG_NAME_ADDRESS_LINE_2)) {
                                 String value = hashMap.get(TAG_NAME_ADDRESS_LINE_2).toString();
                                 if (!TextUtils.isEmpty(value)) {
                                     addressline2 = value;
+                                    employerAddress.setAddress(value);
                                 }
                             }
                             if (hashMap.containsKey(TAG_NAME_ADDRESS_LINE_3)) {
                                 String value = hashMap.get(TAG_NAME_ADDRESS_LINE_3).toString();
                                 if (!TextUtils.isEmpty(value)) {
                                     addressline3 = value;
+                                    employerAddress.setAddress(value);
                                 }
                             }
                             employerAddress.setAddress(addressline1 + " " + addressline2 + " " + addressline3);
@@ -36976,7 +38513,12 @@ public class DynamicUIRepository {
                                     employerAddress.setState(value);
                                 }
                             }
-
+                            if (hashMap.containsKey(TAG_NAME_COUNTRY_NAME)) {
+                                String value = hashMap.get(TAG_NAME_STATE).toString();
+                                if (!TextUtils.isEmpty(value)) {
+                                    employerAddress.setCountry(value);
+                                }
+                            }
                         }
                     }
                 }
@@ -36988,7 +38530,7 @@ public class DynamicUIRepository {
                             if (hashMap.containsKey(TAG_NAME_ADDRESS_LINE_1)) {
                                 String value = hashMap.get(TAG_NAME_ADDRESS_LINE_1).toString();
                                 if (!TextUtils.isEmpty(value)) {
-                                    addressline1  = value;
+                                    addressline1 = value;
                                 }
                             }
                             if (hashMap.containsKey(TAG_NAME_ADDRESS_LINE_2)) {
@@ -36997,7 +38539,7 @@ public class DynamicUIRepository {
                                     addressline2 = value;
                                 }
                             }
-                            employerAddress.setAddress(addressline1+" "+addressline2);
+                            employerAddress.setAddress(addressline1 + " " + addressline2);
                             if (hashMap.containsKey(TAG_NAME_CITY)) {
                                 String value = hashMap.get(TAG_NAME_CITY).toString();
                                 if (!TextUtils.isEmpty(value)) {
@@ -37023,6 +38565,7 @@ public class DynamicUIRepository {
                 }
 
                 employer.setEmployerAddress(employerAddress);
+
                 mainApplicant.setIdDocument(idDocument);
                 mainApplicant.setResidentialAddress(residentialAddress);
                 mainApplicant.setBankAccount(bankAccount);
@@ -37037,7 +38580,7 @@ public class DynamicUIRepository {
                 }else if (coApplicantOneaddressDetailSize != null && coApplicantOneaddressDetailSize.size() > 0){
                     coApplicantList.add("CoApplicant1");
                 }
-                HunterRequestDTO.RequestString.HunterVerificationRetail.Item.JointApplicant jointApplicant =null;
+                HunterRequestDTO.RequestString.HunterVerificationRetail.Item.JointApplicant jointApplicant = null;
                 HunterRequestDTO.RequestString.HunterVerificationRetail.Item.JointApplicant.ResidentialAddress residentialAddress1 = null;
                 ArrayList<HunterRequestDTO.RequestString.HunterVerificationRetail.Item.JointApplicant> jointApplicantslist = new ArrayList<HunterRequestDTO.RequestString.HunterVerificationRetail.Item.JointApplicant>();
 
@@ -37053,7 +38596,7 @@ public class DynamicUIRepository {
 
                     if (coapplicantRawDataTableList != null && coapplicantRawDataTableList.size() > 0) {
                         for (RawDataTable rawDataTable : coapplicantRawDataTableList) {
-                            HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
+                            HashMap<String, Object>hashMap = setKeyValueForObject(rawDataTable);
                             if (hashMap != null && hashMap.size() > 0) {
 
                                 if (hashMap.containsKey(TAG_NAME_KYC_ID)) {
@@ -37137,8 +38680,8 @@ public class DynamicUIRepository {
                     }
                     jointApplicant.setResidentialAddress(residentialAddress1);
                     jointApplicantslist.add(jointApplicant);
-
                 }
+
                 item.setJointApplicant(jointApplicantslist);
                 hunterVerificationRetail.setItem(item);
                 requestStringClass.setHunterVerificationRetail(hunterVerificationRetail);
@@ -37155,7 +38698,7 @@ public class DynamicUIRepository {
                                         data.postValue(hunterResponseDTO);
 
                                         String hunterDataResponse = new Gson().toJson(hunterResponseDTO, HunterResponseDTO.class);
-                                        String hunterData = hunterDataResponse.replace("|","");
+                                        String hunterData =hunterDataResponse.replace("|","");
                                         RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_HUNTER,
                                                 clientId, moduleType);
                                         if (rawDataTableFromDB == null) {
@@ -37187,7 +38730,6 @@ public class DynamicUIRepository {
                                 });
                             }
                         });
-
             });
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -37661,7 +39203,7 @@ public class DynamicUIRepository {
                     coPromoterIDDocument.setRecDocCode(32);
                     coPromoterIDDocument.setAcknowNo("");
                     coPromoterIDDocument.setCompanyTan("");
-                    coPromoterIDDocument.setDocNumber("");
+                    coPromoterIDDocument.setDocNumber("12345");
                     if (coapplicantRawDataTableList != null && coapplicantRawDataTableList.size() > 0) {
                         for (RawDataTable rawDataTable : coapplicantRawDataTableList) {
                             HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
@@ -37704,7 +39246,7 @@ public class DynamicUIRepository {
                     coPromoterIDDocument.setEReciptNo("");
                     coPromoterIDDocument.setFatherHusbandName("");
                     coPromoterIDDocument.setPlaceOfIssue("");
-                    coPromoterIDDocument.setDocNumber("");
+                    coPromoterIDDocument.setDocNumber("123456");
 
                     residentialAddress1 = new HunterNonIndividualRequestDTO.RequestString.HunterVerificationSME.Item.CoPromoter.ResidentialAddress();
                     residentialAddress1.setCompanyTan("");
@@ -37873,7 +39415,7 @@ public class DynamicUIRepository {
                 dedupeRequestDTO.setClientID(clientId);
                 dedupeRequestDTO.setServiceType("Dedupe");
                 dedupeRequestDTO.setExtCustId(clientId);
-                dedupeRequestDTO.setCreatedBy("UCL");
+                dedupeRequestDTO.setCreatedBy("EL");
                 dedupeRequestDTO.setModuleType(moduleType);
                 dedupeRequestDTO.setCoapplicantId(moduleType);
                 dedupeRequestDTO.setCreatedDate(appHelper.getCurrentDate(DATE_FORMAT_YYYY_MM_DD));
@@ -38068,8 +39610,8 @@ public class DynamicUIRepository {
                     }
                 }
                 eNachRequestDTO.setExternalCustomerId(clientId);
-                eNachRequestDTO.setCreatedByProject("UCL");
-                eNachRequestDTO.setCreatedBy("UCL");
+                eNachRequestDTO.setCreatedByProject("EL");
+                eNachRequestDTO.setCreatedBy("EL");
                 ENachRequestDTO.RequestString requestStringClass = new ENachRequestDTO.RequestString();
                 requestStringClass.setEmail_notify("1");
                 requestStringClass.setSms_notify("1");
@@ -38299,8 +39841,8 @@ public class DynamicUIRepository {
                 cpvRequestDTO.setModuleType(moduleType);
                 cpvRequestDTO.setCo_applicant_id("");
                 cpvRequestDTO.setServiceType("CPVEquifax");
-                cpvRequestDTO.setCreatedBy("UCL");
-                cpvRequestDTO.setCreatedByProject("UCL");
+                cpvRequestDTO.setCreatedBy("EL");
+                cpvRequestDTO.setCreatedByProject("EL");
                 if (applicantRawDataTableList != null && applicantRawDataTableList.size() > 0) {
                     for (RawDataTable rawDataTable : applicantRawDataTableList) {
                         HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
@@ -38519,7 +40061,7 @@ public class DynamicUIRepository {
                                     //inquiryAddress.setAddressLine(value);
                                 }
                             }
-                            inquiryAddress.setAddressLine(addressline1+" "+addressline2);
+                            inquiryAddress.setAddressLine(addressline1 + " " + addressline2);
 
                             if (hashMap.containsKey(TAG_NAME_STATE)) {
                                 String value = hashMap.get(TAG_NAME_STATE).toString();
@@ -38534,7 +40076,6 @@ public class DynamicUIRepository {
                                 }
                             }
                             inquiryAddress.setState("MH");
-
                         }
                     }
                 }
@@ -38564,14 +40105,14 @@ public class DynamicUIRepository {
                 cpvRequestDTO.setRequestString(requestStringClass);
 
                 String Value = new Gson().toJson(cpvRequestDTO, CPVRequestDTO.class);
-                String Value1 = Value.replace("|"," ");
-                String Value2 = Value1.replace(">"," ");
-                String Value3 = Value2.replace("<"," ");
-                String Value4 = Value3.replace("("," ");
-                String Value5 = Value4.replace("\\"," ");
-                String Value6 = Value5.replace(")"," ");
-                String Value7 = Value6.replace("#"," ");
-                String Valuevalue = Value7.replace("."," ");
+                String Value1 = Value.replace("|", " ");
+                String Value2 = Value1.replace(">", " ");
+                String Value3 = Value2.replace("<", " ");
+                String Value4 = Value3.replace("(", " ");
+                String Value5 = Value4.replace("\\", " ");
+                String Value6 = Value5.replace(")", " ");
+                String Value7 = Value6.replace("#", " ");
+                String Valuevalue = Value7.replace(".", " ");
                 CPVRequestDTO cpvRequestDTO1 = new Gson().fromJson(Valuevalue, CPVRequestDTO.class);
 
                 String baseString = new Gson().toJson(cpvRequestDTO1, CPVRequestDTO.class).replace("\\u003d", "=");
@@ -38588,7 +40129,7 @@ public class DynamicUIRepository {
 
 
                                         String cpvDataResponse = new Gson().toJson(cpvResponseDTO, CPVResponseDTO.class);
-                                        String cpvData =cpvDataResponse.replace("|","");
+                                        String cpvData = cpvDataResponse.replace("|", "");
 
                                         RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_CPV,
                                                 clientId, moduleType);
@@ -38603,11 +40144,11 @@ public class DynamicUIRepository {
                                             // TODO: Update Raw Data Table
                                             dynamicUIDao.updateRawDataBag(SCREEN_NO_CPV, rawDataTableFromDB.getId(), cpvData);
                                         }
-                                        //TODO : This Code is Once user Hit api SUCCESSFULLY we are updateing Sync 1
+                                        //TODO : This Code is Once user Hit api SUCCESSFULLY we are updating Sync 1
                                         if(!moduleType.equalsIgnoreCase(MODULE_TYPE_CO_APPLICANT)){
                                             dynamicUIDao.updateaForSyncTrueForAPIS(SCREEN_NO_CPV,moduleType);
                                         }
-                                        postSubmittedAllScreensLiveData(cpvData, SCREEN_NO_CPV,"", userId,SCREEN_NAME_CPV,moduleType);
+                                        postSubmittedAllScreensLiveData(cpvData, SCREEN_NO_CPV,"", userId, SCREEN_NAME_CPV, moduleType);
 
                                         //dynamicUIDao.updateRawDataForSync(SCREEN_NO_CPV);
 
@@ -38714,7 +40255,6 @@ public class DynamicUIRepository {
                                     if (response.isSuccessful()) {
                                         DigitalDocResponseDTO digitalDocResponseDTO = response.body();
                                         data.postValue(digitalDocResponseDTO);
-
 
                                         String santionLetterData = new Gson().toJson(digitalDocResponseDTO, DigitalDocResponseDTO.class);
 
@@ -38954,7 +40494,6 @@ public class DynamicUIRepository {
         }
         return data;
     }
-
 
     public LiveData<DigitalDocResponseDTO> getDigitalDocHDeedServiceData(String userId, String clientId, String loanType, String moduleType) {
         final MutableLiveData<DigitalDocResponseDTO> data = new MutableLiveData<>();
@@ -40518,8 +42057,6 @@ public class DynamicUIRepository {
                     }
                 }
             }
-
-
         });
         return data;
     }
@@ -41648,7 +43185,7 @@ public class DynamicUIRepository {
                 eSignEStampRequestDTO.setModuleType(MODULE_TYPE_APPLICANT);
                 eSignEStampRequestDTO.setCoapplicantId(MODULE_TYPE_APPLICANT);
                 //eSignEStampRequestDTO.setCreatedByProject(loanType);
-                eSignEStampRequestDTO.setCreatedBy("UCL");
+                eSignEStampRequestDTO.setCreatedBy("EL");
                 if (applicantRawDataTableList != null && applicantRawDataTableList.size() > 0) {
                     for (RawDataTable rawDataTable : applicantRawDataTableList) {
                         HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
@@ -42368,8 +43905,8 @@ public class DynamicUIRepository {
                             if (rawdataTable != null && !TextUtils.isEmpty(rawdataTable.getRawdata())) {
                                 stringList.add(rawdataTable.getRawdata());
                                 JsonArray jsonArrayStringList = (JsonArray) jsonParser.parse(stringList.toString());
-                                byte[] byteArrrayPassword = stringList.toString().getBytes();
-                                String  submittedValues = Base64.encodeToString(byteArrrayPassword, Base64.DEFAULT);
+                                byte[] byteArrayPassword = stringList.toString().getBytes();
+                                String  submittedValues = Base64.encodeToString(byteArrayPassword, Base64.DEFAULT);
                                 spParameters.setRawData(submittedValues);
                             }
                         }
@@ -42377,8 +43914,8 @@ public class DynamicUIRepository {
                 } else {
                     stringList.add(screenData);
                     JsonArray jsonArrayStringList = (JsonArray) jsonParser.parse(stringList.toString());
-                    byte[] byteArrrayPassword = screenData.toString().getBytes();
-                    String  submittedValues = Base64.encodeToString(byteArrrayPassword, Base64.DEFAULT);
+                    byte[] byteArrayPassword = screenData.toString().getBytes();
+                    String  submittedValues = Base64.encodeToString(byteArrayPassword, Base64.DEFAULT);
                     spParameters.setRawData(submittedValues);
                 }
                 spParameters.setCreatedBy(userId);
@@ -42439,7 +43976,6 @@ public class DynamicUIRepository {
                                 t.printStackTrace();
                                 // TODO: Final result
                                 executor.execute(() -> {
-
                                 });
                             }
                         });
@@ -42449,7 +43985,6 @@ public class DynamicUIRepository {
                 executor.execute(() -> {
                 });
             }
-
         });
         return data;
     }
@@ -42485,9 +44020,10 @@ public class DynamicUIRepository {
                                             if (json.length() != 0) {
                                                 String key = json.keys().next();
                                                 if (!TextUtils.isEmpty(key)) {
-                                                    String tableJson = json.get(key).toString();
 
+                                                    String tableJson = json.get(key).toString();
                                                     ScreenEditValidationResponseDTO screenEditValidationResponseDTO = new Gson().fromJson(tableJson, ScreenEditValidationResponseDTO.class);
+
                                                     if (screenEditValidationResponseDTO != null && screenEditValidationResponseDTO.getScreenEditValidationResponseTable().size() > 0) {
                                                         List<ScreenEditValidationResponseTable> list = new ArrayList<>();
 
@@ -42522,7 +44058,6 @@ public class DynamicUIRepository {
                 executor.execute(() -> {
                 });
             }
-
         });
         return data;
     }
@@ -42592,10 +44127,10 @@ public class DynamicUIRepository {
                 executor.execute(() -> {
                 });
             }
-
         });
         return data;
     }
+
     public LiveData<List<TenureMonthsResponseTable>> getTenureInMonths() {
         final MutableLiveData<List<TenureMonthsResponseTable>> data = new MutableLiveData<>();
         DynamicUIWebService.changeApiBaseUrl(RAW_DATA_URL);
@@ -42660,7 +44195,6 @@ public class DynamicUIRepository {
                 executor.execute(() -> {
                 });
             }
-
         });
         return data;
     }
@@ -42683,5 +44217,4 @@ public class DynamicUIRepository {
         });
         return data;
     }
-
 }

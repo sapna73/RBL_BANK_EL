@@ -65,6 +65,7 @@
     <string name="negative_popup_text_default">Something went wrong</string>
     <string name="negative_popup_title_default">Failure !</string>
     <string name="alert_popup_title_default">Alert !</string>
+    <string name="alert_popup_title_doc">OSV Document</string>
     <string name="alert_popup_text_default">Something went wrong</string>
     <string name="confirmation_popup_title_default">Confirmation !</string>
     <string name="confirmation_popup_text_default">Are you sure ?</string>

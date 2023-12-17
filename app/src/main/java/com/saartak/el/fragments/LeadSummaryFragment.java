@@ -37,9 +37,6 @@ import static com.saartak.el.constants.AppConstant.PARAM_SCREEN_NAME;
 import static com.saartak.el.constants.AppConstant.PARAM_SCREEN_NO;
 import static com.saartak.el.constants.AppConstant.PARAM_USER_ID;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class LeadSummaryFragment extends LOSBaseFragment implements LOSBaseFragment.DynamiUIinterfacce, HasSupportFragmentInjector {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -82,7 +79,6 @@ public class LeadSummaryFragment extends LOSBaseFragment implements LOSBaseFragm
         }
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -114,7 +110,6 @@ public class LeadSummaryFragment extends LOSBaseFragment implements LOSBaseFragm
         void onFragmentInteraction(Uri uri);
     }
 
-
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
@@ -130,7 +125,6 @@ public class LeadSummaryFragment extends LOSBaseFragment implements LOSBaseFragm
         this.configureViewModel();
     }
 
-
     // -----------------
     // CONFIGURATION
     // -----------------
@@ -142,24 +136,22 @@ public class LeadSummaryFragment extends LOSBaseFragment implements LOSBaseFragm
     public void configureViewModel(){
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(DynamicUIViewModel.class);
 
-        viewModel.init(SCREEN_ID,SCREEN_NAME,LOAN_TYPE,PROJECT_ID,PRODUCT_ID,CLIENT_ID,USER_ID,MODULE_TYPE);
+        viewModel.init(SCREEN_ID, SCREEN_NAME, LOAN_TYPE, PROJECT_ID, PRODUCT_ID, CLIENT_ID, USER_ID, MODULE_TYPE);
         Observer observer=new Observer() {
             @Override
             public void onChanged(@Nullable Object o) {
-                List<DynamicUITable> list=(List<DynamicUITable>)o;
+                List<DynamicUITable> list = (List<DynamicUITable>)o;
                 viewModel.getDynamicUITableLiveData().removeObserver(this);
-                getRawDataForParentFragment(SCREEN_NAME,list);
+                getRawDataForParentFragment(SCREEN_NAME, list);
 
-                if(list !=null && list.size()>0) {
-                    getTenureInMonths(list,SCREEN_NAME);
-                    leadCustomerTypeVisibility(list.get(0),list);
+                if(list != null && list.size() > 0) {
+                    getTenureInMonths(list, SCREEN_NAME);
+                    leadCustomerTypeVisibility(list.get(0), list);
                 }
             }
         };
         viewModel.getDynamicUITableLiveData().observe(getViewLifecycleOwner(), observer);
-
     }
-
 
     // -----------------
     // UPDATE UI
@@ -170,7 +162,6 @@ public class LeadSummaryFragment extends LOSBaseFragment implements LOSBaseFragm
             dynamicUI(dynamicUITable);
         }
     }
-
 
     @Override
     public Fragment getFragment() {

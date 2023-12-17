@@ -2,12 +2,16 @@ package com.saartak.el.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,11 +35,25 @@ import com.saartak.el.view_models.DynamicUIViewModel;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.List;
 
+import javax.crypto.Cipher;
+import javax.crypto.CipherInputStream;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
@@ -127,40 +145,40 @@ public class ImageCaptureActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
         try{
-          switch (v.getId()){
-              case R.id.fb_add_image:
+            switch (v.getId()){
+                case R.id.fb_add_image:
 
-                  documentUploadTableNewImage=new DocumentUploadTableNew();
-                  documentUploadTableNewImage.setScreen_id(documentUploadTableNewHeader.getScreen_id());
-                  documentUploadTableNewImage.setClient_id(documentUploadTableNewHeader.getClient_id());
-                  documentUploadTableNewImage.setDocument_name(documentUploadTableNewHeader.getDocument_name());
-                  documentUploadTableNewImage.setDocument_full_name(documentUploadTableNewHeader.getDocument_full_name());
-                  documentUploadTableNewImage.setDocument_tag(documentUploadTableNewHeader.getDocument_tag());
-                  documentUploadTableNewImage.setHeader(false); // TODO: Header should be false for new image capture
-                  int fileCount=1;
-                  if(documentUploadTableNewListFromDB !=null && documentUploadTableNewListFromDB.size()>0) {
-                  fileCount=documentUploadTableNewListFromDB.size() + 1; // TODO: incrementing file count
-                  }
-                  documentUploadTableNewImage.setFileCount(fileCount);
-                  documentUploadTableNewImage.setCustomer_type(documentUploadTableNewHeader.getCustomer_type());
-                  documentUploadTableNewImage.setDisplay_name(documentUploadTableNewHeader.getDisplay_name());
-                  documentUploadTableNewImage.setFull_display_name(documentUploadTableNewHeader.getFull_display_name());
-                  documentUploadTableNewImage.setLoan_type(documentUploadTableNewHeader.getLoan_type());
-                  documentUploadTableNewImage.setModule_type(documentUploadTableNewHeader.getModule_type());
-                  documentUploadTableNewImage.setFile_format(documentUploadTableNewHeader.getFile_format());
-                  documentUploadTableNewImage.setUser_id(documentUploadTableNewHeader.getUser_id());
-                  documentUploadTableNewImage.setProduct_id(documentUploadTableNewHeader.getProduct_id());
-                  // TODO: Sample file name format {0}_apphoupht_housephoto_front_{1}
-                  if( ! TextUtils.isEmpty(documentUploadTableNewHeader.getFile_format())) {
-                      String fileName = documentUploadTableNewHeader.getFile_format();
-                      fileName = fileName.replace("{0}",documentUploadTableNewHeader.getClient_id());
-                      fileName = fileName.replace("{1}",String.valueOf(fileCount));
-                      documentUploadTableNewImage.setFile_name(fileName);
-                  }
+                    documentUploadTableNewImage=new DocumentUploadTableNew();
+                    documentUploadTableNewImage.setScreen_id(documentUploadTableNewHeader.getScreen_id());
+                    documentUploadTableNewImage.setClient_id(documentUploadTableNewHeader.getClient_id());
+                    documentUploadTableNewImage.setDocument_name(documentUploadTableNewHeader.getDocument_name());
+                    documentUploadTableNewImage.setDocument_full_name(documentUploadTableNewHeader.getDocument_full_name());
+                    documentUploadTableNewImage.setDocument_tag(documentUploadTableNewHeader.getDocument_tag());
+                    documentUploadTableNewImage.setHeader(false); // TODO: Header should be false for new image capture
+                    int fileCount=1;
+                    if(documentUploadTableNewListFromDB !=null && documentUploadTableNewListFromDB.size()>0) {
+                        fileCount=documentUploadTableNewListFromDB.size() + 1; // TODO: incrementing file count
+                    }
+                    documentUploadTableNewImage.setFileCount(fileCount);
+                    documentUploadTableNewImage.setCustomer_type(documentUploadTableNewHeader.getCustomer_type());
+                    documentUploadTableNewImage.setDisplay_name(documentUploadTableNewHeader.getDisplay_name());
+                    documentUploadTableNewImage.setFull_display_name(documentUploadTableNewHeader.getFull_display_name());
+                    documentUploadTableNewImage.setLoan_type(documentUploadTableNewHeader.getLoan_type());
+                    documentUploadTableNewImage.setModule_type(documentUploadTableNewHeader.getModule_type());
+                    documentUploadTableNewImage.setFile_format(documentUploadTableNewHeader.getFile_format());
+                    documentUploadTableNewImage.setUser_id(documentUploadTableNewHeader.getUser_id());
+                    documentUploadTableNewImage.setProduct_id(documentUploadTableNewHeader.getProduct_id());
+                    // TODO: Sample file name format {0}_apphoupht_housephoto_front_{1}
+                    if( ! TextUtils.isEmpty(documentUploadTableNewHeader.getFile_format())) {
+                        String fileName = documentUploadTableNewHeader.getFile_format();
+                        fileName = fileName.replace("{0}",documentUploadTableNewHeader.getClient_id());
+                        fileName = fileName.replace("{1}",String.valueOf(fileCount));
+                        documentUploadTableNewImage.setFile_name(fileName);
+                    }
 
-                  sendCameraIntent(documentUploadTableNewImage);
-                  break;
-          }
+                    sendCameraIntent(documentUploadTableNewImage);
+                    break;
+            }
         }catch (Exception ex){
             ex.printStackTrace();
             INSERT_LOG("onClick","Exception : "+ex.getMessage());
@@ -168,7 +186,7 @@ public class ImageCaptureActivity extends AppCompatActivity implements View.OnCl
     }
 
 
-    
+
     /**
      * Taking Photos
      */
@@ -176,13 +194,13 @@ public class ImageCaptureActivity extends AppCompatActivity implements View.OnCl
         Log.e(TAG, "sendCameraIntent -->");
         try {
 
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent.addFlags(FLAG_GRANT_READ_URI_PERMISSION | FLAG_GRANT_WRITE_URI_PERMISSION);
-                fileUri = FileUtils.getUri(FileUtils.getOutputFile(this,APP_FOLDER,IMAGE_UPLOAD_FOLDER_NAME,
-                        documentUploadTableNew.getClient_id(), documentUploadTableNew.getFile_name(), EXTENSION_JPG));
-                Uri uri = FileUtils.getIntentUri(this, fileUri);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-                startActivityForResult(intent, IMAGE_CAPTURE_REQUEST);
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.addFlags(FLAG_GRANT_READ_URI_PERMISSION | FLAG_GRANT_WRITE_URI_PERMISSION);
+            fileUri = FileUtils.getUri(FileUtils.getOutputFile(this,APP_FOLDER,IMAGE_UPLOAD_FOLDER_NAME,
+                    documentUploadTableNew.getClient_id(), documentUploadTableNew.getFile_name(), EXTENSION_JPG));
+            Uri uri = FileUtils.getIntentUri(this, fileUri);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+            startActivityForResult(intent, IMAGE_CAPTURE_REQUEST);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -205,12 +223,12 @@ public class ImageCaptureActivity extends AppCompatActivity implements View.OnCl
                     compressImage(fileUri);
                 } else if (resultCode == RESULT_CANCELED) {
                     Toast.makeText(this,
-                            "User cancelled image capture", Toast.LENGTH_SHORT)
+                                    "User cancelled image capture", Toast.LENGTH_SHORT)
                             .show();
                 } else {
                     INSERT_LOG("onActivityResult","Sorry! Failed to capture image");
                     Toast.makeText(this,
-                            "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
+                                    "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
                             .show();
                 }
             } else if (requestCode == IMAGE_GALLERY_REQUEST) {
@@ -219,12 +237,12 @@ public class ImageCaptureActivity extends AppCompatActivity implements View.OnCl
                     compressImage(uri);
                 } else if (resultCode == RESULT_CANCELED) {
                     Toast.makeText(this,
-                            "User cancelled image selection", Toast.LENGTH_SHORT)
+                                    "User cancelled image selection", Toast.LENGTH_SHORT)
                             .show();
                 } else {
                     INSERT_LOG("onActivityResult","Sorry! Failed to select image");
                     Toast.makeText(this,
-                            "Sorry! Failed to select image", Toast.LENGTH_SHORT)
+                                    "Sorry! Failed to select image", Toast.LENGTH_SHORT)
                             .show();
                 }
             }
@@ -246,7 +264,7 @@ public class ImageCaptureActivity extends AppCompatActivity implements View.OnCl
                     encryptAndStore(result.getUri());
                 } else if (resultCode == RESULT_CANCELED) {
                     Toast.makeText(this,
-                            "User cancelled image selection", Toast.LENGTH_SHORT)
+                                    "User cancelled image selection", Toast.LENGTH_SHORT)
                             .show();
                     if( ! TextUtils.isEmpty(filePathFromDB)) {
                         File file = new File(filePathFromDB);
@@ -293,7 +311,7 @@ public class ImageCaptureActivity extends AppCompatActivity implements View.OnCl
                             FileInputStream fileInputStream = null;
 
                             if(file.exists()) {
-                                 fileInputStream = new FileInputStream(fileInput);
+                                fileInputStream = new FileInputStream(fileInput);
                             }
 
                             jealousSky.encryptToFile(fileInputStream,filePath);
@@ -365,7 +383,7 @@ public class ImageCaptureActivity extends AppCompatActivity implements View.OnCl
                 Observer observer=new Observer() {
                     @Override
                     public void onChanged(Object o) {
-                         documentUploadTableNewListFromDB=(List<DocumentUploadTableNew>) o;
+                        documentUploadTableNewListFromDB=(List<DocumentUploadTableNew>) o;
                         viewModel.getDocumentUploadLiveDataList().removeObserver(this);
 
                         if(documentUploadTableNewListFromDB !=null && documentUploadTableNewListFromDB.size()>0){
@@ -394,7 +412,7 @@ public class ImageCaptureActivity extends AppCompatActivity implements View.OnCl
                 Observer observer=new Observer() {
                     @Override
                     public void onChanged(Object o) {
-                         documentUploadTableNewListFromDB=(List<DocumentUploadTableNew>) o;
+                        documentUploadTableNewListFromDB=(List<DocumentUploadTableNew>) o;
                         viewModel.getDocumentUploadLiveDataList().removeObserver(this);
 
                         if(documentUploadTableNewListFromDB !=null && documentUploadTableNewListFromDB.size()>0){
@@ -493,9 +511,9 @@ public class ImageCaptureActivity extends AppCompatActivity implements View.OnCl
         try{
             if(viewModel !=null){
                 if(documentUploadTableNewHeader !=null)
-                viewModel.insertLog(methodName,message,documentUploadTableNewHeader.getUser_id(),documentUploadTableNewHeader.getScreen_id()
-                        ,documentUploadTableNewHeader.getFull_display_name()
-                        ,documentUploadTableNewHeader.getClient_id(),documentUploadTableNewHeader.getLoan_type(),documentUploadTableNewHeader.getModule_type());
+                    viewModel.insertLog(methodName,message,documentUploadTableNewHeader.getUser_id(),documentUploadTableNewHeader.getScreen_id()
+                            ,documentUploadTableNewHeader.getFull_display_name()
+                            ,documentUploadTableNewHeader.getClient_id(),documentUploadTableNewHeader.getLoan_type(),documentUploadTableNewHeader.getModule_type());
             }
         }catch (Exception ex){
             ex.printStackTrace();

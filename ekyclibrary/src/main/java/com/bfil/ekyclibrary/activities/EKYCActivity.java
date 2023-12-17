@@ -217,7 +217,6 @@ public class EKYCActivity extends AppCompatActivity implements EKYCCallBack,
         }
     }
 
-
     public void scanQRCode() {
         try {
             if ((ContextCompat.checkSelfPermission(this,
@@ -239,7 +238,6 @@ public class EKYCActivity extends AppCompatActivity implements EKYCCallBack,
         }
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -254,7 +252,7 @@ public class EKYCActivity extends AppCompatActivity implements EKYCCallBack,
                 if (isValid){
                     qrScanTimeOut();
                     Toast.makeText(getApplicationContext(),
-                            "Scan Time out", Toast.LENGTH_LONG)
+                                    "Scan Time out", Toast.LENGTH_LONG)
                             .show();
                 } else {
                     if (scanningResult != null) {
@@ -267,7 +265,7 @@ public class EKYCActivity extends AppCompatActivity implements EKYCCallBack,
                         } else {
 //                        qrAttempt = qrAttempt + 1;
                             Toast.makeText(getApplicationContext(),
-                                    "Scan Cancelled", Toast.LENGTH_SHORT)
+                                            "Scan Cancelled", Toast.LENGTH_SHORT)
                                     .show();
 //                        if (qrAttempt == 3){
 //                            qrFailCallback();
@@ -276,7 +274,7 @@ public class EKYCActivity extends AppCompatActivity implements EKYCCallBack,
                     } else {
 //                    qrAttempt = qrAttempt + 1;
                         Toast.makeText(getApplicationContext(),
-                                "No scan data received!", Toast.LENGTH_SHORT)
+                                        "No scan data received!", Toast.LENGTH_SHORT)
                                 .show();
                         qrScanTimeOut();
 //                    if (qrAttempt == 3){
@@ -428,7 +426,7 @@ public class EKYCActivity extends AppCompatActivity implements EKYCCallBack,
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            
+
             if (msgInBytes != null) {
                 AadharData aadharData = new AadharData();
                 int[] delimiters = locateDelimiters(msgInBytes);
@@ -506,9 +504,9 @@ public class EKYCActivity extends AppCompatActivity implements EKYCCallBack,
 
                 //   Log.e("tag scan QR ", "uid  "+uid+" name "+name+" dob "+dob);
 
-              //  dob = appHelper.convertDateToGivenDateFormat(dob, AppConstants.DATE_FORMAT_DD_MM_YYYY_WITH_SLASH,
-                      //  AppConstants.DATE_FORMAT_DD_MM_YYYY);
-               // yob = dob.substring(0, 4);
+                //  dob = appHelper.convertDateToGivenDateFormat(dob, AppConstants.DATE_FORMAT_DD_MM_YYYY_WITH_SLASH,
+                //  AppConstants.DATE_FORMAT_DD_MM_YYYY);
+                // yob = dob.substring(0, 4);
 //                gender = getValueInRange(msgInBytes, delimiters[3] + 1, delimiters[4]);
 //                co = getValueInRange(msgInBytes, delimiters[4] + 1, delimiters[5]);
 //                dist = getValueInRange(msgInBytes, delimiters[5] + 1, delimiters[6]);

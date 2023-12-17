@@ -76,7 +76,6 @@ import static com.saartak.el.dynamicui.constants.ParametersConstant.CENTERS_SUMM
 
 public class CentersSummaryActivity extends LOSBaseActivity implements CentersSummaryAdapter.SyncCallbackInterface {
 
-
     private static final String TAG = CentersSummaryActivity.class.getCanonicalName();
     RecyclerView rvLeadDetails;
     SearchView searchByPhoneNo;
