@@ -62,6 +62,7 @@ import static com.saartak.el.constants.AppConstant.LOAN_PROPOSAL_WITH_NOMINEE_MO
 import static com.saartak.el.constants.AppConstant.LOAN_PROPOSAL_WITH_NOMINEE_MODULE_SCREEN_NUMBERS_IL;
 import static com.saartak.el.constants.AppConstant.MODULE_TYPE_GENERATE_CIBIL;
 import static com.saartak.el.constants.AppConstant.MODULE_OTP_VERIFICATION;
+import static com.saartak.el.constants.AppConstant.MODULE_TYPE_GUARANTOR;
 import static com.saartak.el.constants.AppConstant.MODULE_TYPE_SALARY;
 import static com.saartak.el.constants.AppConstant.PARAM_CURRENT_STAGE;
 import static com.saartak.el.constants.AppConstant.PARAM_CURRENT_STAGE_ID;
@@ -117,8 +118,8 @@ public class ClientDetailsActivity extends LOSBaseActivity implements View.OnCli
         llSalary = (LinearLayout) findViewById(R.id.ll_salary);
         llLoanProposal = (LinearLayout) findViewById(R.id.ll_loan_proposal_with_nominee);
 
-//        llGuarantor = (LinearLayout) findViewById(R.id.ll_guarantor);
-//        llGuarantor.setOnClickListener(this);
+        llGuarantor = (LinearLayout) findViewById(R.id.ll_guarantor);
+        llGuarantor.setOnClickListener(this);
 
         llDocument = (LinearLayout) findViewById(R.id.ll_document_upload);
         llDocument.setOnClickListener(this);
@@ -283,14 +284,13 @@ public class ClientDetailsActivity extends LOSBaseActivity implements View.OnCli
     private void INSERT_LOG(String methodName, String message) {
         try {
             if (viewModel != null) {
-                viewModel.insertLog(methodName, message, userId, "", "ClientDetailsActivity"
-                        , CLIENT_ID, loanType, moduleType);
+                viewModel.insertLog(methodName, message, userId, "", "ClientDetailsActivity",
+                        CLIENT_ID, loanType, moduleType);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-
 
     @Override
     protected void onResume() {
@@ -340,9 +340,24 @@ public class ClientDetailsActivity extends LOSBaseActivity implements View.OnCli
                     coapplicant.putExtra(PARAM_MODULE_TYPE, MODULE_TYPE_CO_APPLICANT + 1); // TODO: hardcoded as co applicant 1
                     startActivity(coapplicant);
                     break;
+
+                case R.id.ll_guarantor:
+                    Intent guarantor = new Intent(this, BaseActivity.class);
+                    guarantor.putExtra(PARAM_LOAN_TYPE, loanType);
+                    guarantor.putExtra(PARAM_USER_NAME, userName);
+                    guarantor.putExtra(PARAM_BRANCH_ID, branchId);
+                    guarantor.putExtra(PARAM_USER_ID, userId);
+                    guarantor.putExtra(PARAM_CLIENT_ID, CLIENT_ID);
+                    guarantor.putExtra(PARAM_CURRENT_STAGE, currentStage);
+                    guarantor.putExtra(PARAM_CURRENT_STAGE_ID, currentStageID);
+                    guarantor.putExtra(PARAM_MODULE_TYPE, MODULE_TYPE_GUARANTOR); // TODO: hardcoded as co applicant 1
+                    startActivity(guarantor);
+                    break;
+
                 case R.id.ib_add_co_applicant:
                     getNoOfCoApplicants(SCREEN_NAME_CO_APPLICANT_KYC, CLIENT_ID, userId, loanType, TAG_NAME_NO_OF_COAPPLICANT);
                     break;
+
                 case R.id.ll_business:
                     Intent business = new Intent(this, BaseActivity.class);
                     business.putExtra(PARAM_LOAN_TYPE, loanType);
@@ -355,6 +370,7 @@ public class ClientDetailsActivity extends LOSBaseActivity implements View.OnCli
                     business.putExtra(PARAM_CURRENT_STAGE_ID, currentStageID);
                     startActivity(business);
                     break;
+
                 case R.id.ll_salary:
                     Intent salary = new Intent(this, BaseActivity.class);
                     salary.putExtra(PARAM_LOAN_TYPE, loanType);
@@ -367,6 +383,7 @@ public class ClientDetailsActivity extends LOSBaseActivity implements View.OnCli
                     salary.putExtra(PARAM_CURRENT_STAGE_ID, currentStageID);
                     startActivity(salary);
                     break;
+
                 case R.id.ll_loan_proposal_with_nominee:
                     Intent loanProposal = new Intent(this, BaseActivity.class);
                     loanProposal.putExtra(PARAM_LOAN_TYPE, loanType);
@@ -379,6 +396,7 @@ public class ClientDetailsActivity extends LOSBaseActivity implements View.OnCli
                     loanProposal.putExtra(PARAM_CURRENT_STAGE_ID, currentStageID);
                     startActivity(loanProposal);
                     break;
+
                 case R.id.ll_document_upload:
                     Intent intentDocument = new Intent(this, BaseActivity.class);
                     intentDocument.putExtra(PARAM_LOAN_TYPE, loanType);
@@ -391,6 +409,7 @@ public class ClientDetailsActivity extends LOSBaseActivity implements View.OnCli
                     intentDocument.putExtra(PARAM_CURRENT_STAGE_ID, currentStageID);
                     startActivity(intentDocument);
                     break;
+
                 case R.id.ll_user_consent:
                     Intent intentUserConsent = new Intent(this, BaseActivity.class);
                     intentUserConsent.putExtra(PARAM_LOAN_TYPE, loanType);
@@ -403,6 +422,7 @@ public class ClientDetailsActivity extends LOSBaseActivity implements View.OnCli
                     intentUserConsent.putExtra(PARAM_CURRENT_STAGE_ID, currentStageID);
                     startActivity(intentUserConsent);
                     break;
+
                 case R.id.ll_generate_cibil:
                     Intent intentGenerateCibil = new Intent(this, BaseActivity.class);
                     intentGenerateCibil.putExtra(PARAM_LOAN_TYPE, loanType);

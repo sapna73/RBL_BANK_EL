@@ -1308,8 +1308,7 @@ public class ParametersConstant {
 
     //TODO: EL GUARANTOR SCREEN DETAILS
     public static String TAG_NAME_GUARANTOR_TO_BE_ADDED = "GUARANTOR TO BE ADDED"; //RADIO BUTTON "YES/NO"
-    public static String TAG_NAME_GUARANTOR_RADIO_BUTTON_NO = "No";
-    public static String TAG_NAME_GUARANTOR_RADIO_BUTTON_YES = "Yes";
+
     public static String TAG_NAME_TYPE_OF_GUARANTOR = "TYPE OF GUARANTOR";//DROP DOWN
     public static String TAG_FIELD_NAME_TYPE_OF_GUARANTOR = "Type of Guarantor";//DROP DOWN
     public static String TAG_NAME_GUARANTOR_BUSINESS_NAME = "BUSINESS NAME";
@@ -1320,7 +1319,6 @@ public class ParametersConstant {
     //Guarantor KYC Details
     public static String TAG_NAME_GUARANTOR_KYC_DETAILS = "KYC DETAILS";
     public static String FIELD_NAME_GUARANTOR_KYC_DETAILS = "KYC DETAILS";
-    public static String TAG_NAME_GUARANTOR_KYC_TYPE = "KYC TYPE";
     public static String TAG_NAME_GUARANTOR_KYC_ID = "KYC ID";
     public static String TAG_NAME_GUARANTOR_EKYC_BUTTON = "EKYC";
     public static String TAG_NAME_GUARANTOR_FULL_NAME = "FULL NAME";

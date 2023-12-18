@@ -172,7 +172,6 @@ import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_FUL
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_GUARANTOR;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_GUARANTOR_KYC_DETAILS;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_GUARANTOR_KYC_ID;
-import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_GUARANTOR_KYC_TYPE;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_KYC_ID;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_KYC_TYPE;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_LOAN_REQUESTED_AMOUNT;

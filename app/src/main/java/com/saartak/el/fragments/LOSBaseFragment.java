@@ -8255,9 +8255,9 @@ public class LOSBaseFragment extends BaseFragment {
                         if (screenName.equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC)) { // TODO: CO APPLICANT KYC SCREEN
                             applicantKYCScreenValidation(dynamicUITableListd.get(0), dynamicUITableListd);
                         }
-                       /* if (screenName.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) { // TODO: GUARANTOR KYC SCREEN
+                        if (screenName.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) { // TODO: GUARANTOR KYC SCREEN
                             applicantKYCScreenValidation(dynamicUITableListd.get(0), dynamicUITableListd);
-                        }*/
+                        }
                         if (screenName.equalsIgnoreCase(SCREEN_NAME_REFERENCE_CHECK)) { // TODO: REFERENCE CHECK SCREEN
                             referenceCheckScreenValidation(dynamicUITableListd.get(0), dynamicUITableListd);
                         }
@@ -8593,24 +8593,24 @@ public class LOSBaseFragment extends BaseFragment {
     }
 
     //Guarantor validation
-    private void guarantorValidation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
-        try {
-            viewModel.addressDetailValidation(dynamicUITable, dynamicUITableList);
-            if (viewModel.getDynamicUITableLiveData() != null) {
-                Observer addressDetailValidationObserver = new Observer() {
-                    @Override
-                    public void onChanged(@Nullable Object o) {
-                        List<DynamicUITable> dynamicUITableListFromDB = (List<DynamicUITable>) o;
-                        viewModel.getDynamicUITableLiveData().removeObserver(this);
-                        dynamicUI(dynamicUITableListFromDB);
-                    }
-                };
-                viewModel.getDynamicUITableLiveData().observe(this, addressDetailValidationObserver);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
+//    private void guarantorValidation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
+//        try {
+//            viewModel.addressDetailValidation(dynamicUITable, dynamicUITableList);
+//            if (viewModel.getDynamicUITableLiveData() != null) {
+//                Observer addressDetailValidationObserver = new Observer() {
+//                    @Override
+//                    public void onChanged(@Nullable Object o) {
+//                        List<DynamicUITable> dynamicUITableListFromDB = (List<DynamicUITable>) o;
+//                        viewModel.getDynamicUITableLiveData().removeObserver(this);
+//                        dynamicUI(dynamicUITableListFromDB);
+//                    }
+//                };
+//                viewModel.getDynamicUITableLiveData().observe(this, addressDetailValidationObserver);
+//            }
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+//    }
 
     private void copyBusinessProofAddressBasedOnDropDown(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList) {
         try {
@@ -10637,7 +10637,7 @@ public class LOSBaseFragment extends BaseFragment {
                                                 String value = hashMap.get(dynamicUITable.getFieldTag()).toString();
                                                 if (!TextUtils.isEmpty(value)) {
                                                     if (SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC) || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC)
-                                                        /*||SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)*/) {
+                                                        ||SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) {
                                                         dynamicUITable.setValue("");
                                                         if (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE)) {
                                                             dynamicUITable.setVisibility(true);
@@ -10665,6 +10665,7 @@ public class LOSBaseFragment extends BaseFragment {
                                                                 } else {
                                                                     DynamicUITable newDynamicUITable = createNewRow(dynamicUITable,
                                                                             rawDataTable, rawDataTable.getField_name(), hashMap);
+                                                                    Log.d(TAG," get the new list data..."+ newList);
                                                                     newList.add(newDynamicUITable);
                                                                 }
                                                             }
@@ -10686,7 +10687,9 @@ public class LOSBaseFragment extends BaseFragment {
                                                     newList.add(dynamicUITable);
                                                 } else if (dynamicUITable.getFieldType().equalsIgnoreCase(FIELD_TYPE_PLUS_BUTTON)) {
                                                     dynamicUITable.setVisibility(true);
+                                                    Log.d(TAG," get the new list data..."+ newList);
                                                     newList.add(dynamicUITable);
+
                                                 }
                                             }
                                         }

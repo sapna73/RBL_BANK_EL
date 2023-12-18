@@ -16,8 +16,6 @@ import static com.saartak.el.dynamicui.constants.ParametersConstant.SPINNER_ITEM
 import static com.saartak.el.dynamicui.constants.ParametersConstant.SPINNER_ITEM_FIELD_NAME_GUARANTOR_VOTER_ID;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_ADD_ANOTHER_KYC_PLUS_BUTTON;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_GUARANTOR_EKYC_BUTTON;
-import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_GUARANTOR_KYC_ID;
-import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_GUARANTOR_KYC_TYPE;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_KYC_ID;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_KYC_TYPE;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_QR_READING_BUTTON;
@@ -178,7 +176,7 @@ public class GuarantorDetailsFragment extends LOSBaseFragment implements LOSBase
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        /*try {
+        try {
             viewModel.init(SCREEN_ID, SCREEN_NAME, LOAN_TYPE, PROJECT_ID, PRODUCT_ID, CLIENT_ID, USER_ID, MODULE_TYPE);
             Observer observer = new Observer() {
                 @Override
@@ -186,7 +184,6 @@ public class GuarantorDetailsFragment extends LOSBaseFragment implements LOSBase
                     List<DynamicUITable> list = (List<DynamicUITable>) o;
                     viewModel.getDynamicUITableLiveData().removeObserver(this);
                     if(!TextUtils.isEmpty(LOAN_TYPE)) {
-                        guarantorDetails(list.get(0), list);
                         getTagNameList(SCREEN_NAME, list, TAG_NAME_ADD_ANOTHER_KYC_PLUS_BUTTON );
                     }else{
                         getRawDataForParentFragment(SCREEN_NAME, list);
@@ -196,7 +193,7 @@ public class GuarantorDetailsFragment extends LOSBaseFragment implements LOSBase
             viewModel.getDynamicUITableLiveData().observe(getViewLifecycleOwner(), observer);
         } catch (Exception ex) {
             ex.printStackTrace();
-        }*/
+        }
     }
 
     public interface OnFragmentInteractionListener {
@@ -279,6 +276,7 @@ public class GuarantorDetailsFragment extends LOSBaseFragment implements LOSBase
                                             }
                                         }
                                     }
+
 //                                        initChild(list);
                                     updateDynamicUITable(list, SCREEN_ID);
                                 }
@@ -300,7 +298,7 @@ public class GuarantorDetailsFragment extends LOSBaseFragment implements LOSBase
                                         // TODO: Get kYC Type based on loan
                        /* if (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE)) {
                             String[] newSpinnerList = getNewSpinnerList(TAG_NAME_KYC_TYPE, loanType);
-                            dynamicUITable.setParamlist(newSpinnerList);
+                            dynamicUITable.setParamlist(newSpinnerList);get
                             dynamicUITable.setValue(SPINNER_ITEM_FIELD_NAME_AADHAAR);
                         }*/
 

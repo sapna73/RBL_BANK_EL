@@ -1053,6 +1053,7 @@ public class AppConstant {
     public static final String MODULE_TYPE_APPLICANT = "Applicant";
     public static final String MODULE_TYPE_APPLICANT_BUSINESS = "Applicant_Business";
     public static final String MODULE_TYPE_CO_APPLICANT = "CoApplicant";
+    public static final String MODULE_TYPE_GUARANTOR = "Guarantor";
     public static final String MODULE_TYPE_BUSINESS = "Business";
     public static final String MODULE_TYPE_SALARY = "Salary"; // TODO: AHL Module
     public static final String MODULE_TYPE_LOAN_PROPOSAL_WITH_NOMINEE = "LoanProWithNominee";
