@@ -54,13 +54,7 @@ public class DocumentUploadHeaderAdapter extends RecyclerView.Adapter<DocumentUp
             if(documentUploadTableNewList != null && documentUploadTableNewList.size()>0){
                 List<DocumentUploadTableNew> documentUploadTableSubHeaderList = new ArrayList<>();
                 for(DocumentUploadTableNew documentUploadTableNew: documentUploadTableNewList){
-
-                    // TODO: For JLG Loan display all documents under applicant
-                    if( !TextUtils.isEmpty(documentUploadTableNew.getLoan_type()) &&
-                             documentUploadTableNew.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)){
-                        documentUploadTableSubHeaderList.add(documentUploadTableNew);
-                    }
-                    else if( documentUploadTableNew.getModule_type().equalsIgnoreCase(headerName)){
+                    if( documentUploadTableNew.getModule_type().equalsIgnoreCase(headerName)){
                         documentUploadTableSubHeaderList.add(documentUploadTableNew);
                     }
                 }

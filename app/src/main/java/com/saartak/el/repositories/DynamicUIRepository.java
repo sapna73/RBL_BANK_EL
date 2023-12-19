@@ -28961,31 +28961,6 @@ public class DynamicUIRepository {
 //                        // TODO: House Photo
 //                        insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
 //                                DOCUMENT_NAME_HOUSE_PHOTO, rawDataTable, "", "");
-                    }else{
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
-                                DOCUMENT_NAME_APPLICANT_STUDENT_ADMIT_LETTER, rawDataTable, "", "");
-
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
-                                DOCUMENT_NAME_APPLICANT_FEE_STRUCTURE, rawDataTable, "", "");
-
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
-                                DOCUMENT_NAME_10_MARK_SHEET, rawDataTable, "", "");
-
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
-                                DOCUMENT_NAME_12_MARK_SHEET, rawDataTable, "", "");
-
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
-                                DOCUMENT_NAME_GRADUATION, rawDataTable, "", "");
-
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
-                                DOCUMENT_NAME_EXAM_SCORE_CARD, rawDataTable, "", "");
-
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
-                                DOCUMENT_NAME_FEE_INSTITUTE, rawDataTable, "", "");
-
-                        // TODO: House Photo
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
-                                DOCUMENT_NAME_HOUSE_PHOTO, rawDataTable, "", "");
                     }
 
 
@@ -29535,31 +29510,6 @@ public class DynamicUIRepository {
 
                         insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
                                 DOCUMENT_NAME_CO_FEE_INSTITUTE , rawDataTable, "", "");
-                    }else {
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
-                                DOCUMENT_NAME_APPLICANT_STUDENT_ADMIT_LETTER, rawDataTable, "", "");
-
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
-                                DOCUMENT_NAME_APPLICANT_FEE_STRUCTURE, rawDataTable, "", "");
-
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
-                                DOCUMENT_NAME_10_MARK_SHEET, rawDataTable, "", "");
-
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
-                                DOCUMENT_NAME_12_MARK_SHEET, rawDataTable, "", "");
-
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
-                                DOCUMENT_NAME_GRADUATION, rawDataTable, "", "");
-
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
-                                DOCUMENT_NAME_EXAM_SCORE_CARD, rawDataTable, "", "");
-
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
-                                DOCUMENT_NAME_FEE_INSTITUTE, rawDataTable, "", "");
-
-                        // TODO: House Photo
-                        insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
-                                DOCUMENT_NAME_HOUSE_PHOTO, rawDataTable, "", "");
                     }
                 }
             }
