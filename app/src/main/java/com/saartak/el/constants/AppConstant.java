@@ -1329,7 +1329,6 @@ public class AppConstant {
           R.drawable.ic_person_pin_black_24dp,
           R.drawable.ic_person_pin_black_24dp,
           R.drawable.ic_person_pin_black_24dp,
-          R.drawable.ic_person_pin_black_24dp,
           R.drawable.ic_person_pin_black_24dp
   };
 
@@ -1341,7 +1340,6 @@ public class AppConstant {
             SCREEN_NAME_COAPPLICANT_SOCIO_ECONOMIC_DETAIL,
             SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL,
             SCREEN_NAME_CO_APPLICANT_BANK_DETAILS,
-            SCREEN_NAME_GUARANTOR_DETAILS,
             SCREEN_NAME_CPV,
             SCREEN_NAME_RAMP,
             SCREEN_NAME_DEDUPE,
@@ -1356,7 +1354,6 @@ public class AppConstant {
             SCREEN_NO_COAPPLICANT_SOCIO_EOCONOMIC_DETAIL_IL,
             SCREEN_NO_COAPPLICANT_ADDRESS_DETAIL_IL,
             SCREEN_NO_CO_APPLICANT_BANK_DETAILS_IL,
-            SCREEN_NO_CO_APPLICANT_GUARANTOR_EL,
             SCREEN_NO_CPV,
             SCREEN_NO_RAMP,
             SCREEN_NO_DEDUPE,
@@ -1377,14 +1374,20 @@ public class AppConstant {
             SCREEN_NAME_COAPPLICANT_SOCIO_ECONOMIC_DETAIL,
             SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL,
             SCREEN_NAME_CO_APPLICANT_BANK_DETAILS,
-            SCREEN_NAME_GUARANTOR_DETAILS,
             SCREEN_NAME_CPV,
             SCREEN_NAME_RAMP,
             SCREEN_NAME_DEDUPE,
             SCREEN_NAME_CO_APPLICANT_REGULATORY_FIELDS,
             SCREEN_NAME_DNCR_APPLICANT
-
     };
+
+    public static String[] GUARANTOR_TAB_SCREEN_NAMES_EL = {
+            SCREEN_NAME_GUARANTOR_DETAILS
+    };
+
+  public static String[] GUARANTOR_TAB_SCREEN_NUMBER_EL = {
+          SCREEN_NO_CO_APPLICANT_GUARANTOR_EL
+  };
 
     public static String[] CO_APPLICANT_TAB_SCREEN_NUMBERS_EL = {
             SCREEN_NO_CO_APPLICANT_KYC_EL,
@@ -1393,7 +1396,6 @@ public class AppConstant {
             SCREEN_NO_COAPPLICANT_SOCIO_EOCONOMIC_DETAIL_PHL,
             SCREEN_NO_COAPPLICANT_ADDRESS_DETAIL_PHL,
             SCREEN_NO_CO_APPLICANT_BANK_DETAILS_PHL,
-            SCREEN_NO_CO_APPLICANT_GUARANTOR_EL,
             SCREEN_NO_CPV,
             SCREEN_NO_RAMP,
             SCREEN_NO_DEDUPE,
@@ -1414,6 +1416,10 @@ public class AppConstant {
             R.drawable.ic_person_pin_black_24dp,
             R.drawable.ic_person_pin_black_24dp,
             R.drawable.ic_person_pin_black_24dp
+    };
+
+    public static int[] GUARANTOR_TAB_ICONS_NAMES_EL ={
+            R.drawable.ic_person_pin_black_24dp,
     };
 
     // TODO: SALARY AHL
@@ -2066,6 +2072,14 @@ public class AppConstant {
               screenDetailsDTO.setScreenName(SCREEN_NAME_DNCR_APPLICANT);
               screenDetailsDTO.setProductId(PRODUCT_ID_IL);
               screenDetailsDTO.setModuleType(MODULE_TYPE_CO_APPLICANT);
+            }
+
+            //TODO: GUARANTOR DETAILS FOR EL
+            else if(screenId.equalsIgnoreCase(SCREEN_NO_CO_APPLICANT_GUARANTOR_EL)) {
+              screenDetailsDTO.setScreenId(screenId);
+              screenDetailsDTO.setScreenName(SCREEN_NAME_GUARANTOR_DETAILS);
+              screenDetailsDTO.setProductId(PRODUCT_ID_EL);
+              screenDetailsDTO.setModuleType(MODULE_TYPE_GUARANTOR);
             }
 
             // TODO: BUSINESS PROOF IL

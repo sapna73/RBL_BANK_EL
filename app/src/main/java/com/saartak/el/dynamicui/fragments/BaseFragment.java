@@ -1245,6 +1245,11 @@ public class BaseFragment extends Fragment {
                 if(hashMap != null && hashMap.containsKey(TAG_NAME_KYC_ID)) {
                     newDynamicUITable.setValue(hashMap.get(TAG_NAME_KYC_ID).toString());
                 }
+//                ---
+
+                if(hashMap != null && hashMap.containsKey(TAG_NAME_GUARANTOR_KYC_ID)){
+                    newDynamicUITable.setValue(hashMap.get(TAG_NAME_GUARANTOR_KYC_ID).toString());
+                }
             }
             if(dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)){
                 if(hashMap != null && hashMap.containsKey(TAG_NAME_GUARANTOR_KYC_ID)) {
@@ -1267,6 +1272,7 @@ public class BaseFragment extends Fragment {
                     newDynamicUITable.setValue(hashMap.get(TAG_NAME_ACCOUNT_NUMBER).toString());
                 }
             }
+
             if(dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_REFERENCE_CHECK)){
                 if(hashMap != null && hashMap.containsKey(TAG_NAME_REFERENCE_TYPE)) {
                     newDynamicUITable.setValue(hashMap.get(TAG_NAME_REFERENCE_TYPE).toString());

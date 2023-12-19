@@ -159,6 +159,11 @@ public class ClientDetailsActivity extends LOSBaseActivity implements View.OnCli
         rvBusiness.setItemAnimator(new DefaultItemAnimator());
         rvBusiness.addItemDecoration(new MyDividerItemDecoration(this, DividerItemDecoration.VERTICAL, 24));
 
+        RecyclerView.LayoutManager guarantorManager = new LinearLayoutManager(getApplicationContext());
+        rvBusiness.setLayoutManager(guarantorManager);
+        rvBusiness.setItemAnimator(new DefaultItemAnimator());
+        rvBusiness.addItemDecoration(new MyDividerItemDecoration(this, DividerItemDecoration.VERTICAL, 24));
+
         RecyclerView.LayoutManager salaryLayoutManager = new LinearLayoutManager(getApplicationContext());
         rvSalary.setLayoutManager(salaryLayoutManager);
         rvSalary.setItemAnimator(new DefaultItemAnimator());

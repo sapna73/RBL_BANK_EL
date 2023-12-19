@@ -58,6 +58,8 @@ import dagger.android.support.AndroidSupportInjection;
 import dagger.android.support.HasSupportFragmentInjector;
 
 public class GuarantorDetailsFragment extends LOSBaseFragment implements LOSBaseFragment.DynamiUIinterfacce, HasSupportFragmentInjector, FragmentInterface {
+
+    private static final String TAG = GuarantorDetailsFragment.class.getCanonicalName();
     private GuarantorDetailsFragment.OnFragmentInteractionListener mListener;
 
     public GuarantorDetailsFragment() {
@@ -108,7 +110,7 @@ public class GuarantorDetailsFragment extends LOSBaseFragment implements LOSBase
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ll = (LinearLayout) view.findViewById(R.id.ll_content);
-        setDynamiUIinterfacce(GuarantorDetailsFragment.this);
+        setDynamiUIinterfacce(this);
     }
 
     public void onButtonPressed(Uri uri) {
@@ -117,36 +119,57 @@ public class GuarantorDetailsFragment extends LOSBaseFragment implements LOSBase
         }
     }
 
-    @Override
     public void dynamicUICallback(List<DynamicUITable> viewParametersList) {
         try {
             for (DynamicUITable viewParameters : viewParametersList) {
                 if (viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE)
-                        || viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_ID)) {
+                        || viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_ID)
+                        || viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_RE_ENTER_KYC_ID)) {
 
-                    if (viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE)) {
-                        viewParameters.setValue(SPINNER_ITEM_FIELD_NAME_GUARANTOR_AADHAAR);
-                        viewParameters.setValue(SPINNER_ITEM_FIELD_NAME_GUARANTOR_DRIVING_LICENSE);
-                        viewParameters.setValue(SPINNER_ITEM_FIELD_NAME_GUARANTOR_PASSPORT);
-                        viewParameters.setValue(SPINNER_ITEM_FIELD_NAME_GUARANTOR_VOTER_ID);
-
-                        if (viewParameters.getFieldTag().equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_GUARANTOR_DRIVING_LICENSE)
-                                || viewParameters.getFieldTag().equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_GUARANTOR_PASSPORT)
-                                || viewParameters.getFieldTag().equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_GUARANTOR_VOTER_ID)) {
-                            viewParameters.setValue(TAG_NAME_GUARANTOR_EKYC_BUTTON);
-                        }
-                        viewParameters.setVisibility(true);
-                    } else {
-                        viewParameters.setVisibility(false);
+                    if(viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE)){
+                        viewParameters.setValue(SPINNER_ITEM_FIELD_NAME_AADHAAR);
                     }
+                    viewParameters.setVisibility(true);
+                } else {
+                    viewParameters.setVisibility(false);
                 }
             }
             updateDynamicUITable(viewParametersList, SCREEN_ID);
-        }
-            catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
+
+//    @Override
+//    public void dynamicUICallback(List<DynamicUITable> viewParametersList) {
+//        try {
+//            for (DynamicUITable viewParameters : viewParametersList) {
+//                if (viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE)
+//                        || viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_ID)
+//                        || viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_RE_ENTER_KYC_ID)
+//                ) {
+//
+//                    if (viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE)) {
+//                        viewParameters.setValue(SPINNER_ITEM_FIELD_NAME_GUARANTOR_AADHAAR);
+//
+////                        if (viewParameters.getFieldTag().equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_GUARANTOR_DRIVING_LICENSE)
+////                                || viewParameters.getFieldTag().equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_GUARANTOR_PASSPORT)
+////                                || viewParameters.getFieldTag().equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_GUARANTOR_VOTER_ID)) {
+////                            viewParameters.setValue(TAG_NAME_GUARANTOR_EKYC_BUTTON);
+////                        }
+//                        viewParameters.setVisibility(true);
+//                    } else {
+//                        viewParameters.setVisibility(false);
+//                    }
+//                }
+//                updateDynamicUITable(viewParametersList, SCREEN_ID);
+//            }
+//
+//        }
+//            catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+//    }
 
     @Override
     public Fragment getFragment() {
@@ -184,6 +207,7 @@ public class GuarantorDetailsFragment extends LOSBaseFragment implements LOSBase
                     List<DynamicUITable> list = (List<DynamicUITable>) o;
                     viewModel.getDynamicUITableLiveData().removeObserver(this);
                     if(!TextUtils.isEmpty(LOAN_TYPE)) {
+//                        guarantorDetails(list.get(0), list);
                         getTagNameList(SCREEN_NAME, list, TAG_NAME_ADD_ANOTHER_KYC_PLUS_BUTTON );
                     }else{
                         getRawDataForParentFragment(SCREEN_NAME, list);
