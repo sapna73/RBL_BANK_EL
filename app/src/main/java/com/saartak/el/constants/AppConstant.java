@@ -1164,6 +1164,22 @@ public class AppConstant {
           SCREEN_NAME_DNCR_APPLICANT
   };
 
+  public static String[] APPLICANT_TAB_SCREEN_NAMES_NO_CUSTOMERTYPE_IL = {
+          SCREEN_NAME_APPLICANT_KYC,
+          SCREEN_NAME_APPLICANT_PAN_DETAILS,
+          SCREEN_NAME_PERSONAL_DETAIL,
+          SCREEN_NAME_SOCIO_ECONOMIC_DETAIL,
+          SCREEN_NAME_ADDRESS_DETAIL,
+          SCREEN_NAME_STUDENT_DETAILS,
+          SCREEN_NAME_BANK_DETAILS,
+          SCREEN_NAME_REFERENCE_CHECK,
+          SCREEN_NAME_CPV,
+          SCREEN_NAME_RAMP,
+          SCREEN_NAME_DEDUPE,
+          SCREEN_NAME_APPLICANT_REGULATORY_FIELDS,
+          SCREEN_NAME_DNCR_APPLICANT
+  };
+
   public static String[] APPLICANT_TAB_SCREEN_NUMBERS_IL = {
           SCREEN_NO_APPLICANT_KYC_EL,
           SCREEN_NO_APPLICANT_PAN_DETAILS_EL,
@@ -1200,6 +1216,21 @@ public class AppConstant {
             SCREEN_NAME_APPLICANT_REGULATORY_FIELDS,
             SCREEN_NAME_DNCR_APPLICANT
     };
+  public static String[] APPLICANT_TAB_SCREEN_NAMES_NO_CUSTOMERTYPE_EL = {
+          SCREEN_NAME_APPLICANT_KYC,
+          SCREEN_NAME_APPLICANT_PAN_DETAILS,
+          SCREEN_NAME_PERSONAL_DETAIL,
+          SCREEN_NAME_SOCIO_ECONOMIC_DETAIL,
+          SCREEN_NAME_ADDRESS_DETAIL,
+          SCREEN_NAME_STUDENT_DETAILS,
+          SCREEN_NAME_BANK_DETAILS,
+          SCREEN_NAME_REFERENCE_CHECK,
+          SCREEN_NAME_CPV,
+          SCREEN_NAME_RAMP,
+          SCREEN_NAME_DEDUPE,
+          SCREEN_NAME_APPLICANT_REGULATORY_FIELDS,
+          SCREEN_NAME_DNCR_APPLICANT
+  };
     public static String[] APPLICANT_TAB_SCREEN_NUMBERS_EL = {
             SCREEN_NO_APPLICANT_KYC_EL,
             SCREEN_NO_APPLICANT_PAN_DETAILS_EL,
@@ -1217,6 +1248,21 @@ public class AppConstant {
             SCREEN_NO_APPLICANT_REGULATORY_FIELDS,
             SCREEN_NO_DNCR_APPLICANT
     };
+    public static String[] APPLICANT_TAB_SCREEN_NUMBERS_NO_CUSTOMERTYPE_EL = {
+            SCREEN_NO_APPLICANT_KYC_EL,
+            SCREEN_NO_APPLICANT_PAN_DETAILS_EL,
+            SCREEN_NO_PERSONAL_DETAIL_EL,
+            SCREEN_NO_SOCIO_ECONOMIC_DETAIL_EL,
+            SCREEN_NO_ADDRESS_DETAIL_EL,
+            SCREEN_NO_STUDENT_DETAILS_APPLICANT,
+            SCREEN_NO_BANK_DETAILS_EL,
+            SCREEN_NO_REFERENCE_CHECK_EL,
+            SCREEN_NO_CPV,
+            SCREEN_NO_RAMP,
+            SCREEN_NO_DEDUPE,
+            SCREEN_NO_APPLICANT_REGULATORY_FIELDS,
+            SCREEN_NO_DNCR_APPLICANT
+    };
 
     public static int[] APPLICANT_TAB_ICONS_NAMES_EL = {
             R.drawable.ic_fingerprint_24dp,
@@ -1225,6 +1271,21 @@ public class AppConstant {
             R.drawable.ic_home_black_24dp,
             R.drawable.ic_business_center_black_24dp,
             R.drawable.ic_business_add_proof2_24,
+            R.drawable.ic_person_pin_black_24dp,
+            R.drawable.ic_account_bank_24dp,
+            R.drawable.ic_person_pin_black_24dp,
+            R.drawable.ic_person_pin_black_24dp,
+            R.drawable.ic_person_pin_black_24dp,
+            R.drawable.ic_person_pin_black_24dp,
+            R.drawable.ic_person_pin_black_24dp,
+            R.drawable.ic_person_pin_black_24dp,
+            R.drawable.ic_person_pin_black_24dp
+    };
+    public static int[] APPLICANT_TAB_ICONS_NO_CUSTOMERTYPE_EL = {
+            R.drawable.ic_fingerprint_24dp,
+            R.drawable.ic_person_white_24dp,
+            R.drawable.ic_domain_black_24dp,
+            R.drawable.ic_home_black_24dp,
             R.drawable.ic_person_pin_black_24dp,
             R.drawable.ic_account_bank_24dp,
             R.drawable.ic_person_pin_black_24dp,

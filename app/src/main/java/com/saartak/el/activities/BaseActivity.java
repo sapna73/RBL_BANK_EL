@@ -1045,19 +1045,18 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
                             if (rawDataTable != null) {
                                 HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
                                 if (hashMap != null && hashMap.size() > 0) {
+                                    String customerType="";
                                     if (hashMap.containsKey(TAG_NAME_CUSTOMER_TYPE)) {
-                                        String customerType = hashMap.get(TAG_NAME_CUSTOMER_TYPE).toString();
+                                         customerType = hashMap.get(TAG_NAME_CUSTOMER_TYPE).toString();
                                         if (!TextUtils.isEmpty(customerType)) {
                                             if (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SELF_EMPLOYED)
                                                     || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SEP)
                                                     || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP)) {
                                                 if (fieldTag != "") {
-                                                    setScreens(APPLICANT_TAB_SCREEN_NAMES_BUSINESS_EL, APPLICANT_TAB_SCREEN_NUMBERS_BUSINESS_EL,
-                                                            APPLICANT_TAB_ICONS_NAMES_BUSINESS_EL, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
+                                                    setScreens(APPLICANT_TAB_SCREEN_NAMES_BUSINESS_EL, APPLICANT_TAB_SCREEN_NUMBERS_BUSINESS_EL, APPLICANT_TAB_ICONS_NAMES_BUSINESS_EL, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
                                                 }
                                                 else{
-                                                    setScreens(CO_APPLICANT_TAB_SCREEN_NUMBERS_EL, CO_APPLICANT_TAB_SCREEN_NUMBERS_BUSINESS_EL,
-                                                            CO_APPLICANT_TAB_ICONS_NAMES_BUSINESS_EL, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
+                                                    setScreens(CO_APPLICANT_TAB_SCREEN_NUMBERS_EL, CO_APPLICANT_TAB_SCREEN_NUMBERS_BUSINESS_EL, CO_APPLICANT_TAB_ICONS_NAMES_BUSINESS_EL, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
                                                 }
 //                                               setScreens(APPLICANT_TAB_SCREEN_NAMES_BUSINESS_EL, APPLICANT_TAB_SCREEN_NUMBERS_BUSINESS_EL,
 //                                                        APPLICANT_TAB_ICONS_NAMES_BUSINESS_EL, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
@@ -1067,6 +1066,9 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
                                                 setScreens(APPLICANT_TAB_SCREEN_NAMES_EL, APPLICANT_TAB_SCREEN_NUMBERS_EL, APPLICANT_TAB_ICONS_NAMES_EL, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
                                             }
                                         }
+                                    }
+                                    if(customerType.equalsIgnoreCase("")){
+                                        setScreens(APPLICANT_TAB_SCREEN_NAMES_NO_CUSTOMERTYPE_EL, APPLICANT_TAB_SCREEN_NUMBERS_NO_CUSTOMERTYPE_EL, APPLICANT_TAB_ICONS_NO_CUSTOMERTYPE_EL, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
                                     }
                                 }
                             }

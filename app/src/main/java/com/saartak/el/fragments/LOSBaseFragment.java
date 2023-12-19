@@ -587,6 +587,7 @@ public class LOSBaseFragment extends BaseFragment {
                                           List<ParameterInfo> parameterInfoList = new ArrayList<>();
                                           parameterInfoList.add(new ParameterInfo(TAG_NAME_APPLICANT_FULL_NAME, SCREEN_ID, studentFullName, true, false));
                                           parameterInfoList.add(new ParameterInfo(TAG_NAME_CO_APPLICANT_FULL_NAME, SCREEN_ID, "", true, true));
+                                          parameterInfoList.add(new ParameterInfo("APPLICANT E-MAIL ID", SCREEN_ID, "", false, true));
                                           EnableOrDisableByFieldNameInDB(parameterInfoList, viewParametersList);
                                           DynamicUITable dynamicUITable = getObjectByTAG(TAG_NAME_RELATIONSHIP_WITH_CO_APPLICANT, viewParametersList);
                                           if (dynamicUITable != null) {
@@ -597,6 +598,7 @@ public class LOSBaseFragment extends BaseFragment {
                                           List<ParameterInfo> parameterInfoList = new ArrayList<>();
                                           parameterInfoList.add(new ParameterInfo(TAG_NAME_APPLICANT_FULL_NAME, SCREEN_ID, "", true, true));
                                           parameterInfoList.add(new ParameterInfo(TAG_NAME_CO_APPLICANT_FULL_NAME, SCREEN_ID, studentFullName, true, false));
+                                          parameterInfoList.add(new ParameterInfo("APPLICANT E-MAIL ID", SCREEN_ID, "", true, true));
                                           EnableOrDisableByFieldNameInDB(parameterInfoList, viewParametersList);
                                           DynamicUITable dynamicUITable = getObjectByTAG(TAG_NAME_RELATIONSHIP_WITH_CO_APPLICANT, viewParametersList);
                                           if (dynamicUITable != null) {
@@ -3518,12 +3520,14 @@ public class LOSBaseFragment extends BaseFragment {
                                 if (hashMap != null && hashMap.size() > 0) {
                                     if (hashMap.containsKey(TAG_NAME_EARNING_CAPACITY_OF_STUDENT)) {
                                          earningCapacityOfStudent = hashMap.get(TAG_NAME_EARNING_CAPACITY_OF_STUDENT).toString();
-                                        if(earningCapacityOfStudent.equalsIgnoreCase("Yes")) {
+                                        if (earningCapacityOfStudent.equalsIgnoreCase("Yes")) {
                                             if (!TextUtils.isEmpty(customSpinner.getSelectedItem().toString()) && (customSpinner.getSelectedItem().toString().equalsIgnoreCase(TAG_NAME_NON_EKYC))) {
-                                                getDropDownKYCType(viewParametersList, CLIENT_ID, MODULE_TYPE, "", "", "NO", Integer.valueOf(viewParameters.getScreenID().toString()));
+                                                getDropDownKYCType(viewParametersList, CLIENT_ID, MODULE_TYPE, "", "", "NO", Integer.valueOf(viewParameters.getScreenID().toString()),"2");
                                             } else if (!TextUtils.isEmpty(customSpinner.getSelectedItem().toString()) && (customSpinner.getSelectedItem().toString().equalsIgnoreCase(TAG_NAME_EKYC))) {
-                                                getDropDownKYCType(viewParametersList, CLIENT_ID, MODULE_TYPE, "", "", "YES", Integer.valueOf(viewParameters.getScreenID().toString()));
+                                                getDropDownKYCType(viewParametersList, CLIENT_ID, MODULE_TYPE, "", "", "YES", Integer.valueOf(viewParameters.getScreenID().toString()),"2");
                                             }
+                                        } else {
+                                            getDropDownKYCType(viewParametersList, CLIENT_ID, MODULE_TYPE, "", "", "YES", Integer.valueOf(viewParameters.getScreenID().toString()),"5");
                                         }
                                     }
                                 }
@@ -4093,7 +4097,7 @@ public class LOSBaseFragment extends BaseFragment {
         try {
             if (!TextUtils.isEmpty(viewParameters.getFieldTag()) && viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_TYPE_OF_PROFESSION)) {
                 getDropDownKYCType(viewParametersList, CLIENT_ID, MODULE_TYPE, customerType, customSpinner.getSelectedItem().toString(),
-                        "NO", Integer.valueOf(viewParameters.getScreenID().toString()));
+                        "NO", Integer.valueOf(viewParameters.getScreenID().toString()),"2");
             }
             if (!TextUtils.isEmpty(viewParameters.getFieldTag()) && viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_APPLICANT_KYC)) {
                 getKYCEarningCapacityOfStudent(viewParametersList,viewParameters,customSpinner);
@@ -10325,11 +10329,11 @@ public class LOSBaseFragment extends BaseFragment {
         }
     }
 
-    public void getDropDownKYCType(List<DynamicUITable> dynamicUITableList, String clientId, String moduleType, String customerType, String profession, String isEkyc, int screenId) {
+    public void getDropDownKYCType(List<DynamicUITable> dynamicUITableList, String clientId, String moduleType, String customerType, String profession, String isEkyc, int screenId,String type) {
         try {
             //viewModel.getKYCDropDownIDProofList();
             appHelper.getDialogHelper().getLoadingDialog().showGIFLoading();
-            viewModel.getDropDownKYCType("2", clientId, moduleType, customerType, profession, isEkyc, screenId);
+            viewModel.getDropDownKYCType(type, clientId, moduleType, customerType, profession, isEkyc, screenId);
             if (viewModel.getKYCDropDownIDProofTableListLiveData() != null) {
                 Observer observer = new Observer() {
                     @Override

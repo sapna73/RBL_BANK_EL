@@ -8652,14 +8652,18 @@ public class DynamicUIRepository {
                 if (leadRawData != null) {
                     HashMap<String, Object> hashMap = setKeyValueForObject(leadRawData);
                     if (hashMap != null && hashMap.size() > 0) {
-                        if (hashMap.containsKey(TAG_NAME_CUSTOMER_TYPE) || hashMap.containsKey(TAG_NAME_INDIVIDUAL_OR_NONINDIVIDUAL)) {
-                            String customerType = hashMap.get(TAG_NAME_CUSTOMER_TYPE).toString();
+                        String customerType = "";
+                        if (hashMap.containsKey(TAG_NAME_CUSTOMER_TYPE)) {
+                            customerType=hashMap.get(TAG_NAME_CUSTOMER_TYPE).toString();
                             if (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SEP)
                                     || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP)) {
                                 APPLICANT_TAB_SCREEN_NAMES = APPLICANT_TAB_SCREEN_NAMES_BUSINESS_IL;
                             } else {
                                 APPLICANT_TAB_SCREEN_NAMES = APPLICANT_TAB_SCREEN_NAMES_IL;
                             }
+                        }
+                        if(customerType.equalsIgnoreCase("")){
+                            APPLICANT_TAB_SCREEN_NAMES=APPLICANT_TAB_SCREEN_NAMES_NO_CUSTOMERTYPE_IL;
                         }
                     }
                 }
