@@ -3922,9 +3922,15 @@ public class LOSBaseFragment extends BaseFragment {
 
                 if(!TextUtils.isEmpty(dynamicUITable.getFieldTag()) && dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_EARNING_CAPACITY_OF_STUDENT)){
                     List<ParameterInfo> parameterInfoList = new ArrayList<>();
+
                     if (!TextUtils.isEmpty(selectedRadioButton) && selectedRadioButton.equalsIgnoreCase("No")) {
-                        parameterInfoList.add(new ParameterInfo(TAG_NAME_CUSTOMER_TYPE, SCREEN_ID, "", false, true));
-                        parameterInfoList.add(new ParameterInfo(TAG_NAME_TYPE_OF_PROFESSION, SCREEN_ID, "", false, true));
+                        if(applicantAge >= 18) {
+                            parameterInfoList.add(new ParameterInfo(TAG_NAME_CUSTOMER_TYPE, SCREEN_ID, "", false, true));
+                            parameterInfoList.add(new ParameterInfo(TAG_NAME_TYPE_OF_PROFESSION, SCREEN_ID, "", false, true));
+                        }else {
+                            parameterInfoList.add(new ParameterInfo(TAG_NAME_CUSTOMER_TYPE, SCREEN_ID, "", true, true));
+                            parameterInfoList.add(new ParameterInfo(TAG_NAME_TYPE_OF_PROFESSION, SCREEN_ID, "", true, true));
+                        }
                     } else if (!TextUtils.isEmpty(selectedRadioButton) && selectedRadioButton.equalsIgnoreCase("Yes")) {
                         parameterInfoList.add(new ParameterInfo(TAG_NAME_CUSTOMER_TYPE, SCREEN_ID, "", true, true));
                         parameterInfoList.add(new ParameterInfo(TAG_NAME_TYPE_OF_PROFESSION, SCREEN_ID, "", true, true));
@@ -11742,12 +11748,10 @@ public class LOSBaseFragment extends BaseFragment {
 
                             if (kycIdObj != null && !TextUtils.isEmpty(kycIdObj.getOptional())) {
                                 Toast.makeText(getActivity(), SUCCESS_RESPONSE_FOR_AADHAAR_VAULT, Toast.LENGTH_SHORT).show();
-                                List<ParameterInfo> parameterInfoList = new ArrayList<>();
-                                parameterInfoList.add(new ParameterInfo(TAG_NAME_EKYC_BUTTON, SCREEN_ID, "", true, true));
-                                EnableOrDisableByFieldNameInDB(parameterInfoList, dynamicUITableList);
 
                                 // TODO: Checking deDupe validation for Aadhaar Reference ID & only for Re Enter KYC ID
-                                if (kycIdObj.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE_RE_ENTER_AADHAAR)) {
+                                if (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE_AADHAAR)||dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE_RE_ENTER_AADHAAR)||
+                                        kycIdObj.getFieldTag().equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_AADHAAR)) {
 
                                     deDupeValidationForAllScreen(kycIdObj, dynamicUITableListFromDB);
                                 } else if ((kycIdObj.getScreenName().equalsIgnoreCase(SCREEN_NAME_PERSONAL_DETAIL) || kycIdObj.getScreenName().equalsIgnoreCase(SCREEN_NAME_NOMINEE_DETAIL))
@@ -11760,9 +11764,6 @@ public class LOSBaseFragment extends BaseFragment {
                                         FAILURE_RESPONSE_FOR_AADHAAR_VAULT, new ConfirmationDialog.ActionCallback() {
                                             @Override
                                             public void onAction() {
-                                                List<ParameterInfo> parameterInfoList = new ArrayList<>();
-                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_EKYC_BUTTON, SCREEN_ID, "", false, true));
-                                                EnableOrDisableByFieldNameInDB(parameterInfoList, dynamicUITableList);
                                                 dynamicUI(dynamicUITableListFromDB);
                                             }
                                         });
