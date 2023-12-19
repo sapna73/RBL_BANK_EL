@@ -583,7 +583,7 @@ public class LOSBaseFragment extends BaseFragment {
                                 if (viewParameters.getFieldTag().contains(TAG_LEAD_NAME_DOB_OF_STUDENT)) {
                                     applicantAge = appHelper.getAgeBasedOnDOB(selectedDate);
                                     setValueByLoopingDynamicUI(dynamicViews, String.valueOf( appHelper.getAgeBasedOnDOB(selectedDate)), TAG_LEAD_AGE_OF_STUDENT, viewParametersList);
-                                      if(appHelper.getAgeBasedOnDOB(selectedDate) >= 19&&earningCapacityOfStudent.equalsIgnoreCase("Yes")){
+                                      if(appHelper.getAgeBasedOnDOB(selectedDate) >= 18/*&&earningCapacityOfStudent.equalsIgnoreCase("Yes")*/){
                                           List<ParameterInfo> parameterInfoList = new ArrayList<>();
                                           parameterInfoList.add(new ParameterInfo(TAG_NAME_APPLICANT_FULL_NAME, SCREEN_ID, studentFullName, true, false));
                                           parameterInfoList.add(new ParameterInfo(TAG_NAME_CO_APPLICANT_FULL_NAME, SCREEN_ID, "", true, true));
@@ -3502,6 +3502,39 @@ public class LOSBaseFragment extends BaseFragment {
             viewModel.getRawTableLiveData().observe(this, getLeadRawDataObserver);
         }
     }
+    private void getKYCEarningCapacityOfStudent(List<DynamicUITable> viewParametersList,DynamicUITable viewParameters,XMLCustomSpinner customSpinner) {
+
+        viewModel.getRawDataByClientIDAndModuleType(SCREEN_NAME_LEAD, CLIENT_ID, MODULE_TYPE_LEAD);
+        if (viewModel.getRawTableLiveData() != null) {
+            Observer getLeadRawDataObserver = new Observer() {
+                @Override
+                public void onChanged(@Nullable Object o) {
+                    List<RawDataTable> rawDataTableList = (List<RawDataTable>) o;
+                    viewModel.getRawTableLiveData().removeObserver(this);
+                    if (rawDataTableList != null && rawDataTableList.size() > 0) {
+                        for (RawDataTable rawDataTable : rawDataTableList) {
+                            if (rawDataTable != null) {
+                                HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
+                                if (hashMap != null && hashMap.size() > 0) {
+                                    if (hashMap.containsKey(TAG_NAME_EARNING_CAPACITY_OF_STUDENT)) {
+                                         earningCapacityOfStudent = hashMap.get(TAG_NAME_EARNING_CAPACITY_OF_STUDENT).toString();
+                                        if(earningCapacityOfStudent.equalsIgnoreCase("Yes")) {
+                                            if (!TextUtils.isEmpty(customSpinner.getSelectedItem().toString()) && (customSpinner.getSelectedItem().toString().equalsIgnoreCase(TAG_NAME_NON_EKYC))) {
+                                                getDropDownKYCType(viewParametersList, CLIENT_ID, MODULE_TYPE, "", "", "NO", Integer.valueOf(viewParameters.getScreenID().toString()));
+                                            } else if (!TextUtils.isEmpty(customSpinner.getSelectedItem().toString()) && (customSpinner.getSelectedItem().toString().equalsIgnoreCase(TAG_NAME_EKYC))) {
+                                                getDropDownKYCType(viewParametersList, CLIENT_ID, MODULE_TYPE, "", "", "YES", Integer.valueOf(viewParameters.getScreenID().toString()));
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            viewModel.getRawTableLiveData().observe(this, getLeadRawDataObserver);
+        }
+    }
 
     private void getSpouseNameFromApplicantKYC(DynamicUITable dynamicUITable, List<DynamicUITable> viewParametersList) {
         try {
@@ -3886,20 +3919,13 @@ public class LOSBaseFragment extends BaseFragment {
                 if(!TextUtils.isEmpty(dynamicUITable.getFieldTag()) && dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_EARNING_CAPACITY_OF_STUDENT)){
                     List<ParameterInfo> parameterInfoList = new ArrayList<>();
                     if (!TextUtils.isEmpty(selectedRadioButton) && selectedRadioButton.equalsIgnoreCase("No")) {
-                        parameterInfoList.add(new ParameterInfo(TAG_NAME_APPLICANT_FULL_NAME, SCREEN_ID, "", true, true));
-                        parameterInfoList.add(new ParameterInfo(TAG_NAME_CO_APPLICANT_FULL_NAME, SCREEN_ID, studentFullName, true, false));
+                        parameterInfoList.add(new ParameterInfo(TAG_NAME_CUSTOMER_TYPE, SCREEN_ID, "", false, true));
+                        parameterInfoList.add(new ParameterInfo(TAG_NAME_TYPE_OF_PROFESSION, SCREEN_ID, "", false, true));
                     } else if (!TextUtils.isEmpty(selectedRadioButton) && selectedRadioButton.equalsIgnoreCase("Yes")) {
-                        if (applicantAge >= 19) {
-                            parameterInfoList.add(new ParameterInfo(TAG_NAME_APPLICANT_FULL_NAME, SCREEN_ID, studentFullName, true, false));
-                            parameterInfoList.add(new ParameterInfo(TAG_NAME_CO_APPLICANT_FULL_NAME, SCREEN_ID, "", true, true));
-                        }else {
-                            parameterInfoList.add(new ParameterInfo(TAG_NAME_APPLICANT_FULL_NAME, SCREEN_ID, "", true, true));
-                            parameterInfoList.add(new ParameterInfo(TAG_NAME_CO_APPLICANT_FULL_NAME, SCREEN_ID, studentFullName, true, false));
-                        }
+                        parameterInfoList.add(new ParameterInfo(TAG_NAME_CUSTOMER_TYPE, SCREEN_ID, "", true, true));
+                        parameterInfoList.add(new ParameterInfo(TAG_NAME_TYPE_OF_PROFESSION, SCREEN_ID, "", true, true));
                     }
                     EnableOrDisableByFieldNameInDB(parameterInfoList, dynamicUITableList);
-
-
                 }
                 if(!TextUtils.isEmpty(dynamicUITable.getFieldTag()) && dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_EDUCATION_DESTINATION_IDENTIFIED)){
                     List<ParameterInfo> parameterInfoList = new ArrayList<>();
@@ -4070,11 +4096,7 @@ public class LOSBaseFragment extends BaseFragment {
                         "NO", Integer.valueOf(viewParameters.getScreenID().toString()));
             }
             if (!TextUtils.isEmpty(viewParameters.getFieldTag()) && viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_APPLICANT_KYC)) {
-                if (!TextUtils.isEmpty(customSpinner.getSelectedItem().toString()) && (customSpinner.getSelectedItem().toString().equalsIgnoreCase(TAG_NAME_NON_EKYC))) {
-                    getDropDownKYCType(viewParametersList, CLIENT_ID, MODULE_TYPE,"", "", "NO", Integer.valueOf(viewParameters.getScreenID().toString()));
-                } else if (!TextUtils.isEmpty(customSpinner.getSelectedItem().toString()) && (customSpinner.getSelectedItem().toString().equalsIgnoreCase(TAG_NAME_EKYC))) {
-                    getDropDownKYCType(viewParametersList, CLIENT_ID, MODULE_TYPE, "", "", "YES",  Integer.valueOf(viewParameters.getScreenID().toString()));
-                }
+                getKYCEarningCapacityOfStudent(viewParametersList,viewParameters,customSpinner);
             }
             if (!TextUtils.isEmpty(viewParameters.getFieldTag()) && (viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE)||(viewParameters.getFieldTag().equalsIgnoreCase("KYC DETAILS")))) {
                 viewParameters.setFieldType(FIELD_TYPE_LIST);
