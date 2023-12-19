@@ -1166,7 +1166,7 @@ public class AppConstant {
 
   public static String[] APPLICANT_TAB_SCREEN_NAMES_NO_CUSTOMERTYPE_IL = {
           SCREEN_NAME_APPLICANT_KYC,
-          SCREEN_NAME_APPLICANT_PAN_DETAILS,
+         /* SCREEN_NAME_APPLICANT_PAN_DETAILS,*/
           SCREEN_NAME_PERSONAL_DETAIL,
           SCREEN_NAME_SOCIO_ECONOMIC_DETAIL,
           SCREEN_NAME_ADDRESS_DETAIL,
@@ -1218,7 +1218,7 @@ public class AppConstant {
     };
   public static String[] APPLICANT_TAB_SCREEN_NAMES_NO_CUSTOMERTYPE_EL = {
           SCREEN_NAME_APPLICANT_KYC,
-          SCREEN_NAME_APPLICANT_PAN_DETAILS,
+         /* SCREEN_NAME_APPLICANT_PAN_DETAILS,*/
           SCREEN_NAME_PERSONAL_DETAIL,
           SCREEN_NAME_SOCIO_ECONOMIC_DETAIL,
           SCREEN_NAME_ADDRESS_DETAIL,
@@ -1250,7 +1250,7 @@ public class AppConstant {
     };
     public static String[] APPLICANT_TAB_SCREEN_NUMBERS_NO_CUSTOMERTYPE_EL = {
             SCREEN_NO_APPLICANT_KYC_EL,
-            SCREEN_NO_APPLICANT_PAN_DETAILS_EL,
+           /* SCREEN_NO_APPLICANT_PAN_DETAILS_EL,*/
             SCREEN_NO_PERSONAL_DETAIL_EL,
             SCREEN_NO_SOCIO_ECONOMIC_DETAIL_EL,
             SCREEN_NO_ADDRESS_DETAIL_EL,
@@ -1283,7 +1283,7 @@ public class AppConstant {
     };
     public static int[] APPLICANT_TAB_ICONS_NO_CUSTOMERTYPE_EL = {
             R.drawable.ic_fingerprint_24dp,
-            R.drawable.ic_person_white_24dp,
+            /*R.drawable.ic_person_white_24dp,*/
             R.drawable.ic_domain_black_24dp,
             R.drawable.ic_home_black_24dp,
             R.drawable.ic_person_pin_black_24dp,
