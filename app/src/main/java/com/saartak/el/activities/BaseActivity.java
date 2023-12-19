@@ -258,7 +258,11 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
                  } else if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(AppConstant.MODULE_TYPE_CO_APPLICANT)) {
                      // TODO: CO APPLICANT PHL
                      setScreens(CO_APPLICANT_TAB_SCREEN_NAMES_EL, CO_APPLICANT_TAB_SCREEN_NUMBERS_EL, CO_APPLICANT_TAB_ICONS_NAMES_EL, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
-                 }/* else if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(AppConstant.MODULE_TYPE_BUSINESS)) {
+                 }else if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(MODULE_TYPE_GUARANTOR)) {
+                     // TODO: CO APPLICANT PHL
+                     setScreens(GUARANTOR_TAB_SCREEN_NAMES_EL, GUARANTOR_TAB_SCREEN_NUMBER_EL, GUARANTOR_TAB_ICONS_NAMES_EL, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
+                 }
+                 /* else if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(AppConstant.MODULE_TYPE_BUSINESS)) {
                     // TODO: BUSINESS PHL
                     setScreens(BUSINESS_TAB_SCREEN_NAMES_AHL, BUSINESS_TAB_SCREEN_NUMBERS_PHL, BUSINESS_TAB_ICONS_AHL, PROJECT_ID_LOS, PRODUCT_ID_EL, loanType, moduleType);
                 }  else if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(MODULE_TYPE_SALARY)) {
@@ -479,7 +483,7 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
                         viewModel.getRawTableLiveData().removeObserver(this);
                         if (applicantRawDataList != null && applicantRawDataList.size() > 0) {
                             RawDataTable rawDataTable_one = applicantRawDataList.get(0);
-                            if(rawDataTable_one!=null) {
+                            if(rawDataTable_one != null) {
                                 HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable_one);
                                 if (hashMap!=null && hashMap.containsKey(TAG_NAME_FULL_NAME)) {
                                     String fullname = hashMap.get(TAG_NAME_FULL_NAME).toString();

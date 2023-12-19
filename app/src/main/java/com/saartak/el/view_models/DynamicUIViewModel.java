@@ -2688,7 +2688,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
                                                 String loanType,String moduleType, Context context,
                                                 ClientDetailsAdapter.ClientDetailsInterface clientDetailsInterface){
         try{
-            clientDetailsAdapterList=dynamicUIRepository.getRawDataForCoApplicantSection(screenNameList,screenNoList,clientId,loanType,moduleType,context,
+            clientDetailsAdapterList = dynamicUIRepository.getRawDataForCoApplicantSection(screenNameList,screenNoList,clientId,loanType,moduleType,context,
                     clientDetailsInterface);
         }catch (Exception ex){
             ex.printStackTrace();

@@ -10372,7 +10372,6 @@ public class LOSBaseFragment extends BaseFragment {
                         ArrayList<GetAddressAddressProofTable> getGetAddressAddressProofTable = (ArrayList<GetAddressAddressProofTable>) o;
                         viewModel.getAddressAddressProofTableListLiveData().removeObserver(this);
 
-
                         if (getGetAddressAddressProofTable != null && getGetAddressAddressProofTable.size() > 0) {
                             ArrayList<String> addressProof = new ArrayList<String>();
                             for (GetAddressAddressProofTable getAddressAddressProofTable : getGetAddressAddressProofTable) {
@@ -10657,7 +10656,7 @@ public class LOSBaseFragment extends BaseFragment {
                                                             for (RawDataTable rawDataTable : tagNameList) {
                                                                 if (SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC) ||
                                                                         SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC) ||
-                                                                        /*SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS) ||*/
+                                                                        SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS) ||
                                                                         SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_BUSINESS_PROOF)) {
                                                                     DynamicUITable newDynamicUITable = createNewRow(dynamicUITable,
                                                                             rawDataTable, rawDataTable.getAdditional(), hashMap);
@@ -11095,14 +11094,26 @@ public class LOSBaseFragment extends BaseFragment {
                                 DynamicUITable dynamicUITable = getObjectByTAG(TAG_NAME_LOAN_APPLICATION_DATE, list);
                                 String currentDate = appHelper.getCurrentDate(DATE_FORMAT_DD_MM_YYYY2);
                                 dynamicUITable.setValue(currentDate);
-                            } else if (!TextUtils.isEmpty(LOAN_TYPE) && (LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_MSME) || LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_TWL) || LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_AHL) || LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_EL) || LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_PHL))
+                            } else if (!TextUtils.isEmpty(LOAN_TYPE) && (LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_MSME) ||
+                                    LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_TWL) ||
+                                    LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_AHL) ||
+                                    LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_EL) ||
+                                    LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_PHL))
                                     && SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_LEAD)) {
                                 getRawDataFromOtherScreenAndUpdate(list, SCREEN_NAME);
-                            } else if (!TextUtils.isEmpty(LOAN_TYPE) && (LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_MSME) || LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_TWL) || LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_AHL) || LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_EL) || LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_PHL))
+                            } else if (!TextUtils.isEmpty(LOAN_TYPE) && (LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_MSME) ||
+                                    LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_TWL) ||
+                                    LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_AHL) ||
+                                    LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_EL) ||
+                                    LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_PHL))
                                     && SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC)) {
                                 Log.e(TAG, "APPLICANT EKYC: " + LOAN_TYPE);
                                 getRawDataFromOtherScreenAndUpdate(list, SCREEN_NAME);
-                            } else if (!TextUtils.isEmpty(LOAN_TYPE) && (LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_MSME) || LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_TWL) || LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_AHL) || LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_EL) || LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_PHL))
+                            } else if (!TextUtils.isEmpty(LOAN_TYPE) && (LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_MSME) ||
+                                    LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_TWL) ||
+                                    LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_AHL) ||
+                                    LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_EL) ||
+                                    LOAN_TYPE.equalsIgnoreCase(LOAN_NAME_PHL))
                                     && SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_SALES_TOOL)) {
                                 getRawDataFromOtherScreenAndUpdate(list, SCREEN_NAME);
                             } else {

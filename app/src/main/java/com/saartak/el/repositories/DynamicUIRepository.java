@@ -5972,7 +5972,7 @@ public class DynamicUIRepository {
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_ADDRESS_DETAIL)
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL)
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_NOMINEE_DETAIL)
-                        /*||screenName.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)*/) {
+                        ||screenName.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) {
                     // TODO: Need to check the raw data table and add it into list
                     List<RawDataTable> rawDataTableList = dynamicUIDao.loadRawDataFromClientId(screenNumber, CLIENT_ID);
                     if (rawDataTableList != null) {
@@ -12369,8 +12369,7 @@ public class DynamicUIRepository {
                                                 if (objects != null && objects.length > 0) {
                                                     if (clientIdList.size() == objects.length) {
                                                         for (int i = 0; i < clientIdList.size(); i++) {
-                                                            List<WorkflowResponseDTO> workflowResponseDTOList =
-                                                                    (List<WorkflowResponseDTO>) objects[i];
+                                                            List<WorkflowResponseDTO> workflowResponseDTOList = (List<WorkflowResponseDTO>) objects[i];
                                                             if (workflowResponseDTOList != null &&
                                                                     workflowResponseDTOList.size() > 0) {
 
@@ -12380,12 +12379,8 @@ public class DynamicUIRepository {
 
                                                                     // TODO: HARDCODED CURRENT STAGE ID ( Needs to check )
                                                                     dynamicUIDao.updateMasterTableStatusByClientId(FINAL_STATUS_SUBMITTED,
-                                                                            workflowResponseDTO.getStageName(),
-                                                                            0,
-                                                                            clientIdList.get(i), userId,
-                                                                            true,
-                                                                            true,
-                                                                            workflowResponseDTO.getComment());
+                                                                            workflowResponseDTO.getStageName(), 0, clientIdList.get(i), userId, true,
+                                                                            true, workflowResponseDTO.getComment());
                                                                 }
                                                             }
                                                         }
@@ -12397,7 +12392,6 @@ public class DynamicUIRepository {
 
                                                 insertLog("getWorkflowHistory", ex.getMessage(), "", "", TAG, "", "", "");
                                             }
-
                                             return dynamicUIDao.getMasterTableByUserIdAndLoanTypeByTop300(userId, loanType);
                                         }
                                     }).subscribe(new Consumer<List<MasterTable>>() {
@@ -12436,8 +12430,6 @@ public class DynamicUIRepository {
 
                 insertLog("getWorkflowHistory", ex.getMessage(), "", "", TAG, "", "", "");
             }
-
-
         });
         return data;
     }
@@ -20761,7 +20753,7 @@ public class DynamicUIRepository {
                         dynamicUITableNew.setVisibility(true);
                         dynamicUITableNew.setEditable(true);
                         dynamicUITableNew.setFieldType(FIELD_TYPE_LIST_BOX);
-                        // TODO: condition to remove added kyc type tvName spinner list(Get the new spinner list)
+                        // TODO: condition to remove added kyc type tvName spinner list(Get the spinner list)
                         String[] newSpinnerItems = {};
                         List<String> spinnerList = new ArrayList<>();
                         spinnerList.addAll(Arrays.asList(dynamicUITableNew.getParamlist()));
@@ -28907,7 +28899,7 @@ public class DynamicUIRepository {
     private void documentUploadNew(RawDataTable rawDataTable, DynamicUITable dynamicUITable) {
         try {
             // TODO: ********* validation for document upload *************
-            int applicantAgeValue=0;
+            int applicantAgeValue = 0;
             String outSideIndia = "", earningCapacityOfStudent = "";
             RawDataTable leadRawData = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_LEAD, rawDataTable.getClient_id(), rawDataTable.getLoan_type());
             if (leadRawData != null) {
