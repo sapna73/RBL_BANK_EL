@@ -28899,7 +28899,7 @@ public class DynamicUIRepository {
     private void documentUploadNew(RawDataTable rawDataTable, DynamicUITable dynamicUITable) {
         try {
             // TODO: ********* validation for document upload *************
-            int applicantAgeValue=0;
+            int applicantAgeValue = 0;
             String outSideIndia = "", earningCapacityOfStudent = "";
             RawDataTable leadRawData = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_LEAD, rawDataTable.getClient_id(), rawDataTable.getLoan_type());
             if (leadRawData != null) {
