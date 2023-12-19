@@ -2042,6 +2042,13 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
             ex.printStackTrace();
         }
     }
+    public void guarantorScreenValidation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
+        try{
+            dynamicUITableLiveData = dynamicUIRepository.guarantorScreenValidation(dynamicUITable, dynamicUITableList);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
     public void updateVillageAndCenter(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList, CenterCreationTable centerCreationTable){
         try{
             dynamicUITableLiveData = dynamicUIRepository.updateVillageAndCenter(dynamicUITable,dynamicUITableList, centerCreationTable);

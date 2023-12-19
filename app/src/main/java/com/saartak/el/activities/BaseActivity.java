@@ -297,41 +297,6 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
                     // TODO: GENERATE CIBIL MODULE
                     setScreens(GENERATE_CIBIL_MODULE_SCREEN_NAMES_EL, GENERATE_CIBIL_MODULE_SCREEN_NUMBERS_EL, GENERATE_CIBIL_MODULE_ICONS_EL, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
                 }
-            }
-            else if(!TextUtils.isEmpty(loanType)){
-                 if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(MODULE_TYPE_LEAD)) {
-                    // TODO: LEAD PHL
-                    setScreens(LEAD_TAB_SCREEN_NAMES_AHL, LEAD_TAB_SCREEN_NUMBERS_PHL, LEAD_TAB_ICONS_AHL, PROJECT_ID_EL, productId, loanType, moduleType);
-                 }
-                 if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(MODULE_TYPE_COLLECTION)) {
-                     // TODO: COLLECTION PHL
-                     setScreens(COLLECTION_TAB_SCREEN_NAMES_AHL, COLLECTION_TAB_SCREEN_NUMBERS_PHL, COLLECTION_TAB_ICONS_AHL, PROJECT_ID_EL, productId, loanType, moduleType);
-                 } else if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(AppConstant.MODULE_TYPE_APPLICANT)) {
-                     setRawDataBusinessOrSalary();
-                 } else if (!TextUtils.isEmpty(moduleType) && moduleType.contains(AppConstant.MODULE_TYPE_CO_APPLICANT)) {
-                     // TODO: CO APPLICANT PHL ( contains )
-                     setScreens(CO_APPLICANT_TAB_SCREEN_NAMES_EL, CO_APPLICANT_TAB_SCREEN_NUMBERS_EL, CO_APPLICANT_TAB_ICONS_NAMES_EL, PROJECT_ID_EL, productId, loanType, moduleType);
-                 } else if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(AppConstant.MODULE_TYPE_CO_APPLICANT)) {
-                     // TODO: CO APPLICANT PHL
-                     setScreens(CO_APPLICANT_TAB_SCREEN_NAMES_EL, CO_APPLICANT_TAB_SCREEN_NUMBERS_EL, CO_APPLICANT_TAB_ICONS_NAMES_EL, PROJECT_ID_EL, productId, loanType, moduleType);
-                 } else if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(AppConstant.MODULE_TYPE_LOAN_PROPOSAL_WITH_NOMINEE)) {
-                    // TODO: LOAN PROPOSAL WITH NOMINEE MODULE PHL
-                    setScreens(LOAN_PROPOSAL_WITH_NOMINEE_MODULE_SCREEN_NAMES_PHL, LOAN_PROPOSAL_WITH_NOMINEE_MODULE_SCREEN_NUMBERS_PHL,
-                            LOAN_PROPOSAL_WITH_NOMINEE_MODULE_ICONS_EL, PROJECT_ID_EL, productId, loanType, moduleType);
-                } else if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(AppConstant.MODULE_TYPE_LOAN_PROPOSAL)) {
-                    // TODO: LOAN PROPOSAL MODULE PHL
-                    setScreens(LOAN_PROPOSAL_MODULE_SCREEN_NAMES_EL, LOAN_PROPOSAL_MODULE_SCREEN_NUMBERS_PHL, LOAN_PROPOSAL_MODULE_ICONS_AHL, PROJECT_ID_EL, productId, loanType, moduleType);
-                } else if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(AppConstant.MODULE_TYPE_DOCUMENTS)) {
-                    // TODO: DOCUMENT MODULE PHL
-                    setScreens(DOCUMENTS_MODULE_SCREEN_NAMES_EL, DOCUMENTS_MODULE_SCREEN_NUMBERS_PHL, DOCUMENTS_MODULE_ICONS_AHL, PROJECT_ID_EL, productId, loanType, moduleType);
-                } else if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(AppConstant.MODULE_OTP_VERIFICATION)) {
-                    // TODO: OTP VERIFICATION MODULE
-                    setScreens(OTP_VERIFICATION_MODULE_SCREEN_NAMES, OTP_VERIFICATION_MODULE_SCREEN_NUMBERS, OTP_VERIFICATION_MODULE_ICONS, PROJECT_ID_EL, productId, loanType, moduleType);
-                }else if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(MODULE_TYPE_GENERATE_CIBIL)) {
-                    // TODO: GENERATE CIBIL MODULE
-                    setScreens(GENERATE_CIBIL_MODULE_SCREEN_NAMES_EL, GENERATE_CIBIL_MODULE_SCREEN_NUMBERS_EL, GENERATE_CIBIL_MODULE_ICONS_EL, PROJECT_ID_EL, productId, loanType, moduleType);
-                }
-            } else if (!TextUtils.isEmpty(loanType)) {
 
              }
         }
@@ -819,6 +784,11 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
                                 adapter.getRegisteredFragment(i).dynamicUI(dynamicUITableList);
 //                                adapter.getRegisteredFragment(i).getTagNameList(dynamicUITableList.get(0).getScreenName(), dynamicUITableList, TAG_NAME_ADD_ANOTHER_KYC_PLUS_BUTTON);
                             }
+                            else if (dynamicUITableList.get(0).getScreenName().equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)
+                            ) {
+                                adapter.getRegisteredFragment(i).dynamicUI(dynamicUITableList);
+//                                adapter.getRegisteredFragment(i).getTagNameList(dynamicUITableList.get(0).getScreenName(), dynamicUITableList, TAG_NAME_ADD_ANOTHER_REFERENCE);
+                            }
                             else if (dynamicUITableList.get(0).getScreenName().equalsIgnoreCase(SCREEN_NAME_REFERENCE_CHECK)
                             ) {
                                 adapter.getRegisteredFragment(i).dynamicUI(dynamicUITableList);
@@ -865,6 +835,7 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
                                 DynamicUITable dynamicUITable = dynamicUITableList.get(dynamicUITableList.size() - 1);
                                 adapter.getRegisteredFragment(i).saveParentScreenRawData(rawDataTable, dynamicUITableList,
                                         dynamicUITable, dynamicUITable.getFieldTag()); // TODO: To save parent screen raw data
+                                Log.e(TAG, "getRawDataForChildFragment: 22221");
 
                             }
                         }

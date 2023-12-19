@@ -75,11 +75,8 @@ import com.saartak.el.fragments.balancesheet.msme.HouseAssetsMsmeFragment;
 import com.saartak.el.fragments.balancesheet.msme.HouseLiabilitiesMsmeFragment;
 import com.saartak.el.fragments.decisions.msme.CashFlowSummaryMSMEFragment;
 import com.saartak.el.fragments.decisions.msme.LoanApprovalMSMEFragment;
-import com.saartak.el.fragments.decisions.msme.MortgageMSMEFragment;
 import com.saartak.el.fragments.decisions.ObservationsFragment;
-import com.saartak.el.fragments.decisions.msme.HypothecationMsmeFragment;
 import com.saartak.el.fragments.decisions.msme.LoanInformationMsmeFragment;
-import com.saartak.el.fragments.decisions.msme.SubjectToConditionsMsmeFragment;
 import com.saartak.el.fragments.incomeassessment.BusinessIncomeFragment;
 import com.saartak.el.fragments.incomeassessment.DeclaredSalesWeeklyFragment;
 import com.saartak.el.fragments.incomeassessment.DeclaredSalesYearlyFragment;
@@ -118,8 +115,6 @@ import com.saartak.el.fragments.loanproposal.LoanProposalFragment;
 import com.saartak.el.fragments.loanproposal.LoanProposalSummaryFragment;
 import com.saartak.el.fragments.loanproposal.SurPlusFragment;
 import com.saartak.el.fragments.references.ReferencesFragment;
-import com.saartak.el.fragments.villagesurvey.CenterCreationFragment;
-import com.saartak.el.fragments.villagesurvey.VillageSurveyFragment;
 import com.saartak.el.models.ScreenDetailsDTO;
 
 import java.security.MessageDigest;
@@ -644,7 +639,7 @@ public class AppConstant {
 
     public static final String SCREEN_NO_BANK_DETAILS_IL = "32";
     public static final String SCREEN_NO_CO_APPLICANT_BANK_DETAILS_IL = "130"; // TODO: Newly Added for co applicant
-    public static final String SCREEN_NO_CO_APPLICANT_GUARANTOR_EL = "1383";
+    public static final String SCREEN_NO_GUARANTOR_EL = "1383";
 
     public static final String SCREEN_NO_ADDRESS_DETAIL_IL = "33";
     public static final String SCREEN_NO_PERSONAL_DETAIL_IL = "34";
@@ -1386,7 +1381,7 @@ public class AppConstant {
     };
 
   public static String[] GUARANTOR_TAB_SCREEN_NUMBER_EL = {
-          SCREEN_NO_CO_APPLICANT_GUARANTOR_EL
+          SCREEN_NO_GUARANTOR_EL
   };
 
     public static String[] CO_APPLICANT_TAB_SCREEN_NUMBERS_EL = {
@@ -2061,13 +2056,7 @@ public class AppConstant {
                 screenDetailsDTO.setScreenName(SCREEN_NAME_CO_APPLICANT_REGULATORY_FIELDS);
                 screenDetailsDTO.setProductId(PRODUCT_ID_IL);
                 screenDetailsDTO.setModuleType(MODULE_TYPE_CO_APPLICANT);
-            } else if(screenId.equalsIgnoreCase(SCREEN_NO_CO_APPLICANT_GUARANTOR_EL)) {
-              screenDetailsDTO.setScreenId(screenId);
-              screenDetailsDTO.setScreenName(SCREEN_NAME_GUARANTOR_DETAILS);
-              screenDetailsDTO.setProductId(PRODUCT_ID_EL);
-              screenDetailsDTO.setModuleType(MODULE_TYPE_CO_APPLICANT);
-              screenDetailsDTO.setModuleType("CoApplicant 1");
-            }else if(screenId.equalsIgnoreCase(SCREEN_NO_DNCR_APPLICANT)){
+            } else if(screenId.equalsIgnoreCase(SCREEN_NO_DNCR_APPLICANT)){
               screenDetailsDTO.setScreenId(screenId);
               screenDetailsDTO.setScreenName(SCREEN_NAME_DNCR_APPLICANT);
               screenDetailsDTO.setProductId(PRODUCT_ID_IL);
@@ -2075,7 +2064,7 @@ public class AppConstant {
             }
 
             //TODO: GUARANTOR DETAILS FOR EL
-            else if(screenId.equalsIgnoreCase(SCREEN_NO_CO_APPLICANT_GUARANTOR_EL)) {
+            else if(screenId.equalsIgnoreCase(SCREEN_NO_GUARANTOR_EL)) {
               screenDetailsDTO.setScreenId(screenId);
               screenDetailsDTO.setScreenName(SCREEN_NAME_GUARANTOR_DETAILS);
               screenDetailsDTO.setProductId(PRODUCT_ID_EL);

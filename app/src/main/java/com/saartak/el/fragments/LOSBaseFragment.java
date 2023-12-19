@@ -116,8 +116,6 @@ import com.saartak.el.models.IBBMasters.GetModelResponseDTO;
 import com.saartak.el.models.IBPModel.IBPResponse;
 import com.saartak.el.models.KarzaModel.KarzaResponseDTO;
 import com.saartak.el.models.LeadDropDownDetails.GetLeadDropDownBankDetailsTable;
-import com.saartak.el.models.LeadDropDownDetails.GetLeadDropDownProductNameTable;
-import com.saartak.el.models.LeadDropDownDetails.GetLeadDropDownProductTypeTable;
 import com.saartak.el.models.NegitiveProfileList.NegitiveProfileListResponseTable;
 import com.saartak.el.models.PINCodeValidationLP.PinCodeResponseTable;
 import com.saartak.el.models.ParameterInfo;
@@ -2822,7 +2820,7 @@ public class LOSBaseFragment extends BaseFragment {
                                                 "Please check your internet connection and try again");
                                     }
                                 }
-                                /*else if (SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) {
+                                else if (SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) {
                                     if (appHelper.isNetworkAvailable()) {
                                         String selectedItem = getValuesBasedOnTAGinLoop(TAG_NAME_GUARANTOR_KYC_DETAILS, viewParametersList);
                                         final RawDataTable rawDataTable = new RawDataTable(submittedValues, SCREEN_ID, SCREEN_NAME,
@@ -2837,7 +2835,7 @@ public class LOSBaseFragment extends BaseFragment {
                                                 "Please check your internet connection and try again");
                                     }
 
-                                } */else if (SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_REFERENCE_CHECK)) {
+                                } else if (SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_REFERENCE_CHECK)) {
                                     if (appHelper.isNetworkAvailable()) {
                                         String referenceName = getValuesBasedOnTAGinLoop(TAG_NAME_FULL_NAME, viewParametersList);
                                         if (!TextUtils.isEmpty(referenceName)) {
@@ -5667,6 +5665,7 @@ public class LOSBaseFragment extends BaseFragment {
                 viewModel.getRawTableLiveData().observe(this, rawDataObserver);
             } else if (!TextUtils.isEmpty(dynamicUITable.getFieldName()) &&
                     dynamicUITable.getFieldName().equalsIgnoreCase(FIELD_NAME_UPDATE)) {
+                Log.e(TAG, "getRawDataForChildFragment: 777");
                 // TODO: Button UPDATE click
                 if (!TextUtils.isEmpty(SCREEN_ID) && SCREEN_ID.equalsIgnoreCase(SCREEN_N0_ADD_PRODUCT_ESTIMATE)) {
 
@@ -5776,6 +5775,7 @@ public class LOSBaseFragment extends BaseFragment {
                 public void onChanged(@Nullable Object o) {
                     viewModel.getRawTableLiveData().removeObserver(this);
                     getRawDataForParentFragment(rawDataTable.getScreen_name(), viewParametersList);
+                    Log.e(TAG, "getRawDataForChildFragment: 11114");
                 }
             };
             viewModel.getRawTableLiveData().observe(this, insertOrUpdateParentRawDataObserver);
@@ -5896,6 +5896,7 @@ public class LOSBaseFragment extends BaseFragment {
                                         || updatedRawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC)
                                         || updatedRawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_REFERENCE_CHECK)
                                         || updatedRawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_REFERENCES)
+                                        || updatedRawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)
                                         || updatedRawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_GENERAL_INCOME)
                                         || updatedRawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_OTHER_INCOME_SOURCE)
                                 ) {
@@ -7174,8 +7175,7 @@ public class LOSBaseFragment extends BaseFragment {
                             // TODO: ONLY FOR AADHAAR WE NEED TO GET VALUE FROM OPTIONAL COLUMN ( IT CONTAINS AADHAAR VAULT REF KEY )
 
                             if (params.getScreenName().equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC)
-                                    || params.getScreenName().equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC)
-                                    /*|| params.getScreenName().equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)*/) {
+                                    || params.getScreenName().equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC)) {
                                 if (!TextUtils.isEmpty(params.getOptional())) {
 
                                     // TODO: this is for to get aadhaar vault id tvName optional field
@@ -8256,7 +8256,7 @@ public class LOSBaseFragment extends BaseFragment {
                             applicantKYCScreenValidation(dynamicUITableListd.get(0), dynamicUITableListd);
                         }
                         if (screenName.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) { // TODO: GUARANTOR KYC SCREEN
-                            applicantKYCScreenValidation(dynamicUITableListd.get(0), dynamicUITableListd);
+                            guarantorScreenValidation(dynamicUITableListd.get(0), dynamicUITableListd);
                         }
                         if (screenName.equalsIgnoreCase(SCREEN_NAME_REFERENCE_CHECK)) { // TODO: REFERENCE CHECK SCREEN
                             referenceCheckScreenValidation(dynamicUITableListd.get(0), dynamicUITableListd);
@@ -8775,6 +8775,8 @@ public class LOSBaseFragment extends BaseFragment {
                                 // TODO: To save parent screen raw data
                                 saveParentScreenRawData(rawDataTable, dynamicUITableListParentScreen,
                                         dynamicUITable, dynamicUITable.getFieldTag());
+                                Log.e(TAG, "getRawDataForChildFragment: 222213");
+
                             }
                         }
                     }
@@ -9041,6 +9043,7 @@ public class LOSBaseFragment extends BaseFragment {
                                 // TODO: To save parent screen raw data
                                 saveParentScreenRawData(rawDataTable, dynamicUITableListParentScreen,
                                         dynamicUITable, dynamicUITable.getFieldTag());
+                                Log.e(TAG, "getRawDataForChildFragment: 222214");
                             }
 
                         }
@@ -9092,6 +9095,7 @@ public class LOSBaseFragment extends BaseFragment {
                                 // TODO: To save parent screen raw data
                                 saveParentScreenRawData(rawDataTable, dynamicUITableListParentScreen,
                                         dynamicUITable, dynamicUITable.getFieldTag());
+                                Log.e(TAG, "getRawDataForChildFragment: 222215");
                             }
 
                         }
@@ -9209,6 +9213,7 @@ public class LOSBaseFragment extends BaseFragment {
                                 // TODO: To save parent screen raw data
                                 saveParentScreenRawData(rawDataTable, dynamicUITableListParentScreen,
                                         dynamicUITable, dynamicUITable.getFieldTag());
+                                Log.e(TAG, "getRawDataForChildFragment: 222216");
                             }
 
                         }
@@ -9259,6 +9264,7 @@ public class LOSBaseFragment extends BaseFragment {
                                 // TODO: To save parent screen raw data
                                 saveParentScreenRawData(rawDataTable, dynamicUITableListParentScreen,
                                         dynamicUITable, dynamicUITable.getFieldTag());
+                                Log.e(TAG, "getRawDataForChildFragment: 222217");
                             }
 
                         }
@@ -9310,6 +9316,7 @@ public class LOSBaseFragment extends BaseFragment {
                                 // TODO: To save parent screen raw data
                                 saveParentScreenRawData(rawDataTable, dynamicUITableListParentScreen,
                                         dynamicUITable, dynamicUITable.getFieldTag());
+                                Log.e(TAG, "getRawDataForChildFragment: 222218");
                             }
 
                         }
@@ -9351,6 +9358,7 @@ public class LOSBaseFragment extends BaseFragment {
                         // TODO: To save parent screen raw data
                         saveParentScreenRawData(rawDataTable, dynamicUITableListParentScreen,
                                 dynamicUITable, dynamicUITable.getFieldTag());
+                        Log.e(TAG, "getRawDataForChildFragment: 222219");
                     }
                 };
                 viewModel.getDynamicUITableLiveData().observe(this, IncomeAssessmentSummaryCalculationObserver);
@@ -9399,6 +9407,7 @@ public class LOSBaseFragment extends BaseFragment {
                                 // TODO: To save parent screen raw data
                                 saveParentScreenRawData(rawDataTable, dynamicUITableListParentScreen,
                                         dynamicUITable, dynamicUITable.getFieldTag());
+                                Log.e(TAG, "getRawDataForChildFragment: 22221000");
                             }
 
                         }
@@ -9450,6 +9459,7 @@ public class LOSBaseFragment extends BaseFragment {
                                 // TODO: To save parent screen raw data
                                 saveParentScreenRawData(rawDataTable, dynamicUITableListParentScreen,
                                         dynamicUITable, dynamicUITable.getFieldTag());
+                                Log.e(TAG, "getRawDataForChildFragment: 22221011");
                             }
 
                         }
@@ -9494,6 +9504,7 @@ public class LOSBaseFragment extends BaseFragment {
                             // TODO: To save parent screen raw data
                             saveParentScreenRawData(rawDataTable, dynamicUITableListParentScreen,
                                     dynamicUITable, dynamicUITable.getFieldTag());
+                            Log.e(TAG, "getRawDataForChildFragment: 22221012");
                         }
 
 
@@ -9537,6 +9548,7 @@ public class LOSBaseFragment extends BaseFragment {
                             // TODO: To save parent screen raw data
                             saveParentScreenRawData(rawDataTable, dynamicUITableListParentScreen,
                                     dynamicUITable, dynamicUITable.getFieldTag());
+                            Log.e(TAG, "getRawDataForChildFragment: 22221013");
                         }
                     }
                 };
@@ -9584,6 +9596,7 @@ public class LOSBaseFragment extends BaseFragment {
                                 // TODO: To save parent screen raw data
                                 saveParentScreenRawData(rawDataTable, dynamicUITableListParentScreen,
                                         dynamicUITable, dynamicUITable.getFieldTag());
+                                Log.e(TAG, "getRawDataForChildFragment: 22221014");
                             }
 
                         }
@@ -9634,6 +9647,7 @@ public class LOSBaseFragment extends BaseFragment {
                                 // TODO: To save parent screen raw data
                                 saveParentScreenRawData(rawDataTable, dynamicUITableListParentScreen,
                                         dynamicUITable, dynamicUITable.getFieldTag());
+                                Log.e(TAG, "getRawDataForChildFragment: 22221015");
                             }
 
                         }
@@ -9684,6 +9698,7 @@ public class LOSBaseFragment extends BaseFragment {
                                 // TODO: To save parent screen raw data
                                 saveParentScreenRawData(rawDataTable, dynamicUITableListParentScreen,
                                         dynamicUITable, dynamicUITable.getFieldTag());
+                                Log.e(TAG, "getRawDataForChildFragment: 22221016");
                             }
 
                         }
@@ -9734,6 +9749,7 @@ public class LOSBaseFragment extends BaseFragment {
                                 // TODO: To save parent screen raw data
                                 saveParentScreenRawData(rawDataTable, dynamicUITableListParentScreen,
                                         dynamicUITable, dynamicUITable.getFieldTag());
+                                Log.e(TAG, "getRawDataForChildFragment: 22221017");
                             }
 
                         }
@@ -9784,6 +9800,7 @@ public class LOSBaseFragment extends BaseFragment {
                                 // TODO: To save parent screen raw data
                                 saveParentScreenRawData(rawDataTable, dynamicUITableListParentScreen,
                                         dynamicUITable, dynamicUITable.getFieldTag());
+                                Log.e(TAG, "getRawDataForChildFragment: 22221018");
                             }
 
                         }
@@ -9834,6 +9851,7 @@ public class LOSBaseFragment extends BaseFragment {
                                 // TODO: To save parent screen raw data
                                 saveParentScreenRawData(rawDataTable, dynamicUITableListParentScreen,
                                         dynamicUITable, dynamicUITable.getFieldTag());
+                                Log.e(TAG, "getRawDataForChildFragment: 22221019");
                             }
 
                         }
@@ -9884,6 +9902,7 @@ public class LOSBaseFragment extends BaseFragment {
                                 // TODO: To save parent screen raw data
                                 saveParentScreenRawData(rawDataTable, dynamicUITableListParentScreen,
                                         dynamicUITable, dynamicUITable.getFieldTag());
+                                Log.e(TAG, "getRawDataForChildFragment: 22221012020");
                             }
 
                         }
@@ -9934,6 +9953,7 @@ public class LOSBaseFragment extends BaseFragment {
                                 // TODO: To save parent screen raw data
                                 saveParentScreenRawData(rawDataTable, dynamicUITableListParentScreen,
                                         dynamicUITable, dynamicUITable.getFieldTag());
+                                Log.e(TAG, "getRawDataForChildFragment: 2222102121");
                             }
 
                         }
@@ -9984,6 +10004,7 @@ public class LOSBaseFragment extends BaseFragment {
                                 // TODO: To save parent screen raw data
                                 saveParentScreenRawData(rawDataTable, dynamicUITableListParentScreen,
                                         dynamicUITable, dynamicUITable.getFieldTag());
+                                Log.e(TAG, "getRawDataForChildFragment: 2222102122");
                             }
 
                         }
@@ -10345,9 +10366,9 @@ public class LOSBaseFragment extends BaseFragment {
                                 idProofList[i] = idProof.get(i);
                             }
                             if (moduleType.equalsIgnoreCase(MODULE_TYPE_APPLICANT)) {
-                                addOrRemoveSpinnerItem(TAG_NAME_KYC_TYPE, idProofList, "", true, SCREEN_NO_CO_APPLICANT_GUARANTOR_EL, dynamicUITableList);
+                                addOrRemoveSpinnerItem(TAG_NAME_KYC_TYPE, idProofList, "", true, SCREEN_NO_GUARANTOR_EL, dynamicUITableList);
                             } else {
-                                addOrRemoveSpinnerItem(TAG_NAME_KYC_TYPE, idProofList, "", true, SCREEN_NO_CO_APPLICANT_GUARANTOR_EL, dynamicUITableList);
+                                addOrRemoveSpinnerItem(TAG_NAME_KYC_TYPE, idProofList, "", true, SCREEN_NO_GUARANTOR_EL, dynamicUITableList);
                             }
                         }
                     }
@@ -10680,6 +10701,7 @@ public class LOSBaseFragment extends BaseFragment {
                                                 if (dynamicUITable.getFieldName().equalsIgnoreCase(FIELD_NAME_SAVE)) {
                                                     dynamicUITable.setVisibility(true);
                                                     dynamicUITable.setFieldName(FIELD_NAME_UPDATE);
+                                                    Log.e(TAG, "getRawDataForChildFragment: 8888");
                                                     newList.add(dynamicUITable);
                                                 } else if (dynamicUITable.getFieldType().equalsIgnoreCase(FIELD_TYPE_ADD_BUTTON)) {
                                                     dynamicUITable.setVisibility(true);
@@ -10765,6 +10787,7 @@ public class LOSBaseFragment extends BaseFragment {
                                                 || dynamicUITable.getFieldTag() != null && dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_PROOF_TYPE)) {
                                             dynamicUITable.setVisibility(false);
                                         } else if (dynamicUITable.getFieldTag() != null && dynamicUITable.getFieldName().equalsIgnoreCase(FIELD_NAME_UPDATE)) {
+                                            Log.e(TAG, "getRawDataForChildFragment: 9999");
                                             dynamicUITable.setFieldName(FIELD_NAME_ADD_ANOTHER_BUSINESS_PROOF);
                                         }
                                     }
@@ -10789,6 +10812,7 @@ public class LOSBaseFragment extends BaseFragment {
                                             dynamicUITable.setVisibility(true);
                                         }
                                         if (dynamicUITable.getFieldTag() != null && dynamicUITable.getFieldName().equalsIgnoreCase(FIELD_NAME_UPDATE)) {
+                                            Log.e(TAG, "getRawDataForChildFragment: 101010");
                                             dynamicUITable.setFieldName(FIELD_NAME_ADD_BANK_DETAILS);
                                         }
 
@@ -10808,6 +10832,7 @@ public class LOSBaseFragment extends BaseFragment {
                                             dynamicUITable.setVisibility(true);
                                         }
                                         if (dynamicUITable.getFieldTag() != null && dynamicUITable.getFieldName().equalsIgnoreCase(FIELD_NAME_UPDATE)) {
+                                            Log.e(TAG, "getRawDataForChildFragment: 21111");
                                             dynamicUITable.setFieldName(FIELD_NAME_ADD_BANK_DETAILS);
                                         }
 
@@ -10822,11 +10847,12 @@ public class LOSBaseFragment extends BaseFragment {
                                         }
                                     }
 
-                                    /*if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) {
+                                    if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) {
                                         if (!dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_SAVE_BUTTON)) {
                                             dynamicUITable.setVisibility(true);
                                         }
                                         if (dynamicUITable.getFieldTag() != null && dynamicUITable.getFieldName().equalsIgnoreCase(FIELD_NAME_UPDATE)) {
+                                            Log.e(TAG, "getRawDataForChildFragment: 111133");
                                             dynamicUITable.setFieldName(FIELD_NAME_ADD_BANK_DETAILS);
                                         }
 
@@ -10839,7 +10865,7 @@ public class LOSBaseFragment extends BaseFragment {
                                         if (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_MODULE_TYPE)) {
                                             dynamicUITable.setVisibility(false);
                                         }
-                                    }*/
+                                    }
                                     if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_GENERAL_INCOME)
                                             || dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_OTHER_INCOME_SOURCE)) {
 
@@ -11012,6 +11038,7 @@ public class LOSBaseFragment extends BaseFragment {
                                         if (dynamicUITable != null) {
                                             // TODO: change button as update other than sales tool
                                             dynamicUITable.setFieldName(FIELD_NAME_UPDATE);
+                                            Log.e(TAG, "getRawDataForChildFragment: 6666");
                                         }
                                         deleteAndInsertNewRecord(dynamicUITableListFromDB, rawDataTable.getScreen_name());
                                     }
@@ -11032,7 +11059,6 @@ public class LOSBaseFragment extends BaseFragment {
                                     || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL)
                                     || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_SOCIO_ECONOMIC_DETAIL)
                                     || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_BANK_DETAILS)
-                                    || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)
                                     || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_APPLICANT_TWO_WHEELER_DETAIL)
                                     || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_APPLICANT_USED_CAR_DETAIL)
                                     || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_APPLICANT_LOAN_PROPOSAL)) {
@@ -11583,7 +11609,17 @@ public class LOSBaseFragment extends BaseFragment {
                         if (dynamicUITableListFromDB != null && dynamicUITableListFromDB.size() > 0) {
 
                             DynamicUITable kycIdObj = getObjectByTAG(TAG_NAME_KYC_TYPE_PANCARD, dynamicUITableListFromDB);
+                            DynamicUITable guarantorKycIdObj = getObjectByTAG(TAG_NAME_GUARANTOR_BUSINESS_PAN, dynamicUITableListFromDB);
                             if (kycIdObj != null && kycIdObj.isValid()) {
+
+                                appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.SUCCESS,
+                                        SUCCESS_RESPONSE_FOR_PAN_VALIDATION, new ConfirmationDialog.ActionCallback() {
+                                            @Override
+                                            public void onAction() {
+                                                dynamicUI(dynamicUITableListFromDB);
+                                            }
+                                        });
+                            } else if (guarantorKycIdObj != null && guarantorKycIdObj.isValid()) {
 
                                 appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.SUCCESS,
                                         SUCCESS_RESPONSE_FOR_PAN_VALIDATION, new ConfirmationDialog.ActionCallback() {
@@ -11680,7 +11716,9 @@ public class LOSBaseFragment extends BaseFragment {
 
                             if (kycIdObj != null && !TextUtils.isEmpty(kycIdObj.getOptional())) {
                                 Toast.makeText(getActivity(), SUCCESS_RESPONSE_FOR_AADHAAR_VAULT, Toast.LENGTH_SHORT).show();
-
+                                List<ParameterInfo> parameterInfoList = new ArrayList<>();
+                                parameterInfoList.add(new ParameterInfo(TAG_NAME_EKYC_BUTTON, SCREEN_ID, "", true, true));
+                                EnableOrDisableByFieldNameInDB(parameterInfoList, dynamicUITableList);
 
                                 // TODO: Checking deDupe validation for Aadhaar Reference ID & only for Re Enter KYC ID
                                 if (kycIdObj.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE_RE_ENTER_AADHAAR)) {
@@ -11696,6 +11734,9 @@ public class LOSBaseFragment extends BaseFragment {
                                         FAILURE_RESPONSE_FOR_AADHAAR_VAULT, new ConfirmationDialog.ActionCallback() {
                                             @Override
                                             public void onAction() {
+                                                List<ParameterInfo> parameterInfoList = new ArrayList<>();
+                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_EKYC_BUTTON, SCREEN_ID, "", false, true));
+                                                EnableOrDisableByFieldNameInDB(parameterInfoList, dynamicUITableList);
                                                 dynamicUI(dynamicUITableListFromDB);
                                             }
                                         });
@@ -12292,6 +12333,36 @@ public class LOSBaseFragment extends BaseFragment {
         try {
 
             viewModel.applicantKYCScreenValidation(dynamicUITable, dynamicUITableList);
+            Observer observer = new Observer() {
+                @Override
+                public void onChanged(@Nullable Object o) {
+                    List<DynamicUITable> dynamicUITableListResult = (List<DynamicUITable>) o;
+                    viewModel.getDynamicUITableLiveData().removeObserver(this);
+
+
+                    if (dynamicUITableListResult != null && dynamicUITableListResult.size() > 0) {
+                        if (LOSBaseFragment.this instanceof ChildFragment) {
+                            ChildFragment childFragment = (ChildFragment) LOSBaseFragment.this;
+                            childFragment.callCloseDialogFragment();
+                            FragmentToActivityInterface fragmentToActivityInterface = (FragmentToActivityInterface) getActivity();
+                            fragmentToActivityInterface.valueFromFragment(dynamicUITableListResult.get(0).getScreenID(), SCREEN_NAME,
+                                    dynamicUITableListResult.get(0).getScreenName(), dynamicUITableListResult);
+                        } else {
+                            // TODO: Update UI
+                            dynamicUI(dynamicUITableListResult);
+                        }
+                    }
+                }
+            };
+            viewModel.getDynamicUITableLiveData().observe(getViewLifecycleOwner(), observer);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    public void guarantorScreenValidation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList) {
+        try {
+
+            viewModel.guarantorScreenValidation(dynamicUITable, dynamicUITableList);
             Observer observer = new Observer() {
                 @Override
                 public void onChanged(@Nullable Object o) {
@@ -13548,6 +13619,8 @@ public class LOSBaseFragment extends BaseFragment {
 
                                                         } else {
                                                             getRawDataForParentFragment(SCREEN_NAME, viewParametersList);
+                                                           Log.e(TAG, "getRawDataForChildFragment: 11115");
+
                                                         }
                                                     }
                                                 });
@@ -13677,6 +13750,7 @@ public class LOSBaseFragment extends BaseFragment {
 
                                                     } else {
                                                         getRawDataForParentFragment(SCREEN_NAME, viewParametersList);
+                                                        Log.e(TAG, "getRawDataForChildFragment: 11116");
                                                     }
                                                 }
                                             });

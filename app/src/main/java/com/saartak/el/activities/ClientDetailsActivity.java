@@ -355,7 +355,7 @@ public class ClientDetailsActivity extends LOSBaseActivity implements View.OnCli
                     guarantor.putExtra(PARAM_CLIENT_ID, CLIENT_ID);
                     guarantor.putExtra(PARAM_CURRENT_STAGE, currentStage);
                     guarantor.putExtra(PARAM_CURRENT_STAGE_ID, currentStageID);
-                    guarantor.putExtra(PARAM_MODULE_TYPE, MODULE_TYPE_GUARANTOR); // TODO: hardcoded as co applicant 1
+                    guarantor.putExtra(PARAM_MODULE_TYPE, MODULE_TYPE_GUARANTOR);
                     startActivity(guarantor);
                     break;
 

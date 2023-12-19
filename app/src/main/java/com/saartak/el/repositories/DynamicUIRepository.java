@@ -18630,6 +18630,7 @@ public class DynamicUIRepository {
                     // TODO: setting raw data tag name for update
                     dynamicUITableSaveButton.setValue(rawDataTable.getTag_name());
                     dynamicUITableSaveButton.setFieldName(FIELD_NAME_UPDATE);
+                    Log.e(TAG, "getRawDataForChildFragment: 2222");
                 }
             }
 
@@ -19070,6 +19071,7 @@ public class DynamicUIRepository {
                     // TODO: setting raw data tag name for update
                     dynamicUITableSaveButton.setValue(rawDataTable.getTag_name());
                     dynamicUITableSaveButton.setFieldName(FIELD_NAME_UPDATE);
+                    Log.e(TAG, "getRawDataForChildFragment: 5555");
                 }
             }
 
@@ -19380,6 +19382,7 @@ public class DynamicUIRepository {
                     // TODO: setting raw data tag name for update
                     dynamicUITableSaveButton.setValue(rawDataTable.getTag_name());
                     dynamicUITableSaveButton.setFieldName(FIELD_NAME_UPDATE);
+                    Log.e(TAG, "getRawDataForChildFragment: 3333");
                 }
             }
 
@@ -20802,6 +20805,149 @@ public class DynamicUIRepository {
                                 "", true, false);
                         dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_EKYC_BUTTON, dynamicUITable_kycType.getScreenName(),
                                 "", true, false);
+                    }
+                }
+            }
+
+            List<DynamicUITable> dynamicUITableListFinal = dynamicUIDao.loadUpdatedDataNew(dynamicUITableList.get(0).getScreenID());
+            data.postValue(dynamicUITableListFinal);
+        });
+        return data;
+    }
+
+    // TODO: GUARANTOR KYC SCREEN VALIDATION
+    public LiveData<List<DynamicUITable>> guarantorScreenValidation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList) {
+        final MutableLiveData<List<DynamicUITable>> data = new MutableLiveData<>();
+        executor.execute(() -> {
+            dynamicUIDao.updateDynamicUITable(dynamicUITableList); // TODO: update UI Table list first
+
+            // TODO: APPLICANT RAW DATA LIST
+            List<RawDataTable> rawDataTableList = dynamicUIDao.getRawDataByClientAndScreenNameModuleTye(dynamicUITable.getScreenName(),
+                    dynamicUITable.getClientID(), dynamicUITable.getModuleType());
+
+            if (rawDataTableList != null && rawDataTableList.size() > 0) {
+                for (RawDataTable rawDataTable : rawDataTableList) {
+                    String fieldName = "", value = "";
+                    if (rawDataTable != null) {
+                        HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
+                        if (hashMap != null && hashMap.size() > 0) {
+                            if (hashMap.containsKey(TAG_NAME_GUARANTOR_KYC_DETAILS)) {
+                                fieldName = hashMap.get(TAG_NAME_GUARANTOR_KYC_DETAILS).toString();
+                            }
+                            if (hashMap.containsKey(TAG_NAME_KYC_ID)) {
+                                value = hashMap.get(TAG_NAME_KYC_ID).toString();
+                            }
+
+                            if (!TextUtils.isEmpty(fieldName)) {
+//                                DynamicUITable dynamicUITableForNewRow = getObjectByTAG(rawDataTable.getTag_name(), dynamicUITableList);
+                                DynamicUITable dynamicUITableForNewRow = dynamicUIDao.getRowByTAGandScreen(rawDataTable.getTag_name(),
+                                        dynamicUITableList.get(0).getScreenID());
+                                if (dynamicUITableForNewRow == null) {
+                                    // TODO: creating new row
+                                    DynamicUITable newDynamicUITable = createNewRow(dynamicUITable, rawDataTable, fieldName, value);
+
+                                    List<DynamicUITable> dynamicUITableListLatest = dynamicUIDao.loadUpdatedDataNew(dynamicUITableList.get(0).getScreenID());
+
+                                    dynamicUITableListLatest.add(dynamicUITableListLatest.size() - 1,
+                                            newDynamicUITable);
+                                    // TODO: delete old record and insert
+                                    deleteAndInsertNewRecordInTable(dynamicUITableListLatest, dynamicUITable.getScreenName());
+                                } else {
+                                    // TODO: updating field name
+                                    dynamicUIDao.updateDynamicTableFieldNameAndVisibility(rawDataTable.getTag_name(),
+                                            dynamicUITable.getScreenName(), fieldName, true, true);
+
+                                    // TODO: updating value
+                                    dynamicUIDao.updateDynamicTableValueAndVisibility(rawDataTable.getTag_name(),
+                                            dynamicUITable.getScreenName(), value, true, true);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            List<DynamicUITable> dynamicUITableListNew = dynamicUIDao.loadUpdatedDataNew(dynamicUITableList.get(0).getScreenID());
+            if (dynamicUITableListNew != null && dynamicUITableListNew.size() > 0) {
+                for (DynamicUITable dynamicUITableNew : dynamicUITableListNew) {
+                    dynamicUITableNew.setVisibility(false);
+                    if (dynamicUITableNew.getFieldType().equalsIgnoreCase(FIELD_TYPE_NEW_ROW)) {
+                        dynamicUITableNew.setVisibility(true);
+                    } else {
+                        // TODO: JLG VALIDATIONS
+                            dynamicUITableNew.setValue("");
+                    }
+
+                    if (dynamicUITableNew.getFieldTag().equalsIgnoreCase(TAG_NAME_GUARANTOR_TO_BE_ADDED)) {
+                        dynamicUITableNew.setVisibility(true);
+                        dynamicUITableNew.setEditable(true);
+                    }
+                    if (dynamicUITableNew.getFieldTag().equalsIgnoreCase(TAG_NAME_TYPE_OF_PROFESSION)) {
+                        dynamicUITableNew.setVisibility(true);
+                        dynamicUITableNew.setEditable(true);
+                    }
+                    if (dynamicUITableNew.getFieldTag().equalsIgnoreCase(TAG_NAME_CUSTOMER_TYPE)) {
+                        dynamicUITableNew.setVisibility(true);
+                        dynamicUITableNew.setEditable(true);
+                    }
+                    if(dynamicUITableList.get(0).getScreenName().equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC)){
+                        if (dynamicUITableNew.getFieldTag().equalsIgnoreCase(TAG_NAME_APPLICANT_KYC)) {
+                            dynamicUITableNew.setVisibility(true);
+                            dynamicUITableNew.setEditable(true);
+                        }
+                    }
+                    if (dynamicUITableNew.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE)) {
+                        dynamicUITableNew.setVisibility(true);
+                        dynamicUITableNew.setEditable(true);
+                        dynamicUITableNew.setFieldType(FIELD_TYPE_LIST_BOX);
+                        // TODO: condition to remove added kyc type tvName spinner list(Get the spinner list)
+                        String[] newSpinnerItems = {};
+                        List<String> spinnerList = new ArrayList<>();
+                        spinnerList.addAll(Arrays.asList(dynamicUITableNew.getParamlist()));
+                        try {
+                            if (rawDataTableList != null && rawDataTableList.size() > 0) {
+                                for (RawDataTable rawDataTable : rawDataTableList) {
+                                    HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
+                                    if (hashMap != null && hashMap.size() > 0) {
+                                        if (hashMap.containsKey(TAG_NAME_GUARANTOR_KYC_DETAILS)) {
+                                            String value = hashMap.get(TAG_NAME_GUARANTOR_KYC_DETAILS).toString();
+                                            if (!TextUtils.isEmpty(value)) {
+                                                for (String spinnerItem : spinnerList) {
+                                                    if (spinnerItem.equalsIgnoreCase(value)) {
+                                                        spinnerList.remove(spinnerItem);
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            newSpinnerItems = spinnerList.toArray(new String[spinnerList.size()]);
+
+                            dynamicUITableNew.setParamlist(newSpinnerItems);
+
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }
+                deleteAndInsertNewRecordInTable(dynamicUITableListNew, dynamicUITable.getScreenName());
+
+                // TODO: After adding 2 kycs hide kyc related fields in JLG
+                // Add same to EL Guarantor screen
+
+                DynamicUITable dynamicUITable_kycType = dynamicUIDao.getRowByTAGandScreen(TAG_NAME_GUARANTOR_KYC_DETAILS, dynamicUITable.getScreenID());
+                if (dynamicUITable_kycType != null && dynamicUITable_kycType.getLoanType().equalsIgnoreCase(LOAN_NAME_JLG)) {
+                    if (dynamicUITable_kycType.getParamlist().length == 0) {
+                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_GUARANTOR_KYC_DETAILS, dynamicUITable_kycType.getScreenName(),
+                                dynamicUITable_kycType.getValue(), true, false);
+
+                        dynamicUIDao.updateDynamicTableValueByFieldName(FIELD_NAME_KYC_ID, dynamicUITable.getScreenName(),
+                                "", true, false);
+                        dynamicUIDao.updateDynamicTableValueByFieldName(FIELD_NAME_RE_ENTER_KYC_ID, dynamicUITable.getScreenName(),
+                                "", true, false);
+
                     }
                 }
             }
@@ -31329,7 +31475,7 @@ public class DynamicUIRepository {
                 if (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_SAVE_BUTTON))
                     dynamicUITable.setFieldName(TAG_NAME_SAVE_BUTTON);
 
-            }  /*else if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) {
+            }  else if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) {
                 // TODO: only for Plus Button
                 if (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_ADD_ANOTHER_KYC_PLUS_BUTTON)) {
                     dynamicUITable.setFieldName(TAG_NAME_ADD_ANOTHER_KYC_PLUS_BUTTON);
@@ -31338,7 +31484,7 @@ public class DynamicUIRepository {
                 if (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_SAVE_BUTTON))
                     dynamicUITable.setFieldName(TAG_NAME_SAVE_BUTTON);
 
-            }*/
+            }
             else if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_GENERAL_INCOME)) {
                 // TODO: only for Plus Button
                 if (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_SAVE_AND_ADD_GENERAL_INCOME)) {
@@ -33555,12 +33701,12 @@ public class DynamicUIRepository {
                         DynamicUITable dynamicUITable = getObjectByTAG(TAG_NAME_SAVE_BUTTON, dynamicUITableListFromDB);
                         if (dynamicUITable != null) {
                             dynamicUITable.setFieldName(FIELD_NAME_UPDATE);
+                            Log.e(TAG, "getRawDataForChildFragment: 4444");
                         }
 
                         // TODO: Validation for Applicant KYC screen
                         if (screenName.equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC)
                                 || screenName.equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_KYC)
-                                || screenName.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)
                         ) {
                             DynamicUITable saveObj = getObjectByTAG(TAG_NAME_SAVE_BUTTON, dynamicUITableListFromDB);
                             if (saveObj != null) {
@@ -33593,6 +33739,20 @@ public class DynamicUIRepository {
                                     reEnterkycIdObj.setEditable(true);
                                 }
                             }
+                        }
+                        if (screenName.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)
+                        ) {
+                            DynamicUITable saveObj = getObjectByTAG(TAG_NAME_SAVE_BUTTON, dynamicUITableListFromDB);
+                            if (saveObj != null) {
+                                saveObj.setVisibility(false);
+                            }
+
+                            DynamicUITable kycTypeObj = getObjectByTAG(TAG_NAME_GUARANTOR_KYC_DETAILS, dynamicUITableListFromDB);
+                            if (kycTypeObj != null) {
+                                kycTypeObj.setEditable(false);
+                                kycTypeObj.setFieldType(FIELD_TYPE_TEXT_BOX);
+                            }
+
                         }
                         if (screenName.equalsIgnoreCase(SCREEN_NAME_REFERENCE_CHECK)) {
                             DynamicUITable saveObj = getObjectByTAG(TAG_NAME_SAVE_BUTTON, dynamicUITableListFromDB);
@@ -33634,6 +33794,7 @@ public class DynamicUIRepository {
                                         && dynamicUITableApplicantKYC.getFieldType().equalsIgnoreCase(FIELD_TYPE_PLUS_BUTTON)) {
                                     dynamicUITableApplicantKYC.setVisibility(true);
                                     dynamicUITableApplicantKYC.setFieldName(FIELD_NAME_UPDATE);
+                                    Log.e(TAG, "getRawDataForChildFragment: 1111");
 
                                 } else {
                                     dynamicUITableApplicantKYC.setVisibility(false);

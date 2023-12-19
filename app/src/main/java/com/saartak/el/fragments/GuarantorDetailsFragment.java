@@ -15,6 +15,7 @@ import static com.saartak.el.dynamicui.constants.ParametersConstant.SPINNER_ITEM
 import static com.saartak.el.dynamicui.constants.ParametersConstant.SPINNER_ITEM_FIELD_NAME_GUARANTOR_PASSPORT;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.SPINNER_ITEM_FIELD_NAME_GUARANTOR_VOTER_ID;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_ADD_ANOTHER_KYC_PLUS_BUTTON;
+import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_ADD_BANK_DETAILS_PLUS_BUTTON;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_GUARANTOR_EKYC_BUTTON;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_KYC_ID;
 import static com.saartak.el.dynamicui.constants.ParametersConstant.TAG_NAME_KYC_TYPE;
@@ -57,7 +58,7 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.AndroidSupportInjection;
 import dagger.android.support.HasSupportFragmentInjector;
 
-public class GuarantorDetailsFragment extends LOSBaseFragment implements LOSBaseFragment.DynamiUIinterfacce, HasSupportFragmentInjector, FragmentInterface {
+public class GuarantorDetailsFragment extends LOSBaseFragment  implements LOSBaseFragment.DynamiUIinterfacce, HasSupportFragmentInjector {
 
     private static final String TAG = GuarantorDetailsFragment.class.getCanonicalName();
     private GuarantorDetailsFragment.OnFragmentInteractionListener mListener;
@@ -182,43 +183,7 @@ public class GuarantorDetailsFragment extends LOSBaseFragment implements LOSBase
         }
     }
 
-    @Override
-    public void fragmentBecameVisible() {
-        try {
-            viewModel.init(SCREEN_ID, SCREEN_NAME, LOAN_TYPE, PROJECT_ID, PRODUCT_ID, CLIENT_ID, USER_ID, MODULE_TYPE);
-            Observer observer = new Observer() {
-                @Override
-                public void onChanged(@Nullable Object o) {
-                    List<DynamicUITable> list = (List<DynamicUITable>) o;
-                    viewModel.getDynamicUITableLiveData().removeObserver(this);
-                    getRawDataForParentFragment(SCREEN_NAME, list);
-                    guarantorDetails(list);
-                }
-            };
-            viewModel.getDynamicUITableLiveData().observe(getViewLifecycleOwner(), observer);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        try {
-            viewModel.init(SCREEN_ID, SCREEN_NAME, LOAN_TYPE, PROJECT_ID, PRODUCT_ID, CLIENT_ID, USER_ID, MODULE_TYPE);
-            Observer observer = new Observer() {
-                @Override
-                public void onChanged(@Nullable Object o) {
-                    List<DynamicUITable> list = (List<DynamicUITable>) o;
-                    viewModel.getDynamicUITableLiveData().removeObserver(this);
-                    if(!TextUtils.isEmpty(LOAN_TYPE)) {
-//                        guarantorDetails(list.get(0), list);
-                        getTagNameList(SCREEN_NAME, list, TAG_NAME_ADD_ANOTHER_KYC_PLUS_BUTTON );
-                    }else{
-                        getRawDataForParentFragment(SCREEN_NAME, list);
-                    }
-                }
-            };
-            viewModel.getDynamicUITableLiveData().observe(getViewLifecycleOwner(), observer);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
+
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
@@ -253,14 +218,63 @@ public class GuarantorDetailsFragment extends LOSBaseFragment implements LOSBase
                 List<DynamicUITable> list = (List<DynamicUITable>) o;
                 viewModel.getDynamicUITableLiveData().removeObserver(this);
 
-                if(list != null && list.size() > 0) {
-                    guarantorDetails(list);
-                    //applicantKYCScreenValidation(list.get(0),list);
+//                if(list != null && list.size() > 0) {
+//                    //guarantorDetails(list);
+//                   // applicantKYCScreenValidation(list.get(0),list);
+//                    getRawDataForParentFragment(SCREEN_NAME, list);
+//                }
+                if(list !=null && list.size() > 0) {
+                    guarantorScreenValidation(list.get(0),list);
                 }
             }
         };
         viewModel.getDynamicUITableLiveData().observe(getViewLifecycleOwner(), observer);
     }
+   /* @Override
+    public void fragmentBecameVisible() {
+        try {
+            viewModel.init(SCREEN_ID, SCREEN_NAME, LOAN_TYPE, PROJECT_ID, PRODUCT_ID, CLIENT_ID, USER_ID, MODULE_TYPE);
+            Observer observer = new Observer() {
+                @Override
+                public void onChanged(@Nullable Object o) {
+                    List<DynamicUITable> list = (List<DynamicUITable>) o;
+                    viewModel.getDynamicUITableLiveData().removeObserver(this);
+                    //getRawDataForParentFragment(SCREEN_NAME, list);
+                    //guarantorDetails(list);
+//                    if(!TextUtils.isEmpty(LOAN_TYPE)) {
+//                        getTagNameList(SCREEN_NAME, list, TAG_NAME_ADD_BANK_DETAILS_PLUS_BUTTON);
+//                    }else{
+//                        getRawDataForParentFragment(SCREEN_NAME, list);
+//                    }
+                    if(list !=null && list.size() > 0) {
+                        applicantKYCScreenValidation(list.get(0),list);
+                    }
+                }
+            };
+            viewModel.getDynamicUITableLiveData().observe(getViewLifecycleOwner(), observer);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        *//*try {
+            viewModel.init(SCREEN_ID, SCREEN_NAME, LOAN_TYPE, PROJECT_ID, PRODUCT_ID, CLIENT_ID, USER_ID, MODULE_TYPE);
+            Observer observer = new Observer() {
+                @Override
+                public void onChanged(@Nullable Object o) {
+                    List<DynamicUITable> list = (List<DynamicUITable>) o;
+                    viewModel.getDynamicUITableLiveData().removeObserver(this);
+                    if(!TextUtils.isEmpty(LOAN_TYPE)) {
+//                        guarantorDetails(list.get(0), list);
+                        getTagNameList(SCREEN_NAME, list, TAG_NAME_ADD_ANOTHER_KYC_PLUS_BUTTON );
+                    }else{
+                        getRawDataForParentFragment(SCREEN_NAME, list);
+                    }
+                }
+            };
+            viewModel.getDynamicUITableLiveData().observe(getViewLifecycleOwner(), observer);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }*//*
+    }*/
 
     public void getRawData(String screen,List<DynamicUITable> list) {
         ArrayList<HashMap<String, Object>> hashMapList = new ArrayList<>();

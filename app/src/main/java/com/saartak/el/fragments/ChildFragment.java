@@ -3,6 +3,7 @@ package com.saartak.el.fragments;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -286,6 +287,7 @@ public class ChildFragment extends LOSBaseFragment implements LOSBaseFragment.Dy
                         // TODO: To save parent screen raw data
                         saveParentScreenRawData(rawDataTable, dynamicUITableListFromDB,
                                 dynamicUITable, dynamicUITable.getFieldTag());
+                        Log.e(TAG, "getRawDataForChildFragment: 222212");
                     }
                 };
                 viewModel.getDynamicUITableLiveData().observe(this, loanSuggestionCalculationObserver);
