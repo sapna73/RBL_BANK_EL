@@ -5132,7 +5132,8 @@ public class LOSBaseFragment extends BaseFragment {
                                                             parameterInfoList.add(new ParameterInfo(TAG_NAME_CIN, SCREEN_ID, "", false, true));
                                                             parameterInfoList.add(new ParameterInfo(TAG_NAME_DIN, SCREEN_ID, "", false, true));
 
-                                                        } else if (!TextUtils.isEmpty(typeOfProdession) && (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP))
+                                                        }
+                                                        else if (!TextUtils.isEmpty(typeOfProdession) && (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP))
                                                                 && typeOfProdession.equalsIgnoreCase(TAG_NAME_DIRECTOR)) {
                                                             parameterInfoList.add(new ParameterInfo(TAG_NAME_CONTAINS_AGE, SCREEN_ID, "", true, true));
                                                             parameterInfoList.add(new ParameterInfo(TAG_NAME_GENDER, SCREEN_ID, "", true, true));
@@ -5162,7 +5163,8 @@ public class LOSBaseFragment extends BaseFragment {
                                                             parameterInfoList.add(new ParameterInfo(TAG_NAME_CIN, SCREEN_ID, "", true, true));
                                                             parameterInfoList.add(new ParameterInfo(TAG_NAME_DIN, SCREEN_ID, "", true, true));
 
-                                                        } else if (!TextUtils.isEmpty(typeOfProdession) && (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP))
+                                                        }
+                                                        else if (!TextUtils.isEmpty(typeOfProdession) && (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP))
                                                                 && typeOfProdession.equalsIgnoreCase(TAG_NAME_PRIVATE_LIMITED)
                                                                 || typeOfProdession.equalsIgnoreCase(TAG_NAME_PUBLIC_LIMITED)
                                                                 || typeOfProdession.equalsIgnoreCase(TAG_NAME_LLP)
@@ -5223,7 +5225,6 @@ public class LOSBaseFragment extends BaseFragment {
 
                                                             parameterInfoList.add(new ParameterInfo(TAG_NAME_CIN, SCREEN_ID, "", false, true));
                                                             parameterInfoList.add(new ParameterInfo(TAG_NAME_DIN, SCREEN_ID, "", false, true));
-
                                                         }
                                                     }
                                                 }

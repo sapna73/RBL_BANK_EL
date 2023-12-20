@@ -1584,6 +1584,8 @@ public abstract class DynamicUIDao {
 
     @Query("SELECT * FROM MasterTable where reviewBy = :userId and loan_type=:loanType order by id desc limit 300")
     public abstract List<MasterTable> getMasterTableByUserIdAndLoanTypeByTop300(String userId, String loanType);
+    @Query("SELECT * FROM MasterTable  order by id desc limit 300")
+    public abstract List<MasterTable> getMasterTableByUserIdAndLoanTypeByTop400();
 
     @Query("SELECT * FROM ApplicationStatusTable where reviewBy = :userId and loan_type=:loanType")
     public abstract List<ApplicationStatusTable> getApplicationStatusTableByUserIdAndLoanType(String userId, String loanType);
@@ -2221,6 +2223,9 @@ public abstract class DynamicUIDao {
 
     @Query("DELETE FROM DocumentUploadTableNew WHERE id=:id ")
     public abstract void deleteDocumentFromTable(int id);
+
+    @Query("DELETE FROM MasterTable WHERE clientId=:clientId ")
+    public abstract void deleteClientFromMastertableByCurrentStage(String clientId);
 
     @Query("DELETE FROM LogTable")
     public abstract void deleteLogTable();

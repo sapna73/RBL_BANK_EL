@@ -4890,6 +4890,13 @@ public class DynamicUIRepository {
                                             // TODO: Delete & Insert Stage List
                                             dynamicUIDao.deleteAndInsertStageList(stageDetailsTableList);
 
+                                            List<MasterTable>masterTableDataList=dynamicUIDao.getMasterTableByUserIdAndLoanTypeByTop400();
+                                            for(MasterTable masterTable:masterTableDataList){
+                                                if(!masterTable.getCurrentStage().equalsIgnoreCase("Application")){
+                                                    dynamicUIDao.deleteClientFromMastertableByCurrentStage(masterTable.getClientId());
+                                                }
+                                            }
+
                                             for (StageDetailsTable stageDetailsTable : stageDetailsTableList) {
                                                 if (stageDetailsTable != null && !TextUtils.isEmpty(stageDetailsTable.getCustomerUniqueId())) {
 
@@ -4933,6 +4940,9 @@ public class DynamicUIRepository {
                                                         ApplicationStatusTable applicationStatusTable = dynamicUIDao.getApplicationStatusByClientId(stageDetailsTable.getCustomerUniqueId());
                                                         if (applicationStatusTable != null && !TextUtils.isEmpty(applicationStatusTable.getClientName())) {
                                                             masterTableToInsert.setClientName(applicationStatusTable.getClientName());
+                                                        }
+                                                        if(stageDetailsTable.getCustomerName()!=null&&!TextUtils.isEmpty(stageDetailsTable.getCustomerName())){
+                                                            masterTableToInsert.setClientName(stageDetailsTable.getCustomerName());
                                                         }
                                                         String dateTime = appHelper.getCurrentDateTime(AppConstant.DATE_FORMAT_YYYY_MM_DD);
                                                         masterTableToInsert.setCreated_date(TimestampConverter.toDate(dateTime));
@@ -17363,9 +17373,9 @@ public class DynamicUIRepository {
                     if (leadRawData != null) {
                         HashMap<String, Object> hashMap = setKeyValueForObject(leadRawData);
                         if (hashMap != null && hashMap.size() > 0) {
+                            String customerType="";
                             if (hashMap.containsKey(TAG_NAME_CUSTOMER_TYPE)) {
-
-                                String customerType = hashMap.get(TAG_NAME_CUSTOMER_TYPE).toString();
+                                customerType = hashMap.get(TAG_NAME_CUSTOMER_TYPE).toString();
                                 dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_INCOME_SOURCE, SCREEN_NAME_SOCIO_ECONOMIC_DETAIL, customerType, false, true);
                                 if (!TextUtils.isEmpty(customerType) && (!customerType.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_SELF_EMPLOYED))) {
 
@@ -17397,6 +17407,9 @@ public class DynamicUIRepository {
                                         dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_YEARS_OF_EXPERIENCE, SCREEN_NAME_SOCIO_ECONOMIC_DETAIL, "", false, false);
                                     }
                                 }
+                            }
+                            if(customerType.equalsIgnoreCase("")){
+                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_INCOME_SOURCE, SCREEN_NAME_SOCIO_ECONOMIC_DETAIL, "", false, false);
                             }
                         }
                     }

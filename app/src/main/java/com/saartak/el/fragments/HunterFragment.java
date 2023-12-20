@@ -146,15 +146,17 @@ public class HunterFragment extends LOSBaseFragment implements FragmentInterface
             public void onClick(View view) {
 
                 if (appHelper.isNetworkAvailable()) {
-                    if(isLoanProposal == true && isKYCScreen == true && (isBusiness == true || isSalary == true)) {
+                    if(nonIndividual.equalsIgnoreCase("")){
+                        if(isLoanProposal == true && isKYCScreen == true) {
+                            callHunterService(USER_ID, CLIENT_ID, LOAN_TYPE, MODULE_TYPE_GENERATE_CIBIL);
+                        }else {
+                            appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ALERT, "KYC Details and Loan proposal should be mandatory");
+                        }
+                    }else if(isLoanProposal == true && isKYCScreen == true && (isBusiness == true || isSalary == true)) {
                         if (nonIndividual.equalsIgnoreCase(RADIO_BUTTON_ITEM_SEP) || nonIndividual.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP)) {
                             getHunterNonIndividualServiceData(USER_ID, CLIENT_ID, LOAN_TYPE, MODULE_TYPE_GENERATE_CIBIL);
                         } else {
                             callHunterService(USER_ID, CLIENT_ID, LOAN_TYPE, MODULE_TYPE_GENERATE_CIBIL);
-                            Log.d(TAG, "get the user id..." + USER_ID);
-                            Log.d(TAG, "get the client id....." + CLIENT_ID);
-                            Log.d(TAG, "get the loan type......" + LOAN_TYPE);
-                            Log.d(TAG, "get the module type" + MODULE_TYPE);
                         }
                     }else {
                         appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ALERT, "KYC Details and Loan proposal And Business/Salary screens should be mandatory");
