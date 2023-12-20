@@ -29091,7 +29091,7 @@ public class DynamicUIRepository {
                     // TODO: Applicant Photo
                     insertDocumentUploadHeader(SCREEN_NO_ZERO, rawDataTable.getClient_id(),
                             DOCUMENT_NAME_APPLICANT_PHOTO, rawDataTable, "", "");
-                    if(applicantAgeValue >= 19 && earningCapacityOfStudent.equalsIgnoreCase("Yes")){
+                    if(applicantAgeValue >= 18 /*&& earningCapacityOfStudent.equalsIgnoreCase("Yes")*/){
                         insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
                                 DOCUMENT_NAME_APPLICANT_STUDENT_ADMIT_LETTER, rawDataTable, "", "");
 
@@ -29643,7 +29643,7 @@ public class DynamicUIRepository {
                     insertDocumentUploadHeader(rawDataTable.getScreen_no(), rawDataTable.getClient_id()
                             , coApplicantKycType.getValue(), rawDataTable, "", "");
 
-                    if(applicantAgeValue <= 18 || earningCapacityOfStudent.equalsIgnoreCase("No")){
+                    if(applicantAgeValue <= 17){
 
                         insertDocumentUploadHeader(SCREEN_N0_DOCUMENT_UPLOAD_EL, rawDataTable.getClient_id(),
                                 DOCUMENT_NAME_CO_APPLICANT_STUDENT_ADMIT_LETTER, rawDataTable, "", "");
