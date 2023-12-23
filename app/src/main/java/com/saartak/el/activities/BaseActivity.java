@@ -255,10 +255,7 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
                  } else if (!TextUtils.isEmpty(moduleType) && moduleType.contains(AppConstant.MODULE_TYPE_CO_APPLICANT)) {
                      // TODO: CO APPLICANT PHL ( contains )
                      setScreens(CO_APPLICANT_TAB_SCREEN_NAMES_EL, CO_APPLICANT_TAB_SCREEN_NUMBERS_EL, CO_APPLICANT_TAB_ICONS_NAMES_EL, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
-                 } else if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(AppConstant.MODULE_TYPE_CO_APPLICANT)) {
-                     // TODO: CO APPLICANT PHL
-                     setScreens(CO_APPLICANT_TAB_SCREEN_NAMES_EL, CO_APPLICANT_TAB_SCREEN_NUMBERS_EL, CO_APPLICANT_TAB_ICONS_NAMES_EL, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
-                 }else if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(MODULE_TYPE_GUARANTOR)) {
+                 } else if (!TextUtils.isEmpty(moduleType) && moduleType.equalsIgnoreCase(MODULE_TYPE_GUARANTOR)) {
                      // TODO: CO APPLICANT PHL
                      setScreens(GUARANTOR_TAB_SCREEN_NAMES_EL, GUARANTOR_TAB_SCREEN_NUMBER_EL, GUARANTOR_TAB_ICONS_NAMES_EL, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
                  }
@@ -1052,14 +1049,8 @@ public class BaseActivity extends LOSBaseActivity implements HasSupportFragmentI
                                             if (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SELF_EMPLOYED)
                                                     || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SEP)
                                                     || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP)) {
-                                                if (fieldTag != "") {
                                                     setScreens(APPLICANT_TAB_SCREEN_NAMES_BUSINESS_EL, APPLICANT_TAB_SCREEN_NUMBERS_BUSINESS_EL, APPLICANT_TAB_ICONS_NAMES_BUSINESS_EL, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
-                                                }
-                                                else{
-                                                    setScreens(CO_APPLICANT_TAB_SCREEN_NUMBERS_EL, CO_APPLICANT_TAB_SCREEN_NUMBERS_BUSINESS_EL, CO_APPLICANT_TAB_ICONS_NAMES_BUSINESS_EL, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
-                                                }
-//                                               setScreens(APPLICANT_TAB_SCREEN_NAMES_BUSINESS_EL, APPLICANT_TAB_SCREEN_NUMBERS_BUSINESS_EL,
-//                                                        APPLICANT_TAB_ICONS_NAMES_BUSINESS_EL, PROJECT_ID_EL, PRODUCT_ID_EL, loanType, moduleType);
+//
                                             } else if (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_CASH_SALARIED)
                                                     ||customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_BANK_SALARIED)
                                                     || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SALARIED)) {

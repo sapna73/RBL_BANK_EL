@@ -6,10 +6,14 @@ import com.saartak.el.database.entity.StageDetailsTable;
 import com.saartak.el.database.entity.SubmitDataTable;
 import com.saartak.el.models.EKYCResponseDTO;
 import com.saartak.el.models.EKYCRootDTO;
+import com.saartak.el.models.GetBankDetailsByIfscCodeRequestDTO;
+import com.saartak.el.models.GetBankDetailsByIfscCodeResponseDTO;
 import com.saartak.el.models.OTPTriggerDTO;
 import com.saartak.el.models.OTPTriggerResponseDTO;
 import com.saartak.el.models.OTPVerifyDTO;
 import com.saartak.el.models.OTPVerifyResponseDTO;
+import com.saartak.el.models.PinCode.PinCodeDataFromServerRequestDTO;
+import com.saartak.el.models.PinCode.PinCodeDataFromServerResponseDTO;
 import com.saartak.el.models.PincodeResponseDTO;
 
 import java.util.List;
@@ -51,6 +55,13 @@ public interface DynamicUIApiInterface {
     /*   Get Pincode Details */
     @GET("Pincode/{PINCODE}")
     Call<PincodeResponseDTO> getPincodeDetails(@Path("PINCODE") String pincode, @Header("Authorization") String authHeader);
+
+
+    @POST("Pincode/PincodeEnquiry")
+    Call<PinCodeDataFromServerResponseDTO> getPinCodeDataFromServer(@Body PinCodeDataFromServerRequestDTO pinCodeDataFromServerRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+
+    @POST("IFSCCode/IFSCCodeEnquiry")
+    Call<GetBankDetailsByIfscCodeResponseDTO> getIFSCDataFromServer(@Body GetBankDetailsByIfscCodeRequestDTO pinCodeDataFromServerRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     /* EKYC Login Request*/
     @POST("ekyc/enquiry")

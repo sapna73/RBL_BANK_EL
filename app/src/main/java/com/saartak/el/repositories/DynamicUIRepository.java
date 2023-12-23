@@ -6000,7 +6000,7 @@ public class DynamicUIRepository {
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_POSIDEX)
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_RAMP)
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_VKYC_UP_STREAM)
-                        ||screenName.equalsIgnoreCase(SCREEN_NAME_DELINQUENCY)
+                        ||screenName.equalsIgnoreCase(SCREEN_NAME_DELIQUENCY)
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_DEDUPE)
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_RAT)
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_GENERATE_CIBIL)) {
@@ -15741,6 +15741,47 @@ public class DynamicUIRepository {
         return data;
     }
 
+    public LiveData<List<DynamicUITable>> guarantorDetailValidation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList,String type) {
+        final MutableLiveData<List<DynamicUITable>> data = new MutableLiveData<>();
+        executor.execute(() -> {
+
+            dynamicUIDao.updateDynamicUITable(dynamicUITableList); // TODO: update list first
+
+            // TODO: APPLICANT GUARANTOR DETAIL SCREEN
+            if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) {
+
+                if (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_GUARANTOR_TO_BE_ADDED)||type.equalsIgnoreCase("1")) {
+
+                    List<RawDataTable> gurantorRawDataTableList = null;
+
+                    gurantorRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_GUARANTOR_DETAILS,dynamicUITable.getClientID(), dynamicUITable.getModuleType(), dynamicUITable.getLoanType());
+
+                    List<String> guarantorSpinnerList = new ArrayList<>();
+
+                    if (gurantorRawDataTableList != null && gurantorRawDataTableList.size() > 0) {
+                        // TODO: Clearing below fields
+                        clearBelowFieldsValues(dynamicUITable);
+                        for (RawDataTable rawDataTable : gurantorRawDataTableList) {
+                            HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
+                            if (hashMap != null && hashMap.size() > 0) {
+                                if (hashMap.containsKey(TAG_NAME_TYPE_OF_GUARANTOR)) {
+                                    String value = hashMap.get(TAG_NAME_TYPE_OF_GUARANTOR).toString();
+                                    if (!TextUtils.isEmpty(value)) {
+                                        guarantorSpinnerList.add(value);
+                                    }
+                                }
+                            }
+                        }
+                            changeSpinnerList(guarantorSpinnerList, dynamicUITable.getScreenID(), TAG_NAME_TYPE_OF_GUARANTOR);
+                    }
+                }
+            }
+            // TODO: Final Result
+            List<DynamicUITable> dynamicUITableListResult = dynamicUIDao.loadUpdatedDataNew(dynamicUITable.getScreenID());
+            data.postValue(dynamicUITableListResult);
+        });
+        return data;
+    }
     public LiveData<List<DynamicUITable>> addressDetailValidation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList) {
         final MutableLiveData<List<DynamicUITable>> data = new MutableLiveData<>();
         executor.execute(() -> {
@@ -20899,20 +20940,6 @@ public class DynamicUIRepository {
                         dynamicUITableNew.setVisibility(true);
                         dynamicUITableNew.setEditable(true);
                     }
-                    if (dynamicUITableNew.getFieldTag().equalsIgnoreCase(TAG_NAME_TYPE_OF_PROFESSION)) {
-                        dynamicUITableNew.setVisibility(true);
-                        dynamicUITableNew.setEditable(true);
-                    }
-                    if (dynamicUITableNew.getFieldTag().equalsIgnoreCase(TAG_NAME_CUSTOMER_TYPE)) {
-                        dynamicUITableNew.setVisibility(true);
-                        dynamicUITableNew.setEditable(true);
-                    }
-                    if(dynamicUITableList.get(0).getScreenName().equalsIgnoreCase(SCREEN_NAME_APPLICANT_KYC)){
-                        if (dynamicUITableNew.getFieldTag().equalsIgnoreCase(TAG_NAME_APPLICANT_KYC)) {
-                            dynamicUITableNew.setVisibility(true);
-                            dynamicUITableNew.setEditable(true);
-                        }
-                    }
                     if (dynamicUITableNew.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE)) {
                         dynamicUITableNew.setVisibility(true);
                         dynamicUITableNew.setEditable(true);
@@ -20951,22 +20978,6 @@ public class DynamicUIRepository {
                 }
                 deleteAndInsertNewRecordInTable(dynamicUITableListNew, dynamicUITable.getScreenName());
 
-                // TODO: After adding 2 kycs hide kyc related fields in JLG
-                // Add same to EL Guarantor screen
-
-                DynamicUITable dynamicUITable_kycType = dynamicUIDao.getRowByTAGandScreen(TAG_NAME_GUARANTOR_KYC_DETAILS, dynamicUITable.getScreenID());
-                if (dynamicUITable_kycType != null && dynamicUITable_kycType.getLoanType().equalsIgnoreCase(LOAN_NAME_JLG)) {
-                    if (dynamicUITable_kycType.getParamlist().length == 0) {
-                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_GUARANTOR_KYC_DETAILS, dynamicUITable_kycType.getScreenName(),
-                                dynamicUITable_kycType.getValue(), true, false);
-
-                        dynamicUIDao.updateDynamicTableValueByFieldName(FIELD_NAME_KYC_ID, dynamicUITable.getScreenName(),
-                                "", true, false);
-                        dynamicUIDao.updateDynamicTableValueByFieldName(FIELD_NAME_RE_ENTER_KYC_ID, dynamicUITable.getScreenName(),
-                                "", true, false);
-
-                    }
-                }
             }
 
             List<DynamicUITable> dynamicUITableListFinal = dynamicUIDao.loadUpdatedDataNew(dynamicUITableList.get(0).getScreenID());
@@ -36390,10 +36401,10 @@ public class DynamicUIRepository {
                                 String deliquencyData5 = deliquencyData4.replace("\\","");
                                 String deliquencyData = deliquencyData5.replace(".","");
 
-                                RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_DELINQUENCY, clientId, moduleType);
+                                RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_DELIQUENCY, clientId, moduleType);
                                 if (rawDataTableFromDB == null) {
                                     // TODO: Insert Raw Data Table
-                                    RawDataTable rawDataTable = new RawDataTable(deliquencyData, SCREEN_NO_DELIQUENCY, SCREEN_NAME_DELINQUENCY, "", clientId, loanType, userId, moduleType, "");
+                                    RawDataTable rawDataTable = new RawDataTable(deliquencyData, SCREEN_NO_DELIQUENCY, SCREEN_NAME_DELIQUENCY, "", clientId, loanType, userId, moduleType, "");
                                     dynamicUIDao.insertRawData(rawDataTable);
                                 } else {
                                     // TODO: Update Raw Data Table
@@ -36402,7 +36413,7 @@ public class DynamicUIRepository {
                                 if(moduleType.equalsIgnoreCase(MODULE_TYPE_APPLICANT)){
                                     dynamicUIDao.updateaForSyncTrueForAPIS(SCREEN_NO_DELIQUENCY,MODULE_TYPE_APPLICANT);
                                 }
-                                postSubmittedAllScreensLiveData(deliquencyData, SCREEN_NO_DELIQUENCY,"", userId,SCREEN_NAME_DELINQUENCY,moduleType);
+                                postSubmittedAllScreensLiveData(deliquencyData, SCREEN_NO_DELIQUENCY,"", userId, SCREEN_NAME_DELIQUENCY,moduleType);
 
 
                                 //dynamicUIDao.updateRawDataForSync(SCREEN_NO_DELIQUENCY);

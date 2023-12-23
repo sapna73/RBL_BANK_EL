@@ -418,7 +418,7 @@ public class AppConstant {
     public static final String SCREEN_NAME_CO_APPLICANT_REGULATORY_FIELDS = "COAPPLICANT REGULATORY FIELDS";
     public static final String SCREEN_NAME_REFERENCE_CHECK = "REFERENCE CHECK";
 
-    public static final String SCREEN_NAME_DELINQUENCY = "DELINQUENCY";
+    public static final String SCREEN_NAME_DELIQUENCY = "DELINQUENCY";
     public static final String SCREEN_NAME_POSIDEX = "POSIDEX";
     public static final String SCREEN_NAME_RAMP = "RAMP";
     public static final String SCREEN_NAME_HUNTER = "HUNTER";
@@ -1121,6 +1121,8 @@ public class AppConstant {
             SCREEN_NAME_BANK_DETAILS,
             SCREEN_NAME_REFERENCE_CHECK,
             SCREEN_NAME_CPV,
+            SCREEN_NAME_POSIDEX,
+            SCREEN_NAME_DELIQUENCY,
             SCREEN_NAME_RAMP,
             SCREEN_NAME_DEDUPE,
             SCREEN_NAME_APPLICANT_REGULATORY_FIELDS,
@@ -1158,6 +1160,8 @@ public class AppConstant {
           SCREEN_NAME_BANK_DETAILS,
           SCREEN_NAME_REFERENCE_CHECK,
           SCREEN_NAME_CPV,
+          SCREEN_NAME_POSIDEX,
+          SCREEN_NAME_DELIQUENCY,
           SCREEN_NAME_RAMP,
           SCREEN_NAME_DEDUPE,
           SCREEN_NAME_APPLICANT_REGULATORY_FIELDS,
@@ -1174,6 +1178,8 @@ public class AppConstant {
           SCREEN_NAME_BANK_DETAILS,
           SCREEN_NAME_REFERENCE_CHECK,
           SCREEN_NAME_CPV,
+          SCREEN_NAME_POSIDEX,
+          SCREEN_NAME_DELIQUENCY,
           SCREEN_NAME_RAMP,
           SCREEN_NAME_DEDUPE,
           SCREEN_NAME_APPLICANT_REGULATORY_FIELDS,
@@ -1211,6 +1217,8 @@ public class AppConstant {
             SCREEN_NAME_BANK_DETAILS,
             SCREEN_NAME_REFERENCE_CHECK,
             SCREEN_NAME_CPV,
+            SCREEN_NAME_POSIDEX,
+            SCREEN_NAME_DELIQUENCY,
             SCREEN_NAME_RAMP,
             SCREEN_NAME_DEDUPE,
             SCREEN_NAME_APPLICANT_REGULATORY_FIELDS,
@@ -1226,6 +1234,8 @@ public class AppConstant {
           SCREEN_NAME_BANK_DETAILS,
           SCREEN_NAME_REFERENCE_CHECK,
           SCREEN_NAME_CPV,
+          SCREEN_NAME_POSIDEX,
+          SCREEN_NAME_DELIQUENCY,
           SCREEN_NAME_RAMP,
           SCREEN_NAME_DEDUPE,
           SCREEN_NAME_APPLICANT_REGULATORY_FIELDS,
@@ -1243,6 +1253,8 @@ public class AppConstant {
             SCREEN_NO_BANK_DETAILS_EL,
             SCREEN_NO_REFERENCE_CHECK_EL,
             SCREEN_NO_CPV,
+            SCREEN_NO_POSIDEX,
+            SCREEN_NO_DELIQUENCY,
             SCREEN_NO_RAMP,
             SCREEN_NO_DEDUPE,
             SCREEN_NO_APPLICANT_REGULATORY_FIELDS,
@@ -1258,6 +1270,8 @@ public class AppConstant {
             SCREEN_NO_BANK_DETAILS_EL,
             SCREEN_NO_REFERENCE_CHECK_EL,
             SCREEN_NO_CPV,
+            SCREEN_NO_POSIDEX,
+            SCREEN_NO_DELIQUENCY,
             SCREEN_NO_RAMP,
             SCREEN_NO_DEDUPE,
             SCREEN_NO_APPLICANT_REGULATORY_FIELDS,
@@ -1279,6 +1293,8 @@ public class AppConstant {
             R.drawable.ic_person_pin_black_24dp,
             R.drawable.ic_person_pin_black_24dp,
             R.drawable.ic_person_pin_black_24dp,
+            R.drawable.ic_person_pin_black_24dp,
+            R.drawable.ic_person_pin_black_24dp,
             R.drawable.ic_person_pin_black_24dp
     };
     public static int[] APPLICANT_TAB_ICONS_NO_CUSTOMERTYPE_EL = {
@@ -1288,6 +1304,8 @@ public class AppConstant {
             R.drawable.ic_home_black_24dp,
             R.drawable.ic_person_pin_black_24dp,
             R.drawable.ic_account_bank_24dp,
+            R.drawable.ic_person_pin_black_24dp,
+            R.drawable.ic_person_pin_black_24dp,
             R.drawable.ic_person_pin_black_24dp,
             R.drawable.ic_person_pin_black_24dp,
             R.drawable.ic_person_pin_black_24dp,
@@ -1310,6 +1328,8 @@ public class AppConstant {
           SCREEN_NAME_BANK_DETAILS,
           SCREEN_NAME_REFERENCE_CHECK,
           SCREEN_NAME_CPV,
+          SCREEN_NAME_POSIDEX,
+          SCREEN_NAME_DELIQUENCY,
           SCREEN_NAME_RAMP,
           SCREEN_NAME_DEDUPE,
           SCREEN_NAME_APPLICANT_REGULATORY_FIELDS,
@@ -1328,6 +1348,8 @@ public class AppConstant {
           SCREEN_NO_BANK_DETAILS_EL,
           SCREEN_NO_REFERENCE_CHECK_EL,
           SCREEN_NO_CPV,
+          SCREEN_NO_POSIDEX,
+          SCREEN_NO_DELIQUENCY,
           SCREEN_NO_RAMP,
           SCREEN_NO_DEDUPE,
           SCREEN_NO_APPLICANT_REGULATORY_FIELDS,
@@ -1346,6 +1368,8 @@ public class AppConstant {
           SCREEN_NO_BANK_DETAILS_EL,
           SCREEN_NO_REFERENCE_CHECK_EL,
           SCREEN_NO_CPV,
+          SCREEN_NO_POSIDEX,
+          SCREEN_NO_DELIQUENCY,
           SCREEN_NO_RAMP,
           SCREEN_NO_DEDUPE,
           SCREEN_NO_APPLICANT_REGULATORY_FIELDS,
@@ -1368,6 +1392,8 @@ public class AppConstant {
           R.drawable.ic_person_pin_black_24dp,
           R.drawable.ic_person_pin_black_24dp,
           R.drawable.ic_person_pin_black_24dp,
+          R.drawable.ic_person_pin_black_24dp,
+          R.drawable.ic_person_pin_black_24dp,
           R.drawable.ic_person_pin_black_24dp
   };
   public static int[] CO_APPLICANT_TAB_ICONS_NAMES_BUSINESS_EL = {
@@ -1379,6 +1405,8 @@ public class AppConstant {
           R.drawable.ic_business_proof_24,
           R.drawable.ic_business_add_proof2_24,
           R.drawable.ic_account_bank_24dp,
+          R.drawable.ic_person_pin_black_24dp,
+          R.drawable.ic_person_pin_black_24dp,
           R.drawable.ic_person_pin_black_24dp,
           R.drawable.ic_person_pin_black_24dp,
           R.drawable.ic_person_pin_black_24dp,
@@ -1431,6 +1459,8 @@ public class AppConstant {
             SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL,
             SCREEN_NAME_CO_APPLICANT_BANK_DETAILS,
             SCREEN_NAME_CPV,
+            SCREEN_NAME_POSIDEX,
+            SCREEN_NAME_DELIQUENCY,
             SCREEN_NAME_RAMP,
             SCREEN_NAME_DEDUPE,
             SCREEN_NAME_CO_APPLICANT_REGULATORY_FIELDS,
@@ -1453,6 +1483,8 @@ public class AppConstant {
             SCREEN_NO_COAPPLICANT_ADDRESS_DETAIL_PHL,
             SCREEN_NO_CO_APPLICANT_BANK_DETAILS_PHL,
             SCREEN_NO_CPV,
+            SCREEN_NO_POSIDEX,
+            SCREEN_NO_DELIQUENCY,
             SCREEN_NO_RAMP,
             SCREEN_NO_DEDUPE,
             SCREEN_NO_CO_APPLICANT_REGULATORY_FIELDS,
@@ -1465,6 +1497,7 @@ public class AppConstant {
             R.drawable.ic_domain_black_24dp,
             R.drawable.ic_home_black_24dp,
             R.drawable.ic_account_bank_24dp,
+            R.drawable.ic_person_pin_black_24dp,
             R.drawable.ic_person_pin_black_24dp,
             R.drawable.ic_person_pin_black_24dp,
             R.drawable.ic_person_pin_black_24dp,
@@ -1783,9 +1816,9 @@ public class AppConstant {
         }else if (screenName.equalsIgnoreCase(SCREEN_NAME_POSIDEX)) {
             fragment = PosidexFragment.newInstance(loanType, clientId, projectId, productId, screenNo,
                     SCREEN_NAME_POSIDEX, userId, moduleType);
-        } else if (screenName.equalsIgnoreCase(SCREEN_NAME_DELINQUENCY)) {
+        } else if (screenName.equalsIgnoreCase(SCREEN_NAME_DELIQUENCY)) {
           fragment = DeliquencyFragment.newInstance(loanType, clientId, projectId, productId, screenNo,
-                  SCREEN_NAME_DELINQUENCY, userId, moduleType);
+                  SCREEN_NAME_DELIQUENCY, userId, moduleType);
         }else if (screenName.equalsIgnoreCase(SCREEN_NAME_DEDUPE)) {
           fragment = DEDUPEFragment.newInstance(loanType, clientId, projectId, productId, screenNo,
                   SCREEN_NAME_DEDUPE, userId, moduleType);

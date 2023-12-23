@@ -113,9 +113,9 @@ public class LeadToApplicationAdapter extends RecyclerView.Adapter<LeadToApplica
                     loanTypeViewHolder.ivStatus.setImageResource(R.mipmap.check);
                     if(masterTable.getCurrentStage().equalsIgnoreCase("Application")){
                         if(masterTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)){
-                            loanTypeViewHolder.tvCurrentStage.setText("Document Upload");
+                            loanTypeViewHolder.tvCurrentStage.setText("CPA");
                         }else {
-                            loanTypeViewHolder.tvCurrentStage.setText("PD");
+                            loanTypeViewHolder.tvCurrentStage.setText("CPA");
                         }
                     }else {
                         loanTypeViewHolder.tvCurrentStage.setText(masterTable.getCurrentStage());

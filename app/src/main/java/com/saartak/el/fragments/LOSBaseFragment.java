@@ -64,7 +64,9 @@ import com.saartak.el.dynamicui.CustomFields.XmlCustomCheckBox;
 import com.saartak.el.dynamicui.CustomFields.XmlCustomRadioGroup;
 
 import com.saartak.el.dynamicui.fragments.BaseFragment;
+import com.saartak.el.dynamicui.services.DynamicUIApiInterface;
 import com.saartak.el.dynamicui.services.DynamicUIWebService;
+import com.saartak.el.encryption.SHA256Encrypt;
 import com.saartak.el.fragments.balancesheet.BusinessAssetsFragment;
 import com.saartak.el.fragments.balancesheet.BusinessLiabilitiesFragment;
 import com.saartak.el.fragments.balancesheet.HouseLiabilitiesFragment;
@@ -102,6 +104,8 @@ import com.saartak.el.fragments.references.ReferencesFragment;
 import com.saartak.el.interfce.FragmentToActivityInterface;
 import com.saartak.el.models.ApiResponse;
 import com.saartak.el.models.BankDetailsParameterInfo;
+import com.saartak.el.models.GetBankDetailsByIfscCodeRequestDTO;
+import com.saartak.el.models.GetBankDetailsByIfscCodeResponseDTO;
 import com.saartak.el.models.LoanTenure.TenureMonthsResponseTable;
 import com.saartak.el.models.PINCodeArea.PinCodeAreaResponseTable;
 import com.saartak.el.models.DataTypeInfo;
@@ -119,6 +123,8 @@ import com.saartak.el.models.LeadDropDownDetails.GetLeadDropDownBankDetailsTable
 import com.saartak.el.models.NegitiveProfileList.NegitiveProfileListResponseTable;
 import com.saartak.el.models.PINCodeValidationLP.PinCodeResponseTable;
 import com.saartak.el.models.ParameterInfo;
+import com.saartak.el.models.PinCode.PinCodeDataFromServerRequestDTO;
+import com.saartak.el.models.PinCode.PinCodeDataFromServerResponseDTO;
 import com.saartak.el.models.PincodeParameterInfo;
 import com.saartak.el.models.PincodeResponseDTO;
 import com.saartak.el.models.ReferenceCheckContactDTO;
@@ -372,6 +378,31 @@ public class LOSBaseFragment extends BaseFragment {
                             }
                         }
                     });
+
+                    if (viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_IFSC_CODE)) {
+                        customTextInputLayout.getEditText().addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                            }
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                if (!TextUtils.isEmpty(s) && s.toString().trim().length() >=11) {
+                                    if (appHelper.isNetworkAvailable()) {
+                                        getIFSCCodeDataFromServer(s.toString().trim(),viewParametersList);
+                                    } else {
+                                        appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ALERT, "No Internet Connection");
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+
+                            }
+                        });
+                    }
+
                     if (viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_PINCODE)
                             || viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_PERMANENT_PINCODE)
                             || viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_COMMUNICATION_PINCODE)) { // TODO: PIN CODE
@@ -387,7 +418,8 @@ public class LOSBaseFragment extends BaseFragment {
                                 if (!TextUtils.isEmpty(s) && s.toString().length() == 6) {
                                     if (appHelper.isNetworkAvailable()) {
                                         isnegativeArea = false;
-                                        getPincodeDetails(s.toString(), viewParametersList, viewParameters.getFieldTag());
+                                        //getPincodeDetails(s.toString(), viewParametersList, viewParameters.getFieldTag());
+                                        getPinCodeDataFromServer(s.toString().trim(), viewParametersList, viewParameters.getFieldTag());
                                        // if(viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_COMMUNICATION_PINCODE)) {
                                        //     pincodeMasterAreaDataForAddressDetail(viewParametersList, CLIENT_ID, s.toString());
                                        // }
@@ -1185,9 +1217,11 @@ public class LOSBaseFragment extends BaseFragment {
                                             parameterInfoList.add(new ParameterInfo(TAG_NAME_ADD_ANOTHER_KYC_PLUS_BUTTON, SCREEN_ID, "", false, false));
                                             parameterInfoList.add(new ParameterInfo(TAG_NAME_SAVE_BUTTON, SCREEN_ID, "", true, true));
                                             EnableOrDisableByFieldNameInDB(parameterInfoList, viewParametersList);
+                                            guarantorDetailValidation(dynamicUITable, viewParametersList,"0");
                                         }
                                     }
-                                } else if (LOSBaseFragment.this instanceof CoApplicantAddressDetailFragment) {
+                                }
+                                else if (LOSBaseFragment.this instanceof CoApplicantAddressDetailFragment) {
                                     addressDetailValidation(dynamicUITable, viewParametersList);
                                     if (!TextUtils.isEmpty(viewParameters.getFieldTag()) && viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_PERMANENT_ADDRESS_SAME_AS_KYC)) {
                                         if (!TextUtils.isEmpty(selectedRadioButton) && selectedRadioButton.equalsIgnoreCase("No")) {
@@ -1873,7 +1907,8 @@ public class LOSBaseFragment extends BaseFragment {
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_ADD_ANOTHER_KYC_PLUS_BUTTON, SCREEN_ID, "", true, true));
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_ANNUAL_INCOME_OF_HUF, SCREEN_ID, "", false, false));
                                                 EnableOrDisableByFieldNameInDB(parameterInfoList, viewParametersList);
-                                            } else if (!TextUtils.isEmpty(selectedItem) && selectedItem.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_GUARANTOR_INDIVIDUAL)) {
+                                            }
+                                            else if (!TextUtils.isEmpty(selectedItem) && selectedItem.equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_GUARANTOR_INDIVIDUAL)) {
                                                 List<ParameterInfo> parameterInfoList = new ArrayList<>();
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_BUSINESS_NAME, SCREEN_ID, "", false, false));
                                                 parameterInfoList.add(new ParameterInfo(TAG_NAME_GUARANTOR_BUSINESS_TYPE, SCREEN_ID, "", false, false));
@@ -5517,8 +5552,7 @@ public class LOSBaseFragment extends BaseFragment {
                                 getTagNameList(SCREEN_NAME, viewParametersList, tagName);
                             }*/
                             postSubmittedAllScreensLiveData(submittedValues, SCREEN_ID, rawDataTable.getProductId(), SCREEN_NAME,
-                                    rawDataTable.getModuleType(), viewParametersList, "0", tagName, rawDataTable, dynamicUITable);
-
+                                        rawDataTable.getModuleType(), viewParametersList, "0", tagName, rawDataTable, dynamicUITable);
                         } else {
                             if (SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_LEAD) || SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_COLD_CALLING)
                                 /*|| SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_SALES_TOOL)*/) {
@@ -5687,9 +5721,9 @@ public class LOSBaseFragment extends BaseFragment {
                                                     }
                                                 }
                                             });*/
-
                                     postSubmittedAllScreensLiveData(submittedValues,SCREEN_ID,rawDataTable.getProductId(),SCREEN_NAME,rawDataTable.getModuleType(),
-                                            viewParametersList,"1",tagName,rawDataTable, dynamicUITable);
+                                                viewParametersList,"1",tagName,rawDataTable, dynamicUITable);
+
                                 }
                             }
                         }
@@ -8624,6 +8658,24 @@ public class LOSBaseFragment extends BaseFragment {
             ex.printStackTrace();
         }
     }
+    private void guarantorDetailValidation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList,String type) {
+        try {
+            viewModel.guarantorDetailValidation(dynamicUITable, dynamicUITableList,type);
+            if (viewModel.getDynamicUITableLiveData() != null) {
+                Observer addressDetailValidationObserver = new Observer() {
+                    @Override
+                    public void onChanged(@Nullable Object o) {
+                        List<DynamicUITable> dynamicUITableListFromDB = (List<DynamicUITable>) o;
+                        viewModel.getDynamicUITableLiveData().removeObserver(this);
+                        dynamicUI(dynamicUITableListFromDB);
+                    }
+                };
+                viewModel.getDynamicUITableLiveData().observe(this, addressDetailValidationObserver);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
     //Guarantor validation
 //    private void guarantorValidation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
@@ -10491,136 +10543,261 @@ public class LOSBaseFragment extends BaseFragment {
         }
     }
 
-    private void getPincodeDetails(String pincode, List<DynamicUITable> dynamicUITableList, String fieldTag) {
+//    private void getPincodeDetails(String pincode, List<DynamicUITable> dynamicUITableList, String fieldTag) {
+//        try {
+//            Log.i(TAG, "Pin code -->" + pincode);
+//            appHelper.getDialogHelper().getLoadingDialog().showGIFLoading();
+//            DynamicUIWebService.changeApiBaseUrl(AppConstant.PIN_CODE_URL);
+//            getServicesAPI().getPincodeDetails(pincode, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""))
+//                    .enqueue(new Callback<PincodeResponseDTO>() {
+//                        @Override
+//                        public void onResponse(@NonNull Call<PincodeResponseDTO> call, @NonNull Response<PincodeResponseDTO> response) {
+//                            appHelper.getDialogHelper().getLoadingDialog().closeDialog();
+//                            try {
+//                                Log.d(TAG, "Pin code EKYCLoginRequest ===> " + response);
+//                                if (response.isSuccessful()) {
+//                                    Log.d(TAG, "Pin code EKYCLoginRequest code===> " + response.code());
+//                                    Log.d(TAG, "Pin code EKYCLoginRequest Msg===> " + response.message());
+//                                    PincodeResponseDTO pincodeResponseDTO = response.body();
+//                                    Log.d(TAG, "Pin code EKYCLoginRequest Body===> " + pincodeResponseDTO);
+//                                    if (pincodeResponseDTO != null && pincodeResponseDTO.getStatus().equalsIgnoreCase("Success")) {
+//                                        // TODO: write success logic here
+//                                        List<PincodeParameterInfo> parameterInfoList = new ArrayList<>();
+//                                        List<String> cityList = new ArrayList<>();
+//                                        List<String> villageList = new ArrayList<>();
+//                                        for (PincodeResponseDTO.PostOffice postOffice : pincodeResponseDTO.getPostOffice()) {
+//                                            if (!(SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_ADDRESS_DETAIL)) && !(SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL))) {
+//                                                parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_PINCODE, SCREEN_ID, pincode, true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//
+//                                            } else if (fieldTag.equalsIgnoreCase(TAG_NAME_PERMANENT_PINCODE)) {
+//                                                parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_PERMANENT_PINCODE, SCREEN_ID, pincode, true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                            } else if (fieldTag.equalsIgnoreCase(TAG_NAME_COMMUNICATION_PINCODE)) {
+//                                                parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_COMMUNICATION_PINCODE, SCREEN_ID, pincode, true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                            }
+//                                            if (pincodeResponseDTO.getPostOffice() != null
+//                                                    && pincodeResponseDTO.getPostOffice().size() > 0
+//                                                    && !TextUtils.isEmpty(postOffice.getName())) {
+//                                                String village = postOffice.getName();
+//                                                villageList.add(village);
+//                                                if (!SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_ADDRESS_DETAIL) && !(SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL))) {
+//                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_VILLAGE, SCREEN_ID, village, true,
+//                                                            true, FIELD_TYPE_LIST_BOX, villageList.toArray(new String[0])));
+//                                                }
+//                                            }
+//                                            if (pincodeResponseDTO.getPostOffice() != null
+//                                                    && pincodeResponseDTO.getPostOffice().size() > 0
+//                                                    && !TextUtils.isEmpty(postOffice.getDistrict())) {
+//                                                String city = postOffice.getDistrict();
+//                                                cityList.add(city);
+//                                                if (!(SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_ADDRESS_DETAIL)) && !(SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL))) {
+//                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_CITY, SCREEN_ID, city, true, true, FIELD_TYPE_LIST_BOX, cityList.toArray(new String[0])));
+//                                                } else if (fieldTag.equalsIgnoreCase(TAG_NAME_PERMANENT_PINCODE)) {
+//                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_PERMANENT_CITY, SCREEN_ID, city, true, true, FIELD_TYPE_LIST_BOX, cityList.toArray(new String[0])));
+//                                                } else if (fieldTag.equalsIgnoreCase(TAG_NAME_COMMUNICATION_PINCODE)) {
+//                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_COMMUNICATION_CITY, SCREEN_ID, city, true, true, FIELD_TYPE_LIST_BOX, cityList.toArray(new String[0])));
+//                                                }
+//                                            }
+//                                            if (pincodeResponseDTO.getPostOffice() != null
+//                                                    && pincodeResponseDTO.getPostOffice().size() > 0
+//                                                    && !TextUtils.isEmpty(postOffice.getDistrict())) {
+//                                                String district = postOffice.getDistrict();
+//                                                if (!SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_ADDRESS_DETAIL) && !(SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL))) {
+//                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_DISTRICT, SCREEN_ID, district, true, false, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                                } else if (fieldTag.equalsIgnoreCase(TAG_NAME_PERMANENT_PINCODE)) {
+//                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_PERMANENT_DISTRICT, SCREEN_ID, district, true, false, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                                } else if (fieldTag.equalsIgnoreCase(TAG_NAME_COMMUNICATION_PINCODE)) {
+//                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_COMMUNICATION_DISTRICT, SCREEN_ID, district, true, false, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                                }
+//                                            }
+//                                            if (pincodeResponseDTO.getPostOffice() != null
+//                                                    && pincodeResponseDTO.getPostOffice().size() > 0
+//                                                    && !TextUtils.isEmpty(postOffice.getState())) {
+//                                                String state = postOffice.getState();
+//                                                if (postOffice.getState().equalsIgnoreCase("Chhattisgarh")) {
+//                                                    state = "Chhattisgarh";
+//                                                } else {
+//                                                    state = postOffice.getState();
+//                                                }
+//                                                if (!SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_ADDRESS_DETAIL) && !(SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL))) {
+//                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_STATE, SCREEN_ID, state, true, false, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                                } else if (fieldTag.equalsIgnoreCase(TAG_NAME_PERMANENT_PINCODE)) {
+//                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_PERMANENT_STATE, SCREEN_ID, state, true, false, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                                } else if (fieldTag.equalsIgnoreCase(TAG_NAME_COMMUNICATION_PINCODE)) {
+//                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_COMMUNICATION_STATE, SCREEN_ID, state, true, false, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                                }
+//                                            }
+//                                        }
+//                                        changePinCodeFields(parameterInfoList, dynamicUITableList);
+//                                        //pincodeMasterAreaDataForAddressDetail(dynamicUITableList,CLIENT_ID,pincode);
+//
+//                                    } else {
+//                                        appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ERROR,
+//                                                "Something went wrong. Please try again later", new ConfirmationDialog.ActionCallback() {
+//                                                    @Override
+//                                                    public void onAction() {
+//                                                        List<PincodeParameterInfo> parameterInfoList = new ArrayList<>();
+//                                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_PINCODE, SCREEN_ID, pincode, true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_VILLAGE, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_CITY, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_DISTRICT, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_STATE, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                                        changePinCodeFields(parameterInfoList, dynamicUITableList);
+//                                                    }
+//                                                });
+//
+//
+//                                        /*// TODO: write failure logic here
+//                                        List<PincodeParameterInfo> parameterInfoList = new ArrayList<>();
+//                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_PINCODE, SCREEN_ID, pincode, true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_VILLAGE, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_CITY, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_DISTRICT, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_STATE, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                        changePinCodeFields(parameterInfoList, dynamicUITableList);*/
+//                                    }
+//                                } else {
+//                                    appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ERROR,
+//                                            "Something went wrong. Please try again later", new ConfirmationDialog.ActionCallback() {
+//                                                @Override
+//                                                public void onAction() {
+//                                                    List<PincodeParameterInfo> parameterInfoList = new ArrayList<>();
+//                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_PINCODE, SCREEN_ID, pincode, true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_VILLAGE, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_CITY, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_DISTRICT, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_STATE, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                                    changePinCodeFields(parameterInfoList, dynamicUITableList);
+//                                                }
+//                                            });
+//
+//                                }
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                                appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ERROR,
+//                                        "Something went wrong. Please try again later", new ConfirmationDialog.ActionCallback() {
+//                                            @Override
+//                                            public void onAction() {
+//                                                List<PincodeParameterInfo> parameterInfoList = new ArrayList<>();
+//                                                parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_PINCODE, SCREEN_ID, pincode, true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                                parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_VILLAGE, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                                parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_CITY, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                                parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_DISTRICT, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                                parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_STATE, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                                changePinCodeFields(parameterInfoList, dynamicUITableList);
+//                                            }
+//                                        });
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFailure(@NonNull Call<PincodeResponseDTO> call, @NonNull Throwable t) {
+//                            appHelper.getDialogHelper().getLoadingDialog().closeDialog();
+//                            t.printStackTrace();
+//                            appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ERROR,
+//                                    "Something went wrong. Please try again later", new ConfirmationDialog.ActionCallback() {
+//                                        @Override
+//                                        public void onAction() {
+//                                            List<PincodeParameterInfo> parameterInfoList = new ArrayList<>();
+//                                            parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_PINCODE, SCREEN_ID, pincode, true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                            parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_VILLAGE, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                            parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_CITY, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                            parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_DISTRICT, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                            parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_STATE, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+//                                            changePinCodeFields(parameterInfoList, dynamicUITableList);
+//                                        }
+//                                    });
+//                        }
+//                    });
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+    private void getPinCodeDataFromServer(String pincode, List<DynamicUITable> dynamicUITableList, String fieldTag) {
         try {
             Log.i(TAG, "Pin code -->" + pincode);
             appHelper.getDialogHelper().getLoadingDialog().showGIFLoading();
-            DynamicUIWebService.changeApiBaseUrl(AppConstant.PIN_CODE_URL);
-            getServicesAPI().getPincodeDetails(pincode, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""))
-                    .enqueue(new Callback<PincodeResponseDTO>() {
-                        @Override
-                        public void onResponse(@NonNull Call<PincodeResponseDTO> call, @NonNull Response<PincodeResponseDTO> response) {
-                            appHelper.getDialogHelper().getLoadingDialog().closeDialog();
-                            try {
-                                Log.d(TAG, "Pin code EKYCLoginRequest ===> " + response);
-                                if (response.isSuccessful()) {
-                                    Log.d(TAG, "Pin code EKYCLoginRequest code===> " + response.code());
-                                    Log.d(TAG, "Pin code EKYCLoginRequest Msg===> " + response.message());
-                                    PincodeResponseDTO pincodeResponseDTO = response.body();
-                                    Log.d(TAG, "Pin code EKYCLoginRequest Body===> " + pincodeResponseDTO);
-                                    if (pincodeResponseDTO != null && pincodeResponseDTO.getStatus().equalsIgnoreCase("Success")) {
-                                        // TODO: write success logic here
-                                        List<PincodeParameterInfo> parameterInfoList = new ArrayList<>();
-                                        List<String> cityList = new ArrayList<>();
-                                        List<String> villageList = new ArrayList<>();
-                                        for (PincodeResponseDTO.PostOffice postOffice : pincodeResponseDTO.getPostOffice()) {
-                                            if (!(SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_ADDRESS_DETAIL)) && !(SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL))) {
-                                                parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_PINCODE, SCREEN_ID, pincode, true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
-
-                                            } else if (fieldTag.equalsIgnoreCase(TAG_NAME_PERMANENT_PINCODE)) {
-                                                parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_PERMANENT_PINCODE, SCREEN_ID, pincode, true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
-                                            } else if (fieldTag.equalsIgnoreCase(TAG_NAME_COMMUNICATION_PINCODE)) {
-                                                parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_COMMUNICATION_PINCODE, SCREEN_ID, pincode, true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
-                                            }
-                                            if (pincodeResponseDTO.getPostOffice() != null
-                                                    && pincodeResponseDTO.getPostOffice().size() > 0
-                                                    && !TextUtils.isEmpty(postOffice.getName())) {
-                                                String village = postOffice.getName();
-                                                villageList.add(village);
-                                                if (!SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_ADDRESS_DETAIL) && !(SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL))) {
-                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_VILLAGE, SCREEN_ID, village, true,
-                                                            true, FIELD_TYPE_LIST_BOX, villageList.toArray(new String[0])));
-                                                }
-                                            }
-                                            if (pincodeResponseDTO.getPostOffice() != null
-                                                    && pincodeResponseDTO.getPostOffice().size() > 0
-                                                    && !TextUtils.isEmpty(postOffice.getDistrict())) {
-                                                String city = postOffice.getDistrict();
-                                                cityList.add(city);
-                                                if (!(SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_ADDRESS_DETAIL)) && !(SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL))) {
-                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_CITY, SCREEN_ID, city, true, true, FIELD_TYPE_LIST_BOX, cityList.toArray(new String[0])));
-                                                } else if (fieldTag.equalsIgnoreCase(TAG_NAME_PERMANENT_PINCODE)) {
-                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_PERMANENT_CITY, SCREEN_ID, city, true, true, FIELD_TYPE_LIST_BOX, cityList.toArray(new String[0])));
-                                                } else if (fieldTag.equalsIgnoreCase(TAG_NAME_COMMUNICATION_PINCODE)) {
-                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_COMMUNICATION_CITY, SCREEN_ID, city, true, true, FIELD_TYPE_LIST_BOX, cityList.toArray(new String[0])));
-                                                }
-                                            }
-                                            if (pincodeResponseDTO.getPostOffice() != null
-                                                    && pincodeResponseDTO.getPostOffice().size() > 0
-                                                    && !TextUtils.isEmpty(postOffice.getDistrict())) {
-                                                String district = postOffice.getDistrict();
-                                                if (!SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_ADDRESS_DETAIL) && !(SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL))) {
-                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_DISTRICT, SCREEN_ID, district, true, false, FIELD_TYPE_TEXT_BOX, new String[0]));
-                                                } else if (fieldTag.equalsIgnoreCase(TAG_NAME_PERMANENT_PINCODE)) {
-                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_PERMANENT_DISTRICT, SCREEN_ID, district, true, false, FIELD_TYPE_TEXT_BOX, new String[0]));
-                                                } else if (fieldTag.equalsIgnoreCase(TAG_NAME_COMMUNICATION_PINCODE)) {
-                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_COMMUNICATION_DISTRICT, SCREEN_ID, district, true, false, FIELD_TYPE_TEXT_BOX, new String[0]));
-                                                }
-                                            }
-                                            if (pincodeResponseDTO.getPostOffice() != null
-                                                    && pincodeResponseDTO.getPostOffice().size() > 0
-                                                    && !TextUtils.isEmpty(postOffice.getState())) {
-                                                String state = postOffice.getState();
-                                                if (postOffice.getState().equalsIgnoreCase("Chhattisgarh")) {
-                                                    state = "Chhattisgarh";
-                                                } else {
-                                                    state = postOffice.getState();
-                                                }
-                                                if (!SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_ADDRESS_DETAIL) && !(SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL))) {
-                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_STATE, SCREEN_ID, state, true, false, FIELD_TYPE_TEXT_BOX, new String[0]));
-                                                } else if (fieldTag.equalsIgnoreCase(TAG_NAME_PERMANENT_PINCODE)) {
-                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_PERMANENT_STATE, SCREEN_ID, state, true, false, FIELD_TYPE_TEXT_BOX, new String[0]));
-                                                } else if (fieldTag.equalsIgnoreCase(TAG_NAME_COMMUNICATION_PINCODE)) {
-                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_COMMUNICATION_STATE, SCREEN_ID, state, true, false, FIELD_TYPE_TEXT_BOX, new String[0]));
-                                                }
-                                            }
-                                        }
-                                        changePinCodeFields(parameterInfoList, dynamicUITableList);
-                                        //pincodeMasterAreaDataForAddressDetail(dynamicUITableList,CLIENT_ID,pincode);
-
-                                    } else {
-                                        appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ERROR,
-                                                "Something went wrong. Please try again later", new ConfirmationDialog.ActionCallback() {
-                                                    @Override
-                                                    public void onAction() {
-                                                        List<PincodeParameterInfo> parameterInfoList = new ArrayList<>();
-                                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_PINCODE, SCREEN_ID, pincode, true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
-                                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_VILLAGE, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
-                                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_CITY, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
-                                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_DISTRICT, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
-                                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_STATE, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
-                                                        changePinCodeFields(parameterInfoList, dynamicUITableList);
-                                                    }
-                                                });
-
-
-                                        /*// TODO: write failure logic here
-                                        List<PincodeParameterInfo> parameterInfoList = new ArrayList<>();
-                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_PINCODE, SCREEN_ID, pincode, true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
-                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_VILLAGE, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
-                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_CITY, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
-                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_DISTRICT, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
-                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_STATE, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
-                                        changePinCodeFields(parameterInfoList, dynamicUITableList);*/
-                                    }
-                                } else {
-                                    appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ERROR,
-                                            "Something went wrong. Please try again later", new ConfirmationDialog.ActionCallback() {
-                                                @Override
-                                                public void onAction() {
-                                                    List<PincodeParameterInfo> parameterInfoList = new ArrayList<>();
-                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_PINCODE, SCREEN_ID, pincode, true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
-                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_VILLAGE, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
-                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_CITY, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
-                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_DISTRICT, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
-                                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_STATE, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
-                                                    changePinCodeFields(parameterInfoList, dynamicUITableList);
-                                                }
-                                            });
-
+            DynamicUIWebService.changeApiBaseUrl(AppConstant.PRE_SUBMIT_DATA);
+            final PinCodeDataFromServerRequestDTO pinCodeRequestDTO = new PinCodeDataFromServerRequestDTO();
+            pinCodeRequestDTO.setUniqueId(appHelper.getIMEI());
+            pinCodeRequestDTO.setCreatedBy(loanType);
+            pinCodeRequestDTO.setCreatedDate(appHelper.getCurrentDate(DATE_FORMAT_YYYY_MM_DD));
+            pinCodeRequestDTO.setExtCustId(CLIENT_ID);
+            pinCodeRequestDTO.setModuleType(moduleType);
+            pinCodeRequestDTO.setRequestFrom("APP");
+            PinCodeDataFromServerRequestDTO.RequestStringEntity requestString = new PinCodeDataFromServerRequestDTO.RequestStringEntity();
+            requestString.setPincode(pincode);
+            pinCodeRequestDTO.setRequestString(requestString);
+            pinCodeRequestDTO.setServiceType("PincodeAPI");
+            pinCodeRequestDTO.setClientID(CLIENT_ID);
+            String baseString = new Gson().toJson(pinCodeRequestDTO, PinCodeDataFromServerRequestDTO.class).replace("\\u003d", "=");
+            String k1 = SHA256Encrypt.sha256(baseString);
+            DynamicUIWebService.createService(DynamicUIApiInterface.class).getPinCodeDataFromServer(pinCodeRequestDTO,
+                    appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""),k1).enqueue(new Callback<PinCodeDataFromServerResponseDTO>() {
+                @Override
+                public void onResponse(Call<PinCodeDataFromServerResponseDTO> call, Response<PinCodeDataFromServerResponseDTO> response) {
+                    appHelper.getDialogHelper().getLoadingDialog().closeDialog();
+                    try {
+                        Log.d(TAG, "Pin code EKYCLoginRequest ===> " + response);
+                        if (response.isSuccessful()) {
+                            Log.d(TAG, "Pin code EKYCLoginRequest code===> " + response.code());
+                            Log.d(TAG, "Pin code EKYCLoginRequest Msg===> " + response.message());
+                            PinCodeDataFromServerResponseDTO pincodeResponseDTO = response.body();
+                            Log.d(TAG, "Pin code EKYCLoginRequest Body===> " + pincodeResponseDTO);
+                            if (pincodeResponseDTO != null && pincodeResponseDTO.getResponseCode().equalsIgnoreCase("200")) {
+                                // TODO: write success logic here
+                                List<PincodeParameterInfo> parameterInfoList = new ArrayList<>();
+                                List<String> districtList = new ArrayList<>();
+                                List<String> cityList = new ArrayList<>();
+                                List<String> villageList = new ArrayList<>();
+                                if (!(SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_ADDRESS_DETAIL)) && !(SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL))) {
+                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_PINCODE, SCREEN_ID, pincode, true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+                                } else if (fieldTag.equalsIgnoreCase(TAG_NAME_PERMANENT_PINCODE)) {
+                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_PERMANENT_PINCODE, SCREEN_ID, pincode, true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+                                } else if (fieldTag.equalsIgnoreCase(TAG_NAME_COMMUNICATION_PINCODE)) {
+                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_COMMUNICATION_PINCODE, SCREEN_ID, pincode, true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
                                 }
-                            } catch (Exception e) {
-                                e.printStackTrace();
+
+                                for (int i=0; i<pincodeResponseDTO.getApiResponse().getCity().size();i++) {
+                                    if (pincodeResponseDTO.getApiResponse().getCity() != null && pincodeResponseDTO.getApiResponse().getCity().size()>0) {
+                                        String city = pincodeResponseDTO.getApiResponse().getCity().get(i);
+                                        cityList.add(city);
+                                        if (!(SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_ADDRESS_DETAIL)) && !(SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL))) {
+                                            parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_CITY, SCREEN_ID, city, true, true, FIELD_TYPE_LIST_BOX, cityList.toArray(new String[0])));
+                                        } else if (fieldTag.equalsIgnoreCase(TAG_NAME_PERMANENT_PINCODE)) {
+                                            parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_PERMANENT_CITY, SCREEN_ID, city, true, true, FIELD_TYPE_LIST_BOX, cityList.toArray(new String[0])));
+                                        } else if (fieldTag.equalsIgnoreCase(TAG_NAME_COMMUNICATION_PINCODE)) {
+                                            parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_COMMUNICATION_CITY, SCREEN_ID, city, true, true, FIELD_TYPE_LIST_BOX, cityList.toArray(new String[0])));
+                                        }
+                                    }
+                                }
+                                for (int i=0; i<pincodeResponseDTO.getApiResponse().getDistrict().size();i++) {
+                                    if (pincodeResponseDTO.getApiResponse().getDistrict()!=null&&pincodeResponseDTO.getApiResponse().getDistrict().size()>0) {
+                                        String district = pincodeResponseDTO.getApiResponse().getDistrict().get(i);
+                                        districtList.add(pincodeResponseDTO.getApiResponse().getDistrict().get(i));
+                                        if (!SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_ADDRESS_DETAIL) && !(SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL))) {
+                                            parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_DISTRICT, SCREEN_ID, district, true, true, FIELD_TYPE_LIST_BOX, districtList.toArray(new String[0])));
+                                        } else if (fieldTag.equalsIgnoreCase(TAG_NAME_PERMANENT_PINCODE)) {
+                                            parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_PERMANENT_DISTRICT, SCREEN_ID, district, true, true, FIELD_TYPE_LIST_BOX,districtList.toArray(new String[0])));
+                                        } else if (fieldTag.equalsIgnoreCase(TAG_NAME_COMMUNICATION_PINCODE)) {
+                                            parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_COMMUNICATION_DISTRICT, SCREEN_ID, district, true, true, FIELD_TYPE_LIST_BOX,districtList.toArray(new String[0])));
+                                        }
+                                    }
+                                }
+                                if (pincodeResponseDTO.getApiResponse().getState() != null && !TextUtils.isEmpty(pincodeResponseDTO.getApiResponse().getState())) {
+                                    String state = pincodeResponseDTO.getApiResponse().getState();
+                                    if (!SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_ADDRESS_DETAIL) && !(SCREEN_NAME.equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL))) {
+                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_STATE, SCREEN_ID, state, true, false, FIELD_TYPE_TEXT_BOX, new String[0]));
+                                    } else if (fieldTag.equalsIgnoreCase(TAG_NAME_PERMANENT_PINCODE)) {
+                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_PERMANENT_STATE, SCREEN_ID, state, true, false, FIELD_TYPE_TEXT_BOX, new String[0]));
+                                    } else if (fieldTag.equalsIgnoreCase(TAG_NAME_COMMUNICATION_PINCODE)) {
+                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_COMMUNICATION_STATE, SCREEN_ID, state, true, false, FIELD_TYPE_TEXT_BOX, new String[0]));
+                                    }
+                                }
+
+                                changePinCodeFields(parameterInfoList, dynamicUITableList);
+
+                            } else {
                                 appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ERROR,
                                         "Something went wrong. Please try again later", new ConfirmationDialog.ActionCallback() {
                                             @Override
@@ -10634,13 +10811,9 @@ public class LOSBaseFragment extends BaseFragment {
                                                 changePinCodeFields(parameterInfoList, dynamicUITableList);
                                             }
                                         });
-                            }
-                        }
 
-                        @Override
-                        public void onFailure(@NonNull Call<PincodeResponseDTO> call, @NonNull Throwable t) {
-                            appHelper.getDialogHelper().getLoadingDialog().closeDialog();
-                            t.printStackTrace();
+                            }
+                        } else {
                             appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ERROR,
                                     "Something went wrong. Please try again later", new ConfirmationDialog.ActionCallback() {
                                         @Override
@@ -10654,12 +10827,147 @@ public class LOSBaseFragment extends BaseFragment {
                                             changePinCodeFields(parameterInfoList, dynamicUITableList);
                                         }
                                     });
+
                         }
-                    });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ERROR,
+                                "Something went wrong. Please try again later", new ConfirmationDialog.ActionCallback() {
+                                    @Override
+                                    public void onAction() {
+                                        List<PincodeParameterInfo> parameterInfoList = new ArrayList<>();
+                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_PINCODE, SCREEN_ID, pincode, true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_VILLAGE, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_CITY, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_DISTRICT, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+                                        parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_STATE, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+                                        changePinCodeFields(parameterInfoList, dynamicUITableList);
+                                    }
+                                });
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<PinCodeDataFromServerResponseDTO> call, @NonNull Throwable t) {
+                    appHelper.getDialogHelper().getLoadingDialog().closeDialog();
+                    t.printStackTrace();
+                    appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ERROR,
+                            "Something went wrong. Please try again later", new ConfirmationDialog.ActionCallback() {
+                                @Override
+                                public void onAction() {
+                                    List<PincodeParameterInfo> parameterInfoList = new ArrayList<>();
+                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_PINCODE, SCREEN_ID, pincode, true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_VILLAGE, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_CITY, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_DISTRICT, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+                                    parameterInfoList.add(new PincodeParameterInfo(TAG_NAME_STATE, SCREEN_ID, "", true, true, FIELD_TYPE_TEXT_BOX, new String[0]));
+                                    changePinCodeFields(parameterInfoList, dynamicUITableList);
+                                }
+                            });
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    private void getIFSCCodeDataFromServer(String ifscCode, List<DynamicUITable> dynamicUITableList) {
+        try {
+            Log.i(TAG, "IFSC code -->" + ifscCode);
+            appHelper.getDialogHelper().getLoadingDialog().showGIFLoading();
+            DynamicUIWebService.changeApiBaseUrl(AppConstant.PRE_SUBMIT_DATA);
+            final GetBankDetailsByIfscCodeRequestDTO getBankDetailsByIfscCodeRequestDTO = new GetBankDetailsByIfscCodeRequestDTO();
+            getBankDetailsByIfscCodeRequestDTO.setUniqueId(appHelper.getIMEI());
+            getBankDetailsByIfscCodeRequestDTO.setCreatedBy(loanType);
+            getBankDetailsByIfscCodeRequestDTO.setCreatedDate(appHelper.getCurrentDate(DATE_FORMAT_YYYY_MM_DD));
+            getBankDetailsByIfscCodeRequestDTO.setExtCustId(CLIENT_ID);
+            getBankDetailsByIfscCodeRequestDTO.setModuleType(moduleType);
+            getBankDetailsByIfscCodeRequestDTO.setRequestFrom("APP");
+            GetBankDetailsByIfscCodeRequestDTO.RequestStringEntity requestString = new GetBankDetailsByIfscCodeRequestDTO.RequestStringEntity();
+            requestString.setIFSCCode(ifscCode);
+            getBankDetailsByIfscCodeRequestDTO.setRequestString(requestString);
+            getBankDetailsByIfscCodeRequestDTO.setServiceType("IFSCCodeAPI");
+            getBankDetailsByIfscCodeRequestDTO.setClientID(CLIENT_ID);
+            String baseString = new Gson().toJson(getBankDetailsByIfscCodeRequestDTO, GetBankDetailsByIfscCodeRequestDTO.class).replace("\\u003d", "=");
+            String k1 = SHA256Encrypt.sha256(baseString);
+            DynamicUIWebService.createService(DynamicUIApiInterface.class).getIFSCDataFromServer(getBankDetailsByIfscCodeRequestDTO,
+                    appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""),k1).enqueue(new Callback<GetBankDetailsByIfscCodeResponseDTO>() {
+                @Override
+                public void onResponse(Call<GetBankDetailsByIfscCodeResponseDTO> call, Response<GetBankDetailsByIfscCodeResponseDTO> response) {
+                    appHelper.getDialogHelper().getLoadingDialog().closeDialog();
+                    try {
+                        if (response.isSuccessful()) {
+                            GetBankDetailsByIfscCodeResponseDTO getBankDetailsByIfscCodeResponseDTO = response.body();
+                            if (getBankDetailsByIfscCodeResponseDTO != null && getBankDetailsByIfscCodeResponseDTO.getErrorMessage().equalsIgnoreCase("")) {
+                                // TODO: write success logic here
+                                List<ParameterInfo> parameterInfoList = new ArrayList<>();
+                                parameterInfoList.add(new ParameterInfo(TAG_NAME_BANK_NAME, SCREEN_ID,getBankDetailsByIfscCodeResponseDTO.getApiResponse().getBANK_NAME(), true, false));
+                                parameterInfoList.add(new ParameterInfo(TAG_NAME_BRANCH_NAME, SCREEN_ID, getBankDetailsByIfscCodeResponseDTO.getApiResponse().getBRANCH_NAME(), true, false));
+                                EnableOrDisableByFieldNameInDB(parameterInfoList, dynamicUITableList);
+
+                            }else if (getBankDetailsByIfscCodeResponseDTO != null && !getBankDetailsByIfscCodeResponseDTO.getErrorMessage().equalsIgnoreCase("")) {
+                                // TODO: write success logic here
+                                appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ERROR,
+                                        "Something went wrong. Please try again later", new ConfirmationDialog.ActionCallback() {
+                                            @Override
+                                            public void onAction() {
+                                                List<ParameterInfo> parameterInfoList = new ArrayList<>();
+                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_BANK_NAME, SCREEN_ID,"", true, false));
+                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_BRANCH_NAME, SCREEN_ID, "", true, false));
+                                                EnableOrDisableByFieldNameInDB(parameterInfoList, dynamicUITableList);
+                                            }
+                                        });
+                            }
+                        } else {
+                            appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ERROR,
+                                    "Something went wrong. Please try again later", new ConfirmationDialog.ActionCallback() {
+                                        @Override
+                                        public void onAction() {
+                                            List<ParameterInfo> parameterInfoList = new ArrayList<>();
+                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_BANK_NAME, SCREEN_ID,"", true, false));
+                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_BRANCH_NAME, SCREEN_ID, "", true, false));
+                                            EnableOrDisableByFieldNameInDB(parameterInfoList, dynamicUITableList);
+                                        }
+                                    });
+
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ERROR,
+                                "Something went wrong. Please try again later", new ConfirmationDialog.ActionCallback() {
+                                    @Override
+                                    public void onAction() {
+                                        List<ParameterInfo> parameterInfoList = new ArrayList<>();
+                                        parameterInfoList.add(new ParameterInfo(TAG_NAME_BANK_NAME, SCREEN_ID,"", true, false));
+                                        parameterInfoList.add(new ParameterInfo(TAG_NAME_BRANCH_NAME, SCREEN_ID, "", true, false));
+                                        EnableOrDisableByFieldNameInDB(parameterInfoList, dynamicUITableList);
+                                    }
+                                });
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<GetBankDetailsByIfscCodeResponseDTO> call, @NonNull Throwable t) {
+                    appHelper.getDialogHelper().getLoadingDialog().closeDialog();
+                    t.printStackTrace();
+                    appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ERROR,
+                            "Something went wrong. Please try again later", new ConfirmationDialog.ActionCallback() {
+                                @Override
+                                public void onAction() {
+                                    List<ParameterInfo> parameterInfoList = new ArrayList<>();
+                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_BANK_NAME, SCREEN_ID,"", true, false));
+                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_BRANCH_NAME, SCREEN_ID, "", true, false));
+                                    EnableOrDisableByFieldNameInDB(parameterInfoList, dynamicUITableList);
+
+                                }
+                            });
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void getRawData(String screen, List<DynamicUITable> list, List<RawDataTable> tagNameList, String newRowTagName) {
         ArrayList<HashMap<String, Object>> hashMapList = new ArrayList<>();

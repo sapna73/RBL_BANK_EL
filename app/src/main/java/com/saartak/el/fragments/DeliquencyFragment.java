@@ -8,7 +8,7 @@ import static com.saartak.el.constants.AppConstant.PARAM_PROJECT_ID;
 import static com.saartak.el.constants.AppConstant.PARAM_SCREEN_NAME;
 import static com.saartak.el.constants.AppConstant.PARAM_SCREEN_NO;
 import static com.saartak.el.constants.AppConstant.PARAM_USER_ID;
-import static com.saartak.el.constants.AppConstant.SCREEN_NAME_DELINQUENCY;
+import static com.saartak.el.constants.AppConstant.SCREEN_NAME_DELIQUENCY;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -191,7 +191,7 @@ public class DeliquencyFragment extends LOSBaseFragment implements FragmentInter
 
     private void getRawData() {
         try {
-            viewModel.getRawDataByClientIDAndModuleType(SCREEN_NAME_DELINQUENCY, CLIENT_ID, MODULE_TYPE);
+            viewModel.getRawDataByClientIDAndModuleType(SCREEN_NAME_DELIQUENCY, CLIENT_ID, MODULE_TYPE);
             if (viewModel.getRawTableLiveData() != null) {
                 viewModel.getRawTableLiveData().observe(getViewLifecycleOwner(), rawDataTableList -> {
                     for (RawDataTable rawDataTable : rawDataTableList) {

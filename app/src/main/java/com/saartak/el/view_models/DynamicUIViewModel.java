@@ -1781,6 +1781,13 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
             ex.printStackTrace();
         }
     }
+    public void guarantorDetailValidation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList,String type){
+        try{
+            dynamicUITableLiveData = dynamicUIRepository.guarantorDetailValidation(dynamicUITable, dynamicUITableList,type);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
 
     public void guarantorDetailsValidation(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
