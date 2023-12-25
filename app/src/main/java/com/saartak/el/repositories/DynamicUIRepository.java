@@ -26211,7 +26211,7 @@ public class DynamicUIRepository {
                     }
                 }
                 DynamicUIWebService.createService(DynamicUIWebservice.class).generateCIBILServiceCall
-                                (cibilRequestResponseDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""),k1).
+                                (encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""),getEncryptToken.getToken()).
                         enqueue(new Callback<String>() {
                             @Override
                             public void onResponse(Call<String> call, Response<String> response) {
