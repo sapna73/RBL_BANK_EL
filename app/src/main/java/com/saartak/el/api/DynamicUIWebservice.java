@@ -195,7 +195,8 @@ public interface  DynamicUIWebservice {
 
     /*  Screen data to server on every Screen */
     @POST("DBUtil/Submit")
-    Call<String> insertpostALLDataToServer(@Body InsertRawDataRequest insertRawDataRequest, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> insertpostALLDataToServer(@Body String s, @Header("Authorization") String authHeader, @Header("k1") String k1);
+   // Call<String> insertpostALLDataToServer(@Body InsertRawDataRequest insertRawDataRequest, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     /*  Post Entered data to server JLG */
     @POST("v1/uat/JLG/SubmitRequest")
@@ -250,11 +251,13 @@ public interface  DynamicUIWebservice {
 
     /* workflow history tvName server */
     @POST("utility/GetDataUtil")
-    Call<ResponseBody> getWorkflowhistoryFromServer(@Body WorkFlowHistoryRequestDTO workFlowHistoryRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
+    Call<String> getWorkflowhistoryFromServer(@Body String s, @Header("Authorization") String authHeader,@Header("k1") String k1);
+   // Call<ResponseBody> getWorkflowhistoryFromServer(@Body WorkFlowHistoryRequestDTO workFlowHistoryRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
 
     /* IFSC data tvName server */
     @POST("utility/GetDataUtil")
-    Call<ResponseBody> getIFSCDataServiceCall(@Body IFSCRequestDTO ifscRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
+    Call<String> getIFSCDataServiceCall(@Body String s, @Header("Authorization") String authHeader,@Header("k1") String k1);
+   // Call<ResponseBody> getIFSCDataServiceCall(@Body IFSCRequestDTO ifscRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
 
     // TODO: GET ROLE NAMES SERVICE
     @POST("UserList")
@@ -274,7 +277,8 @@ public interface  DynamicUIWebservice {
 
     /* Raw data tvName server */
     @POST("utility/GetDataUtil")
-    Call<ResponseBody> rawDataFromServer(@Body RawDataRequestDTO rawDataRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
+    Call<String> rawDataFromServer(@Body String rawDataRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
+    //Call<ResponseBody> rawDataFromServer(@Body RawDataRequestDTO rawDataRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
 
     /* initiate payment status */
     @POST("utility/GetDataUtil")
@@ -318,7 +322,8 @@ public interface  DynamicUIWebservice {
 
     /* Lead Raw data tvName server */
     @POST("utility/GetDataUtil")
-    Call<ResponseBody> LeadRawDataFromServer(@Body LeadRawDataRequestDTO rawDataRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
+    Call<String> LeadRawDataFromServer(@Body String s, @Header("Authorization") String authHeader,@Header("k1") String k1);
+    //Call<ResponseBody> LeadRawDataFromServer(@Body LeadRawDataRequestDTO rawDataRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
 
     /* Cold call data tvName server */
     @POST("utility/GetDataUtil")
@@ -358,7 +363,8 @@ public interface  DynamicUIWebservice {
 
     /* Product Master tvName server */
     @POST("utility/GetDataUtil")
-    Call<ResponseBody> getProductMasterFromServer(@Body ProductMasterRequestDTO productMasterRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getProductMasterFromServer(@Body String s, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    //Call<ResponseBody> getProductMasterFromServer(@Body ProductMasterRequestDTO productMasterRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     //Lead - loan scheme and loan product
     @POST("utility/GetDataUtil")
@@ -381,58 +387,74 @@ public interface  DynamicUIWebservice {
     Call<ResponseBody> getUserLoginMenuBankFromServer(@Body UserLoginMenuRequestDTO userLoginMenuRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
 
     @POST("utility/GetDataUtil")
-    Call<ResponseBody> getLeadDropDownDetailsFromServer(@Body GetLeadDropDownDetailsRequestDTO getLeadDropDownDetailsRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
+    Call<String> getLeadDropDownDetailsFromServer(@Body String s, @Header("Authorization") String authHeader,@Header("k1") String k1);
+    //Call<ResponseBody> getLeadDropDownDetailsFromServer(@Body GetLeadDropDownDetailsRequestDTO getLeadDropDownDetailsRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
 
     @POST("utility/GetDataUtil")
-    Call<ResponseBody> getLeadDropDownTypeOfProfession(@Body TypeOfProfessionRequestDTO getTypeOfProfessionRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getLeadDropDownTypeOfProfession(@Body String s, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    //Call<ResponseBody> getLeadDropDownTypeOfProfession(@Body TypeOfProfessionRequestDTO getTypeOfProfessionRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("utility/GetDataUtil")
-    Call<ResponseBody> getSPRAT(@Body RATSPRequestDTO ratspRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getSPRAT(@Body String s, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    //Call<ResponseBody> getSPRAT(@Body RATSPRequestDTO ratspRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("utility/GetDataUtil")
-    Call<ResponseBody> getTWLGetMakeModelData(@Body GetTWLDataRequestDTO getTWLDataRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getTWLGetMakeModelData(@Body String s, @Header("Authorization") String authHeader, @Header("k1") String k1);
+   // Call<ResponseBody> getTWLGetMakeModelData(@Body GetTWLDataRequestDTO getTWLDataRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("utility/GetDataUtil")
-    Call<ResponseBody> eNACH_GetRazorpayFetchToken(@Body MNachRequestDTO mNachRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> eNACH_GetRazorpayFetchToken(@Body String s, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    //Call<ResponseBody> eNACH_GetRazorpayFetchToken(@Body MNachRequestDTO mNachRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("utility/GetDataUtil")
-    Call<ResponseBody> getPricingInbox(@Body GetPricingInboxRequestDTO getPricingInboxRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getPricingInbox(@Body String s, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    //Call<ResponseBody> getPricingInbox(@Body GetPricingInboxRequestDTO getPricingInboxRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("utility/GetDataUtil")
-    Call<ResponseBody> getInsertRawDataBag(@Body InsertRawDataBagRequestDTO insertRawDataBagRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getInsertRawDataBag(@Body String s, @Header("Authorization") String authHeader, @Header("k1") String k1);
+   // Call<ResponseBody> getInsertRawDataBag(@Body InsertRawDataBagRequestDTO insertRawDataBagRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("utility/GetDataUtil")
-    Call<ResponseBody> getLoanAmountWisePricingDefaultValues(@Body LoanAmountWisePricingDefaultValuesRequestDTO loanAmountWisePricingDefaultValuesRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getLoanAmountWisePricingDefaultValues(@Body String s, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    //Call<ResponseBody> getLoanAmountWisePricingDefaultValues(@Body LoanAmountWisePricingDefaultValuesRequestDTO loanAmountWisePricingDefaultValuesRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("utility/GetDataUtil")
-    Call<ResponseBody> getCreditApprovalScreenPricing(@Body CreditApprovalScreenPricingrequestDTO creditApprovalScreenPricingrequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getCreditApprovalScreenPricing(@Body String s, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    //Call<ResponseBody> getCreditApprovalScreenPricing(@Body CreditApprovalScreenPricingrequestDTO creditApprovalScreenPricingrequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("utility/GetDataUtil")
     Call<ResponseBody> getSyncWorkFlowData(@Body SyncWorkflowRequestDTO syncWorkflowRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("utility/GetDataUtil")
-    Call<ResponseBody> getScreenEditValidation(@Body ScreenEditValidationRequestDTO screenEditValidationRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getScreenEditValidation(@Body String s, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    //Call<ResponseBody> getScreenEditValidation(@Body ScreenEditValidationRequestDTO screenEditValidationRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("utility/GetDataUtil")
-    Call<ResponseBody> getStudentGrade(@Body StudentGradeRequestDTO studentGradeRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getStudentGrade(@Body String s, @Header("Authorization") String authHeader, @Header("k1") String k1);
+   // Call<ResponseBody> getStudentGrade(@Body StudentGradeRequestDTO studentGradeRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("utility/GetDataUtil")
-    Call<ResponseBody> getTenureInMonths(@Body TenureMonthsRequestDTO studentGradeRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getTenureInMonths(@Body String s, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    //Call<ResponseBody> getTenureInMonths(@Body TenureMonthsRequestDTO studentGradeRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("utility/GetDataUtil")
     Call<ResponseBody> getBreSnsManageResults(@Body BreSnsManageResultsRequestDTO breSnsManageResultsRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("utility/GetDataUtil")
-    Call<ResponseBody> getProcessPricingWF(@Body ProcessPricingWFRequestDTO processPricingWFRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getProcessPricingWF(@Body String s, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    //Call<ResponseBody> getProcessPricingWF(@Body ProcessPricingWFRequestDTO processPricingWFRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("utility/GetDataUtil")
-    Call<ResponseBody> getPinCodeMasterData(@Body PinCodeRequestDTO  pinCodeRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getPinCodeMasterData(@Body String  pinCodeRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    //Call<ResponseBody> getPinCodeMasterData(@Body PinCodeRequestDTO  pinCodeRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("utility/GetDataUtil")
-    Call<ResponseBody> getPinCodeAreaMasterData(@Body PinCodeAreaRequestDTO pinCodeAreaRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getPinCodeAreaMasterData(@Body String pinCodeAreaRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+   // Call<ResponseBody> getPinCodeAreaMasterData(@Body PinCodeAreaRequestDTO pinCodeAreaRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("utility/GetDataUtil")
-    Call<ResponseBody> getNegitiveProfileList(@Body NegitiveProfileListRequestDTO negitiveProfileListRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getNegitiveProfileList(@Body String negitiveProfileListRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+   // Call<ResponseBody> getNegitiveProfileList(@Body NegitiveProfileListRequestDTO negitiveProfileListRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
 
     /* DBR tvName server */
@@ -464,7 +486,8 @@ public interface  DynamicUIWebservice {
 
     /* CIBIL SERVICE CALL */
     @POST("Cibil/enquiry")
-    Call<CibilResponseDTO> generateCIBILServiceCall(@Body CibilRequestDTO cibilRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
+    Call<String> generateCIBILServiceCall(@Body String cibilRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
+   // Call<CibilResponseDTO> generateCIBILServiceCall(@Body CibilRequestDTO cibilRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
 
     /* CB MFI SERVICE CALL */
     @POST("CBMFI/Enquiry")
@@ -484,7 +507,8 @@ public interface  DynamicUIWebservice {
 
     // TODO: LOGIN SERVICE
     @POST("Login")
-    Call<JsonObject> logInLDAPService(@Body LoginNewRequestDTO loginRequestDTO, @Header("k1") String k1);
+    Call<String> logInLDAPService(@Body String value,@Header("k1") String k1);
+    //Call<JsonObject> logInLDAPService(@Body LoginNewRequestDTO loginRequestDTO, @Header("k1") String k1);
 
     // TODO: LOGOUT SERVICE
     @POST("LogOff")
@@ -504,64 +528,82 @@ public interface  DynamicUIWebservice {
 
     // TODO: POSIDEX SERVICE
     @POST("Posidex/Enquiry")
-    Call<PosidexResponseDTO> getposidexService(@Body PosidexRequestDTO posidexRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getposidexService(@Body String string, @Header("Authorization") String authHeader, @Header("k1") String k1);
+   // Call<PosidexResponseDTO> getposidexService(@Body PosidexRequestDTO posidexRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("DeliquencyDedupe/Get")
-    Call<DeliquencyResponseDTO> getDeliquencyService(@Body DeliquencyRequestDTO deliquencyRequestDTO,  @Header("Authorization") String authHeader,@Header("k1") String k1);
+    Call<String> getDeliquencyService(@Body String string,  @Header("Authorization") String authHeader,@Header("k1") String k1);
+   // Call<DeliquencyResponseDTO> getDeliquencyService(@Body DeliquencyRequestDTO deliquencyRequestDTO,  @Header("Authorization") String authHeader,@Header("k1") String k1);
 
     @POST("utility/GetDataUtil")
     Call<ResponseBody> getDeliquencyPosidexServer(@Body DeliquencyRequestDataFromTable deliquencyRequestDataFromTable, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("Karza/Enquiry")
-    Call<KarzaResponseDTO> getKarzaDataFromServer(@Body KarzaRequestDTO karzaRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
+    Call<String> getKarzaDataFromServer(@Body String string, @Header("Authorization") String authHeader,@Header("k1") String k1);
+    //Call<KarzaResponseDTO> getKarzaDataFromServer(@Body KarzaRequestDTO karzaRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
 
     @POST("IBBCity/Enquiry")
-    Call<CityResponseDTO> getCityDataFromServer(@Body CityRequestDTO cityRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getCityDataFromServer(@Body String string, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    //Call<CityResponseDTO> getCityDataFromServer(@Body CityRequestDTO cityRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("IBBMasters/GetMake")
-    Call<GetMakeResponseDTO> getMakeServiceData(@Body GetMakeRequestDTO getMakeRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getMakeServiceData(@Body String string, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    //Call<GetMakeResponseDTO> getMakeServiceData(@Body GetMakeRequestDTO getMakeRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("IBBMasters/GetModel")
-    Call<GetModelResponseDTO> getModelServiceData(@Body GetModelRequest getModelRequest, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getModelServiceData(@Body String string, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    //Call<GetModelResponseDTO> getModelServiceData(@Body GetModelRequest getModelRequest, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("IBBMasters/GetVariant")
-    Call<GETVariantResponseDTO> getVariantServiceData(@Body GetVariantRequestDTO variantRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getVariantServiceData(@Body String string, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    //Call<GETVariantResponseDTO> getVariantServiceData(@Body GetVariantRequestDTO variantRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("IBBMasters/GetColor")
-    Call<GetColorResponseDTO> getColorServiceData(@Body GETColorRequestDTO colorRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getColorServiceData(@Body String string, @Header("Authorization") String authHeader, @Header("k1") String k1);
+   // Call<GetColorResponseDTO> getColorServiceData(@Body GETColorRequestDTO colorRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("ramp/enquiry")
-    Call<RampResponseDTO> getRampServiceData(@Body RampRequestDTO rawDataRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getRampServiceData(@Body String string, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    //Call<RampResponseDTO> getRampServiceData(@Body RampRequestDTO rawDataRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("Hunterverification/retail")
-    Call<HunterResponseDTO> getHunterServiceData(@Body HunterRequestDTO hunterRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getHunterServiceData(@Body String s, @Header("Authorization") String authHeader, @Header("k1") String k1);
+   // Call<HunterResponseDTO> getHunterServiceData(@Body HunterRequestDTO hunterRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("Hunterverification/SME")
-    Call<HunterResponseDTO> getHunterNonIndividualServiceData(@Body HunterNonIndividualRequestDTO hunterNonIndividualRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getHunterNonIndividualServiceData(@Body String string, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    //Call<HunterResponseDTO> getHunterNonIndividualServiceData(@Body HunterNonIndividualRequestDTO hunterNonIndividualRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("RazorPayRegistration/Enquiry")
-    Call<ENachResponseDTO> getENachServiceData(@Body ENachRequestDTO eNachRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getENachServiceData(@Body String string, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    //Call<ENachResponseDTO> getENachServiceData(@Body ENachRequestDTO eNachRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("DeDupe/Enquiry")
-    Call<DedupeResponseDTO> getDedupeServiceData(@Body DedupeRequestDTO dedupeRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getDedupeServiceData(@Body String string, @Header("Authorization") String authHeader, @Header("k1") String k1);
+   // Call<DedupeResponseDTO> getDedupeServiceData(@Body DedupeRequestDTO dedupeRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("CPVEquifax/Enquiry")
-    Call<CPVResponseDTO> getCPVServiceData(@Body CPVRequestDTO cpvRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getCPVServiceData(@Body String value, @Header("Authorization") String authHeader,@Header("k1") String k1);
+   // Call<CPVResponseDTO> getCPVServiceData(@Body CPVRequestDTO cpvRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("Esign/Intiation")
-    Call<ESignEStampResponseDTO> getEsignEStampData(@Body ESignEStampRequestDTO eSignEStampRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getEsignEStampData(@Body String eSignEStampRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+   // Call<ESignEStampResponseDTO> getEsignEStampData(@Body ESignEStampRequestDTO eSignEStampRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("EsignStatus/Status")
-    Call<ESignEStampStatusResponseDTO> getEsignEStampStatusData(@Body ESignEStampStatusRequestDTO eSignEStampStatusRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getEsignEStampStatusData(@Body String eSignEStampStatusRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    //Call<ESignEStampStatusResponseDTO> getEsignEStampStatusData(@Body ESignEStampStatusRequestDTO eSignEStampStatusRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("Vkyc/Upstream")
-    Call<VKYCResponseDTO> getVKYCServiceData(@Body VKYCRequestDTO vkycRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getVKYCServiceData(@Body String s, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    //Call<VKYCResponseDTO> getVKYCServiceData(@Body VKYCRequestDTO vkycRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("Vkyc/Downstream")
     Call<DownStreamResponseDTO> getVKYCDownStreamServiceData(@Body DownStreamRequestDTO downStreamRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("RAT/RATAsset")
-    Call<RATResponseDTO> getRATServiceData(@Body RATRequestDTO ratRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getRATServiceData(@Body String s, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    //Call<RATResponseDTO> getRATServiceData(@Body RATRequestDTO ratRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("DigitalDocs/Genrate")
     Call<DigitalDocResponseDTO> getDigitalDocSanctionLetterServiceData(@Body DigitalDocRequestSanctionLetterRuralDTO digitalDocRequestSanctionLetterRuralDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
@@ -573,5 +615,6 @@ public interface  DynamicUIWebservice {
     Call<DigitalDocResponseDTO> getDigitalDocHDeedServiceData(@Body DigitaklDocHypothecationDeedTW_UCRequestDTO digitaklDocHypothecationDeedTW_ucRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("IBBPrice/Enquiry")
-    Call<IBPResponse> getIBPDataFromServer(@Body IBPRequest ibpRequest, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getIBPDataFromServer(@Body String string, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    //Call<IBPResponse> getIBPDataFromServer(@Body IBPRequest ibpRequest, @Header("Authorization") String authHeader, @Header("k1") String k1);
 }

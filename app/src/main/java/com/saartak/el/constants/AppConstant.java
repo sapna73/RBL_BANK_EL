@@ -151,46 +151,56 @@ public class AppConstant {
     public static String RESET_PASSWORD_TOKEN = "Bearer GqQa12BcEWqPP6x7F0UqTzCzTdias6K8mESlhNmFPH7v6EqFnfXXk8mkP1VZ+Dyetb8l952pne6yHl5XCcrpPFRG4M1K8U3mFQECWctEyx2X0deT4A1Xw9x/QL+64TJu+nenKBVy1dNa27irWPTiQ6FE3DhP5pFxQhVI92xBEIaVmwHHaGGNZ7hHw22vI950V7+a8mPgprIQl1ln4lk3k8jfUKeyA05AHWbo2h92vaWhij3ulutCxXpgG+o2m8jQuyEkk1AU7+90e6MCmF+bw6pRhbQLsFtnGzFVBtzfbfnLYcIyMx6pq2J4lMyHHWq4F6Uh5vtNBE9ms4xQmpH2GQ=="; // TODO: HARDCODED TOKEN FOR RESET PASSWORD
     public static String EKYC_TOKEN = " Bearer EBy1rxqFbAwXLWUvSdoEb+GrDn2XiLuOLsSCDWJQ2n7r2S+/fp98pIoK1ZlUZecF4lPWB12BhXtQNkQcQAzcMPLWnaG6yQjx65xbVtaNszzcLtP9/9mkH1SUBvkXMHXX/zQQV9tswzto01fGcL99ACnCqO/YmHmopracZmuNM1rYuaMZ+eHbGdz5ZqfJ0lCHMtH45uZRIaCkzXL04ErF3uG7iVRbISsIgsYaZQEphEBjQ6B5xfcTN5GcMgei21W9Lq0Yfmhw2kCpHFY8F+h/fyQ86Ev23kcGkfjvHzXN3zYXt70Lke0r+gm3o7RMC4biy38jlMQV0QsXAV/BKZdIOg=="; // TODO: HARDCODED TOKEN FOR RESET PASSWORD
     public static String LOGIN_URL = "https://saartakuat.rblbank.com/balApi/"; // TODO: LOGIN URL
-    public static String LDAP_LOGIN_URL = "https://losservicesuat.rblbank.com/LosLdap/api/v1/uat/RVF/"; // TODO:LDAP LOGIN URL
+    //public static String LDAP_LOGIN_URL = "https://losservicesuat.rblbank.com/LosLdap/api/v1/uat/RVF/"; // TODO:LDAP LOGIN URL
     public static String LOGOUT_URL = "https://saartakuat.rblbank.com/balApi/"; // TODO: LOGOUT URL
     public static String BEARER_TOKEN_URL = "https://losservicesuat.rblbank.com/identityservice/api/v1/uat/"; // TODO: BEARER TOKEN URL
-    //public static String BEARER_TOKEN_URL = "https://losservices.rblbank.com/identityservice/api/v1/prod/"; // TODO: BEARER TOKEN URL
     public static String STAGE_URL = "https://losservicesuat.rblbank.com/Tranuat/api/"; // TODO: STAGE URL
     public static String WORKFLOW_URL = "https://losservicesuat.rblbank.com/Tranuat/api/"; // TODO: WORKFLOW URL
     public static String BASE_URL = "https://losservicesuat.rblbank.com/metaservice/api/"; // TODO: META DATA URL
     public static String SUBMIT_DATA_POST_URL = "https://losservicesuat.rblbank.com/Tranuat/api/"; // TODO: SYNC & WORKFLOW
     public static String SUBMIT_DATA_POST_URL_LEAD = "https://losservicesuat.rblbank.com/LossrvDatastore/api/"; // TODO: ONLY SYNC
     public static String SUBMIT_DATA_POST_URL_JLG = "https://losservicesuat.rblbank.com/JLGoperations/api/"; // TODO: JLG DATA SYNC [ dummy url , not received tvName service team ]
-    public static String RAW_DATA_URL = "https://losservicesuat.rblbank.com/DBUtil/api/v1/uat/"; // TODO: RAW DATA URL
-    //https://losservicesuat.rblbank.com/Pincode/api/WorkflowUser/v1/
-    public static String PIN_CODE_URL = "http://www.postalpincode.in/api/"; // TODO: PIN CODE URL
-     public static String EKYC_URL= "https://losservicesuat.rblbank.com/ekyc/api/v1/uat/"; // TODO: EKYC URL
-    //public static String EKYC_URL= "https://losservicesuat.rblbank.com/EkycLOS/api/"; // TODO: EKYC URL
+   // public static String RAW_DATA_URL = "https://losservicesuat.rblbank.com/DBUtil/api/v1/uat/"; // TODO: RAW DATA URL
+    public static String EKYC_URL= "https://losservicesuat.rblbank.com/ekyc/api/v1/uat/"; // TODO: EKYC URL
     public static String OTP_TRIGGER_URL = "https://losservicesuat.rblbank.com/otp/api/v1/uat/"; // TODO: OTP TRIGGER
     public static String OTP_VERIFY_URL = "https://losservicesuat.rblbank.com/otp/api/v1/uat/"; // TODO: OTP VERIFY
-        public static String DOCUMENT_UPLOAD_URL = "https://losservicesuat.rblbank.com/Docupload/api/uat/V1/uploadImages"; // TODO: DOCUMENT UPLOAD URL UAT EL
-    //public static String DOCUMENT_UPLOAD_URL = "https://losservicesuat.rblbank.com/Docupload1/api/uat/V1/uploadImages1"; // TODO: DOCUMENT UPLOAD URL
-//    public static String DOCUMENT_UPLOAD_URL = "https://losservices.rblbank.com/LosDocupload1/api/uat/V1/uploadImages1"; // TODO: DOCUMENT UPLOAD URL
+    public static String DOCUMENT_UPLOAD_URL = "https://losservicesuat.rblbank.com/Docupload/api/uat/V1/uploadImages"; // TODO: DOCUMENT UPLOAD URL UAT EL
     public static String DOCUMENT_DOWNLOAD_URL = "https://losservicesuat.rblbank.com/DownloadImg/api/uat/"; // TODO: DOCUMENT DOWNLOAD URL
     public static String LOG_TO_SERVER_URL = "https://losservicesuat.rblbank.com/LogsService/api/v1/prod/"; // TODO: LOG TO SERVER URL
     public static String PAN_VALIDATION_URL = "https://losservicesuat.rblbank.com/bankproxy/api/v1/uat/"; // TODO: PAN VALIDATION URL
     public static String AADHAAR_VAULT_URL = "https://losservicesuat.rblbank.com/bankproxy/api/v1/uat/"; // TODO: AADHAAR VAULT URL
-    //public static String AADHAAR_VAULT_URL = "https://besure.rblbank.com/ServiceGateway/api/v1/prod/"; // TODO: AADHAAR VAULT URL
     public static String CHANGE_PASSWORD_URL = "https://Saartakuat.rblbank.com/balApi/"; // TODO: CHANGE PASSWORD
     public static String RESET_PASSWORD_URL = "https://losservicesuat.rblbank.com/managecredentials/api/v1/uat/"; // TODO: RESET PASSWORD
-    public static String CIBIL_URL = "https://losservicesuat.rblbank.com/bankproxy/api/v1/uat/"; // TODO: CIBIL
+    //public static String CIBIL_URL = "https://losservicesuat.rblbank.com/bankproxy/api/v1/uat/"; // TODO: CIBIL
     public static String GET_ROLE_NAMES_URL = "https://saartakuat.rblbank.com/balApi/"; // TODO: GET ROLE NAMES
     public static String CB_MFI_URL = " https://losservicesuat.rblbank.com/bankproxy/api/v1/prod/"; // TODO: CB MFI
     public static String SALES_TOOL_URL = "https://losservicesuat.rblbank.com/SalesTool/api/v1/uat/"; // TODO: SALES TOOL
     public static String INITIATE_TRANSACTION_URL = " https://losservicesuat.rblbank.com/collections/api/v1/prod/"; // TODO: TWINLINE FOR DIGITAL PAYMENT
-    public static String POSIDEX_DILIQUENCY = "https://losservicesuat.rblbank.com/PosidexService/api/";
-    public static String RAMP_HUNTER = "https://losservicesuat.rblbank.com/LosBankService/api/v1/uat/";
-    public static String SENTINEL_SERVICE = "https://losservicesuat.rblbank.com/SentinelService/api/v1/uat/";
-    public static String ESIGN_ESTAMP = "https://losservicesuat.rblbank.com/EsignService/api/";
-    public static String ESIGN_ESTAMP_INITIATION = "https://losservicesuat.rblbank.com/EsignService/api/v1/uat/";
-    public static String PRE_SUBMIT_DATA = "https://losservicesuat.rblbank.com/UatLosNew/api/";
+//    public static String POSIDEX_DILIQUENCY = "https://losservicesuat.rblbank.com/PosidexService/api/";
+//    public static String RAMP_HUNTER = "https://losservicesuat.rblbank.com/LosBankService/api/v1/uat/";
+//    //public static String SENTINEL_SERVICE = "https://losservicesuat.rblbank.com/SentinelService/api/v1/uat/";
+//    public static String ESIGN_ESTAMP = "https://losservicesuat.rblbank.com/EsignService/api/";
+//    public static String ESIGN_ESTAMP_INITIATION = "https://losservicesuat.rblbank.com/EsignService/api/v1/uat/";
+//    public static String PRE_SUBMIT_DATA = "https://losservicesuat.rblbank.com/UatLosNew/api/";
 
-    // TODO: LATEST PRODUCTION URLS FOR TESTING
+
+  // TODO: LATEST ENCREPTION  URLS FOR TESTING 2 December
+  public static String LDAP_LOGIN_URL = "https://losservicesuat.rblbank.com/AppsecLogin/api/v1/uat/RVF/"; // TODO:LDAP LOGIN URL
+  public static String SENTINEL_SERVICE = "https://losservicesuat.rblbank.com/EncryptAPIs/api/v1/uat/";
+  public static String POSIDEX_DILIQUENCY = "https://losservicesuat.rblbank.com/EncryptAPIs/api/";
+  public static String RAMP_HUNTER = "https://losservicesuat.rblbank.com/EncryptAPIs/api/v1/uat/";
+  //public static String SENTINEL_SERVICE = "https://losservicesuat.rblbank.com/SentinelService/api/v1/uat/";
+  public static String PRE_SUBMIT_DATA = "https://losservicesuat.rblbank.com/EncryptAPIs/api/";
+  public static String RAW_DATA_URL = "https://losservicesuat.rblbank.com/DBUtilEncrypt/api/v1/uat/"; // TODO: RAW DATA URL
+  public static String RAW_DATA_URL_DOCUMENTS = "https://losservicesuat.rblbank.com/DBUtilEncrypt/api/v1/uat/"; // TODO: RAW DATA URL
+
+  public static String ESIGN_ESTAMP = "https://losservicesuat.rblbank.com/EsignEncryptApi/api/";
+  public static String ESIGN_ESTAMP_INITIATION = "https://losservicesuat.rblbank.com/EsignEncryptApi/api/v1/uat/";
+  public static String CIBIL_URL = "https://losservicesuat.rblbank.com/EncryptAPIs/api/v1/uat/"; // TODO: CIBIL
+
+
+
+  // TODO: LATEST PRODUCTION URLS FOR TESTING
 //      public static String env="P"; // TODO: PRODUCTION ENVIRONMENT
 //      public static String APP_ENVIRONMENT="PROD"; // TODO: PRODUCTION APP ENVIRONMENT
 //      public static String RESET_PASSWORD_TOKEN="Bearer Kwd8+kP9GFeupOwUOIFhkpnUPUekWFRs23ixOhAwLLjHcx+F2l/4gTEn6Cu9262Vhma8+1dSyeQ6O9GS+5xcbiahSBa0vJDt0eAF+crAiPOsp8cpXMWagTaalzwnt6Mh0ifJfSzidDwTrXCK5NI0iJRXbngxdC8SsBvlEr9ogdc5glG6WEHEBpbwzx/ec6nxAVa4G4l3Ujqxq//4/hZjMfJEbPXSqL+KV2ZviCRW+h9I7ByB3TH0az+QNyaz9/yCVcU/KkJbJffJw2zbG03zRsPvxuEMs8h6YQychZRijzi5VG jNEG17S5bf8NwRqFbDBzB6Q3GS6Rr5xn5CSnVQ=="; // TODO: HARDCODED TOKEN FOR RESET PASSWORD

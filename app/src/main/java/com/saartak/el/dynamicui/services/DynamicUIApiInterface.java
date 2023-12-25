@@ -58,10 +58,12 @@ public interface DynamicUIApiInterface {
 
 
     @POST("Pincode/PincodeEnquiry")
-    Call<PinCodeDataFromServerResponseDTO> getPinCodeDataFromServer(@Body PinCodeDataFromServerRequestDTO pinCodeDataFromServerRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getPinCodeDataFromServer(@Body String string, @Header("Authorization") String authHeader, @Header("k1") String k1);
+   // Call<PinCodeDataFromServerResponseDTO> getPinCodeDataFromServer(@Body PinCodeDataFromServerRequestDTO pinCodeDataFromServerRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     @POST("IFSCCode/IFSCCodeEnquiry")
-    Call<GetBankDetailsByIfscCodeResponseDTO> getIFSCDataFromServer(@Body GetBankDetailsByIfscCodeRequestDTO pinCodeDataFromServerRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    Call<String> getIFSCDataFromServer(@Body String s, @Header("Authorization") String authHeader, @Header("k1") String k1);
+   // Call<GetBankDetailsByIfscCodeResponseDTO> getIFSCDataFromServer(@Body GetBankDetailsByIfscCodeRequestDTO pinCodeDataFromServerRequestDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
 
     /* EKYC Login Request*/
     @POST("ekyc/enquiry")

@@ -205,7 +205,6 @@ public class DynamicUIViewModel extends ViewModel {
     private LiveData<List<CenterMeetingCollectionTable>> centerMeetingCollectionTableLiveDataList;
     private LiveData<List<RawDataResponseDTO.Table>> rawDataFromServerList;
     private LiveData<List<ProductMasterTable>> productMasterTableLiveDataList;
-    private LiveData<List<ProductMasterTable>> leadMasterTableLiveDataList;
     private LiveData<MasterTable> masterTableLiveData;
     private LiveData<MultipleSyncResponseDTO> multipleSyncResponseDTOLiveData;
     private LiveData<CGTTable> cgtTableLiveData;
@@ -251,14 +250,6 @@ public class DynamicUIViewModel extends ViewModel {
     private LiveData<List<GetAddressAddressProofTable>> getGetAddressAddressProofTableLiveData;
     private LiveData<List<SPCustomerTypeResponseTable>> getSPCustomerTypeResponseTableTableLiveData;
     private LiveData<List<SPSourseOfIncomeResponseTable>> getSPSourseOfIncomeResponseTableLiveData;
-    private LiveData<List<TWLManufacturerResponseTable>> getSPTWLManufacturerResponseTableLiveData;
-    private LiveData<List<TWLModelResponseTable>> getTWLModelResponseTableLiveData;
-    private LiveData<List<TWLVariantResponseTable>> getSPTWLVariantResponseTableLiveData;
-    private LiveData<List<TWLTwowheelertypeResponseTable>> getTWLTwowheelertypeResponseTableLiveData;
-    private LiveData<List<TWLEngineCCResponseTable>> getTWLEngineCCResponseTableLiveData;
-    private LiveData<List<TWLElectricModelResponseTable>> getTWLElectricModelResponseTableLiveData;
-    private LiveData<List<TWLCategoryResponseTable>> getTWLCategoryResponseTableLiveData;
-    private LiveData<List<TWLExShowRoomPriceResponseTable>> getTWLExShowRoomPriceResponseTableLiveData;
     private LiveData<List<PinCodeResponseTable>> getPinCodeResponseTableLiveData;
     private LiveData<List<PinCodeAreaResponseTable>> getPinCodeAreaResponseTableLiveData;
     private LiveData<List<NegitiveProfileListResponseTable>> getNegitiveProfileListResponseTableLiveData;
@@ -315,11 +306,9 @@ public class DynamicUIViewModel extends ViewModel {
     private LiveData<ENachResponseDTO>  eNachResponseDTOLiveData;
     private LiveData<CPVResponseDTO>  cpvResponseDTOLiveData;
     private LiveData<VKYCResponseDTO>  vkycResponseDTOLiveData;
-    private LiveData<DownStreamResponseDTO> downStreamResponseDTOLiveData;
     private LiveData<ESignEStampResponseDTO> eSignEStampResponseDTOLiveData;
     private LiveData<ESignEStampStatusResponseDTO> eSignEStampStatusResponseDTOLiveData;
     private LiveData<RATResponseDTO>  ratResponseDTOLiveData;
-    private LiveData<DigitalDocResponseDTO>  digitalDocResponseDTOLiveData;
     private LiveData<DedupeResponseDTO>  dedupeResponseDTOLiveData;
     private LiveData<HunterResponseDTO> hunterResponseDTOLiveData;
     private LiveData<IBPResponse> ibpResponseLiveData;
@@ -1357,13 +1346,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
             ex.printStackTrace();
         }
     }
-    public void getVKYCDownStreamServiceData(String userId, String clientId, String loanType, String moduleType){
-        try{
-            downStreamResponseDTOLiveData = dynamicUIRepository.getVKYCDownStreamServiceData(userId, clientId, loanType, moduleType);
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-    }
+
     public void getEsignEStampData(String clientId, String tenure,String loanAmount,String rateOfInterest, List<CIBILTable> cibilTableDB){
         try{
             eSignEStampResponseDTOLiveData=dynamicUIRepository.getEsignEStampData( clientId, tenure, loanAmount, rateOfInterest,cibilTableDB);
@@ -1382,30 +1365,6 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
     public void getRATServiceData(String customerType, String sourceOfIncome, String IndustryType,String userId,String clientId,String loanType,String moduleType){
         try{
             ratResponseDTOLiveData=dynamicUIRepository.getRATServiceData( customerType,  sourceOfIncome,  IndustryType,userId,clientId,loanType,moduleType);
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-    }
-
-    public void getDigitalDocSanctionLetterServiceData(String userId,String clientId,String loanType,String moduleType){
-        try{
-            digitalDocResponseDTOLiveData=dynamicUIRepository.getDigitalDocSanctionLetterServiceData(userId,clientId,loanType,moduleType);
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-    }
-
-    public void getDigitalDocApplicationFormServiceData(String userId,String clientId,String loanType,String moduleType){
-        try{
-            digitalDocResponseDTOLiveData=dynamicUIRepository.getDigitalDocApplicationFormServiceData(userId,clientId,loanType,moduleType);
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-    }
-
-    public void getDigitalDocHDeedServiceData(String userId,String clientId,String loanType,String moduleType){
-        try{
-            digitalDocResponseDTOLiveData=dynamicUIRepository.getDigitalDocHDeedServiceData(userId,clientId,loanType,moduleType);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -2276,13 +2235,6 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
         }
     }
 
-    public void getLeadProductDetailsFromServer(String productId, String bcId){
-        try{
-            leadMasterTableLiveDataList = dynamicUIRepository.getLeadProductDetailsFromServer(productId, bcId);
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-    }
     public void calculateLoanProposal(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
             dynamicUITableLiveData=dynamicUIRepository.calculateLoanProposalNew(dynamicUITable, dynamicUITableList);
@@ -3041,69 +2993,6 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
         }
     }
 
-    public void getTWLGetMake(String state, String manufacturer, String model, String variant, String twoWheelerType, String engine, String electricModel, String type,String category){
-        try{
-            getSPTWLManufacturerResponseTableLiveData =dynamicUIRepository.getTWLGetMake( state, manufacturer,  model,  variant,  twoWheelerType,  engine,  electricModel,  type,category);
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-    }
-
-    public void getTWLGETModel(String state, String manufacturer, String model, String variant, String twoWheelerType, String engine, String electricModel, String type,String category){
-        try{
-            getTWLModelResponseTableLiveData =dynamicUIRepository.getTWLGETModel(state, manufacturer,  model,  variant,  twoWheelerType,  engine,  electricModel,  type, category);
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-    }
-
-    public void getTWLGETVarient(String state, String manufacturer, String model, String variant, String twoWheelerType, String engine, String electricModel, String type,String category){
-        try{
-            getSPTWLVariantResponseTableLiveData =dynamicUIRepository.getTWLGETVarient(state, manufacturer,  model,  variant,  twoWheelerType,  engine,  electricModel,  type, category);
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-    }
-
-    public void getTWLGetTwoWheeler(String state, String manufacturer, String model, String variant, String twoWheelerType, String engine, String electricModel, String type,String category){
-        try{
-            getTWLTwowheelertypeResponseTableLiveData =dynamicUIRepository.getTWLGetTwoWheeler(state, manufacturer,  model,  variant,  twoWheelerType,  engine,  electricModel,  type, category);
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-    }
-
-    public void getTWLGetEngineCC(String state, String manufacturer, String model, String variant, String twoWheelerType, String engine, String electricModel, String type,String category){
-        try{
-            getTWLEngineCCResponseTableLiveData =dynamicUIRepository.getTWLGetEngineCC(state, manufacturer,  model,  variant,  twoWheelerType,  engine,  electricModel,  type, category);
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-    }
-
-    public void getTWLElectricModel(String state, String manufacturer, String model, String variant, String twoWheelerType, String engine, String electricModel, String type,String category){
-        try{
-            getTWLElectricModelResponseTableLiveData =dynamicUIRepository.getTWLElectricModel(state, manufacturer,  model,  variant,  twoWheelerType,  engine,  electricModel,  type, category);
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-    }
-
-    public void getCategory(String state, String manufacturer, String model, String variant, String twoWheelerType, String engine, String electricModel, String type,String category){
-        try{
-            getTWLCategoryResponseTableLiveData =dynamicUIRepository.getCategory( state, manufacturer,  model,  variant,  twoWheelerType,  engine,  electricModel,  type, category);
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-    }
-
-    public void getExShowRoomPrice(String state, String manufacturer, String model, String variant, String twoWheelerType, String engine, String electricModel, String type,String category){
-        try{
-            getTWLExShowRoomPriceResponseTableLiveData =dynamicUIRepository.getExShowRoomPrice(state, manufacturer,  model,  variant,  twoWheelerType,  engine,  electricModel,  type, category);
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-    }
     public void getPinCodeMasterData(String clientId){
         try{
             getPinCodeResponseTableLiveData = dynamicUIRepository.getPinCodeMasterData(clientId);
@@ -3304,9 +3193,6 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
         return productMasterTableLiveDataList;
     }
 
-    public LiveData<List<ProductMasterTable>> getLeadMasterTableLiveDataList() {
-        return leadMasterTableLiveDataList;
-    }
 
     public LiveData<MasterTable> getmasterTableLiveData() {
         return masterTableLiveData;
@@ -3521,9 +3407,6 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
     public LiveData<VKYCResponseDTO> getVKYCResponseDTOLiveData() {
         return vkycResponseDTOLiveData;
     }
-    public LiveData<DownStreamResponseDTO> getDownStreamResponseDTOLiveData() {
-        return downStreamResponseDTOLiveData;
-    }
     public LiveData<ESignEStampResponseDTO> getESignEStampResponseDTOLiveData() {
         return eSignEStampResponseDTOLiveData;
     }
@@ -3532,9 +3415,6 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
     }
     public LiveData<RATResponseDTO> getRATResponseDTOLiveData() {
         return ratResponseDTOLiveData;
-    }
-    public LiveData<DigitalDocResponseDTO> getDigitalDocResponseDTOLiveData() {
-        return digitalDocResponseDTOLiveData;
     }
 
     public LiveData<DedupeResponseDTO> getDedupeResponseDTOLiveData() {
@@ -3752,31 +3632,6 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
     }
     public LiveData<List<SPSourseOfIncomeResponseTable>> getSPSourseOfIncomeResponseTableLiveData() {
         return getSPSourseOfIncomeResponseTableLiveData ;
-    }
-
-    public LiveData<List<TWLManufacturerResponseTable>> getGetSPTWLManufacturerResponseTableLiveData() {
-        return getSPTWLManufacturerResponseTableLiveData ;
-    }
-    public LiveData<List<TWLModelResponseTable>> getGetTWLModelResponseTableLiveData() {
-        return getTWLModelResponseTableLiveData ;
-    }
-    public LiveData<List<TWLVariantResponseTable>> getGetSPTWLVariantResponseTableLiveData() {
-        return getSPTWLVariantResponseTableLiveData ;
-    }
-    public LiveData<List<TWLTwowheelertypeResponseTable>> getGetTWLTwowheelertypeResponseTableLiveData() {
-        return getTWLTwowheelertypeResponseTableLiveData ;
-    }
-    public LiveData<List<TWLEngineCCResponseTable>> getGetTWLEngineCCResponseTableLiveData() {
-        return getTWLEngineCCResponseTableLiveData ;
-    }
-    public LiveData<List<TWLElectricModelResponseTable>> getGetTWLElectricModelResponseTableLiveData() {
-        return getTWLElectricModelResponseTableLiveData ;
-    }
-    public LiveData<List<TWLCategoryResponseTable>> getGetTWLCategoryResponseTableLiveData() {
-        return getTWLCategoryResponseTableLiveData;
-    }
-    public LiveData<List<TWLExShowRoomPriceResponseTable>> getGetTWLExShowRoomPriceResponseTableLiveData() {
-        return getTWLExShowRoomPriceResponseTableLiveData ;
     }
     public LiveData<List<PinCodeResponseTable>> getGetPinCodeResponseTableLiveData() {
         return getPinCodeResponseTableLiveData ;

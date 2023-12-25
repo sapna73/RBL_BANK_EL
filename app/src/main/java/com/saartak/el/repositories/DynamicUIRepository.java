@@ -105,6 +105,8 @@ import com.saartak.el.database.entity.TodayCollectionScheduledTable;
 import com.saartak.el.database.entity.VillageSurveyTable;
 import com.saartak.el.dynamicui.services.DynamicUIApiInterface;
 import com.saartak.el.dynamicui.services.DynamicUIWebService;
+import com.saartak.el.encryption.AES256EncryptAndDecrypt;
+import com.saartak.el.encryption.CipherTokenPair;
 import com.saartak.el.encryption.SHA256Encrypt;
 import com.saartak.el.keystore.JealousSky;
 import com.saartak.el.models.*;
@@ -265,6 +267,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executor;
 
+import javax.crypto.Cipher;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -307,6 +310,10 @@ public class DynamicUIRepository {
     private final AppHelper appHelper;
     private MutableLiveData<DynamicUITable> dynamicUITableMutableLiveData = new MutableLiveData();
 
+    private CipherTokenPair getEncryptToken,getDecryptToken = null;
+    private String encryptedValue="";
+    private String decryptedValue="";
+
     @Inject
     public DynamicUIRepository(DynamicUIWebservice dynamicUIWebservice, DynamicUIDao dynamicUIDao, Executor executor, AppHelper appHelper) {
         this.dynamicUIWebservice = dynamicUIWebservice;
@@ -330,7 +337,7 @@ public class DynamicUIRepository {
                     dynamicUIWebservice.getDynamicUIFromServer(screenID, projectId, moduleId, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, "")).enqueue(new Callback<List<DynamicUITable>>() {
                         @Override
                         public void onResponse(Call<List<DynamicUITable>> call, Response<List<DynamicUITable>> response) {
-                            Log.e("TAG", "DATA REFRESHED FROM NETWORK");
+                            Log.d("TAG", "DATA REFRESHED FROM NETWORK");
                             executor.execute(() -> {
                                 List<DynamicUITable> dynamicUITableList = response.body();
                                 // TODO: INSERTING SCREEN NUMBER
@@ -558,7 +565,7 @@ public class DynamicUIRepository {
                             .enqueue(new Callback<List<DynamicUITable>>() {
                                 @Override
                                 public void onResponse(Call<List<DynamicUITable>> call, Response<List<DynamicUITable>> response) {
-                                    Log.e("TAG", "DATA REFRESHED FROM NETWORK");
+                                    Log.d("TAG", "DATA REFRESHED FROM NETWORK");
                                     executor.execute(() -> {
                                         List<DynamicUITable> dynamicUITableList = response.body();
                                         // TODO: INSERTING SCREEN NUMBER
@@ -729,7 +736,7 @@ public class DynamicUIRepository {
                             enqueue(new Callback<EKYCResponseDTO>() {
                                 @Override
                                 public void onResponse(Call<EKYCResponseDTO> call, Response<EKYCResponseDTO> response) {
-                                    Log.e(TAG, "DATA REFRESHED FROM NETWORK");
+                                    Log.d(TAG, "DATA REFRESHED FROM NETWORK");
                                     executor.execute(() -> {
                                         EKYCResponseDTO ekycResponseDTO = new EKYCResponseDTO();
                                         ekycResponseDTO = response.body();
@@ -905,7 +912,7 @@ public class DynamicUIRepository {
     }
 
     private void compressImagefromPath(String path) {
-        Log.e(TAG, "inside ImageCapture activity compressImage -->");
+        Log.d(TAG, "inside ImageCapture activity compressImage -->");
 
         try {
 
@@ -1221,7 +1228,7 @@ public class DynamicUIRepository {
                             appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, "")).enqueue(new Callback<OTPTriggerResponseDTO>() {
                         @Override
                         public void onResponse(Call<OTPTriggerResponseDTO> call, Response<OTPTriggerResponseDTO> response) {
-                            Log.e(TAG, "DATA REFRESHED FROM NETWORK");
+                            Log.d(TAG, "DATA REFRESHED FROM NETWORK");
                             executor.execute(() -> {
                                 OTPTriggerResponseDTO otpTriggerResponseDTO = response.body();
                                 Log.d(TAG, "OTPTriggerResponseDTO  ==> " + otpTriggerResponseDTO);
@@ -1277,7 +1284,7 @@ public class DynamicUIRepository {
                             appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, "")).enqueue(new Callback<OTPTriggerResponseDTO>() {
                         @Override
                         public void onResponse(Call<OTPTriggerResponseDTO> call, Response<OTPTriggerResponseDTO> response) {
-                            Log.e(TAG, "DATA REFRESHED FROM NETWORK");
+                            Log.d(TAG, "DATA REFRESHED FROM NETWORK");
                             executor.execute(() -> {
                                 OTPTriggerResponseDTO otpTriggerResponseDTO = response.body();
                                 Log.d(TAG, "OTPTriggerResponseDTO  ==> " + otpTriggerResponseDTO);
@@ -1369,7 +1376,7 @@ public class DynamicUIRepository {
                             enqueue(new Callback<InitiateResponseDTO>() {
                                 @Override
                                 public void onResponse(Call<InitiateResponseDTO> call, Response<InitiateResponseDTO> response) {
-                                    Log.e(TAG, "DATA REFRESHED FROM NETWORK");
+                                    Log.d(TAG, "DATA REFRESHED FROM NETWORK");
                                     executor.execute(() -> {
                                         if (response.isSuccessful()) {
                                             InitiateResponseDTO initiateResponseDTO = response.body();
@@ -1421,7 +1428,7 @@ public class DynamicUIRepository {
                             enqueue(new Callback<OTPVerifyResponseDTO>() {
                                 @Override
                                 public void onResponse(Call<OTPVerifyResponseDTO> call, Response<OTPVerifyResponseDTO> response) {
-                                    Log.e(TAG, "DATA REFRESHED FROM NETWORK");
+                                    Log.d(TAG, "DATA REFRESHED FROM NETWORK");
                                     executor.execute(() -> {
                                         OTPVerifyResponseDTO otpVerifyResponseDTO = response.body();
                                         Log.d(TAG, "OTPVerifyResponseDTO  ==> " + otpVerifyResponseDTO);
@@ -1512,7 +1519,7 @@ public class DynamicUIRepository {
                             .enqueue(new Callback<ResponseBody>() {
                                 @Override
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                    Log.e("TAG", "DATA REFRESHED FROM NETWORK");
+                                    Log.d("TAG", "DATA REFRESHED FROM NETWORK");
                                     executor.execute(() -> {
 
                                         if (response.isSuccessful()) {
@@ -1902,7 +1909,7 @@ public class DynamicUIRepository {
                                 enqueue(new Callback<ResponseBody>() {
                                     @Override
                                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                        Log.e(TAG, "DATA REFRESHED FROM NETWORK");
+                                        Log.d(TAG, "DATA REFRESHED FROM NETWORK");
                                         executor.execute(() -> {
                                             if (response.body() != null) {
 //                                                InputStream inputStream=response.body().byteStream();
@@ -4883,7 +4890,7 @@ public class DynamicUIRepository {
                             .enqueue(new Callback<List<StageDetailsTable>>() {
                                 @Override
                                 public void onResponse(Call<List<StageDetailsTable>> call, Response<List<StageDetailsTable>> response) {
-                                    Log.e("TAG", "STAGE LIST REFRESHED FROM NETWORK");
+                                    Log.d("TAG", "STAGE LIST REFRESHED FROM NETWORK");
                                     executor.execute(() -> {
                                         List<StageDetailsTable> stageDetailsTableList = response.body();
                                         if (stageDetailsTableList != null && stageDetailsTableList.size() > 0) {
@@ -5186,7 +5193,7 @@ public class DynamicUIRepository {
                 Gson gson = builder.create();
 
                 String request = gson.toJson(salesToolTable, SalesToolTable.class);
-                Log.e("Sales Table json", " " + request);
+                Log.d("Sales Table json", " " + request);
                 String baseString = new Gson().toJson(salesToolPostDataRequestDTO, SalesToolPostDataRequestDTO.class).replace("\\u003d", "=");
                 String k1 = SHA256Encrypt.sha256(baseString);
                 DynamicUIWebService.createService(DynamicUIWebservice.class).SalesToolDataToServer(salesToolPostDataRequestDTO,
@@ -5557,7 +5564,7 @@ public class DynamicUIRepository {
                             enqueue(new Callback<String>() {
                                 @Override
                                 public void onResponse(Call<String> call, Response<String> response) {
-                                    Log.e("TAG", "DATA SUBMITTED TO SERVER");
+                                    Log.d("TAG", "DATA SUBMITTED TO SERVER");
                                     executor.execute(() -> {
                                         if (response.isSuccessful()) {
                                             String serverResponse = response.body();
@@ -5680,7 +5687,7 @@ public class DynamicUIRepository {
                             enqueue(new Callback<String>() {
                                 @Override
                                 public void onResponse(Call<String> call, Response<String> response) {
-                                    Log.e("TAG", "DATA SUBMITTED TO SERVER");
+                                    Log.d("TAG", "DATA SUBMITTED TO SERVER");
                                     executor.execute(() -> {
                                         if (response.isSuccessful()) {
                                             String serverResponse = response.body();
@@ -5824,7 +5831,7 @@ public class DynamicUIRepository {
                         enqueue(new Callback<String>() {
                             @Override
                             public void onResponse(Call<String> call, Response<String> response) {
-                                Log.e("TAG", "DATA SUBMITTED TO SERVER");
+                                Log.d("TAG", "DATA SUBMITTED TO SERVER");
                                 executor.execute(() -> {
                                     if (response.isSuccessful()) {
                                         String serverResponse = response.body();
@@ -6043,17 +6050,36 @@ public class DynamicUIRepository {
                 }
                 insertRawDataRequest.setProjectId("1");
                 insertRawDataRequest.setUniqueid(CLIENT_ID);
-                String baseString = new Gson().toJson(insertRawDataRequest, InsertRawDataRequest.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).insertpostALLDataToServer(insertRawDataRequest,
-                                appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
+
+                Log.d(TAG, "Request: "+insertRawDataRequest);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(insertRawDataRequest));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).insertpostALLDataToServer(encryptedValue,
+                                appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
                         enqueue(new Callback<String>() {
                             @Override
                             public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        // postSubmitStatus(CLIENT_ID, response.body());
-                                        ((MutableLiveData<String>) data).postValue(response.body());
+                                    if (response!=null) {
+
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            try {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                                Log.d(TAG, "Response: "+decryptedValue );
+                                                // postSubmitStatus(CLIENT_ID, response.body());
+                                                ((MutableLiveData<String>) data).postValue(decryptedValue);
+                                            } catch (Exception e) {
+                                                throw new RuntimeException(e);
+                                            }
+                                        }
+
                                     }
                                 });
                             }
@@ -9237,17 +9263,28 @@ public class DynamicUIRepository {
                     }
                     if (!TextUtils.isEmpty(clientIds)) {
                         rawDataRequestDTO.getSpNameWithParameter().get(0).getSpParameters().setCustomerIdsCommaSeperated(clientIds);
-                        String baseString = new Gson().toJson(rawDataRequestDTO, RawDataRequestDTO.class).replace("\\u003d", "=");
-                        String k1 = SHA256Encrypt.sha256(baseString);
-                        DynamicUIWebService.createService(DynamicUIWebservice.class).rawDataFromServer(rawDataRequestDTO,
-                                        appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                                enqueue(new Callback<ResponseBody>() {
+                        Log.d(TAG, "Request: "+rawDataRequestDTO);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            try {
+                                getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                                encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(rawDataRequestDTO));
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                        DynamicUIWebService.createService(DynamicUIWebservice.class).rawDataFromServer(encryptedValue,
+                                        appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                                enqueue(new Callback<String>() {
                                     @Override
-                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    public void onResponse(Call<String> call, Response<String> response) {
                                         executor.execute(() -> {
-                                            if (response.isSuccessful()) {
+                                            if (response!=null) {
                                                 try {
-                                                    String strResponse = response.body().string();
+                                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                        getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                        decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                                    }
+                                                    String strResponse = decryptedValue;
                                                     JSONObject json = new JSONObject(strResponse);
                                                     String key = json.keys().next();
 
@@ -9325,7 +9362,7 @@ public class DynamicUIRepository {
                                     }
 
                                     @Override
-                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                    public void onFailure(Call<String> call, Throwable t) {
                                         t.printStackTrace();
                                         // TODO: Sending result
                                         ((MutableLiveData<List<RawDataResponseDTO.Table>>) data).postValue(new ArrayList<>());
@@ -9422,17 +9459,29 @@ public class DynamicUIRepository {
                 ArrayList<RawDataRequestDTO.SpNameWithParameterClass> SpNameWithParameterList = new ArrayList<RawDataRequestDTO.SpNameWithParameterClass>();
                 SpNameWithParameterList.add(spNameWithParameter);
                 rawDataRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(rawDataRequestDTO, RawDataRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).rawDataFromServer(rawDataRequestDTO,
-                                appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
+                Log.d(TAG, "Request: "+rawDataRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(rawDataRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                DynamicUIWebService.createService(DynamicUIWebservice.class).rawDataFromServer(encryptedValue,
+                                appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
+                                    if (response!=null) {
                                         try {
-                                            String strResponse = response.body().string();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
                                             JSONObject json = new JSONObject(strResponse);
                                             String key = json.keys().next();
 
@@ -9509,7 +9558,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 // TODO: Sending result
                                 ((MutableLiveData<List<RawDataResponseDTO.Table>>) data).postValue(new ArrayList<>());
@@ -9566,17 +9615,28 @@ public class DynamicUIRepository {
                 MasterTable masterTable = dynamicUIDao.getMasterTableByClientId(clientId);
 
                 if (masterTable == null) {
-                    String baseString = new Gson().toJson(rawDataRequestDTO, RawDataRequestDTO.class).replace("\\u003d", "=");
-                    String k1 = SHA256Encrypt.sha256(baseString);
-                    DynamicUIWebService.createService(DynamicUIWebservice.class).rawDataFromServer(rawDataRequestDTO,
-                                    appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                            enqueue(new Callback<ResponseBody>() {
+                    Log.d(TAG, "Request: "+rawDataRequestDTO);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        try {
+                            getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                            encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(rawDataRequestDTO));
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    DynamicUIWebService.createService(DynamicUIWebservice.class).rawDataFromServer(encryptedValue,
+                                    appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                            enqueue(new Callback<String>() {
                                 @Override
-                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                public void onResponse(Call<String> call, Response<String> response) {
                                     executor.execute(() -> {
-                                        if (response.isSuccessful()) {
+                                        if (response!=null) {
                                             try {
-                                                String strResponse = response.body().string();
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                    getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                    decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                                }
+                                                String strResponse = decryptedValue;
                                                 JSONObject json = new JSONObject(strResponse);
                                                 String key = json.keys().next();
 
@@ -9673,7 +9733,7 @@ public class DynamicUIRepository {
                                 }
 
                                 @Override
-                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                public void onFailure(Call<String> call, Throwable t) {
                                     t.printStackTrace();
                                     // TODO: Sending result
                                     ((MutableLiveData<List<RawDataResponseDTO.Table>>) data).postValue(new ArrayList<>());
@@ -12532,7 +12592,7 @@ public class DynamicUIRepository {
                 DynamicUIWebService.createService(DynamicUIWebservice.class).logInService(loginRequestDTO).enqueue(new Callback<LoginResponseDTO>() {
                     @Override
                     public void onResponse(Call<LoginResponseDTO> call, Response<LoginResponseDTO> response) {
-                        Log.e(TAG, "DATA REFRESHED FROM NETWORK");
+                        Log.d(TAG, "DATA REFRESHED FROM NETWORK");
                         executor.execute(() -> {
                             if (response.isSuccessful()) {
                                 LoginResponseDTO loginResponseDTO = response.body();
@@ -12607,7 +12667,7 @@ public class DynamicUIRepository {
                         .enqueue(new Callback<LogOutResponseDTO>() {
                             @Override
                             public void onResponse(Call<LogOutResponseDTO> call, Response<LogOutResponseDTO> response) {
-                                Log.e(TAG, "DATA REFRESHED FROM NETWORK");
+                                Log.d(TAG, "DATA REFRESHED FROM NETWORK");
                                 executor.execute(() -> {
                                     if (response.isSuccessful()) {
                                         LogOutResponseDTO logOutResponseDTO = response.body();
@@ -12686,7 +12746,7 @@ public class DynamicUIRepository {
                         .enqueue(new Callback<String>() {
                             @Override
                             public void onResponse(Call<String> call, Response<String> response) {
-                                Log.e(TAG, "DATA REFRESHED FROM NETWORK");
+                                Log.d(TAG, "DATA REFRESHED FROM NETWORK");
                                 executor.execute(() -> {
                                     if (response.isSuccessful()) {
                                         String responseFromServer = response.body();
@@ -12734,7 +12794,7 @@ public class DynamicUIRepository {
                 DynamicUIWebService.createService(DynamicUIWebservice.class).getBearerToken(bearerTokenRequestDTO, k1).enqueue(new Callback<BearerTokenResponseDTO>() {
                     @Override
                     public void onResponse(Call<BearerTokenResponseDTO> call, Response<BearerTokenResponseDTO> response) {
-                        Log.e(TAG, "DATA REFRESHED FROM NETWORK");
+                        Log.d(TAG, "DATA REFRESHED FROM NETWORK");
                         executor.execute(() -> {
                             if (response.isSuccessful()) {
                                 BearerTokenResponseDTO bearerTokenResponseDTO = response.body();
@@ -12787,7 +12847,7 @@ public class DynamicUIRepository {
                         .enqueue(new Callback<ResetPasswordResponseDTO>() {
                             @Override
                             public void onResponse(Call<ResetPasswordResponseDTO> call, Response<ResetPasswordResponseDTO> response) {
-                                Log.e(TAG, "DATA REFRESHED FROM NETWORK");
+                                Log.d(TAG, "DATA REFRESHED FROM NETWORK");
                                 executor.execute(() -> {
                                     if (response.isSuccessful()) {
                                         ResetPasswordResponseDTO resetPasswordResponseDTO = response.body();
@@ -12840,7 +12900,7 @@ public class DynamicUIRepository {
                         appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).enqueue(new Callback<List<ChangePasswordResponseDTO>>() {
                     @Override
                     public void onResponse(Call<List<ChangePasswordResponseDTO>> call, Response<List<ChangePasswordResponseDTO>> response) {
-                        Log.e(TAG, "DATA REFRESHED FROM NETWORK");
+                        Log.d(TAG, "DATA REFRESHED FROM NETWORK");
                         executor.execute(() -> {
                             if (response.isSuccessful()) {
                                 List<ChangePasswordResponseDTO> changePasswordResponseDTO = response.body();
@@ -18688,7 +18748,7 @@ public class DynamicUIRepository {
                     // TODO: setting raw data tag name for update
                     dynamicUITableSaveButton.setValue(rawDataTable.getTag_name());
                     dynamicUITableSaveButton.setFieldName(FIELD_NAME_UPDATE);
-                    Log.e(TAG, "getRawDataForChildFragment: 2222");
+                    Log.d(TAG, "getRawDataForChildFragment: 2222");
                 }
             }
 
@@ -19129,7 +19189,7 @@ public class DynamicUIRepository {
                     // TODO: setting raw data tag name for update
                     dynamicUITableSaveButton.setValue(rawDataTable.getTag_name());
                     dynamicUITableSaveButton.setFieldName(FIELD_NAME_UPDATE);
-                    Log.e(TAG, "getRawDataForChildFragment: 5555");
+                    Log.d(TAG, "getRawDataForChildFragment: 5555");
                 }
             }
 
@@ -19440,7 +19500,7 @@ public class DynamicUIRepository {
                     // TODO: setting raw data tag name for update
                     dynamicUITableSaveButton.setValue(rawDataTable.getTag_name());
                     dynamicUITableSaveButton.setFieldName(FIELD_NAME_UPDATE);
-                    Log.e(TAG, "getRawDataForChildFragment: 3333");
+                    Log.d(TAG, "getRawDataForChildFragment: 3333");
                 }
             }
 
@@ -25277,69 +25337,6 @@ public class DynamicUIRepository {
         });
         return data;
     }
-
-    public LiveData<List<ProductMasterTable>> getLeadProductDetailsFromServer(String productId, String bcId){
-        final MutableLiveData<List<ProductMasterTable>> data = new MutableLiveData<>();
-        DynamicUIWebService.changeApiBaseUrl(RAW_DATA_URL);
-        executor.execute(() ->{
-            try {
-              final LeadMasterRequestDTO leadMasterRequestDTO = new LeadMasterRequestDTO();
-              leadMasterRequestDTO.setIMEINumber(appHelper.getIMEI());
-              LeadMasterRequestDTO.SpLeadNameWithParameterClass spLeadNameWithParameterClass = new LeadMasterRequestDTO.SpLeadNameWithParameterClass();
-              spLeadNameWithParameterClass.setSpName(SP_NAME_TO_GET_PRODUCT_MASTER);
-              LeadMasterRequestDTO.SpParametersClass spParametersClass = new LeadMasterRequestDTO.SpParametersClass();
-              spParametersClass.getSegmentId(productId);
-              spParametersClass.setBCID(bcId);
-              spLeadNameWithParameterClass.setSpParameters(spParametersClass);
-              ArrayList<LeadMasterRequestDTO.SpLeadNameWithParameterClass> spLeadNameWithParameterClassArrayList = new ArrayList<>();
-              spLeadNameWithParameterClassArrayList.add(spLeadNameWithParameterClass);
-              leadMasterRequestDTO.setSpNameWithParameter(spLeadNameWithParameterClassArrayList);
-              String baseString = new Gson().toJson(leadMasterRequestDTO, LeadMasterRequestDTO.class).replace("\\u003d", "=");
-              String k1 = SHA256Encrypt.sha256(baseString);
-              DynamicUIWebService.createService(DynamicUIWebservice.class).getLeadMasterFromServer(leadMasterRequestDTO,
-                      appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                      enqueue(new Callback<ResponseBody>() {
-                          @Override
-                          public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                              executor.execute(() -> {
-                                  if(response.isSuccessful()){
-                                      try {
-                                          String strResponse = response.body().string();
-                                          JSONObject json = new JSONObject(strResponse);
-                                          String key = json.keys().next();
-                                          String tableJson = json.get(key).toString();
-                                          LeadMasterResponseDTO leadMasterResponseDTO = new Gson().fromJson(tableJson, LeadMasterResponseDTO.class);
-                                          if (leadMasterResponseDTO != null && leadMasterResponseDTO.getTable().size() > 0) {
-                                              Log.d(TAG, "raw data server =======> " + new Gson().toJson(leadMasterResponseDTO));
-                                              List<ProductMasterTable> productMasterTableList = new ArrayList<>();
-
-                                              for (ProductMasterTable productMasterTable : leadMasterResponseDTO.getTable()) {
-                                                  productMasterTableList.add(productMasterTable);
-                                                  Log.d(TAG, "raw data Loan scheme list...... server =======> " + productMasterTableList.add(productMasterTable));
-                                              }
-                                              data.postValue(productMasterTableList);
-
-                                              dynamicUIDao.insertAndDeleteProductMasterTable(productMasterTableList);
-
-                                          }
-                                      } catch (Exception e) {
-                                          throw new RuntimeException(e);
-                                      }
-                                  }
-                              });
-                          }
-
-                          @Override
-                          public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                          }
-                      });
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        });
-        return data;
-    }
     public LiveData<List<ProductMasterTable>> getProductMasterFromServer(String productId, String bcId) {
         final MutableLiveData<List<ProductMasterTable>> data = new MutableLiveData<>();
         DynamicUIWebService.changeApiBaseUrl(RAW_DATA_URL);
@@ -25356,17 +25353,28 @@ public class DynamicUIRepository {
                 ArrayList<ProductMasterRequestDTO.SpNameWithParameterClass> SpNameWithParameterList = new ArrayList<ProductMasterRequestDTO.SpNameWithParameterClass>();
                 SpNameWithParameterList.add(spNameWithParameter);
                 rawDataRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(rawDataRequestDTO, ProductMasterRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getProductMasterFromServer(rawDataRequestDTO,
-                                appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
+                Log.d(TAG, "Request: "+rawDataRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(rawDataRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getProductMasterFromServer(encryptedValue,
+                                appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
+                                    if (response!=null) {
                                         try {
-                                            String strResponse = response.body().string();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
                                             JSONObject json = new JSONObject(strResponse);
                                             String key = json.keys().next();
 
@@ -25401,7 +25409,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
 
                                 insertLog("getProductMasterFromServer", t.getMessage(), "", "", TAG, "", "", "");
@@ -25416,86 +25424,6 @@ public class DynamicUIRepository {
         });
         return data;
     }
-
-//    public LiveData<List<ProductMasterTable>> getLeadProductMasterFromServer(String productId, String bcId) {
-//        final MutableLiveData<List<ProductMasterTable>> data = new MutableLiveData<>();
-//        DynamicUIWebService.changeApiBaseUrl(RAW_DATA_URL);
-//        executor.execute(() -> {
-//            try {
-//                final LeadMasterRequestDTO rawDataRequestDTO = new LeadMasterRequestDTO();
-//                rawDataRequestDTO.setIMEINumber(appHelper.getIMEI());
-//                LeadMasterRequestDTO.SpLeadNameWithParameterClass spNameWithParameter = new LeadMasterRequestDTO.SpLeadNameWithParameterClass();
-//                spNameWithParameter.setSpName(SP_NAME_TO_GET_PRODUCT_MASTER);
-//                LeadMasterRequestDTO.SpParametersClass spParametersClass = new LeadMasterRequestDTO.SpParametersClass();
-//                spParametersClass.setSegmentId(productId); // TODO: segment id ( product id )
-//                spParametersClass.setBCID(bcId); // TODO: BCid
-//                spNameWithParameter.setSpParameters(spParametersClass);
-//                Log.d(TAG, "get the sp parameters.................." + spParametersClass.getBCID());
-//                Log.d(TAG, "get the sp parameters.................." + spParametersClass.getSegmentId());
-//                ArrayList<LeadMasterRequestDTO.SpLeadNameWithParameterClass> SpNameWithParameterList = new ArrayList<LeadMasterRequestDTO.SpLeadNameWithParameterClass>();
-//                SpNameWithParameterList.add(spNameWithParameter);
-//                rawDataRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-//                String baseString = new Gson().toJson(rawDataRequestDTO, LeadMasterRequestDTO.class).replace("\\u003d", "=");
-//                String k1 = SHA256Encrypt.sha256(baseString);
-//                DynamicUIWebService.createService(DynamicUIWebservice.class).getLeadMasterFromServer(rawDataRequestDTO,
-//                                appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-//                        enqueue(new Callback<ResponseBody>() {
-//                            @Override
-//                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                                executor.execute(() -> {
-//                                    if (response.isSuccessful()) {
-//                                        try {
-//                                            String strResponse = response.body().string();
-//                                            JSONObject json = new JSONObject(strResponse);
-//                                            String key = json.keys().next();
-//
-//                                            String tableJson = json.get(key).toString();
-//                                            LeadMasterResponseDTO rawDataResponseDTO = new Gson().fromJson(tableJson, LeadMasterResponseDTO.class);
-//                                            if (rawDataResponseDTO != null && rawDataResponseDTO.getTable().size() > 0) {
-//                                                Log.d(TAG, "raw data server =======> " + new Gson().toJson(rawDataResponseDTO));
-//                                                List<ProductMasterTable> productMasterTableList = new ArrayList<>();
-//
-//                                                for (ProductMasterTable productMasterTable : rawDataResponseDTO.getTable()) {
-//                                                    productMasterTableList.add(productMasterTable);
-//                                                    Log.d(TAG, "raw data Loan scheme list...... server =======> " + productMasterTableList.add(productMasterTable));
-//                                                }
-//                                                data.postValue(productMasterTableList);
-//
-//                                                dynamicUIDao.insertAndDeleteProductMasterTable(productMasterTableList);
-//                                            }
-//                                        } catch (Exception ex) {
-//                                            ex.printStackTrace();
-//
-//                                            insertLog("getProductMasterFromServer", ex.getMessage(), "", "", TAG, "", "", "");
-//                                        }
-//                                    } else {
-//                                        insertLog("getProductMasterFromServer", response.message(), "", "", TAG, "", "", "");
-//                                    }
-//
-//                                    // TODO: Final result
-//                                    List<ProductMasterTable> productMasterTableList = dynamicUIDao.getProductMasterTable();
-//                                    data.postValue(productMasterTableList);
-//
-//                                });
-//                            }
-//
-//                            @Override
-//                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                                t.printStackTrace();
-//
-//                                insertLog("getProductMasterFromServer", t.getMessage(), "", "", TAG, "", "", "");
-//                            }
-//                        });
-//            } catch (Exception ex) {
-//                ex.printStackTrace();
-//
-//                insertLog("getProductMasterFromServer", ex.getMessage(), "", "", TAG, "", "", "");
-//            }
-//
-//        });
-//        return data;
-//    }
-
     // TODO:  IFSC Service call
     public LiveData<List<DynamicUITable>> getIFSCDataFromServer(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList) {
         final MutableLiveData<List<DynamicUITable>> data = new MutableLiveData<>();
@@ -25515,17 +25443,28 @@ public class DynamicUIRepository {
             ArrayList<IFSCRequestDTO.SpNameWithParameterClass> SpNameWithParameterList = new ArrayList<IFSCRequestDTO.SpNameWithParameterClass>();
             SpNameWithParameterList.add(spNameWithParameter);
             ifscRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-            String baseString = new Gson().toJson(ifscRequestDTO, IFSCRequestDTO.class).replace("\\u003d", "=");
-            String k1 = SHA256Encrypt.sha256(baseString);
-            DynamicUIWebService.createService(DynamicUIWebservice.class).getIFSCDataServiceCall(ifscRequestDTO,
-                            appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                    enqueue(new Callback<ResponseBody>() {
+            Log.d(TAG, "Request: "+ifscRequestDTO);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                try {
+                    getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                    encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(ifscRequestDTO));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            DynamicUIWebService.createService(DynamicUIWebservice.class).getIFSCDataServiceCall(encryptedValue,
+                            appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                    enqueue(new Callback<String>() {
                         @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        public void onResponse(Call<String> call, Response<String> response) {
                             executor.execute(() -> {
-                                if (response.isSuccessful()) {
+                                if (response!=null) {
                                     try {
-                                        String strResponse = response.body().string();
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                            decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                        }
+                                        String strResponse = decryptedValue;
                                         JSONObject json = new JSONObject(strResponse);
                                         String key = json.keys().next();
                                         String tableJson = json.get(key).toString();
@@ -25577,7 +25516,7 @@ public class DynamicUIRepository {
                         }
 
                         @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        public void onFailure(Call<String> call, Throwable t) {
                             t.printStackTrace();
                             // TODO: Sending result
                             executor.execute(() -> {
@@ -26262,102 +26201,121 @@ public class DynamicUIRepository {
                 String cibilDatavalue = cibilData6.replace("#"," ");
                 CibilRequestDTO cibilRequestResponseDTO = new Gson().fromJson(cibilDatavalue, CibilRequestDTO.class);
 
-                String baseString = new Gson().toJson(cibilRequestResponseDTO, CibilRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
+                Log.d(TAG, "Request: "+cibilRequestResponseDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(cibilRequestResponseDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 DynamicUIWebService.createService(DynamicUIWebservice.class).generateCIBILServiceCall
                                 (cibilRequestResponseDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""),k1).
-                        enqueue(new Callback<CibilResponseDTO>() {
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<CibilResponseDTO> call, Response<CibilResponseDTO> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        CibilResponseDTO cibilResponseDTO = response.body();
-                                        if (cibilResponseDTO != null) {
-                                            if (cibilResponseDTO.getResponseCode().equals("200")
-                                                    && TextUtils.isEmpty(cibilResponseDTO.getErrorCode())
-                                                    && TextUtils.isEmpty(cibilResponseDTO.getErrorMessage())
-                                                    && cibilResponseDTO.getApiResponse() != null) {
-                                                CibilResponseDTO.ApiResponseClass apiResponse = cibilResponseDTO.getApiResponse();
+                                    CibilResponseDTO cibilResponseDTO = null;
+                                    if (response!=null) {
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            try {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                                JSONObject json = new JSONObject(decryptedValue);
+                                                String tableJson = json.toString();
+                                                cibilResponseDTO = new Gson().fromJson(tableJson, CibilResponseDTO.class);
+                                                if (cibilResponseDTO != null) {
+                                                    if (cibilResponseDTO.getResponseCode().equals("200")
+                                                            && TextUtils.isEmpty(cibilResponseDTO.getErrorCode())
+                                                            && TextUtils.isEmpty(cibilResponseDTO.getErrorMessage())
+                                                            && cibilResponseDTO.getApiResponse() != null) {
+                                                        CibilResponseDTO.ApiResponseClass apiResponse = cibilResponseDTO.getApiResponse();
 
-                                                dynamicUIDao.updateCIBILTableDataFromServer(cibilTable.getClient_id(), cibilTable.getModuleType(),
-                                                        apiResponse.getDecision(), apiResponse.getScore(), apiResponse.getReason(),
-                                                        apiResponse.getApplicationId(), apiResponse.getSolutionSetInstanceId(),
-                                                        apiResponse.getDateofTUHit(), true);
+                                                        dynamicUIDao.updateCIBILTableDataFromServer(cibilTable.getClient_id(), cibilTable.getModuleType(),
+                                                                apiResponse.getDecision(), apiResponse.getScore(), apiResponse.getReason(),
+                                                                apiResponse.getApplicationId(), apiResponse.getSolutionSetInstanceId(),
+                                                                apiResponse.getDateofTUHit(), true);
 
 
-                                                // TODO: Form CIBIL Raw data
-                                                CIBILRawDataDTO cibilRawDataDTO = new CIBILRawDataDTO();
-                                                cibilRawDataDTO.setCustomerId(cibilTable.getApplicationId());
-                                                cibilRawDataDTO.setModeType(cibilTable.getModuleType());
-                                                cibilRawDataDTO.setType(cibilTable.getModuleType());
-                                                cibilRawDataDTO.setCATEGORY(cibilTable.getModuleType());
-                                                if (cibilTable.getModuleType().contains(MODULE_TYPE_CO_APPLICANT)) {
-                                                    try {
-                                                        String type = cibilTable.getModuleType().substring(0,
-                                                                cibilTable.getModuleType().length() - 1);
-                                                        cibilRawDataDTO.setType(type);
-                                                        cibilRawDataDTO.setCATEGORY(type);
-                                                    } catch (Exception ex) {
-                                                        ex.printStackTrace();
-                                                    }
-                                                }
-                                                if (apiResponse.getCibilResponse() != null && apiResponse.getCibilResponse().getAPPLICANTSEGMENT() != null) {
-                                                    CibilResponseDTO.APPLICANTSEGMENT APPLICANTSEGMENT = apiResponse.getCibilResponse().getAPPLICANTSEGMENT();
+                                                        // TODO: Form CIBIL Raw data
+                                                        CIBILRawDataDTO cibilRawDataDTO = new CIBILRawDataDTO();
+                                                        cibilRawDataDTO.setCustomerId(cibilTable.getApplicationId());
+                                                        cibilRawDataDTO.setModeType(cibilTable.getModuleType());
+                                                        cibilRawDataDTO.setType(cibilTable.getModuleType());
+                                                        cibilRawDataDTO.setCATEGORY(cibilTable.getModuleType());
+                                                        if (cibilTable.getModuleType().contains(MODULE_TYPE_CO_APPLICANT)) {
+                                                            try {
+                                                                String type = cibilTable.getModuleType().substring(0,
+                                                                        cibilTable.getModuleType().length() - 1);
+                                                                cibilRawDataDTO.setType(type);
+                                                                cibilRawDataDTO.setCATEGORY(type);
+                                                            } catch (Exception ex) {
+                                                                ex.printStackTrace();
+                                                            }
+                                                        }
+                                                        if (apiResponse.getCibilResponse() != null && apiResponse.getCibilResponse().getAPPLICANTSEGMENT() != null) {
+                                                            CibilResponseDTO.APPLICANTSEGMENT APPLICANTSEGMENT = apiResponse.getCibilResponse().getAPPLICANTSEGMENT();
 
-                                                    cibilRawDataDTO.setNAME(APPLICANTSEGMENT.getCONSUMERNAME1());
-                                                    cibilRawDataDTO.setDob(APPLICANTSEGMENT.getDATEOFBIRTH());
-                                                }
-                                                cibilRawDataDTO.setSCORE(apiResponse.getScore());
-                                                cibilRawDataDTO.setDecision(apiResponse.getDecision());
-                                                cibilRawDataDTO.setReason(apiResponse.getReason());
-                                                cibilRawDataDTO.setDisbursedAmount(apiResponse.getDisbursementAmount());
-                                                cibilRawDataDTO.setOutstandingAmount(apiResponse.getOverdue());
-                                                cibilRawDataDTO.setTotalInstallmentAmount(apiResponse.getTotalInstallmentAmount());
-                                                cibilRawDataDTO.setCurrentBalance(apiResponse.getCurrentBalance());
-                                                cibilRawDataDTO.setOverDueAmount(apiResponse.getOverdue());
-                                                cibilRawDataDTO.setMaxDPD(apiResponse.getDefaultAccount());
-                                                cibilRawDataDTO.setAnyDefaultInPaymentHistory(apiResponse.getAnyDefaultInPaymentHistory());
-                                                cibilRawDataDTO.setCreatedDate(appHelper.getCurrentDate(DATE_FORMAT_YYYY_MM_DD));
+                                                            cibilRawDataDTO.setNAME(APPLICANTSEGMENT.getCONSUMERNAME1());
+                                                            cibilRawDataDTO.setDob(APPLICANTSEGMENT.getDATEOFBIRTH());
+                                                        }
+                                                        cibilRawDataDTO.setSCORE(apiResponse.getScore());
+                                                        cibilRawDataDTO.setDecision(apiResponse.getDecision());
+                                                        cibilRawDataDTO.setReason(apiResponse.getReason());
+                                                        cibilRawDataDTO.setDisbursedAmount(apiResponse.getDisbursementAmount());
+                                                        cibilRawDataDTO.setOutstandingAmount(apiResponse.getOverdue());
+                                                        cibilRawDataDTO.setTotalInstallmentAmount(apiResponse.getTotalInstallmentAmount());
+                                                        cibilRawDataDTO.setCurrentBalance(apiResponse.getCurrentBalance());
+                                                        cibilRawDataDTO.setOverDueAmount(apiResponse.getOverdue());
+                                                        cibilRawDataDTO.setMaxDPD(apiResponse.getDefaultAccount());
+                                                        cibilRawDataDTO.setAnyDefaultInPaymentHistory(apiResponse.getAnyDefaultInPaymentHistory());
+                                                        cibilRawDataDTO.setCreatedDate(appHelper.getCurrentDate(DATE_FORMAT_YYYY_MM_DD));
 
-                                                String cibilRawDataJson = new Gson().toJson(cibilRawDataDTO, CIBILRawDataDTO.class);
+                                                        String cibilRawDataJson = new Gson().toJson(cibilRawDataDTO, CIBILRawDataDTO.class);
 
-                                                if (!TextUtils.isEmpty(cibilRawDataJson)) {
-                                                    String ciBillScreenId = SCREEN_NO_GENERATE_CIBIL;
-                                                    if (!TextUtils.isEmpty(cibilTable.getLoan_type()) && cibilTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_AHL)) {
-                                                        ciBillScreenId = SCREEN_NO_GENERATE_CIBIL_AHL;
-                                                    }
-                                                    if (!TextUtils.isEmpty(cibilTable.getLoan_type()) && cibilTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_PHL)) {
-                                                        ciBillScreenId = SCREEN_NO_GENERATE_CIBIL_PHL;
-                                                    }
-                                                    if (!TextUtils.isEmpty(cibilTable.getLoan_type()) && cibilTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)) {
-                                                        ciBillScreenId = SCREEN_NO_GENERATE_CIBIL;
-                                                    }
-                                                    RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_GENERATE_CIBIL,
-                                                            cibilTable.getClient_id(), cibilTable.getModuleType());
+                                                        if (!TextUtils.isEmpty(cibilRawDataJson)) {
+                                                            String ciBillScreenId = SCREEN_NO_GENERATE_CIBIL;
+                                                            if (!TextUtils.isEmpty(cibilTable.getLoan_type()) && cibilTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_AHL)) {
+                                                                ciBillScreenId = SCREEN_NO_GENERATE_CIBIL_AHL;
+                                                            }
+                                                            if (!TextUtils.isEmpty(cibilTable.getLoan_type()) && cibilTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_PHL)) {
+                                                                ciBillScreenId = SCREEN_NO_GENERATE_CIBIL_PHL;
+                                                            }
+                                                            if (!TextUtils.isEmpty(cibilTable.getLoan_type()) && cibilTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)) {
+                                                                ciBillScreenId = SCREEN_NO_GENERATE_CIBIL;
+                                                            }
+                                                            RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_GENERATE_CIBIL,
+                                                                    cibilTable.getClient_id(), cibilTable.getModuleType());
 
-                                                    if (rawDataTableFromDB == null) {
-                                                        // TODO: Insert Raw Data Table
-                                                        RawDataTable rawDataTable = new RawDataTable(cibilRawDataJson, ciBillScreenId,
-                                                                SCREEN_NAME_GENERATE_CIBIL, "", cibilTable.getClient_id(), cibilTable.getLoan_type(),
-                                                                cibilTable.getUserId(), cibilTable.getModuleType(), "");
+                                                            if (rawDataTableFromDB == null) {
+                                                                // TODO: Insert Raw Data Table
+                                                                RawDataTable rawDataTable = new RawDataTable(cibilRawDataJson, ciBillScreenId,
+                                                                        SCREEN_NAME_GENERATE_CIBIL, "", cibilTable.getClient_id(), cibilTable.getLoan_type(),
+                                                                        cibilTable.getUserId(), cibilTable.getModuleType(), "");
 
-                                                        dynamicUIDao.insertRawData(rawDataTable);
+                                                                dynamicUIDao.insertRawData(rawDataTable);
 
+                                                            } else {
+                                                                // TODO: Update Raw Data Table
+                                                                dynamicUIDao.updateRawDataBag(ciBillScreenId, rawDataTableFromDB.getId(), cibilRawDataJson);
+                                                            }
+
+                                                        }
+                                                        // TODO: Final Result - Success case
+                                                        data.postValue(MESSAGE_CIBIL_SUCCESS);
                                                     } else {
-                                                        // TODO: Update Raw Data Table
-                                                        dynamicUIDao.updateRawDataBag(ciBillScreenId, rawDataTableFromDB.getId(), cibilRawDataJson);
+                                                        // TODO: Final Result - Failure case
+                                                        data.postValue(cibilResponseDTO.getErrorMessage());
                                                     }
-
+                                                } else {
+                                                    // TODO: Final Result - Failure case
+                                                    data.postValue(MESSAGE_CIBIL_FAILED);
                                                 }
-                                                // TODO: Final Result - Success case
-                                                data.postValue(MESSAGE_CIBIL_SUCCESS);
-                                            } else {
-                                                // TODO: Final Result - Failure case
-                                                data.postValue(cibilResponseDTO.getErrorMessage());
+                                                Log.e(TAG, "Response: "+cibilResponseDTO );
+                                            } catch (Exception e) {
+                                                throw new RuntimeException(e);
                                             }
-                                        } else {
-                                            // TODO: Final Result - Failure case
-                                            data.postValue(MESSAGE_CIBIL_FAILED);
                                         }
                                     } else {
                                         // TODO: Final Result - Failure case
@@ -26370,7 +26328,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<CibilResponseDTO> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 executor.execute(() -> {
                                     // TODO: Final Result - Failure case
@@ -27351,7 +27309,7 @@ public class DynamicUIRepository {
                         .enqueue(new Callback<String>() {
                             @Override
                             public void onResponse(Call<String> call, Response<String> response) {
-                                Log.e(TAG, "DATA REFRESHED FROM NETWORK");
+                                Log.d(TAG, "DATA REFRESHED FROM NETWORK");
                                 executor.execute(() -> {
                                     if (response.isSuccessful()) {
                                         Log.d(TAG, "onResponse  ==> " + response.body());
@@ -27370,7 +27328,7 @@ public class DynamicUIRepository {
                         });
             });
         } catch (Exception ex) {
-            Log.e("TAG", ex.toString());
+            Log.d("TAG", ex.toString());
             executor.execute(() -> {
                 data.postValue(ex.getMessage());
             });
@@ -31947,17 +31905,28 @@ public class DynamicUIRepository {
             ArrayList<LeadRawDataRequestDTO.SpNameWithParameterClass> SpNameWithParameterList = new ArrayList<LeadRawDataRequestDTO.SpNameWithParameterClass>();
             SpNameWithParameterList.add(spNameWithParameter);
             rawDataRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-            String baseString = new Gson().toJson(rawDataRequestDTO, LeadRawDataRequestDTO.class).replace("\\u003d", "=");
-            String k1 = SHA256Encrypt.sha256(baseString);
-            DynamicUIWebService.createService(DynamicUIWebservice.class).LeadRawDataFromServer(rawDataRequestDTO,
-                            appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                    enqueue(new Callback<ResponseBody>() {
+            Log.d(TAG, "Request: "+rawDataRequestDTO);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                try {
+                    getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                    encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(rawDataRequestDTO));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            DynamicUIWebService.createService(DynamicUIWebservice.class).LeadRawDataFromServer(encryptedValue,
+                            appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                    enqueue(new Callback<String>() {
                         @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        public void onResponse(Call<String> call, Response<String> response) {
                             executor.execute(() -> {
-                                if (response.isSuccessful()) {
+                                if (response!=null) {
                                     try {
-                                        String strResponse = response.body().string();
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                            decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                        }
+                                        String strResponse = decryptedValue;
                                         JSONObject json = new JSONObject(strResponse);
                                         String key = json.keys().next();
 
@@ -32177,7 +32146,7 @@ public class DynamicUIRepository {
                         }
 
                         @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        public void onFailure(Call<String> call, Throwable t) {
                             t.printStackTrace();
                             // TODO: Sending result for failure response tvName server
                             executor.execute(() -> {
@@ -32212,17 +32181,28 @@ public class DynamicUIRepository {
             SpNameWithParameterList.add(spNameWithParameter);
             rawDataRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
 
-            String baseString = new Gson().toJson(rawDataRequestDTO, LeadRawDataRequestDTO.class).replace("\\u003d", "=");
-            String k1 = SHA256Encrypt.sha256(baseString);
-            DynamicUIWebService.createService(DynamicUIWebservice.class).LeadRawDataFromServer(rawDataRequestDTO,
-                            appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                    enqueue(new Callback<ResponseBody>() {
+            Log.d(TAG, "Request: "+rawDataRequestDTO);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                try {
+                    getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                    encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(rawDataRequestDTO));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            DynamicUIWebService.createService(DynamicUIWebservice.class).LeadRawDataFromServer(encryptedValue,
+                            appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                    enqueue(new Callback<String>() {
                         @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        public void onResponse(Call<String> call, Response<String> response) {
                             executor.execute(() -> {
-                                if (response.isSuccessful()) {
+                                if (response!=null) {
                                     try {
-                                        String strResponse = response.body().string();
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                            decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                        }
+                                        String strResponse = decryptedValue;
                                         JSONObject json = new JSONObject(strResponse);
                                         String key = json.keys().next();
 
@@ -32444,7 +32424,7 @@ public class DynamicUIRepository {
                         }
 
                         @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        public void onFailure(Call<String> call, Throwable t) {
                             t.printStackTrace();
                             // TODO: Sending result
                             executor.execute(() -> {
@@ -32572,17 +32552,29 @@ public class DynamicUIRepository {
             ArrayList<WorkFlowHistoryRequestDTO.SpNameWithParameterClass> SpNameWithParameterList = new ArrayList<WorkFlowHistoryRequestDTO.SpNameWithParameterClass>();
             SpNameWithParameterList.add(spNameWithParameter);
             customerViewDataRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-            String baseString = new Gson().toJson(customerViewDataRequestDTO, WorkFlowHistoryRequestDTO.class).replace("\\u003d", "=");
-            String k1 = SHA256Encrypt.sha256(baseString);
-            DynamicUIWebService.createService(DynamicUIWebservice.class).getWorkflowhistoryFromServer(customerViewDataRequestDTO,
-                            appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                    enqueue(new Callback<ResponseBody>() {
+            Log.d(TAG, "Request: "+customerViewDataRequestDTO);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                try {
+                    getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                    encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(customerViewDataRequestDTO));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            DynamicUIWebService.createService(DynamicUIWebservice.class).getWorkflowhistoryFromServer(encryptedValue,
+                            appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                    enqueue(new Callback<String>() {
                         @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        public void onResponse(Call<String> call, Response<String> response) {
                             executor.execute(() -> {
-                                if (response.isSuccessful()) {
+                                if (response!=null) {
                                     try {
-                                        String strResponse = response.body().string();
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                            decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                        }
+                                        String strResponse = decryptedValue;
+
                                         JSONObject json = new JSONObject(strResponse);
                                         String key = json.keys().next();
 
@@ -32661,7 +32653,7 @@ public class DynamicUIRepository {
                         }
 
                         @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        public void onFailure(Call<String> call, Throwable t) {
                             t.printStackTrace();
                             // TODO: Sending result
                             executor.execute(() -> {
@@ -33729,7 +33721,7 @@ public class DynamicUIRepository {
                         DynamicUITable dynamicUITable = getObjectByTAG(TAG_NAME_SAVE_BUTTON, dynamicUITableListFromDB);
                         if (dynamicUITable != null) {
                             dynamicUITable.setFieldName(FIELD_NAME_UPDATE);
-                            Log.e(TAG, "getRawDataForChildFragment: 4444");
+                            Log.d(TAG, "getRawDataForChildFragment: 4444");
                         }
 
                         // TODO: Validation for Applicant KYC screen
@@ -33822,7 +33814,7 @@ public class DynamicUIRepository {
                                         && dynamicUITableApplicantKYC.getFieldType().equalsIgnoreCase(FIELD_TYPE_PLUS_BUTTON)) {
                                     dynamicUITableApplicantKYC.setVisibility(true);
                                     dynamicUITableApplicantKYC.setFieldName(FIELD_NAME_UPDATE);
-                                    Log.e(TAG, "getRawDataForChildFragment: 1111");
+                                    Log.d(TAG, "getRawDataForChildFragment: 1111");
 
                                 } else {
                                     dynamicUITableApplicantKYC.setVisibility(false);
@@ -35087,7 +35079,7 @@ public class DynamicUIRepository {
     //Document upload api call, sp = USP_LOS_GetSelectedDocumentDetails
     public LiveData<List<DocumentMasterTable>> getDocumentMasterFromServer(String productId, String projectId) {
         final MutableLiveData<List<DocumentMasterTable>> data = new MutableLiveData<>();
-        DynamicUIWebService.changeApiBaseUrl(RAW_DATA_URL);
+        DynamicUIWebService.changeApiBaseUrl(RAW_DATA_URL_DOCUMENTS);
         executor.execute(() -> {
             try {
                 final DocumentMasterRequestDTO rawDataRequestDTO = new DocumentMasterRequestDTO();
@@ -35376,11 +35368,11 @@ public class DynamicUIRepository {
 
                 dynamicUIDao.updateRawDataBag(SCREEN_NO_APPLICANT_LOAN_PROPOSAL_EL, rawDataTable.getId(), jsonObjectVal.toString());
             }else{
-                Log.e(getClass().getSimpleName(),"Raw data not found");
+                Log.d(getClass().getSimpleName(),"Raw data not found");
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e(getClass().getSimpleName(),"Invalid Raw data not found:::"+e.getLocalizedMessage());
+            Log.d(getClass().getSimpleName(),"Invalid Raw data not found:::"+e.getLocalizedMessage());
         }
         /*HashMap<String, Object> rawDataHashMap = new HashMap<>();
         try {
@@ -35545,16 +35537,27 @@ public class DynamicUIRepository {
                 ArrayList<GetLeadDropDownDetailsRequestDTO.SpNameWithParameterClass> SpNameWithParameterList = new ArrayList<GetLeadDropDownDetailsRequestDTO.SpNameWithParameterClass>();
                 SpNameWithParameterList.add(spNameWithParameter);
                 getLeadDropDownDetailsRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(getLeadDropDownDetailsRequestDTO, GetLeadDropDownDetailsRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getLeadDropDownDetailsFromServer(getLeadDropDownDetailsRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, RESET_PASSWORD_TOKEN), k1).
-                        enqueue(new Callback<ResponseBody>() {
+                Log.d(TAG, "Request: "+getLeadDropDownDetailsRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(getLeadDropDownDetailsRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getLeadDropDownDetailsFromServer(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, RESET_PASSWORD_TOKEN), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
+                                    if (response!=null) {
                                         try {
-                                            String strResponse = response.body().string();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
                                             JSONObject json = new JSONObject(strResponse);
                                             if (json.length() != 0) {
                                                 String key = json.keys().next();
@@ -35593,7 +35596,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 // TODO: Final result
                                 executor.execute(() -> {
@@ -35639,16 +35642,27 @@ public class DynamicUIRepository {
                 ArrayList<GetLeadDropDownDetailsRequestDTO.SpNameWithParameterClass> SpNameWithParameterList = new ArrayList<GetLeadDropDownDetailsRequestDTO.SpNameWithParameterClass>();
                 SpNameWithParameterList.add(spNameWithParameter);
                 getLeadDropDownDetailsRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(getLeadDropDownDetailsRequestDTO, GetLeadDropDownDetailsRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getLeadDropDownDetailsFromServer(getLeadDropDownDetailsRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, RESET_PASSWORD_TOKEN), k1).
-                        enqueue(new Callback<ResponseBody>() {
+                Log.d(TAG, "Request: "+encryptedValue);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(encryptedValue));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getLeadDropDownDetailsFromServer(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, RESET_PASSWORD_TOKEN), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
+                                    if (response!=null) {
                                         try {
-                                            String strResponse = response.body().string();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
                                             JSONObject json = new JSONObject(strResponse);
                                             if (json.length() != 0) {
                                                 String key = json.keys().next();
@@ -35687,7 +35701,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 // TODO: Final result
                                 executor.execute(() -> {
@@ -35733,16 +35747,27 @@ public class DynamicUIRepository {
                 ArrayList<GetLeadDropDownDetailsRequestDTO.SpNameWithParameterClass> SpNameWithParameterList = new ArrayList<GetLeadDropDownDetailsRequestDTO.SpNameWithParameterClass>();
                 SpNameWithParameterList.add(spNameWithParameter);
                 getLeadDropDownDetailsRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(getLeadDropDownDetailsRequestDTO, GetLeadDropDownDetailsRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getLeadDropDownDetailsFromServer(getLeadDropDownDetailsRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, RESET_PASSWORD_TOKEN), k1).
-                        enqueue(new Callback<ResponseBody>() {
+                Log.d(TAG, "Request: "+getLeadDropDownDetailsRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(getLeadDropDownDetailsRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getLeadDropDownDetailsFromServer(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, RESET_PASSWORD_TOKEN), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
+                                    if (response!=null) {
                                         try {
-                                            String strResponse = response.body().string();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
                                             JSONObject json = new JSONObject(strResponse);
                                             if (json.length() != 0) {
                                                 String key = json.keys().next();
@@ -35781,7 +35806,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 // TODO: Final result
                                 executor.execute(() -> {
@@ -35828,16 +35853,27 @@ public class DynamicUIRepository {
                 ArrayList<GetLeadDropDownDetailsRequestDTO.SpNameWithParameterClass> SpNameWithParameterList = new ArrayList<GetLeadDropDownDetailsRequestDTO.SpNameWithParameterClass>();
                 SpNameWithParameterList.add(spNameWithParameter);
                 getLeadDropDownDetailsRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(getLeadDropDownDetailsRequestDTO, GetLeadDropDownDetailsRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getLeadDropDownDetailsFromServer(getLeadDropDownDetailsRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, RESET_PASSWORD_TOKEN), k1).
-                        enqueue(new Callback<ResponseBody>() {
+                Log.d(TAG, "Request: "+getLeadDropDownDetailsRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(getLeadDropDownDetailsRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getLeadDropDownDetailsFromServer(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, RESET_PASSWORD_TOKEN), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
+                                    if (response!=null) {
                                         try {
-                                            String strResponse = response.body().string();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
                                             JSONObject json = new JSONObject(strResponse);
                                             if (json.length() != 0) {
                                                 String key = json.keys().next();
@@ -35876,7 +35912,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 // TODO: Final result
                                 executor.execute(() -> {
@@ -35922,16 +35958,27 @@ public class DynamicUIRepository {
                 ArrayList<GetLeadDropDownDetailsRequestDTO.SpNameWithParameterClass> SpNameWithParameterList = new ArrayList<GetLeadDropDownDetailsRequestDTO.SpNameWithParameterClass>();
                 SpNameWithParameterList.add(spNameWithParameter);
                 getLeadDropDownDetailsRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(getLeadDropDownDetailsRequestDTO, GetLeadDropDownDetailsRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getLeadDropDownDetailsFromServer(getLeadDropDownDetailsRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, RESET_PASSWORD_TOKEN), k1).
-                        enqueue(new Callback<ResponseBody>() {
+                Log.d(TAG, "Request: "+getLeadDropDownDetailsRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(getLeadDropDownDetailsRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getLeadDropDownDetailsFromServer(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, RESET_PASSWORD_TOKEN), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
+                                    if (response!=null) {
                                         try {
-                                            String strResponse = response.body().string();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
                                             JSONObject json = new JSONObject(strResponse);
                                             if (json.length() != 0) {
                                                 String key = json.keys().next();
@@ -35970,7 +36017,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 // TODO: Final result
                                 executor.execute(() -> {
@@ -35998,6 +36045,7 @@ public class DynamicUIRepository {
 
 
     // TODO: LOG IN SERVICE CALL
+    /*@RequiresApi(api = Build.VERSION_CODES.O)
     public LiveData<LoginnewResponseDTO> logInLDAPService(String userId, String password, String uniqueId) {
         final MutableLiveData<LoginnewResponseDTO> data = new MutableLiveData<>();
         try {
@@ -36016,40 +36064,109 @@ public class DynamicUIRepository {
             loginRequest.setAppVersion(BuildConfig.VERSION_NAME);
             requestStringClass.setLoginRequest(loginRequest);
             loginNewRequestDTO.setRequestString(requestStringClass);
-            String baseString = new Gson().toJson(loginNewRequestDTO, LoginNewRequestDTO.class).replace("\\u003d", "=");
-            String k1 = SHA256Encrypt.sha256(baseString);
+
+            encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(loginNewRequestDTO));
+            getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+
             executor.execute(() -> {
-                DynamicUIWebService.createService(DynamicUIWebservice.class).logInLDAPService(loginNewRequestDTO, k1).enqueue(new Callback<JsonObject>() {
+                DynamicUIWebService.createService(DynamicUIWebservice.class).logInLDAPService(encryptedValue, getEncryptToken.getToken()).enqueue(new Callback<String>() {
                     @Override
-                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                        Log.e(TAG, "DATA REFRESHED FROM NETWORK");
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        Log.d(TAG, "DATA REFRESHED FROM NETWORK");
                         executor.execute(() -> {
-                            if (response.isSuccessful()) {
 
-                                LoginnewResponseDTO loginnewResponseDTO = new Gson().fromJson(response.body().toString(), LoginnewResponseDTO.class);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                try {
+                                    getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                    decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
 
-                                if (loginnewResponseDTO != null && loginnewResponseDTO.getApiResponse() != null) {
-                                    String headerK1 = response.headers().get("k1");
-                                    //String baseString = new Gson().toJson(loginnewResponseDTO,LoginnewResponseDTO.class);
-                                    String k1 = SHA256Encrypt.sha256(response.body().toString());
+                                    LoginnewResponseDTO loginnewResponseDTO = new Gson().fromJson(decryptedValue, LoginnewResponseDTO.class);
 
-                                    if (TextUtils.isEmpty(headerK1) || !headerK1.trim().equalsIgnoreCase(k1.trim()) || !uniqueId.equalsIgnoreCase(loginnewResponseDTO.getUniqueId())) {
+                                    if (loginnewResponseDTO != null && loginnewResponseDTO.getApiResponse() != null) {
+                                        String headerK1 = response.headers().get("k1");
+                                        //String baseString = new Gson().toJson(loginnewResponseDTO,LoginnewResponseDTO.class);
+                                        String k1 = SHA256Encrypt.sha256(response.body().toString());
+
+                                        if (TextUtils.isEmpty(headerK1) || !headerK1.trim().equalsIgnoreCase(k1.trim()) || !uniqueId.equalsIgnoreCase(loginnewResponseDTO.getUniqueId())) {
+                                            loginnewResponseDTO = new LoginnewResponseDTO();
+                                            loginnewResponseDTO.setErrorMessage("login failed");
+                                        }
+                                    } else {
                                         loginnewResponseDTO = new LoginnewResponseDTO();
                                         loginnewResponseDTO.setErrorMessage("login failed");
                                     }
-                                } else {
-                                    loginnewResponseDTO = new LoginnewResponseDTO();
-                                    loginnewResponseDTO.setErrorMessage("login failed");
-                                }
-                                Log.d(TAG, "onResponse  ==> " + loginnewResponseDTO);
+                                    Log.d(TAG, "onResponse  ==> " + loginnewResponseDTO);
 
-                                data.postValue(loginnewResponseDTO);
+                                    data.postValue(loginnewResponseDTO);
+
+                                } catch (Exception e) {
+                                    throw new RuntimeException(e);
+                                }
+
                             }
+
                         });
                     }
 
                     @Override
-                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Log.d(TAG, "onFailure ==> " + t.getMessage());
+                        data.postValue(new LoginnewResponseDTO());
+                    }
+                });
+
+            });
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            data.postValue(new LoginnewResponseDTO());
+        }
+        return data;
+    }*/
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public LiveData<LoginnewResponseDTO> logInLDAPService(String userId, String password, String uniqueId) {
+        final MutableLiveData<LoginnewResponseDTO> data = new MutableLiveData<>();
+        try {
+            DynamicUIWebService.changeApiBaseUrl(LDAP_LOGIN_URL);
+
+            final LoginNewRequestDTO loginNewRequestDTO = new LoginNewRequestDTO();
+            loginNewRequestDTO.setUniqueId(uniqueId);
+            loginNewRequestDTO.setClientID(userId);
+            loginNewRequestDTO.setExtCustId("");
+            loginNewRequestDTO.setCreatedDate(appHelper.getCurrentDateTime(DATE_FORMAT_YYYY_MM_DD_T_HH_MM_SS));
+            loginNewRequestDTO.setRequestFrom("");
+            LoginNewRequestDTO.RequestStringClass requestStringClass = new LoginNewRequestDTO.RequestStringClass();
+            LoginNewRequestDTO.LoginRequest loginRequest = new LoginNewRequestDTO.LoginRequest();
+            loginRequest.setUserId(userId);
+            loginRequest.setPassword(password);
+            loginRequest.setAppVersion(BuildConfig.VERSION_NAME);
+            requestStringClass.setLoginRequest(loginRequest);
+            loginNewRequestDTO.setRequestString(requestStringClass);
+            Log.d(TAG, "Request" + loginNewRequestDTO);
+            getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+            encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(loginNewRequestDTO));
+
+            executor.execute(() -> {
+                DynamicUIWebService.createService(DynamicUIWebservice.class).logInLDAPService(encryptedValue, getEncryptToken.getToken()).enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        executor.execute(() -> {
+                            try {
+                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE,  response.headers().get("k1"));
+                                //String decryptedValue  = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), String.valueOf("I0XBXIahvXJE+g6CouaI86Voshca++c7oqLDdVrovBi9Ph8MuiLdSIk2uif9JwNAB1HwiwGoNX+Vc+osxP3fyUfVig+bv+gE0V0yH1fY1fA+0tkDIQN8J4ap2s6spr3UAweMAJI7GFo/rOrbRZaHgtQU3ksoVEzeiqOrBbnl1mIz/QD6HJlm48D0cc6lwCpKFMlxOexeVPwooB3/VPcB9QcQNsmT36jC0zMEHLp/VAmCuD3AkWTWcNaQW8JWg34N3r+7T3OU+0T1j7yh58s1Gu6vWHP1SKiPykYWSWEwp6QQRl1GZtVcYkGnKJLjE+9RLVBKkkvDuRC6CorBNEDFtVH+XOYUCJadv6mmF3783uUtJhjyS3OsrteluUpmnT2+rxcPKgJpGGv9sYrpGmX0uAwAcZfSOABLANRft8sQpWA1rQqQ/tzas73b5m4w3muJd/GBMAJKfTGJKG6dnpuZZzD6YDleELeMAjszsAuZ5/yw0WjfEoQ2C+QbIoOwc2AYpnayms3FLJrV0qgpWFZmohy7z172XcMwTFNfyAwQLpSFCB94IWDc25hm23QBV/Qw8VfNmSkeRkNLUU5ePsnAwku8YdU734PsBCQIwo22R+mlu/fHP33lXH9yRNicTU2vvSqdEauRUhXazGDPvCNa5gYUSFTpisE5fdemgR5FBDpcM3yd599TZodSOiu+JEKQNMkiQfdp1kLmn48PScrT/aZl5PRoo+GDFssKxHTOAi8q9+TOfZuEA+Awt5RH3jYFDecvMzOdkeK1WFSFnbyHvyobWTSPosM5MH78yv3NgvYSnzKmW2QtEdR2lth26IUkmEYJOohOPbfubDX7exG+A1jCfgrmg0iiKS+WqMDN7pmPA4un4OOoVVCkvMlGhIvQ3WSCyqUMeSfvztDw1RfgsFbQIXBwBsZp5nrpQLye1Iii+I25ZowWYZdENBNGrxITuV1WCgXFsf2BxRXfPseC0Swfhvli1nnEmTQkjGwDPqftolggxSX3rplNYOkWTlw1yq4gkcnDfu9zoECtB/9adQv3O+CI907vWqpXyWormhfLADOXx2SDvYElIAK0OBcP"));
+                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                Log.d(TAG, "decryptedValue Response" + decryptedValue);
+                                LoginnewResponseDTO loginnewResponseDTO = new Gson().fromJson(decryptedValue, LoginnewResponseDTO.class);
+                                data.postValue(loginnewResponseDTO);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                        });
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
                         Log.d(TAG, "onFailure ==> " + t.getMessage());
                         data.postValue(new LoginnewResponseDTO());
                     }
@@ -36266,52 +36383,63 @@ public class DynamicUIRepository {
                 envelope.setHeader(header);
                 requestString.setEnvelope(envelope);
                 posidexRequestDTO.setRequestString(requestString);
-                String baseString = new Gson().toJson(posidexRequestDTO, PosidexRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getposidexService(posidexRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).enqueue(new Callback<PosidexResponseDTO>() {
+                Log.d(TAG, "Request: "+posidexRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(posidexRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getposidexService(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).enqueue(new Callback<String>() {
                     @Override
-                    public void onResponse(Call<PosidexResponseDTO> call, Response<PosidexResponseDTO> response) {
-                        Log.e(TAG, "DATA REFRESHED FROM NETWORK");
+                    public void onResponse(Call<String> call, Response<String> response) {
                         executor.execute(() -> {
 
-                            if (response.isSuccessful()) {
-                                PosidexResponseDTO posidexResponseDTO = response.body();
-                                posidexResponseDTO.setModuleType(moduleType);
-                                data.postValue(posidexResponseDTO);
+                            PosidexResponseDTO posidexResponseDTO=null;
+                            try {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                    decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                    JSONObject json = new JSONObject(decryptedValue);
+                                    String tableJson = json.toString();
+                                    posidexResponseDTO = new Gson().fromJson(tableJson, PosidexResponseDTO.class);
+                                    posidexResponseDTO.setModuleType(moduleType);
+                                    data.postValue(posidexResponseDTO);
+                                    Log.d(TAG, "Response: "+posidexResponseDTO );
+                                    String posidexDataResponse = new Gson().toJson(posidexResponseDTO, PosidexResponseDTO.class);
+                                    String posidexData = posidexDataResponse.replace("|","");
 
-                                String posidexDataResponse = new Gson().toJson(posidexResponseDTO, PosidexResponseDTO.class);
-                                String posidexData = posidexDataResponse.replace("|","");
+                                        RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_POSIDEX,
+                                                clientId, moduleType);
 
-                                RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_POSIDEX,
-                                        clientId, moduleType);
+                                        if (rawDataTableFromDB == null) {
+                                            // TODO: Insert Raw Data Table
+                                            RawDataTable rawDataTable = new RawDataTable(posidexData, SCREEN_NO_POSIDEX, SCREEN_NAME_POSIDEX, "", clientId,
+                                                    loanType, userId, moduleType, "");
+                                            dynamicUIDao.insertRawData(rawDataTable);
 
-                                if (rawDataTableFromDB == null) {
-                                    // TODO: Insert Raw Data Table
-                                    RawDataTable rawDataTable = new RawDataTable(posidexData, SCREEN_NO_POSIDEX, SCREEN_NAME_POSIDEX, "", clientId,
-                                            loanType, userId, moduleType, "");
-                                    dynamicUIDao.insertRawData(rawDataTable);
+                                        } else {
+                                            // TODO: Update Raw Data Table
+                                            dynamicUIDao.updateRawDataBag(SCREEN_NO_POSIDEX, rawDataTableFromDB.getId(), posidexData);
+                                        }
+                                        if(moduleType.equalsIgnoreCase(MODULE_TYPE_APPLICANT)){
+                                            dynamicUIDao.updateaForSyncTrueForAPIS(SCREEN_NO_POSIDEX,MODULE_TYPE_APPLICANT);
+                                        }
+                                        //dynamicUIDao.updateRawDataForSync(SCREEN_NO_POSIDEX);
+                                        postSubmittedAllScreensLiveData(posidexData, SCREEN_NO_POSIDEX,"", userId,SCREEN_NAME_POSIDEX,moduleType);
 
-                                } else {
-                                    // TODO: Update Raw Data Table
-                                    dynamicUIDao.updateRawDataBag(SCREEN_NO_POSIDEX, rawDataTableFromDB.getId(), posidexData);
+
                                 }
-                                if(moduleType.equalsIgnoreCase(MODULE_TYPE_APPLICANT)){
-                                    dynamicUIDao.updateaForSyncTrueForAPIS(SCREEN_NO_POSIDEX,MODULE_TYPE_APPLICANT);
-                                }
-                                //dynamicUIDao.updateRawDataForSync(SCREEN_NO_POSIDEX);
-                                postSubmittedAllScreensLiveData(posidexData, SCREEN_NO_POSIDEX,"", userId,SCREEN_NAME_POSIDEX,moduleType);
-
-
-                            } else {
-                                // TODO: Failure Case
-                                data.postValue(new PosidexResponseDTO());
-                                insertLog("getposidexService", response.message(), "", "", TAG, "", "", "");
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
                             }
                         });
                     }
 
                     @Override
-                    public void onFailure(Call<PosidexResponseDTO> call, Throwable t) {
+                    public void onFailure(Call<String> call, Throwable t) {
                         Log.d(TAG, "onFailure ==> " + call.toString());
                         executor.execute(() -> {
                             data.postValue(new PosidexResponseDTO());
@@ -36382,51 +36510,66 @@ public class DynamicUIRepository {
                 requestStringClass.setSearchableValue(ucic_id);
                 requestStringClass.setChannelId("SRTK");
                 deliquencyRequestDTO.setRequestString(requestStringClass);
-                String baseString = new Gson().toJson(deliquencyRequestDTO, DeliquencyRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getDeliquencyService(deliquencyRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).enqueue(new Callback<DeliquencyResponseDTO>() {
+                Log.d(TAG, "Request: "+deliquencyRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(deliquencyRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getDeliquencyService(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).enqueue(new Callback<String>() {
                     @Override
-                    public void onResponse(Call<DeliquencyResponseDTO> call, Response<DeliquencyResponseDTO> response) {
-                        Log.e(TAG, "DATA REFRESHED FROM NETWORK");
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        Log.d(TAG, "DATA REFRESHED FROM NETWORK");
                         executor.execute(() -> {
-                            if (response.isSuccessful()) {
-                                DeliquencyResponseDTO deliquencyResponseDTO = response.body();
-                                deliquencyResponseDTO.setModuleType(moduleType);
-                                data.postValue(deliquencyResponseDTO);
-                                String deliquencyDataResponse = new Gson().toJson(deliquencyResponseDTO, DeliquencyResponseDTO.class);
-                                String deliquencyData1 = deliquencyDataResponse.replace("|","");
-                                String deliquencyData2 = deliquencyData1.replace(">","");
-                                String deliquencyData3 = deliquencyData2.replace("<","");
-                                String deliquencyData4 = deliquencyData3.replace("/","");
-                                String deliquencyData5 = deliquencyData4.replace("\\","");
-                                String deliquencyData = deliquencyData5.replace(".","");
+                                DeliquencyResponseDTO deliquencyResponseDTO = null;
 
-                                RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_DELIQUENCY, clientId, moduleType);
-                                if (rawDataTableFromDB == null) {
-                                    // TODO: Insert Raw Data Table
-                                    RawDataTable rawDataTable = new RawDataTable(deliquencyData, SCREEN_NO_DELIQUENCY, SCREEN_NAME_DELIQUENCY, "", clientId, loanType, userId, moduleType, "");
-                                    dynamicUIDao.insertRawData(rawDataTable);
-                                } else {
-                                    // TODO: Update Raw Data Table
-                                    dynamicUIDao.updateRawDataBag(SCREEN_NO_DELIQUENCY, rawDataTableFromDB.getId(), deliquencyData);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                try {
+                                    getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                    decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                    JSONObject json = new JSONObject(decryptedValue);
+                                    String tableJson = json.toString();
+                                    deliquencyResponseDTO = new Gson().fromJson(tableJson, DeliquencyResponseDTO.class);
+                                    deliquencyResponseDTO.setModuleType(moduleType);
+                                    data.postValue(deliquencyResponseDTO);
+                                    Log.d(TAG, "Response: "+deliquencyResponseDTO );
+
+                                    String deliquencyDataResponse = new Gson().toJson(deliquencyResponseDTO, DeliquencyResponseDTO.class);
+                                    String deliquencyData1 = deliquencyDataResponse.replace("|","");
+                                    String deliquencyData2 = deliquencyData1.replace(">","");
+                                    String deliquencyData3 = deliquencyData2.replace("<","");
+                                    String deliquencyData4 = deliquencyData3.replace("/","");
+                                    String deliquencyData5 = deliquencyData4.replace("\\","");
+                                    String deliquencyData = deliquencyData5.replace(".","");
+
+                                    RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_DELIQUENCY, clientId, moduleType);
+                                    if (rawDataTableFromDB == null) {
+                                        // TODO: Insert Raw Data Table
+                                        RawDataTable rawDataTable = new RawDataTable(deliquencyData, SCREEN_NO_DELIQUENCY, SCREEN_NAME_DELIQUENCY, "", clientId, loanType, userId, moduleType, "");
+                                        dynamicUIDao.insertRawData(rawDataTable);
+                                    } else {
+                                        // TODO: Update Raw Data Table
+                                        dynamicUIDao.updateRawDataBag(SCREEN_NO_DELIQUENCY, rawDataTableFromDB.getId(), deliquencyData);
+                                    }
+                                    if(moduleType.equalsIgnoreCase(MODULE_TYPE_APPLICANT)){
+                                        dynamicUIDao.updateaForSyncTrueForAPIS(SCREEN_NO_DELIQUENCY,MODULE_TYPE_APPLICANT);
+                                    }
+                                    postSubmittedAllScreensLiveData(deliquencyData, SCREEN_NO_DELIQUENCY,"", userId, SCREEN_NAME_DELIQUENCY,moduleType);
+
+                                } catch (Exception e) {
+                                    throw new RuntimeException(e);
                                 }
-                                if(moduleType.equalsIgnoreCase(MODULE_TYPE_APPLICANT)){
-                                    dynamicUIDao.updateaForSyncTrueForAPIS(SCREEN_NO_DELIQUENCY,MODULE_TYPE_APPLICANT);
-                                }
-                                postSubmittedAllScreensLiveData(deliquencyData, SCREEN_NO_DELIQUENCY,"", userId, SCREEN_NAME_DELIQUENCY,moduleType);
-
-
-                                //dynamicUIDao.updateRawDataForSync(SCREEN_NO_DELIQUENCY);
-                            } else {
-                                // TODO: Failure Case
-                                data.postValue(new DeliquencyResponseDTO());
-                                insertLog("getdeliquencyServiceData", response.message(), "", "", TAG, "", "", "");
                             }
+
                         });
                     }
 
                     @Override
-                    public void onFailure(Call<DeliquencyResponseDTO> call, Throwable t) {
+                    public void onFailure(Call<String> call, Throwable t) {
                         Log.d(TAG, "onFailure ==> " + t.getMessage());
                         executor.execute(() -> {
                             data.postValue(new DeliquencyResponseDTO());
@@ -36460,40 +36603,52 @@ public class DynamicUIRepository {
                 KarzaRequestDTO.RequestString requestStringClass = new KarzaRequestDTO.RequestString();
                 requestStringClass.setRegistrationNumber(registrationNumber);
                 karzaRequestDto.setRequestString(requestStringClass);
-                String baseString = new Gson().toJson(karzaRequestDto, KarzaRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getKarzaDataFromServer(karzaRequestDto, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<KarzaResponseDTO>() {
+                Log.d(TAG, "Request: "+karzaRequestDto);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(karzaRequestDto));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getKarzaDataFromServer(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<KarzaResponseDTO> call, Response<KarzaResponseDTO> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    Log.d(TAG, "111onSuccess ==> " + response.body());
-                                    if (response.isSuccessful()) {
-                                        Log.d(TAG, "111onSuccess1 ==> " + response.body());
-                                        KarzaResponseDTO karzaResponseDTO = response.body();
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        try {
+                                            KarzaResponseDTO karzaResponseDTO = null;
 
-                                        String karzaData = new Gson().toJson(karzaResponseDTO, KarzaResponseDTO.class);
-                                        String karzaData1 = karzaData.replace("|"," ");
-                                        String karzaData2 = karzaData1.replace(">"," ");
-                                        String karzaData3 = karzaData2.replace("<"," ");
-                                        String karzaData4 = karzaData3.replace("("," ");
-                                        String karzaData5 = karzaData4.replace("\\"," ");
-                                        String karzaData6 = karzaData5.replace(")"," ");
-                                        String karzavalue = karzaData6.replace("."," ");
-                                        KarzaResponseDTO karzaResponseDTO1 = new Gson().fromJson(karzavalue, KarzaResponseDTO.class);
-                                        data.postValue(karzaResponseDTO1);
-
-                                    } else {
-                                        Log.d(TAG, "111onSuccess2 ==> " + response.body());
-                                        // TODO: Failure Case
-                                        data.postValue(new KarzaResponseDTO());
-
+                                            getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                            decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            JSONObject json = new JSONObject(decryptedValue);
+                                            String tableJson = json.toString();
+                                            String karzaData = new Gson().toJson(karzaResponseDTO, KarzaResponseDTO.class);
+                                            String karzaData1 = karzaData.replace("|"," ");
+                                            String karzaData2 = karzaData1.replace(">"," ");
+                                            String karzaData3 = karzaData2.replace("<"," ");
+                                            String karzaData4 = karzaData3.replace("("," ");
+                                            String karzaData5 = karzaData4.replace("\\"," ");
+                                            String karzaData6 = karzaData5.replace(")"," ");
+                                            String karzavalue = karzaData6.replace("."," ");
+                                            KarzaResponseDTO karzaResponseDTO1 = new Gson().fromJson(karzavalue, KarzaResponseDTO.class);
+                                            Log.d(TAG, "Response: "+karzaResponseDTO1 );
+                                            data.postValue(karzaResponseDTO1);
+                                        } catch (Exception e) {
+                                            throw new RuntimeException(e);
+                                        }
                                     }
+
+
+
                                 });
                             }
 
                             @Override
-                            public void onFailure(Call<KarzaResponseDTO> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 Log.d(TAG, "111onFailure ==> " + t.getMessage());
                                 executor.execute(() -> {
                                     KarzaResponseDTO karzaResponseDTO = new KarzaResponseDTO();
@@ -36526,27 +36681,40 @@ public class DynamicUIRepository {
                 requestStringClass.set_for(forData);
                 requestStringClass.setAccess_token("");
                 cityRequestDTO.setRequestString(requestStringClass);
-                String baseString = new Gson().toJson(cityRequestDTO, CityRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getCityDataFromServer(cityRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<CityResponseDTO>() {
+                Log.d(TAG, "Request: "+cityRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(cityRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getCityDataFromServer(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<CityResponseDTO> call, Response<CityResponseDTO> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        CityResponseDTO cityResponseDTO = response.body();
-                                        data.postValue(cityResponseDTO);
+                                        CityResponseDTO cityResponseDTO = null;
 
-                                    } else {
-                                        // TODO: Failure Case
-                                        data.postValue(new CityResponseDTO());
-
-                                    }
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            try {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                                JSONObject json = new JSONObject(decryptedValue);
+                                                String tableJson = json.toString();
+                                                cityResponseDTO = new Gson().fromJson(tableJson, CityResponseDTO.class);
+                                                data.postValue(cityResponseDTO);
+                                                Log.d(TAG, "Response: "+cityResponseDTO );
+                                            } catch (Exception e) {
+                                                throw new RuntimeException(e);
+                                            }
+                                        }
                                 });
                             }
 
                             @Override
-                            public void onFailure(Call<CityResponseDTO> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 Log.d(TAG, "onFailure ==> " + t.getMessage());
                                 executor.execute(() -> {
                                     data.postValue(new CityResponseDTO());
@@ -36588,26 +36756,40 @@ public class DynamicUIRepository {
                 requestStringClass.setLocation(location);
                 requestStringClass.setAccess_token("");
                 ibpRequest.setRequestString(requestStringClass);
-                String baseString = new Gson().toJson(ibpRequest, IBPRequest.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getIBPDataFromServer(ibpRequest, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<IBPResponse>() {
+                Log.d(TAG, "Request: "+ibpRequest);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(ibpRequest));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getIBPDataFromServer(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<IBPResponse> call, Response<IBPResponse> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        IBPResponse ibpResponse = response.body();
-                                        data.postValue(ibpResponse);
-
-                                    } else {
-                                        // TODO: Failure Case
-                                        data.postValue(new IBPResponse());
+                                    IBPResponse ibpResponse = null;
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        try {
+                                            getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                            decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            JSONObject json = new JSONObject(decryptedValue);
+                                            String tableJson = json.toString();
+                                            ibpResponse = new Gson().fromJson(tableJson, IBPResponse.class);
+                                            data.postValue(ibpResponse);
+                                            Log.d(TAG, "Response: "+ibpResponse );
+                                        } catch (Exception e) {
+                                            throw new RuntimeException(e);
+                                        }
                                     }
+
                                 });
                             }
 
                             @Override
-                            public void onFailure(Call<IBPResponse> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 Log.d(TAG, "onFailure ==> " + t.getMessage());
                                 executor.execute(() -> {
                                     data.postValue(new IBPResponse());
@@ -36645,17 +36827,30 @@ public class DynamicUIRepository {
                 ArrayList<TypeOfProfessionRequestDTO.SpNameWithParameterClass> SpNameWithParameterList = new ArrayList<TypeOfProfessionRequestDTO.SpNameWithParameterClass>();
                 SpNameWithParameterList.add(spNameWithParameter);
                 typeOfProfessionRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(typeOfProfessionRequestDTO, TypeOfProfessionRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getLeadDropDownTypeOfProfession(typeOfProfessionRequestDTO,
-                                appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
+                Log.d(TAG, "Request: "+typeOfProfessionRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(typeOfProfessionRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getLeadDropDownTypeOfProfession(getEncryptToken.getToken(),
+                                appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), encryptedValue).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
+
+                                    if (response!=null) {
                                         try {
-                                            String strResponse = response.body().string();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
                                             JSONObject json = new JSONObject(strResponse);
                                             if (json.length() != 0) {
                                                 String key = json.keys().next();
@@ -36694,7 +36889,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 // TODO: Final result
                                 executor.execute(() -> {
@@ -36739,17 +36934,29 @@ public class DynamicUIRepository {
                 ArrayList<TypeOfProfessionRequestDTO.SpNameWithParameterClass> SpNameWithParameterList = new ArrayList<TypeOfProfessionRequestDTO.SpNameWithParameterClass>();
                 SpNameWithParameterList.add(spNameWithParameter);
                 typeOfProfessionRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(typeOfProfessionRequestDTO, TypeOfProfessionRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getLeadDropDownTypeOfProfession(typeOfProfessionRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
+                Log.d(TAG, "Request: "+typeOfProfessionRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(typeOfProfessionRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getLeadDropDownTypeOfProfession(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
+                                    if (response!=null) {
                                         try {
-                                            String strResponse = response.body().string();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
                                             JSONObject json = new JSONObject(strResponse);
+
                                             if (json.length() != 0) {
                                                 String key = json.keys().next();
                                                 if (!TextUtils.isEmpty(key)) {
@@ -36762,21 +36969,19 @@ public class DynamicUIRepository {
                                                         for (GetLeadDropDownTypeOfProfessionTable getLeadDropDownProductTypeOfProfessionTablesList : getTypeOfProfessionResponseDTO.getGetLeadDropDownTypeOfProfessionTable()) {
                                                             getLeadDropDownTypeOfProfessionList.add(getLeadDropDownProductTypeOfProfessionTablesList);
                                                         }
-
                                                         // TODO: Delete And Insert Knowledge Bank Table
                                                         dynamicUIDao.deleteAndInsertUserDropDownTypeOfProfessionTable(getLeadDropDownTypeOfProfessionList);
                                                     }
                                                 }
                                             }
+
                                         } catch (Exception ex) {
                                             ex.printStackTrace();
-
                                             insertLog("getLeadDropDownProductNameFromServer", ex.getMessage(), "", "", TAG, "", "", "");
                                         }
                                     } else {
                                         insertLog("getLeadDropDownProductNameFromServer", response.message(), "", "", TAG, "", "", "");
                                     }
-
                                     // TODO: Final result
                                     List<GetLeadDropDownTypeOfProfessionTable> getLeadDropDownTypeOfProfessionTablList = dynamicUIDao.getLeadDropDownTypeOfProfessionTableFromLocalDB();
                                     data.postValue(getLeadDropDownTypeOfProfessionTablList);
@@ -36785,7 +36990,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 // TODO: Final result
                                 executor.execute(() -> {
@@ -36855,16 +37060,27 @@ public class DynamicUIRepository {
                 ArrayList<TypeOfProfessionRequestDTO.SpNameWithParameterClass> SpNameWithParameterList = new ArrayList<TypeOfProfessionRequestDTO.SpNameWithParameterClass>();
                 SpNameWithParameterList.add(spNameWithParameter);
                 typeOfProfessionRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(typeOfProfessionRequestDTO, TypeOfProfessionRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getLeadDropDownTypeOfProfession(typeOfProfessionRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
+                Log.d(TAG, "Request: "+typeOfProfessionRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(typeOfProfessionRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getLeadDropDownTypeOfProfession(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
+                                    if (response!=null) {
                                         try {
-                                            String strResponse = response.body().string();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
                                             JSONObject json = new JSONObject(strResponse);
                                             if (json.length() != 0) {
                                                 String key = json.keys().next();
@@ -36901,7 +37117,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 // TODO: Final result
                                 executor.execute(() -> {
@@ -36968,16 +37184,27 @@ public class DynamicUIRepository {
                 ArrayList<TypeOfProfessionRequestDTO.SpNameWithParameterClass> SpNameWithParameterList = new ArrayList<TypeOfProfessionRequestDTO.SpNameWithParameterClass>();
                 SpNameWithParameterList.add(spNameWithParameter);
                 typeOfProfessionRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(typeOfProfessionRequestDTO, TypeOfProfessionRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getLeadDropDownTypeOfProfession(typeOfProfessionRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
+                Log.d(TAG, "Request: "+typeOfProfessionRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(typeOfProfessionRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getLeadDropDownTypeOfProfession(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
+                                    if (response!=null) {
                                         try {
-                                            String strResponse = response.body().string();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
                                             JSONObject json = new JSONObject(strResponse);
                                             if (json.length() != 0) {
                                                 String key = json.keys().next();
@@ -37016,7 +37243,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 // TODO: Final result
                                 executor.execute(() -> {
@@ -37103,16 +37330,27 @@ public class DynamicUIRepository {
                 ArrayList<TypeOfProfessionRequestDTO.SpNameWithParameterClass> SpNameWithParameterList = new ArrayList<TypeOfProfessionRequestDTO.SpNameWithParameterClass>();
                 SpNameWithParameterList.add(spNameWithParameter);
                 typeOfProfessionRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(typeOfProfessionRequestDTO, TypeOfProfessionRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getLeadDropDownTypeOfProfession(typeOfProfessionRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
+                Log.d(TAG, "Request: "+typeOfProfessionRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(typeOfProfessionRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getLeadDropDownTypeOfProfession(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
+                                    if (response!=null) {
                                         try {
-                                            String strResponse = response.body().string();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
                                             JSONObject json = new JSONObject(strResponse);
                                             if (json.length() != 0) {
                                                 String key = json.keys().next();
@@ -37144,7 +37382,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 // TODO: Final result
                                 executor.execute(() -> {
@@ -37183,27 +37421,41 @@ public class DynamicUIRepository {
                 requestStringClass.setMonth(month);
                 requestStringClass.setYear(year);
                 makeRequestDTO.setRequestString(requestStringClass);
-                String baseString = new Gson().toJson(makeRequestDTO, GetMakeRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getMakeServiceData(makeRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<GetMakeResponseDTO>() {
+                Log.d(TAG, "Request: "+makeRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(makeRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getMakeServiceData(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<GetMakeResponseDTO> call, Response<GetMakeResponseDTO> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        GetMakeResponseDTO getMakeResponseDTO = response.body();
-                                        data.postValue(getMakeResponseDTO);
-
-                                    } else {
-                                        // TODO: Failure Case
-                                        data.postValue(new GetMakeResponseDTO());
-
+                                    GetMakeResponseDTO getMakeResponseDTO = null;
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        try {
+                                            getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                            decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            JSONObject json = new JSONObject(decryptedValue);
+                                            String tableJson = json.toString();
+                                            getMakeResponseDTO = new Gson().fromJson(tableJson, GetMakeResponseDTO.class);
+                                            data.postValue(getMakeResponseDTO);
+                                            Log.d(TAG, "Response: "+getMakeResponseDTO );
+                                        } catch (Exception e) {
+                                            throw new RuntimeException(e);
+                                        }
                                     }
+
                                 });
                             }
 
                             @Override
-                            public void onFailure(Call<GetMakeResponseDTO> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 Log.d(TAG, "onFailure ==> " + t.getMessage());
                                 executor.execute(() -> {
                                     data.postValue(new GetMakeResponseDTO());
@@ -37237,27 +37489,39 @@ public class DynamicUIRepository {
                 requestStringClass.setYear(year);
                 requestStringClass.setMake(make);
                 modelRequestDTO.setRequestString(requestStringClass);
-                String baseString = new Gson().toJson(modelRequestDTO, GetModelRequest.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getModelServiceData(modelRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<GetModelResponseDTO>() {
+                Log.d(TAG, "Request: "+modelRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(modelRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getModelServiceData(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<GetModelResponseDTO> call, Response<GetModelResponseDTO> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        GetModelResponseDTO getModelResponseDTO = response.body();
-                                        data.postValue(getModelResponseDTO);
-
-                                    } else {
-                                        // TODO: Failure Case
-                                        data.postValue(new GetModelResponseDTO());
-
-                                    }
+                                    GetModelResponseDTO getModelResponseDTO = null;
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            try {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                                JSONObject json = new JSONObject(decryptedValue);
+                                                String tableJson = json.toString();
+                                                getModelResponseDTO = new Gson().fromJson(tableJson, GetModelResponseDTO.class);
+                                                data.postValue(getModelResponseDTO);
+                                                Log.d(TAG, "Response: "+getModelResponseDTO );
+                                            } catch (Exception e) {
+                                                throw new RuntimeException(e);
+                                            }
+                                        }
                                 });
                             }
 
                             @Override
-                            public void onFailure(Call<GetModelResponseDTO> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 Log.d(TAG, "onFailure ==> " + t.getMessage());
                                 executor.execute(() -> {
                                     data.postValue(new GetModelResponseDTO());
@@ -37292,27 +37556,40 @@ public class DynamicUIRepository {
                 requestStringClass.setMake(make);
                 requestStringClass.setModel(model);
                 variantRequestDTO.setRequestString(requestStringClass);
-                String baseString = new Gson().toJson(variantRequestDTO, GetVariantRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getVariantServiceData(variantRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<GETVariantResponseDTO>() {
+                Log.d(TAG, "Request: "+variantRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(variantRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getVariantServiceData(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<GETVariantResponseDTO> call, Response<GETVariantResponseDTO> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        GETVariantResponseDTO getVariantResponseDTO = response.body();
-                                        data.postValue(getVariantResponseDTO);
-
-                                    } else {
-                                        // TODO: Failure Case
-                                        data.postValue(new GETVariantResponseDTO());
-
+                                    GETVariantResponseDTO getVariantResponseDTO = null;
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        try {
+                                            getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                            decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            JSONObject json = new JSONObject(decryptedValue);
+                                            String tableJson = json.toString();
+                                            getVariantResponseDTO = new Gson().fromJson(tableJson, GETVariantResponseDTO.class);
+                                            data.postValue(getVariantResponseDTO);
+                                            Log.d(TAG, "Response: "+getVariantResponseDTO );
+                                        } catch (Exception e) {
+                                            throw new RuntimeException(e);
+                                        }
                                     }
+
                                 });
                             }
 
                             @Override
-                            public void onFailure(Call<GETVariantResponseDTO> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 Log.d(TAG, "onFailure ==> " + t.getMessage());
                                 executor.execute(() -> {
                                     data.postValue(new GETVariantResponseDTO());
@@ -37343,26 +37620,40 @@ public class DynamicUIRepository {
                 GETColorRequestDTO.RequestString requestStringClass = new GETColorRequestDTO.RequestString();
                 requestStringClass.setAccess_token("");
                 colorRequestDTO.setRequestString(requestStringClass);
-                String baseString = new Gson().toJson(colorRequestDTO, GETColorRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getColorServiceData(colorRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<GetColorResponseDTO>() {
+                Log.d(TAG, "Request: "+colorRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(colorRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getColorServiceData(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<GetColorResponseDTO> call, Response<GetColorResponseDTO> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        GetColorResponseDTO getColorResponseDTO = response.body();
-                                        data.postValue(getColorResponseDTO);
-
-                                    } else {
-                                        // TODO: Failure Case
-                                        data.postValue(new GetColorResponseDTO());
+                                    GetColorResponseDTO getColorResponseDTO = null;
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        try {
+                                            getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                            decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            JSONObject json = new JSONObject(decryptedValue);
+                                            String tableJson = json.toString();
+                                            getColorResponseDTO = new Gson().fromJson(tableJson, GetColorResponseDTO.class);
+                                            data.postValue(getColorResponseDTO);
+                                            Log.d(TAG, "Response: "+getColorResponseDTO );
+                                        } catch (Exception e) {
+                                            throw new RuntimeException(e);
+                                        }
                                     }
+
                                 });
                             }
 
                             @Override
-                            public void onFailure(Call<GetColorResponseDTO> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 Log.d(TAG, "onFailure ==> " + t.getMessage());
                                 executor.execute(() -> {
                                     data.postValue(new GetColorResponseDTO());
@@ -37611,49 +37902,61 @@ public class DynamicUIRepository {
                 requestStringClass.setRampRequest(rampRequest);
                 rampRequestDTO.setRequestString(requestStringClass);
 
-                String baseString = new Gson().toJson(rampRequestDTO, RampRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getRampServiceData(rampRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<RampResponseDTO>() {
+                Log.d(TAG, "Request: "+rampRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(rampRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getRampServiceData(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<RampResponseDTO> call, Response<RampResponseDTO> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        RampResponseDTO rampResponseDTO = response.body();
-                                        rampResponseDTO.setModuleType(moduleType);
-                                        data.postValue(rampResponseDTO);
 
-                                        String rampDataResponse = new Gson().toJson(rampResponseDTO, RampResponseDTO.class);
-                                        String rampData = rampDataResponse.replace("|","");
-                                        RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_RAMP,
-                                                clientId, moduleType);
+                                        RampResponseDTO rampResponseDTO = null;
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        try {
+                                            getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                            decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            JSONObject json = new JSONObject(decryptedValue);
+                                            String tableJson = json.toString();
+                                            rampResponseDTO = new Gson().fromJson(tableJson, RampResponseDTO.class);
+                                            rampResponseDTO.setModuleType(moduleType);
+                                            data.postValue(rampResponseDTO);
+                                            Log.d(TAG, "Response: "+rampResponseDTO );
+                                            String rampDataResponse = new Gson().toJson(rampResponseDTO, RampResponseDTO.class);
+                                            String rampData = rampDataResponse.replace("|","");
+                                            RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_RAMP,
+                                                    clientId, moduleType);
 
-                                        if (rawDataTableFromDB == null) {
-                                            // TODO: Insert Raw Data Table
-                                            RawDataTable rawDataTable = new RawDataTable(rampData, SCREEN_NO_RAMP, SCREEN_NAME_RAMP, "", clientId,
-                                                    loanType, userId, moduleType, "");
-                                            dynamicUIDao.insertRawData(rawDataTable);
+                                            if (rawDataTableFromDB == null) {
+                                                // TODO: Insert Raw Data Table
+                                                RawDataTable rawDataTable = new RawDataTable(rampData, SCREEN_NO_RAMP, SCREEN_NAME_RAMP, "", clientId,
+                                                        loanType, userId, moduleType, "");
+                                                dynamicUIDao.insertRawData(rawDataTable);
 
-                                        } else {
-                                            // TODO: Update Raw Data Table
-                                            dynamicUIDao.updateRawDataBag(SCREEN_NO_RAMP, rawDataTableFromDB.getId(), rampData);
+                                            } else {
+                                                // TODO: Update Raw Data Table
+                                                dynamicUIDao.updateRawDataBag(SCREEN_NO_RAMP, rawDataTableFromDB.getId(), rampData);
+                                            }
+                                            if(moduleType.equalsIgnoreCase(MODULE_TYPE_APPLICANT)){
+                                                dynamicUIDao.updateaForSyncTrueForAPIS(SCREEN_NO_RAMP,MODULE_TYPE_APPLICANT);
+                                            }
+                                            postSubmittedAllScreensLiveData(rampData, SCREEN_NO_RAMP,"", userId,SCREEN_NAME_RAMP,moduleType);
+                                        } catch (Exception e) {
+                                            throw new RuntimeException(e);
                                         }
-                                        if(moduleType.equalsIgnoreCase(MODULE_TYPE_APPLICANT)){
-                                            dynamicUIDao.updateaForSyncTrueForAPIS(SCREEN_NO_RAMP,MODULE_TYPE_APPLICANT);
-                                        }
-                                        postSubmittedAllScreensLiveData(rampData, SCREEN_NO_RAMP,"", userId,SCREEN_NAME_RAMP,moduleType);
-                                        //dynamicUIDao.updateRawDataForSync(SCREEN_NO_RAMP);
-
-                                    } else {
-                                        // TODO: Failure Case
-                                        data.postValue(new RampResponseDTO());
-
                                     }
+
                                 });
                             }
 
                             @Override
-                            public void onFailure(Call<RampResponseDTO> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 Log.d(TAG, "onFailure ==> " + t.getMessage());
                                 executor.execute(() -> {
                                     data.postValue(new RampResponseDTO());
@@ -38817,44 +39120,59 @@ public class DynamicUIRepository {
                 hunterVerificationRetail.setItem(item);
                 requestStringClass.setHunterVerificationRetail(hunterVerificationRetail);
                 hunterRequestDTO.setRequestString(requestStringClass);
-                String baseString = new Gson().toJson(hunterRequestDTO, HunterRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getHunterServiceData(hunterRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<HunterResponseDTO>() {
+                Log.d(TAG, "Request: "+hunterRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(hunterRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getHunterServiceData(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<HunterResponseDTO> call, Response<HunterResponseDTO> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        HunterResponseDTO hunterResponseDTO = response.body();
-                                        data.postValue(hunterResponseDTO);
+                                        HunterResponseDTO hunterResponseDTO = null;
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        try {
+                                            getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                            decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            JSONObject json = new JSONObject(decryptedValue);
+                                            String tableJson = json.toString();
+                                            hunterResponseDTO = new Gson().fromJson(tableJson, HunterResponseDTO.class);
+                                            data.postValue(hunterResponseDTO);
+                                            Log.d(TAG, "Response: "+hunterResponseDTO );
 
-                                        String hunterDataResponse = new Gson().toJson(hunterResponseDTO, HunterResponseDTO.class);
-                                        String hunterData =hunterDataResponse.replace("|","");
-                                        RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_HUNTER,
-                                                clientId, moduleType);
-                                        if (rawDataTableFromDB == null) {
-                                            // TODO: Insert Raw Data Table
-                                            RawDataTable rawDataTable = new RawDataTable(hunterData, SCREEN_NO_HUNTER, SCREEN_NAME_HUNTER, "", clientId,
-                                                    loanType, userId, moduleType, "");
-                                            dynamicUIDao.insertRawData(rawDataTable);
+                                            String hunterDataResponse = new Gson().toJson(hunterResponseDTO, HunterResponseDTO.class);
+                                            String hunterData =hunterDataResponse.replace("|","");
+                                            RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_HUNTER,
+                                                    clientId, moduleType);
+                                            if (rawDataTableFromDB == null) {
+                                                // TODO: Insert Raw Data Table
+                                                RawDataTable rawDataTable = new RawDataTable(hunterData, SCREEN_NO_HUNTER, SCREEN_NAME_HUNTER, "", clientId,
+                                                        loanType, userId, moduleType, "");
+                                                dynamicUIDao.insertRawData(rawDataTable);
 
-                                        } else {
-                                            // TODO: Update Raw Data Table
-                                            dynamicUIDao.updateRawDataBag(SCREEN_NO_HUNTER, rawDataTableFromDB.getId(), hunterData);
+                                            } else {
+                                                // TODO: Update Raw Data Table
+                                                dynamicUIDao.updateRawDataBag(SCREEN_NO_HUNTER, rawDataTableFromDB.getId(), hunterData);
+                                            }
+                                            dynamicUIDao.updateaForSyncTrueForAPIS(SCREEN_NO_HUNTER,MODULE_TYPE_GENERATE_CIBIL);
+                                            postSubmittedAllScreensLiveData(hunterData, SCREEN_NO_HUNTER,"", userId,SCREEN_NAME_HUNTER,moduleType);
+                                            //dynamicUIDao.updateRawDataForSync(SCREEN_NO_HUNTER);
+                                        } catch (Exception e) {
+                                            throw new RuntimeException(e);
                                         }
-                                        dynamicUIDao.updateaForSyncTrueForAPIS(SCREEN_NO_HUNTER,MODULE_TYPE_GENERATE_CIBIL);
-                                        postSubmittedAllScreensLiveData(hunterData, SCREEN_NO_HUNTER,"", userId,SCREEN_NAME_HUNTER,moduleType);
-                                        //dynamicUIDao.updateRawDataForSync(SCREEN_NO_HUNTER);
-
-                                    } else {
-                                        // TODO: Failure Case
-                                        data.postValue(new HunterResponseDTO());
                                     }
+
+
                                 });
                             }
 
                             @Override
-                            public void onFailure(Call<HunterResponseDTO> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 Log.d(TAG, "onFailure ==> " + t.getMessage());
                                 executor.execute(() -> {
                                     data.postValue(new HunterResponseDTO());
@@ -39467,46 +39785,59 @@ public class DynamicUIRepository {
                 hunterVerificationSME.setItem(item);
                 requestStringClass.setHunterVerificationSME(hunterVerificationSME);
                 hunterNonIndividualRequestDTO.setRequestString(requestStringClass);
-                String baseString = new Gson().toJson(hunterNonIndividualRequestDTO, HunterNonIndividualRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getHunterNonIndividualServiceData(hunterNonIndividualRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<HunterResponseDTO>() {
+
+                try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(hunterNonIndividualRequestDTO));
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getHunterNonIndividualServiceData(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<HunterResponseDTO> call, Response<HunterResponseDTO> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        HunterResponseDTO hunterResponseDTO = response.body();
-                                        data.postValue(hunterResponseDTO);
-
-                                        String hunterDataResponse = new Gson().toJson(hunterResponseDTO, HunterResponseDTO.class);
-                                        String hunterData = hunterDataResponse.replace("|", "");
-
-                                        RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_HUNTER,
-                                                clientId, moduleType);
-
-                                        if (rawDataTableFromDB == null) {
-                                            // TODO: Insert Raw Data Table
-                                            RawDataTable rawDataTable = new RawDataTable(hunterData, SCREEN_NO_HUNTER, SCREEN_NAME_HUNTER, "", clientId,
-                                                    loanType, userId, moduleType, "");
-                                            dynamicUIDao.insertRawData(rawDataTable);
-
-                                        } else {
-                                            // TODO: Update Raw Data Table
-                                            dynamicUIDao.updateRawDataBag(SCREEN_NO_HUNTER, rawDataTableFromDB.getId(), hunterData);
+                                    HunterResponseDTO hunterResponseDTO = null;
+                                    try {
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                            decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
                                         }
+                                         JSONObject json = new JSONObject(decryptedValue);
+                                        String tableJson = json.toString();
 
-                                        dynamicUIDao.updateRawDataForSync(SCREEN_NO_HUNTER);
+                                            hunterResponseDTO = new Gson().fromJson(tableJson, HunterResponseDTO.class);
+                                            data.postValue(hunterResponseDTO);
 
-                                    } else {
-                                        // TODO: Failure Case
-                                        data.postValue(new HunterResponseDTO());
+                                            String hunterDataResponse = new Gson().toJson(hunterResponseDTO, HunterResponseDTO.class);
+                                            String hunterData = hunterDataResponse.replace("|", "");
 
+                                            RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_HUNTER,
+                                                    clientId, moduleType);
+
+                                            if (rawDataTableFromDB == null) {
+                                                // TODO: Insert Raw Data Table
+                                                RawDataTable rawDataTable = new RawDataTable(hunterData, SCREEN_NO_HUNTER, SCREEN_NAME_HUNTER, "", clientId,
+                                                        loanType, userId, moduleType, "");
+                                                dynamicUIDao.insertRawData(rawDataTable);
+
+                                            } else {
+                                                // TODO: Update Raw Data Table
+                                                dynamicUIDao.updateRawDataBag(SCREEN_NO_HUNTER, rawDataTableFromDB.getId(), hunterData);
+                                            }
+
+                                            dynamicUIDao.updateRawDataForSync(SCREEN_NO_HUNTER);
+
+                                    } catch (Exception e) {
+                                        throw new RuntimeException(e);
                                     }
                                 });
                             }
 
                             @Override
-                            public void onFailure(Call<HunterResponseDTO> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 Log.d(TAG, "onFailure ==> " + t.getMessage());
                                 executor.execute(() -> {
                                     data.postValue(new HunterResponseDTO());
@@ -39644,50 +39975,63 @@ public class DynamicUIRepository {
                 requestStringClass.setDedupeEnquiry(dedupeEnquiry);
                 dedupeRequestDTO.setRequestString(requestStringClass);
 
-                String baseString = new Gson().toJson(dedupeRequestDTO, DedupeRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getDedupeServiceData(dedupeRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<DedupeResponseDTO>() {
+                Log.d(TAG, "Request: "+dedupeRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(dedupeRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getDedupeServiceData(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<DedupeResponseDTO> call, Response<DedupeResponseDTO> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        DedupeResponseDTO dedupeResponseDTO = response.body();
-                                        dedupeResponseDTO.setModuleType(moduleType);
-                                        data.postValue(dedupeResponseDTO);
+                                        DedupeResponseDTO dedupeResponseDTO = null;
 
-                                        String dedupeDataResponse = new Gson().toJson(dedupeResponseDTO, DedupeResponseDTO.class);
-                                        String dedupeData =dedupeDataResponse.replace("|","");
-                                        RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_DEDUPE,
-                                                clientId, moduleType);
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        try {
+                                            getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                            decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            JSONObject json = new JSONObject(decryptedValue);
+                                            String tableJson = json.toString();
+                                            dedupeResponseDTO = new Gson().fromJson(tableJson, DedupeResponseDTO.class);
+                                            dedupeResponseDTO.setModuleType(moduleType);
+                                            data.postValue(dedupeResponseDTO);
+                                            Log.d(TAG, "Response: "+dedupeResponseDTO );
+                                            String dedupeDataResponse = new Gson().toJson(dedupeResponseDTO, DedupeResponseDTO.class);
+                                            String dedupeData =dedupeDataResponse.replace("|","");
+                                            RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_DEDUPE,
+                                                    clientId, moduleType);
 
-                                        if (rawDataTableFromDB == null) {
-                                            // TODO: Insert Raw Data Table
-                                            RawDataTable rawDataTable = new RawDataTable(dedupeData, SCREEN_NO_DEDUPE, SCREEN_NAME_DEDUPE, "", clientId,
-                                                    loanType, userId, moduleType, "");
-                                            dynamicUIDao.insertRawData(rawDataTable);
+                                            if (rawDataTableFromDB == null) {
+                                                // TODO: Insert Raw Data Table
+                                                RawDataTable rawDataTable = new RawDataTable(dedupeData, SCREEN_NO_DEDUPE, SCREEN_NAME_DEDUPE, "", clientId,
+                                                        loanType, userId, moduleType, "");
+                                                dynamicUIDao.insertRawData(rawDataTable);
 
-                                        } else {
-                                            // TODO: Update Raw Data Table
-                                            dynamicUIDao.updateRawDataBag(SCREEN_NO_DEDUPE, rawDataTableFromDB.getId(), dedupeData);
+                                            } else {
+                                                // TODO: Update Raw Data Table
+                                                dynamicUIDao.updateRawDataBag(SCREEN_NO_DEDUPE, rawDataTableFromDB.getId(), dedupeData);
+                                            }
+                                            if(moduleType.equalsIgnoreCase(MODULE_TYPE_APPLICANT)){
+                                                dynamicUIDao.updateaForSyncTrueForAPIS(SCREEN_NO_DEDUPE,MODULE_TYPE_APPLICANT);
+                                            }
+                                            postSubmittedAllScreensLiveData(dedupeData, SCREEN_NO_DEDUPE,"", userId,SCREEN_NAME_DEDUPE,moduleType);
+
+                                        } catch (Exception e) {
+                                            throw new RuntimeException(e);
                                         }
-                                        if(moduleType.equalsIgnoreCase(MODULE_TYPE_APPLICANT)){
-                                            dynamicUIDao.updateaForSyncTrueForAPIS(SCREEN_NO_DEDUPE,MODULE_TYPE_APPLICANT);
-                                        }
-                                        postSubmittedAllScreensLiveData(dedupeData, SCREEN_NO_DEDUPE,"", userId,SCREEN_NAME_DEDUPE,moduleType);
-
-                                        //dynamicUIDao.updateRawDataForSync(SCREEN_NO_DEDUPE);
-
-                                    } else {
-                                        // TODO: Failure Case
-                                        data.postValue(new DedupeResponseDTO());
-
                                     }
+
                                 });
                             }
 
                             @Override
-                            public void onFailure(Call<DedupeResponseDTO> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 Log.d(TAG, "onFailure ==> " + t.getMessage());
                                 executor.execute(() -> {
                                     data.postValue(new DedupeResponseDTO());
@@ -39870,47 +40214,59 @@ public class DynamicUIRepository {
                 requestStringClass.setSubscription_registration(subscriptionRegistration);
                 requestStringClass.setCustomer(customer);
                 eNachRequestDTO.setRequestString(requestStringClass);
-                String baseString = new Gson().toJson(eNachRequestDTO, ENachRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getENachServiceData(eNachRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ENachResponseDTO>() {
+                Log.d(TAG, "Request: "+eNachRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(eNachRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getENachServiceData(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ENachResponseDTO> call, Response<ENachResponseDTO> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        ENachResponseDTO enachResponseDTO = response.body();
-                                        data.postValue(enachResponseDTO);
 
+                                        ENachResponseDTO enachResponseDTO = null;
 
-                                        String eNachDataResponse = new Gson().toJson(enachResponseDTO, ENachResponseDTO.class);
-                                        String eNachData = eNachDataResponse.replace("|","");
-                                        RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_ENACH,
-                                                clientId, moduleType);
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        try {
+                                            getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                            decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            JSONObject json = new JSONObject(decryptedValue);
+                                            String tableJson = json.toString();
+                                            enachResponseDTO = new Gson().fromJson(tableJson, ENachResponseDTO.class);
+                                            data.postValue(enachResponseDTO);
+                                            Log.d(TAG, "Response: "+enachResponseDTO );
 
-                                        if (rawDataTableFromDB == null) {
-                                            // TODO: Insert Raw Data Table
-                                            RawDataTable rawDataTable = new RawDataTable(eNachData, SCREEN_NO_ENACH, SCREEN_NAME_ENACH, "", clientId,
-                                                    loanType, userId, moduleType, "");
-                                            dynamicUIDao.insertRawData(rawDataTable);
+                                            String eNachDataResponse = new Gson().toJson(enachResponseDTO, ENachResponseDTO.class);
+                                            String eNachData = eNachDataResponse.replace("|","");
+                                            RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_ENACH,
+                                                    clientId, moduleType);
 
-                                        } else {
-                                            // TODO: Update Raw Data Table
-                                            dynamicUIDao.updateRawDataBag(SCREEN_NO_ENACH, rawDataTableFromDB.getId(), eNachData);
+                                            if (rawDataTableFromDB == null) {
+                                                // TODO: Insert Raw Data Table
+                                                RawDataTable rawDataTable = new RawDataTable(eNachData, SCREEN_NO_ENACH, SCREEN_NAME_ENACH, "", clientId,
+                                                        loanType, userId, moduleType, "");
+                                                dynamicUIDao.insertRawData(rawDataTable);
+
+                                            } else {
+                                                // TODO: Update Raw Data Table
+                                                dynamicUIDao.updateRawDataBag(SCREEN_NO_ENACH, rawDataTableFromDB.getId(), eNachData);
+                                            }
+                                            postSubmittedAllScreensLiveData(eNachData, SCREEN_NO_ENACH,"", userId,SCREEN_NAME_ENACH,moduleType);
+                                        } catch (Exception e) {
+                                            throw new RuntimeException(e);
                                         }
-                                        postSubmittedAllScreensLiveData(eNachData, SCREEN_NO_ENACH,"", userId,SCREEN_NAME_ENACH,moduleType);
-
-                                        //dynamicUIDao.updateRawDataForSync(SCREEN_NO_ENACH);
-
-                                    } else {
-                                        // TODO: Failure Case
-                                        data.postValue(new ENachResponseDTO());
-
                                     }
+
                                 });
                             }
 
                             @Override
-                            public void onFailure(Call<ENachResponseDTO> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 Log.d(TAG, "onFailure ==> " + t.getMessage());
                                 executor.execute(() -> {
                                     data.postValue(new ENachResponseDTO());
@@ -40246,18 +40602,31 @@ public class DynamicUIRepository {
                 String Valuevalue = Value7.replace(".", " ");
                 CPVRequestDTO cpvRequestDTO1 = new Gson().fromJson(Valuevalue, CPVRequestDTO.class);
 
-                String baseString = new Gson().toJson(cpvRequestDTO1, CPVRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getCPVServiceData(cpvRequestDTO1, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<CPVResponseDTO>() {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(cpvRequestDTO1));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getCPVServiceData(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<CPVResponseDTO> call, Response<CPVResponseDTO> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        CPVResponseDTO cpvResponseDTO = response.body();
+
+                                    CPVResponseDTO cpvResponseDTO = null;
+                                    try {
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                            decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                        }
+                                        JSONObject json = new JSONObject(decryptedValue);
+                                        String tableJson = json.toString();
+                                        cpvResponseDTO = new Gson().fromJson(tableJson, CPVResponseDTO.class);
                                         cpvResponseDTO.setModuleType(moduleType);
                                         data.postValue(cpvResponseDTO);
-
 
                                         String cpvDataResponse = new Gson().toJson(cpvResponseDTO, CPVResponseDTO.class);
                                         String cpvData = cpvDataResponse.replace("|", "");
@@ -40276,23 +40645,29 @@ public class DynamicUIRepository {
                                             dynamicUIDao.updateRawDataBag(SCREEN_NO_CPV, rawDataTableFromDB.getId(), cpvData);
                                         }
                                         //TODO : This Code is Once user Hit api SUCCESSFULLY we are updating Sync 1
-                                        if(!moduleType.equalsIgnoreCase(MODULE_TYPE_CO_APPLICANT)){
-                                            dynamicUIDao.updateaForSyncTrueForAPIS(SCREEN_NO_CPV,moduleType);
+                                        if (!moduleType.equalsIgnoreCase(MODULE_TYPE_CO_APPLICANT)) {
+                                            dynamicUIDao.updateaForSyncTrueForAPIS(SCREEN_NO_CPV, moduleType);
                                         }
-                                        postSubmittedAllScreensLiveData(cpvData, SCREEN_NO_CPV,"", userId, SCREEN_NAME_CPV, moduleType);
+                                        postSubmittedAllScreensLiveData(cpvData, SCREEN_NO_CPV, "", userId, SCREEN_NAME_CPV, moduleType);
 
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                        data.postValue(cpvResponseDTO);
+                                    }
+
+                                   /* if (response.isSuccessful()) {
                                         //dynamicUIDao.updateRawDataForSync(SCREEN_NO_CPV);
 
                                     } else {
                                         // TODO: Failure Case
                                         data.postValue(new CPVResponseDTO());
 
-                                    }
+                                    }*/
                                 });
                             }
 
                             @Override
-                            public void onFailure(Call<CPVResponseDTO> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 Log.d(TAG, "onFailure ==> " + t.getMessage());
                                 executor.execute(() -> {
                                     data.postValue(new CPVResponseDTO());
@@ -40305,439 +40680,6 @@ public class DynamicUIRepository {
             ex.printStackTrace();
             executor.execute(() -> {
                 data.postValue(new CPVResponseDTO());
-            });
-        }
-        return data;
-    }
-
-    public LiveData<DigitalDocResponseDTO> getDigitalDocSanctionLetterServiceData(String userId, String clientId, String loanType, String moduleType) {
-        final MutableLiveData<DigitalDocResponseDTO> data = new MutableLiveData<>();
-        try {
-            DynamicUIWebService.changeApiBaseUrl(SENTINEL_SERVICE);
-            executor.execute(() -> {
-
-                List<RawDataTable> applicantRawDataTableList = null;
-                List<RawDataTable> personalDetailRawDataTableList = null;
-                List<RawDataTable> addressDetailRawDataTableList = null;
-                List<RawDataTable> bankDetaiRawDataTableList = null;
-                List<RawDataTable> socioEcnomicDetailsRawDataTableList = null;
-                List<RawDataTable> loanProposalDetailsRawDataTableList = null;
-
-                applicantRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_APPLICANT_KYC, clientId, MODULE_TYPE_APPLICANT, loanType);
-                personalDetailRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_PERSONAL_DETAIL, clientId, MODULE_TYPE_APPLICANT, loanType);
-                addressDetailRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_ADDRESS_DETAIL, clientId, MODULE_TYPE_APPLICANT, loanType);
-                bankDetaiRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_BANK_DETAILS, clientId, MODULE_TYPE_APPLICANT, loanType);
-                socioEcnomicDetailsRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_SOCIO_ECONOMIC_DETAIL, clientId, MODULE_TYPE_APPLICANT, loanType);
-                loanProposalDetailsRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_APPLICANT_LOAN_PROPOSAL, clientId, MODULE_TYPE_LOAN_PROPOSAL_WITH_NOMINEE, loanType);
-                final DigitalDocRequestSanctionLetterRuralDTO digitalDocRequestSanctionLetterRuralDTO = new DigitalDocRequestSanctionLetterRuralDTO();
-                digitalDocRequestSanctionLetterRuralDTO.setCreatedDate(appHelper.getCurrentDate(DATE_FORMAT_YYYY_MM_DD));
-                digitalDocRequestSanctionLetterRuralDTO.setUniqueId(String.valueOf(System.currentTimeMillis()));
-                digitalDocRequestSanctionLetterRuralDTO.setClientID(clientId);
-                digitalDocRequestSanctionLetterRuralDTO.setExternalCustomerId("");
-                digitalDocRequestSanctionLetterRuralDTO.setServiceType("");
-                digitalDocRequestSanctionLetterRuralDTO.setCreatedByProject(loanType);
-                digitalDocRequestSanctionLetterRuralDTO.setCreatedBy(loanType);
-                if (applicantRawDataTableList != null && applicantRawDataTableList.size() > 0) {
-                    for (RawDataTable rawDataTable : applicantRawDataTableList) {
-                        HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
-                        if (hashMap != null && hashMap.size() > 0) {
-
-                            if (hashMap.containsKey(TAG_NAME_KYC_ID)) {
-                                String value = hashMap.get(TAG_NAME_KYC_ID).toString();
-                                if (!TextUtils.isEmpty(value)) {
-                                    digitalDocRequestSanctionLetterRuralDTO.setKYCId(value);
-                                }
-                            }
-                        }
-                    }
-                }
-                DigitalDocRequestSanctionLetterRuralDTO.RequestString requestStringClass = new DigitalDocRequestSanctionLetterRuralDTO.RequestString();
-                requestStringClass.setElseitshouldbeZero("");
-                requestStringClass.setInsuranceandCharges_TractorORVehicalInsurance("");
-                requestStringClass.setNamefromCoApplicant2KYC("");
-                requestStringClass.setNamefromCoApplicantKYC("");
-                requestStringClass.setStampdutyamountbasedonDealerState("");
-                requestStringClass.setPERSONALACCIDENTALINSURANCEAMOUNT_ProductDetails("");
-                requestStringClass.setCREDITPROTECTINSURANCEAMOUNT_ProductDetails("");
-                requestStringClass.setDocumentationCharges_ProductDetails("");
-                requestStringClass.setProcessingFee_ProductDetails("");
-                requestStringClass.setSTARTDATEOFINSTALLMENT("");
-                requestStringClass.setFrequency_ProductDetails("");
-                requestStringClass.setTenure_ProductDetails("");
-                requestStringClass.setROI("");
-                requestStringClass.setFinalLTV_ProductDetails("");
-                requestStringClass.setTotalLoanAmount_inWords("");
-                requestStringClass.setTotalLoanAmount("");
-                requestStringClass.setProducttype("");
-                requestStringClass.setNamefromCoApplicant_2KYC("");
-                requestStringClass.setAddressdetails_2_ApplicantKYC("");
-                requestStringClass.setAddressdetails_1_ApplicantKYC("");
-                requestStringClass.setNamefromApplicantKYC("");
-                requestStringClass.setCreditSanctionDate("");
-                requestStringClass.setSequenceNo("");
-                digitalDocRequestSanctionLetterRuralDTO.setRequestString(requestStringClass);
-                String baseString = new Gson().toJson(digitalDocRequestSanctionLetterRuralDTO, DigitalDocRequestSanctionLetterRuralDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getDigitalDocSanctionLetterServiceData(digitalDocRequestSanctionLetterRuralDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<DigitalDocResponseDTO>() {
-                            @Override
-                            public void onResponse(Call<DigitalDocResponseDTO> call, Response<DigitalDocResponseDTO> response) {
-                                executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        DigitalDocResponseDTO digitalDocResponseDTO = response.body();
-                                        data.postValue(digitalDocResponseDTO);
-
-                                        String santionLetterData = new Gson().toJson(digitalDocResponseDTO, DigitalDocResponseDTO.class);
-
-                                        RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_DIGITAL_DOCS,
-                                                clientId, moduleType);
-
-                                        if (rawDataTableFromDB == null) {
-                                            // TODO: Insert Raw Data Table
-                                            RawDataTable rawDataTable = new RawDataTable(santionLetterData, SCREEN_NO_SANCTION_LETTER, SCREEN_NAME_DIGITAL_DOCS, "", clientId,
-                                                    loanType, userId, moduleType, "");
-                                            dynamicUIDao.insertRawData(rawDataTable);
-
-                                        } else {
-                                            // TODO: Update Raw Data Table
-                                            dynamicUIDao.updateRawDataBag(SCREEN_NO_SANCTION_LETTER, rawDataTableFromDB.getId(), santionLetterData);
-                                        }
-
-
-                                    } else {
-                                        // TODO: Failure Case
-                                        data.postValue(new DigitalDocResponseDTO());
-
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onFailure(Call<DigitalDocResponseDTO> call, Throwable t) {
-                                Log.d(TAG, "onFailure ==> " + t.getMessage());
-                                executor.execute(() -> {
-                                    data.postValue(new DigitalDocResponseDTO());
-                                });
-                            }
-                        });
-
-            });
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            executor.execute(() -> {
-                data.postValue(new DigitalDocResponseDTO());
-            });
-        }
-        return data;
-    }
-
-
-    public LiveData<DigitalDocResponseDTO> getDigitalDocApplicationFormServiceData(String userId, String clientId, String loanType, String moduleType) {
-        final MutableLiveData<DigitalDocResponseDTO> data = new MutableLiveData<>();
-        try {
-            DynamicUIWebService.changeApiBaseUrl(SENTINEL_SERVICE);
-            executor.execute(() -> {
-
-                List<RawDataTable> applicantRawDataTableList = null;
-                List<RawDataTable> personalDetailRawDataTableList = null;
-                List<RawDataTable> addressDetailRawDataTableList = null;
-                List<RawDataTable> bankDetaiRawDataTableList = null;
-                List<RawDataTable> socioEcnomicDetailsRawDataTableList = null;
-                List<RawDataTable> loanProposalDetailsRawDataTableList = null;
-
-                applicantRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_APPLICANT_KYC, clientId, MODULE_TYPE_APPLICANT, loanType);
-                personalDetailRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_PERSONAL_DETAIL, clientId, MODULE_TYPE_APPLICANT, loanType);
-                addressDetailRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_ADDRESS_DETAIL, clientId, MODULE_TYPE_APPLICANT, loanType);
-                bankDetaiRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_BANK_DETAILS, clientId, MODULE_TYPE_APPLICANT, loanType);
-                socioEcnomicDetailsRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_SOCIO_ECONOMIC_DETAIL, clientId, MODULE_TYPE_APPLICANT, loanType);
-                loanProposalDetailsRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_APPLICANT_LOAN_PROPOSAL, clientId, MODULE_TYPE_LOAN_PROPOSAL_WITH_NOMINEE, loanType);
-                final DigitalDocApplicationFormUCRequestDTO digitalDocApplicationFormUCRequestDTO = new DigitalDocApplicationFormUCRequestDTO();
-                digitalDocApplicationFormUCRequestDTO.setCreatedDate(appHelper.getCurrentDate(DATE_FORMAT_YYYY_MM_DD));
-                digitalDocApplicationFormUCRequestDTO.setUniqueId(String.valueOf(System.currentTimeMillis()));
-                digitalDocApplicationFormUCRequestDTO.setClientID(clientId);
-                digitalDocApplicationFormUCRequestDTO.setExternalCustomerId("");
-                digitalDocApplicationFormUCRequestDTO.setServiceType("");
-                digitalDocApplicationFormUCRequestDTO.setCreatedByProject(loanType);
-                digitalDocApplicationFormUCRequestDTO.setCreatedBy(loanType);
-                if (applicantRawDataTableList != null && applicantRawDataTableList.size() > 0) {
-                    for (RawDataTable rawDataTable : applicantRawDataTableList) {
-                        HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
-                        if (hashMap != null && hashMap.size() > 0) {
-
-                            if (hashMap.containsKey(TAG_NAME_KYC_ID)) {
-                                String value = hashMap.get(TAG_NAME_KYC_ID).toString();
-                                if (!TextUtils.isEmpty(value)) {
-                                    digitalDocApplicationFormUCRequestDTO.setKYCId(value);
-                                }
-                            }
-                        }
-                    }
-                }
-                DigitalDocApplicationFormUCRequestDTO.RequestString requestStringClass = new DigitalDocApplicationFormUCRequestDTO.RequestString();
-                requestStringClass.setRequested_Loan_Amount("");
-                requestStringClass.setLEAD_Generation_Date_DDMMYYYY("");
-                requestStringClass.setCo_Applicant2_Residence_Address_Line_Pincode("");
-                requestStringClass.setCo_Applicant2_Residence_Address_Line_Country("");
-                requestStringClass.setCo_Applicant2_Residence_Address_Line_State("");
-                requestStringClass.setCo_Applicant2_Residence_Address_Line_District("");
-                requestStringClass.setCo_Applicant2_Residence_Address_Line_City("");
-                requestStringClass.setCo_Applicant2_Residence_Address_Line_2("");
-                requestStringClass.setCo_Applicant2_Residence_Address_Line_1("");
-                requestStringClass.setCo_Applicant1_permanent_Address_Line_Country("");
-                requestStringClass.setCo_Applicant1_permanent_Address_Line_Pincode("");
-                requestStringClass.setCo_Applicant1_permanent_Address_Line_State("");
-                requestStringClass.setCo_Applicant1_permanent_Address_Line_District("");
-                requestStringClass.setCo_Applicant1_permanent_Address_Line_City("");
-                requestStringClass.setCo_Applicant1_permanent_Address_Line_2("");
-                requestStringClass.setCo_Applicant1_permanent_Address_Line_1("");
-                requestStringClass.setMain_Applicant_permanent_Address_Line_Country("");
-                requestStringClass.setMain_Applicant_permanent_Address_Line_Pincode("");
-                requestStringClass.setMain_Applicant_permanent_Address_Line_State("");
-                requestStringClass.setMain_Applicant_permanent_Address_Line_District("");
-                requestStringClass.setMain_Applicant_permanent_Address_Line_City("");
-                requestStringClass.setMain_Applicant_permanent_Address_Line_2("");
-                requestStringClass.setMain_Applicant_permanent_Address_Line_1("");
-                requestStringClass.setReference_2_Contact_Number("");
-                requestStringClass.setReference_2_address("");
-                requestStringClass.setReference_2_Last_Name("");
-                requestStringClass.setReference_2_First_Name("");
-                requestStringClass.setReference_1_Contact_Number("");
-                requestStringClass.setReference_1_address("");
-                requestStringClass.setReference_1_Last_Name("");
-                requestStringClass.setReference_1_First_Name("");
-                requestStringClass.setCo_Applicant1_Office_Address_Line_Country("");
-                requestStringClass.setCo_Applicant1_Office_Address_Line_Pincode("");
-                requestStringClass.setCo_Applicant1_Office_Address_Line_State("");
-                requestStringClass.setCo_Applicant1_Office_Address_Line_District("");
-                requestStringClass.setCo_Applicant1_Office_Address_Line_City("");
-                requestStringClass.setCo_Applicant1_Office_Address_Line_2("");
-                requestStringClass.setCo_Applicant1_Office_Address_Line_1("");
-                requestStringClass.setMain_Applicant_Office_Address_Line_Country("");
-                requestStringClass.setMain_Applicant_Office_Address_Line_Pincode("");
-                requestStringClass.setMain_Applicant_Office_Address_Line_State("");
-                requestStringClass.setMain_Applicant_Office_Address_Line_District("");
-                requestStringClass.setMain_Applicant_Office_Address_Line_City("");
-                requestStringClass.setMain_Applicant_Office_Address_Line_2("");
-                requestStringClass.setMain_Applicant_Office_Address_Line_1("");
-                requestStringClass.setCo_Applicant1_Residence_Address_Line_Country("");
-                requestStringClass.setCo_Applicant1_Residence_Address_Line_Pincode("");
-                requestStringClass.setCo_Applicant1_Residence_Address_Line_State("");
-                requestStringClass.setCo_Applicant1_Residence_Address_Line_District("");
-                requestStringClass.setCo_Applicant1_Residence_Address_Line_City("");
-                requestStringClass.setCo_Applicant1_Residence_Address_Line_2("");
-                requestStringClass.setCo_Applicant1_Residence_Address_Line_1("");
-                requestStringClass.setMain_Applicant_Residence_Address_Line_Country("");
-                requestStringClass.setMain_Applicant_Residence_Address_Line_Pincode("");
-                requestStringClass.setMain_Applicant_Residence_Address_Line_State("");
-                requestStringClass.setMain_Applicant_Residence_Address_Line_District("");
-                requestStringClass.setMain_Applicant_Residence_Address_Line_City("");
-                requestStringClass.setMain_Applicant_Residence_Address_Line_2("");
-                requestStringClass.setMain_Applicant_Residence_Address_Line_1("");
-                requestStringClass.setPoA_Identification_Number("");
-                requestStringClass.setPoI_Identification_Number("");
-                requestStringClass.setNREGA_Job_Card("");
-                requestStringClass.setPAN_No("");
-                requestStringClass.setUID_Aadhaar("");
-                requestStringClass.setDriving_License("");
-                requestStringClass.setVoter_ID_Card("");
-                requestStringClass.setPassport_Number("");
-                requestStringClass.setDependent3_Occupation_test("");
-                requestStringClass.setDependent2_Occupation_test("");
-                requestStringClass.setDependent3_age_test("");
-                requestStringClass.setDependent2_age_test("");
-                requestStringClass.setDependent3_relation_test("");
-                requestStringClass.setDependent2_relation_test("");
-                requestStringClass.setDependent3_Name_test("");
-                requestStringClass.setDependent2_Name_test("");
-                requestStringClass.setDependent1_Occupation_test("");
-                requestStringClass.setDependent1_age_test("");
-                requestStringClass.setDependent1_relation_test("");
-                requestStringClass.setDependent1_Name_test("");
-                requestStringClass.setApplicant_Mother_Maiden_Name("");
-                requestStringClass.setApplicants_email_id_professional("");
-                requestStringClass.setApplicants_email_id_personal("");
-                requestStringClass.setApplicant_Mobile_Number("");
-                requestStringClass.setApplicants_Mother_Name("");
-                requestStringClass.setApplicants_Father_Name("");
-                requestStringClass.setApplicant_Name_As_per_KYC("");
-                requestStringClass.setCo_Applicant2_Name_Text("");
-                requestStringClass.setCo_Applicant1_Name_Text("");
-                requestStringClass.setApplicant_Name_Text("");
-                requestStringClass.setIFSC_Code("");
-                requestStringClass.setDealeer_Account_Type("");
-                requestStringClass.setDealeer_Account_Number("");
-                requestStringClass.setDealeer_Branch_Name("");
-                requestStringClass.setDealeer_Bank_Name("");
-                requestStringClass.setDealeer_Name("");
-                digitalDocApplicationFormUCRequestDTO.setRequestString(requestStringClass);
-                String baseString = new Gson().toJson(digitalDocApplicationFormUCRequestDTO, DigitalDocApplicationFormUCRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getDigitalDocApplicationFormServiceData(digitalDocApplicationFormUCRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<DigitalDocResponseDTO>() {
-                            @Override
-                            public void onResponse(Call<DigitalDocResponseDTO> call, Response<DigitalDocResponseDTO> response) {
-                                executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        DigitalDocResponseDTO digitalDocResponseDTO = response.body();
-                                        data.postValue(digitalDocResponseDTO);
-
-
-                                        String santionLetterData = new Gson().toJson(digitalDocResponseDTO, DigitalDocResponseDTO.class);
-
-                                        RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_DIGITAL_DOCS,
-                                                clientId, moduleType);
-
-                                        if (rawDataTableFromDB == null) {
-                                            // TODO: Insert Raw Data Table
-                                            RawDataTable rawDataTable = new RawDataTable(santionLetterData, SCREEN_NO_APPLICATION_FORM, SCREEN_NAME_DIGITAL_DOCS, "", clientId,
-                                                    loanType, userId, moduleType, "");
-                                            dynamicUIDao.insertRawData(rawDataTable);
-
-                                        } else {
-                                            // TODO: Update Raw Data Table
-                                            dynamicUIDao.updateRawDataBag(SCREEN_NO_APPLICATION_FORM, rawDataTableFromDB.getId(), santionLetterData);
-                                        }
-
-
-                                    } else {
-                                        // TODO: Failure Case
-                                        data.postValue(new DigitalDocResponseDTO());
-
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onFailure(Call<DigitalDocResponseDTO> call, Throwable t) {
-                                Log.d(TAG, "onFailure ==> " + t.getMessage());
-                                executor.execute(() -> {
-                                    data.postValue(new DigitalDocResponseDTO());
-                                });
-                            }
-                        });
-
-            });
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            executor.execute(() -> {
-                data.postValue(new DigitalDocResponseDTO());
-            });
-        }
-        return data;
-    }
-
-    public LiveData<DigitalDocResponseDTO> getDigitalDocHDeedServiceData(String userId, String clientId, String loanType, String moduleType) {
-        final MutableLiveData<DigitalDocResponseDTO> data = new MutableLiveData<>();
-        try {
-            DynamicUIWebService.changeApiBaseUrl(SENTINEL_SERVICE);
-            executor.execute(() -> {
-
-                List<RawDataTable> applicantRawDataTableList = null;
-                List<RawDataTable> personalDetailRawDataTableList = null;
-                List<RawDataTable> addressDetailRawDataTableList = null;
-                List<RawDataTable> bankDetaiRawDataTableList = null;
-                List<RawDataTable> socioEcnomicDetailsRawDataTableList = null;
-                List<RawDataTable> loanProposalDetailsRawDataTableList = null;
-
-                applicantRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_APPLICANT_KYC, clientId, MODULE_TYPE_APPLICANT, loanType);
-                personalDetailRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_PERSONAL_DETAIL, clientId, MODULE_TYPE_APPLICANT, loanType);
-                addressDetailRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_ADDRESS_DETAIL, clientId, MODULE_TYPE_APPLICANT, loanType);
-                bankDetaiRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_BANK_DETAILS, clientId, MODULE_TYPE_APPLICANT, loanType);
-                socioEcnomicDetailsRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_SOCIO_ECONOMIC_DETAIL, clientId, MODULE_TYPE_APPLICANT, loanType);
-                loanProposalDetailsRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_APPLICANT_LOAN_PROPOSAL, clientId, MODULE_TYPE_LOAN_PROPOSAL_WITH_NOMINEE, loanType);
-                final DigitaklDocHypothecationDeedTW_UCRequestDTO digitaklDocHypothecationDeedTW_ucRequestDTO = new DigitaklDocHypothecationDeedTW_UCRequestDTO();
-                digitaklDocHypothecationDeedTW_ucRequestDTO.setCreatedDate(appHelper.getCurrentDate(DATE_FORMAT_YYYY_MM_DD));
-                digitaklDocHypothecationDeedTW_ucRequestDTO.setUniqueId(String.valueOf(System.currentTimeMillis()));
-                digitaklDocHypothecationDeedTW_ucRequestDTO.setClientID(clientId);
-                digitaklDocHypothecationDeedTW_ucRequestDTO.setExternalCustomerId("");
-                digitaklDocHypothecationDeedTW_ucRequestDTO.setServiceType("");
-                digitaklDocHypothecationDeedTW_ucRequestDTO.setCreatedByProject(loanType);
-                digitaklDocHypothecationDeedTW_ucRequestDTO.setCreatedBy(loanType);
-                if (applicantRawDataTableList != null && applicantRawDataTableList.size() > 0) {
-                    for (RawDataTable rawDataTable : applicantRawDataTableList) {
-                        HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
-                        if (hashMap != null && hashMap.size() > 0) {
-
-                            if (hashMap.containsKey(TAG_NAME_KYC_ID)) {
-                                String value = hashMap.get(TAG_NAME_KYC_ID).toString();
-                                if (!TextUtils.isEmpty(value)) {
-                                    digitaklDocHypothecationDeedTW_ucRequestDTO.setKYCId(value);
-                                }
-                            }
-                        }
-                    }
-                }
-                DigitaklDocHypothecationDeedTW_UCRequestDTO.RequestString requestStringClass = new DigitaklDocHypothecationDeedTW_UCRequestDTO.RequestString();
-                requestStringClass.setRegistrationNumberFromCollateralScreen("");
-                requestStringClass.setModel("");
-                requestStringClass.setSanctionedAmount("");
-                requestStringClass.setCo_Applicant_2_Address_Details_3("");
-                requestStringClass.setCo_Applicant_2_Address_Details_2("");
-                requestStringClass.setCo_Applicant_2_Address_Details_1("");
-                requestStringClass.setCo_Applicant_1_Address_Details_3("");
-                requestStringClass.setCo_Applicant_1_Address_Details_2("");
-                requestStringClass.setCo_Applicant_1_Address_Details_1("");
-                requestStringClass.setApplicant_Address_Details_3("");
-                requestStringClass.setApplicant_Address_Details_2("");
-                requestStringClass.setApplicant_Address_Details_1("");
-                requestStringClass.setCoApplicant2NameText("");
-                requestStringClass.setCoApplicant1NameText("");
-                requestStringClass.setApplicantNameText("");
-                requestStringClass.setLOSID("");
-                requestStringClass.setApplicationSubmittedDateDDMMYYYY("");
-                requestStringClass.setRBLSanctionDateDDMMYYYY("");
-                digitaklDocHypothecationDeedTW_ucRequestDTO.setRequestString(requestStringClass);
-                String baseString = new Gson().toJson(digitaklDocHypothecationDeedTW_ucRequestDTO, DigitaklDocHypothecationDeedTW_UCRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getDigitalDocHDeedServiceData(digitaklDocHypothecationDeedTW_ucRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<DigitalDocResponseDTO>() {
-                            @Override
-                            public void onResponse(Call<DigitalDocResponseDTO> call, Response<DigitalDocResponseDTO> response) {
-                                executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        DigitalDocResponseDTO digitalDocResponseDTO = response.body();
-                                        data.postValue(digitalDocResponseDTO);
-
-
-                                        String santionLetterData = new Gson().toJson(digitalDocResponseDTO, DigitalDocResponseDTO.class);
-
-                                        RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_DIGITAL_DOCS,
-                                                clientId, moduleType);
-
-                                        if (rawDataTableFromDB == null) {
-                                            // TODO: Insert Raw Data Table
-                                            RawDataTable rawDataTable = new RawDataTable(santionLetterData, SCREEN_NO_HYPOTHECATION_DEED, SCREEN_NAME_DIGITAL_DOCS, "", clientId,
-                                                    loanType, userId, moduleType, "");
-                                            dynamicUIDao.insertRawData(rawDataTable);
-
-                                        } else {
-                                            // TODO: Update Raw Data Table
-                                            dynamicUIDao.updateRawDataBag(SCREEN_NO_HYPOTHECATION_DEED, rawDataTableFromDB.getId(), santionLetterData);
-                                        }
-
-
-                                    } else {
-                                        // TODO: Failure Case
-                                        data.postValue(new DigitalDocResponseDTO());
-
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onFailure(Call<DigitalDocResponseDTO> call, Throwable t) {
-                                Log.d(TAG, "onFailure ==> " + t.getMessage());
-                                executor.execute(() -> {
-                                    data.postValue(new DigitalDocResponseDTO());
-                                });
-                            }
-                        });
-
-            });
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            executor.execute(() -> {
-                data.postValue(new DigitalDocResponseDTO());
             });
         }
         return data;
@@ -40918,52 +40860,66 @@ public class DynamicUIRepository {
 
                 requestStringClass.setRatApiRequest(ratApiRequest);
                 ratRequestDTO.setRequestString(requestStringClass);
-                String baseString = new Gson().toJson(ratRequestDTO, RATRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getRATServiceData(ratRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<RATResponseDTO>() {
+                Log.d(TAG, "Request: "+ratRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(ratRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getRATServiceData(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<RATResponseDTO> call, Response<RATResponseDTO> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        RATResponseDTO ratResponseDTO = response.body();
-                                        ratResponseDTO.setModuleType(moduleType);
-                                        data.postValue(ratResponseDTO);
+                                    RATResponseDTO ratResponseDTO=null;
 
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        try {
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
 
-                                        String rataDataResponse = new Gson().toJson(ratResponseDTO, RATResponseDTO.class);
-                                        String rataData =rataDataResponse.replace("|","");
+                                            JSONObject json = new JSONObject(decryptedValue);
+                                            String tableJson = json.toString();
+                                            ratResponseDTO = new Gson().fromJson(tableJson, RATResponseDTO.class);
+                                            ratResponseDTO.setModuleType(moduleType);
+                                            data.postValue(ratResponseDTO);
+                                            Log.d(TAG, "Response: "+ratRequestDTO );
 
-                                        RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_RAT,
-                                                clientId, moduleType);
+                                            String rataDataResponse = new Gson().toJson(ratResponseDTO, RATResponseDTO.class);
+                                            String rataData =rataDataResponse.replace("|","");
 
-                                        if (rawDataTableFromDB == null) {
-                                            // TODO: Insert Raw Data Table
-                                            RawDataTable rawDataTable = new RawDataTable(rataData, SCREEN_NO_RAT, SCREEN_NAME_RAT, "", clientId,
-                                                    loanType, userId, moduleType, "");
-                                            dynamicUIDao.insertRawData(rawDataTable);
+                                            RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_RAT,
+                                                    clientId, moduleType);
 
-                                        } else {
-                                            // TODO: Update Raw Data Table
-                                            dynamicUIDao.updateRawDataBag(SCREEN_NO_RAT, rawDataTableFromDB.getId(), rataData);
+                                            if (rawDataTableFromDB == null) {
+                                                // TODO: Insert Raw Data Table
+                                                RawDataTable rawDataTable = new RawDataTable(rataData, SCREEN_NO_RAT, SCREEN_NAME_RAT, "", clientId,
+                                                        loanType, userId, moduleType, "");
+                                                dynamicUIDao.insertRawData(rawDataTable);
+
+                                            } else {
+                                                // TODO: Update Raw Data Table
+                                                dynamicUIDao.updateRawDataBag(SCREEN_NO_RAT, rawDataTableFromDB.getId(), rataData);
+                                            }
+                                            if(moduleType.equalsIgnoreCase(MODULE_TYPE_APPLICANT)){
+                                                dynamicUIDao.updateaForSyncTrueForAPIS(SCREEN_NO_RAT,MODULE_TYPE_APPLICANT);
+                                            }
+                                            postSubmittedAllScreensLiveData(rataData, SCREEN_NO_RAT,"", userId,SCREEN_NAME_RAT,moduleType);
+                                        } catch (Exception e) {
+                                            throw new RuntimeException(e);
                                         }
-                                        if(moduleType.equalsIgnoreCase(MODULE_TYPE_APPLICANT)){
-                                            dynamicUIDao.updateaForSyncTrueForAPIS(SCREEN_NO_RAT,MODULE_TYPE_APPLICANT);
-                                        }
-                                        postSubmittedAllScreensLiveData(rataData, SCREEN_NO_RAT,"", userId,SCREEN_NAME_RAT,moduleType);
-
-                                        //dynamicUIDao.updateRawDataForSync(SCREEN_NO_RAT);
-
-                                    } else {
-                                        // TODO: Failure Case
-                                        data.postValue(new RATResponseDTO());
-
                                     }
+
                                 });
                             }
 
                             @Override
-                            public void onFailure(Call<RATResponseDTO> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 Log.d(TAG, "onFailure ==> " + t.getMessage());
                                 executor.execute(() -> {
                                     data.postValue(new RATResponseDTO());
@@ -40999,16 +40955,27 @@ public class DynamicUIRepository {
                 ArrayList<RATSPRequestDTO.SpNameWithParameterClass> SpNameWithParameterList = new ArrayList<RATSPRequestDTO.SpNameWithParameterClass>();
                 SpNameWithParameterList.add(spNameWithParameter);
                 ratspRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(ratspRequestDTO, RATSPRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getSPRAT(ratspRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
+                Log.d(TAG, "Request: "+ratspRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(ratspRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getSPRAT(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
+                                    if (response!=null) {
                                         try {
-                                            String strResponse = response.body().string();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
                                             JSONObject json = new JSONObject(strResponse);
                                             if (json.length() != 0) {
                                                 String key = json.keys().next();
@@ -41034,13 +41001,11 @@ public class DynamicUIRepository {
                                     } else {
                                         insertLog("", response.message(), "", "", TAG, "", "", "");
                                     }
-
-
                                 });
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 // TODO: Final result
                                 executor.execute(() -> {
@@ -41077,16 +41042,27 @@ public class DynamicUIRepository {
                 ArrayList<RATSPRequestDTO.SpNameWithParameterClass> SpNameWithParameterList = new ArrayList<RATSPRequestDTO.SpNameWithParameterClass>();
                 SpNameWithParameterList.add(spNameWithParameter);
                 ratspRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(ratspRequestDTO, RATSPRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getSPRAT(ratspRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
+                Log.d(TAG, "Request: "+ratspRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(ratspRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getSPRAT(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
+                                    if (response!=null) {
                                         try {
-                                            String strResponse = response.body().string();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
                                             JSONObject json = new JSONObject(strResponse);
                                             if (json.length() != 0) {
                                                 String key = json.keys().next();
@@ -41118,7 +41094,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 // TODO: Final result
                                 executor.execute(() -> {
@@ -41154,16 +41130,27 @@ public class DynamicUIRepository {
                 ArrayList<RATSPRequestDTO.SpNameWithParameterClass> SpNameWithParameterList = new ArrayList<RATSPRequestDTO.SpNameWithParameterClass>();
                 SpNameWithParameterList.add(spNameWithParameter);
                 ratspRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(ratspRequestDTO, RATSPRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getSPRAT(ratspRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
+                Log.d(TAG, "Request: "+ratspRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(ratspRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getSPRAT(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
+                                    if (response!=null) {
                                         try {
-                                            String strResponse = response.body().string();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
                                             JSONObject json = new JSONObject(strResponse);
                                             if (json.length() != 0) {
                                                 String key = json.keys().next();
@@ -41195,663 +41182,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                t.printStackTrace();
-                                // TODO: Final result
-                                executor.execute(() -> {
-                                    insertLog("", t.getMessage(), "", "", TAG, "", "", "");
-                                });
-                            }
-                        });
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                // TODO: Final result
-                executor.execute(() -> {
-                });
-            }
-
-        });
-        return data;
-    }
-
-    public LiveData<List<TWLManufacturerResponseTable>> getTWLGetMake(String state,String manufacturer, String model, String variant, String twoWheelerType, String engine, String electricModel, String type,String category) {
-        final MutableLiveData<List<TWLManufacturerResponseTable>> data = new MutableLiveData<>();
-        DynamicUIWebService.changeApiBaseUrl(RAW_DATA_URL);
-
-        executor.execute(() -> {
-            try {
-                final GetTWLDataRequestDTO getTWLDataRequestDTO = new GetTWLDataRequestDTO();
-                getTWLDataRequestDTO.setIMEINumber(appHelper.getIMEI());
-                GetTWLDataRequestDTO.SpNameWithParameter spNameWithParameter = new GetTWLDataRequestDTO.SpNameWithParameter();
-                spNameWithParameter.setSpName(SP_NAME_TWL_ASSET_MASTER_DETAIL);
-                GetTWLDataRequestDTO.SpNameWithParameter.SpParameters spParameters = new GetTWLDataRequestDTO.SpNameWithParameter.SpParameters();
-                spParameters.setType(type);
-                spParameters.setElectricModel(electricModel);
-                spParameters.setEngineCC(engine);
-                spParameters.setTwowheelertype(twoWheelerType);
-                spParameters.setVariant(variant);
-                spParameters.setModel(model);
-                spParameters.setManufacturer(manufacturer);
-                spParameters.setState(state);
-                spParameters.setCategory(category);
-                spNameWithParameter.setSpParameters(spParameters);
-                ArrayList<GetTWLDataRequestDTO.SpNameWithParameter> SpNameWithParameterList = new ArrayList<GetTWLDataRequestDTO.SpNameWithParameter>();
-                SpNameWithParameterList.add(spNameWithParameter);
-                getTWLDataRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(getTWLDataRequestDTO, GetTWLDataRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getTWLGetMakeModelData(getTWLDataRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        try {
-                                            String strResponse = response.body().string();
-                                            JSONObject json = new JSONObject(strResponse);
-                                            if (json.length() != 0) {
-                                                String key = json.keys().next();
-                                                if (!TextUtils.isEmpty(key)) {
-                                                    String tableJson = json.get(key).toString();
-
-                                                    TWLManufacturerResponseDTO twlManufacturerResponseDTO = new Gson().fromJson(tableJson, TWLManufacturerResponseDTO.class);
-                                                    if (twlManufacturerResponseDTO != null && twlManufacturerResponseDTO.getTwlManufacturerResponseTables().size() > 0) {
-                                                        List<TWLManufacturerResponseTable> twlManufacturerResponseTables = new ArrayList<>();
-
-                                                        for (TWLManufacturerResponseTable spIndustryTypeResponseTable : twlManufacturerResponseDTO.getTwlManufacturerResponseTables()) {
-                                                            twlManufacturerResponseTables.add(spIndustryTypeResponseTable);
-                                                        }
-                                                        data.postValue(twlManufacturerResponseTables);
-                                                    }
-                                                }
-                                            }
-                                        } catch (Exception ex) {
-                                            ex.printStackTrace();
-
-                                            insertLog("", ex.getMessage(), "", "", TAG, "", "", "");
-                                        }
-                                    } else {
-                                        insertLog("", response.message(), "", "", TAG, "", "", "");
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                t.printStackTrace();
-                                // TODO: Final result
-                                executor.execute(() -> {
-                                    insertLog("", t.getMessage(), "", "", TAG, "", "", "");
-                                });
-                            }
-                        });
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                // TODO: Final result
-                executor.execute(() -> {
-                });
-            }
-
-        });
-        return data;
-    }
-
-    public LiveData<List<TWLModelResponseTable>> getTWLGETModel(String state,String manufacturer, String model, String variant, String twoWheelerType, String engine, String electricModel, String type,String category) {
-        final MutableLiveData<List<TWLModelResponseTable>> data = new MutableLiveData<>();
-        DynamicUIWebService.changeApiBaseUrl(RAW_DATA_URL);
-
-        executor.execute(() -> {
-            try {
-                final GetTWLDataRequestDTO getTWLDataRequestDTO = new GetTWLDataRequestDTO();
-                getTWLDataRequestDTO.setIMEINumber(appHelper.getIMEI());
-                GetTWLDataRequestDTO.SpNameWithParameter spNameWithParameter = new GetTWLDataRequestDTO.SpNameWithParameter();
-                spNameWithParameter.setSpName(SP_NAME_TWL_ASSET_MASTER_DETAIL);
-                GetTWLDataRequestDTO.SpNameWithParameter.SpParameters spParameters = new GetTWLDataRequestDTO.SpNameWithParameter.SpParameters();
-                spParameters.setType(type);
-                spParameters.setElectricModel(electricModel);
-                spParameters.setEngineCC(engine);
-                spParameters.setTwowheelertype(twoWheelerType);
-                spParameters.setVariant(variant);
-                spParameters.setModel(model);
-                spParameters.setManufacturer(manufacturer);
-                spParameters.setState(state);
-                spParameters.setCategory(category);
-                spNameWithParameter.setSpParameters(spParameters);
-                ArrayList<GetTWLDataRequestDTO.SpNameWithParameter> SpNameWithParameterList = new ArrayList<GetTWLDataRequestDTO.SpNameWithParameter>();
-                SpNameWithParameterList.add(spNameWithParameter);
-                getTWLDataRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(getTWLDataRequestDTO, GetTWLDataRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getTWLGetMakeModelData(getTWLDataRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        try {
-                                            String strResponse = response.body().string();
-                                            JSONObject json = new JSONObject(strResponse);
-                                            if (json.length() != 0) {
-                                                String key = json.keys().next();
-                                                if (!TextUtils.isEmpty(key)) {
-                                                    String tableJson = json.get(key).toString();
-
-                                                    TWLModelResponseDTO twlModelResponseDTO = new Gson().fromJson(tableJson, TWLModelResponseDTO.class);
-                                                    if (twlModelResponseDTO != null && twlModelResponseDTO.getTwlModelResponseTables().size() > 0) {
-                                                        List<TWLModelResponseTable> twlModelResponseTablesList = new ArrayList<>();
-
-                                                        for (TWLModelResponseTable twlManufacturerResponseTables : twlModelResponseDTO.getTwlModelResponseTables()) {
-                                                            twlModelResponseTablesList.add(twlManufacturerResponseTables);
-                                                        }
-                                                        data.postValue(twlModelResponseTablesList);
-                                                    }
-                                                }
-                                            }
-                                        } catch (Exception ex) {
-                                            ex.printStackTrace();
-
-                                            insertLog("", ex.getMessage(), "", "", TAG, "", "", "");
-                                        }
-                                    } else {
-                                        insertLog("", response.message(), "", "", TAG, "", "", "");
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                t.printStackTrace();
-                                // TODO: Final result
-                                executor.execute(() -> {
-                                    insertLog("", t.getMessage(), "", "", TAG, "", "", "");
-                                });
-                            }
-                        });
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                // TODO: Final result
-                executor.execute(() -> {
-                });
-            }
-
-        });
-        return data;
-    }
-
-    public LiveData<List<TWLVariantResponseTable>> getTWLGETVarient(String state,String manufacturer, String model, String variant, String twoWheelerType, String engine, String electricModel, String type,String category) {
-        final MutableLiveData<List<TWLVariantResponseTable>> data = new MutableLiveData<>();
-        DynamicUIWebService.changeApiBaseUrl(RAW_DATA_URL);
-
-        executor.execute(() -> {
-            try {
-                final GetTWLDataRequestDTO getTWLDataRequestDTO = new GetTWLDataRequestDTO();
-                getTWLDataRequestDTO.setIMEINumber(appHelper.getIMEI());
-                GetTWLDataRequestDTO.SpNameWithParameter spNameWithParameter = new GetTWLDataRequestDTO.SpNameWithParameter();
-                spNameWithParameter.setSpName(SP_NAME_TWL_ASSET_MASTER_DETAIL);
-                GetTWLDataRequestDTO.SpNameWithParameter.SpParameters spParameters = new GetTWLDataRequestDTO.SpNameWithParameter.SpParameters();
-                spParameters.setType(type);
-                spParameters.setElectricModel(electricModel);
-                spParameters.setEngineCC(engine);
-                spParameters.setTwowheelertype(twoWheelerType);
-                spParameters.setVariant(variant);
-                spParameters.setModel(model);
-                spParameters.setManufacturer(manufacturer);
-                spParameters.setState(state);
-                spParameters.setCategory(category);
-                spNameWithParameter.setSpParameters(spParameters);
-                ArrayList<GetTWLDataRequestDTO.SpNameWithParameter> SpNameWithParameterList = new ArrayList<GetTWLDataRequestDTO.SpNameWithParameter>();
-                SpNameWithParameterList.add(spNameWithParameter);
-                getTWLDataRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(getTWLDataRequestDTO, GetTWLDataRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getTWLGetMakeModelData(getTWLDataRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        try {
-                                            String strResponse = response.body().string();
-                                            JSONObject json = new JSONObject(strResponse);
-                                            if (json.length() != 0) {
-                                                String key = json.keys().next();
-                                                if (!TextUtils.isEmpty(key)) {
-                                                    String tableJson = json.get(key).toString();
-
-                                                    TWLVariantResponseDTO twlVariantResponseDTO = new Gson().fromJson(tableJson, TWLVariantResponseDTO.class);
-                                                    if (twlVariantResponseDTO != null && twlVariantResponseDTO.getTwlVariantResponseTables().size() > 0) {
-                                                        List<TWLVariantResponseTable> twlVariantResponseTables = new ArrayList<>();
-
-                                                        for (TWLVariantResponseTable data : twlVariantResponseDTO.getTwlVariantResponseTables()) {
-                                                            twlVariantResponseTables.add(data);
-                                                        }
-                                                        data.postValue(twlVariantResponseTables);
-                                                    }
-                                                }
-                                            }
-                                        } catch (Exception ex) {
-                                            ex.printStackTrace();
-
-                                            insertLog("", ex.getMessage(), "", "", TAG, "", "", "");
-                                        }
-                                    } else {
-                                        insertLog("", response.message(), "", "", TAG, "", "", "");
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                t.printStackTrace();
-                                // TODO: Final result
-                                executor.execute(() -> {
-                                    insertLog("", t.getMessage(), "", "", TAG, "", "", "");
-                                });
-                            }
-                        });
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                // TODO: Final result
-                executor.execute(() -> {
-                });
-            }
-
-        });
-        return data;
-    }
-
-    public LiveData<List<TWLTwowheelertypeResponseTable>> getTWLGetTwoWheeler(String state,String manufacturer, String model, String variant, String twoWheelerType, String engine, String electricModel, String type,String category) {
-        final MutableLiveData<List<TWLTwowheelertypeResponseTable>> data = new MutableLiveData<>();
-        DynamicUIWebService.changeApiBaseUrl(RAW_DATA_URL);
-
-        executor.execute(() -> {
-            try {
-                final GetTWLDataRequestDTO getTWLDataRequestDTO = new GetTWLDataRequestDTO();
-                getTWLDataRequestDTO.setIMEINumber(appHelper.getIMEI());
-                GetTWLDataRequestDTO.SpNameWithParameter spNameWithParameter = new GetTWLDataRequestDTO.SpNameWithParameter();
-                spNameWithParameter.setSpName(SP_NAME_TWL_ASSET_MASTER_DETAIL);
-                GetTWLDataRequestDTO.SpNameWithParameter.SpParameters spParameters = new GetTWLDataRequestDTO.SpNameWithParameter.SpParameters();
-                spParameters.setType(type);
-                spParameters.setElectricModel(electricModel);
-                spParameters.setEngineCC(engine);
-                spParameters.setTwowheelertype(twoWheelerType);
-                spParameters.setVariant(variant);
-                spParameters.setModel(model);
-                spParameters.setManufacturer(manufacturer);
-                spParameters.setState(state);
-                spParameters.setCategory(category);
-                spNameWithParameter.setSpParameters(spParameters);
-                ArrayList<GetTWLDataRequestDTO.SpNameWithParameter> SpNameWithParameterList = new ArrayList<GetTWLDataRequestDTO.SpNameWithParameter>();
-                SpNameWithParameterList.add(spNameWithParameter);
-                getTWLDataRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(getTWLDataRequestDTO, GetTWLDataRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getTWLGetMakeModelData(getTWLDataRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        try {
-                                            String strResponse = response.body().string();
-                                            JSONObject json = new JSONObject(strResponse);
-                                            if (json.length() != 0) {
-                                                String key = json.keys().next();
-                                                if (!TextUtils.isEmpty(key)) {
-                                                    String tableJson = json.get(key).toString();
-
-                                                    TWLTwowheelertypeResponseDTO twlTwowheelertypeResponseDTO = new Gson().fromJson(tableJson, TWLTwowheelertypeResponseDTO.class);
-                                                    if (twlTwowheelertypeResponseDTO != null && twlTwowheelertypeResponseDTO.getTwlTwowheelertypeResponseTables().size() > 0) {
-                                                        List<TWLTwowheelertypeResponseTable> twlTwowheelertypeResponseTables = new ArrayList<>();
-
-                                                        for (TWLTwowheelertypeResponseTable data : twlTwowheelertypeResponseDTO.getTwlTwowheelertypeResponseTables()) {
-                                                            twlTwowheelertypeResponseTables.add(data);
-                                                        }
-                                                        data.postValue(twlTwowheelertypeResponseTables);
-                                                    }
-                                                }
-                                            }
-                                        } catch (Exception ex) {
-                                            ex.printStackTrace();
-
-                                            insertLog("", ex.getMessage(), "", "", TAG, "", "", "");
-                                        }
-                                    } else {
-                                        insertLog("", response.message(), "", "", TAG, "", "", "");
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                t.printStackTrace();
-                                // TODO: Final result
-                                executor.execute(() -> {
-                                    insertLog("", t.getMessage(), "", "", TAG, "", "", "");
-                                });
-                            }
-                        });
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                // TODO: Final result
-                executor.execute(() -> {
-                });
-            }
-
-        });
-        return data;
-    }
-
-    public LiveData<List<TWLEngineCCResponseTable>> getTWLGetEngineCC(String state,String manufacturer, String model, String variant, String twoWheelerType, String engine, String electricModel, String type,String category) {
-        final MutableLiveData<List<TWLEngineCCResponseTable>> data = new MutableLiveData<>();
-        DynamicUIWebService.changeApiBaseUrl(RAW_DATA_URL);
-
-        executor.execute(() -> {
-            try {
-                final GetTWLDataRequestDTO getTWLDataRequestDTO = new GetTWLDataRequestDTO();
-                getTWLDataRequestDTO.setIMEINumber(appHelper.getIMEI());
-                GetTWLDataRequestDTO.SpNameWithParameter spNameWithParameter = new GetTWLDataRequestDTO.SpNameWithParameter();
-                spNameWithParameter.setSpName(SP_NAME_TWL_ASSET_MASTER_DETAIL);
-                GetTWLDataRequestDTO.SpNameWithParameter.SpParameters spParameters = new GetTWLDataRequestDTO.SpNameWithParameter.SpParameters();
-                spParameters.setType(type);
-                spParameters.setElectricModel(electricModel);
-                spParameters.setEngineCC(engine);
-                spParameters.setTwowheelertype(twoWheelerType);
-                spParameters.setVariant(variant);
-                spParameters.setModel(model);
-                spParameters.setManufacturer(manufacturer);
-                spParameters.setState(state);
-                spParameters.setCategory(category);
-                spNameWithParameter.setSpParameters(spParameters);
-                ArrayList<GetTWLDataRequestDTO.SpNameWithParameter> SpNameWithParameterList = new ArrayList<GetTWLDataRequestDTO.SpNameWithParameter>();
-                SpNameWithParameterList.add(spNameWithParameter);
-                getTWLDataRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(getTWLDataRequestDTO, GetTWLDataRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getTWLGetMakeModelData(getTWLDataRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        try {
-                                            String strResponse = response.body().string();
-                                            JSONObject json = new JSONObject(strResponse);
-                                            if (json.length() != 0) {
-                                                String key = json.keys().next();
-                                                if (!TextUtils.isEmpty(key)) {
-                                                    String tableJson = json.get(key).toString();
-
-                                                    TWLEngineCCResponseDTO twlEngineCCResponseDTO = new Gson().fromJson(tableJson, TWLEngineCCResponseDTO.class);
-                                                    if (twlEngineCCResponseDTO != null && twlEngineCCResponseDTO.getTwlEngineCCResponseTables().size() > 0) {
-                                                        List<TWLEngineCCResponseTable> list = new ArrayList<>();
-
-                                                        for (TWLEngineCCResponseTable data : twlEngineCCResponseDTO.getTwlEngineCCResponseTables()) {
-                                                            list.add(data);
-                                                        }
-                                                        data.postValue(list);
-                                                    }
-                                                }
-                                            }
-                                        } catch (Exception ex) {
-                                            ex.printStackTrace();
-
-                                            insertLog("", ex.getMessage(), "", "", TAG, "", "", "");
-                                        }
-                                    } else {
-                                        insertLog("", response.message(), "", "", TAG, "", "", "");
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                t.printStackTrace();
-                                // TODO: Final result
-                                executor.execute(() -> {
-                                    insertLog("", t.getMessage(), "", "", TAG, "", "", "");
-                                });
-                            }
-                        });
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                // TODO: Final result
-                executor.execute(() -> {
-                });
-            }
-
-        });
-        return data;
-    }
-
-    public LiveData<List<TWLElectricModelResponseTable>> getTWLElectricModel(String state,String manufacturer, String model, String variant, String twoWheelerType, String engine, String electricModel, String type,String category) {
-        final MutableLiveData<List<TWLElectricModelResponseTable>> data = new MutableLiveData<>();
-        DynamicUIWebService.changeApiBaseUrl(RAW_DATA_URL);
-
-        executor.execute(() -> {
-            try {
-                final GetTWLDataRequestDTO getTWLDataRequestDTO = new GetTWLDataRequestDTO();
-                getTWLDataRequestDTO.setIMEINumber(appHelper.getIMEI());
-                GetTWLDataRequestDTO.SpNameWithParameter spNameWithParameter = new GetTWLDataRequestDTO.SpNameWithParameter();
-                spNameWithParameter.setSpName(SP_NAME_TWL_ASSET_MASTER_DETAIL);
-                GetTWLDataRequestDTO.SpNameWithParameter.SpParameters spParameters = new GetTWLDataRequestDTO.SpNameWithParameter.SpParameters();
-                spParameters.setType(type);
-                spParameters.setElectricModel(electricModel);
-                spParameters.setEngineCC(engine);
-                spParameters.setTwowheelertype(twoWheelerType);
-                spParameters.setVariant(variant);
-                spParameters.setModel(model);
-                spParameters.setManufacturer(manufacturer);
-                spParameters.setState(state);
-                spParameters.setCategory(category);
-                spNameWithParameter.setSpParameters(spParameters);
-                ArrayList<GetTWLDataRequestDTO.SpNameWithParameter> SpNameWithParameterList = new ArrayList<GetTWLDataRequestDTO.SpNameWithParameter>();
-                SpNameWithParameterList.add(spNameWithParameter);
-                getTWLDataRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(getTWLDataRequestDTO, GetTWLDataRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getTWLGetMakeModelData(getTWLDataRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        try {
-                                            String strResponse = response.body().string();
-                                            JSONObject json = new JSONObject(strResponse);
-                                            if (json.length() != 0) {
-                                                String key = json.keys().next();
-                                                if (!TextUtils.isEmpty(key)) {
-                                                    String tableJson = json.get(key).toString();
-
-                                                    TWLElectricModelResponseDTO twlElectricModelResponseDTO = new Gson().fromJson(tableJson, TWLElectricModelResponseDTO.class);
-                                                    if (twlElectricModelResponseDTO != null && twlElectricModelResponseDTO.getTwlElectricModelResponseTables().size() > 0) {
-                                                        List<TWLElectricModelResponseTable> list = new ArrayList<>();
-
-                                                        for (TWLElectricModelResponseTable data : twlElectricModelResponseDTO.getTwlElectricModelResponseTables()) {
-                                                            list.add(data);
-                                                        }
-                                                        data.postValue(list);
-                                                    }
-                                                }
-                                            }
-                                        } catch (Exception ex) {
-                                            ex.printStackTrace();
-
-                                            insertLog("", ex.getMessage(), "", "", TAG, "", "", "");
-                                        }
-                                    } else {
-                                        insertLog("", response.message(), "", "", TAG, "", "", "");
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                t.printStackTrace();
-                                // TODO: Final result
-                                executor.execute(() -> {
-                                    insertLog("", t.getMessage(), "", "", TAG, "", "", "");
-                                });
-                            }
-                        });
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                // TODO: Final result
-                executor.execute(() -> {
-                });
-            }
-
-        });
-        return data;
-    }
-
-    public LiveData<List<TWLCategoryResponseTable>>getCategory(String state,String manufacturer, String model, String variant, String twoWheelerType, String engine, String electricModel, String type,String category) {
-        final MutableLiveData<List<TWLCategoryResponseTable>> data = new MutableLiveData<>();
-        DynamicUIWebService.changeApiBaseUrl(RAW_DATA_URL);
-
-        executor.execute(() -> {
-            try {
-                final GetTWLDataRequestDTO getTWLDataRequestDTO = new GetTWLDataRequestDTO();
-                getTWLDataRequestDTO.setIMEINumber(appHelper.getIMEI());
-                GetTWLDataRequestDTO.SpNameWithParameter spNameWithParameter = new GetTWLDataRequestDTO.SpNameWithParameter();
-                spNameWithParameter.setSpName(SP_NAME_TWL_ASSET_MASTER_DETAIL);
-                GetTWLDataRequestDTO.SpNameWithParameter.SpParameters spParameters = new GetTWLDataRequestDTO.SpNameWithParameter.SpParameters();
-                spParameters.setType(type);
-                spParameters.setElectricModel(electricModel);
-                spParameters.setEngineCC(engine);
-                spParameters.setTwowheelertype(twoWheelerType);
-                spParameters.setVariant(variant);
-                spParameters.setModel(model);
-                spParameters.setManufacturer(manufacturer);
-                spParameters.setState(state);
-                spParameters.setCategory(category);
-                spNameWithParameter.setSpParameters(spParameters);
-                ArrayList<GetTWLDataRequestDTO.SpNameWithParameter> SpNameWithParameterList = new ArrayList<GetTWLDataRequestDTO.SpNameWithParameter>();
-                SpNameWithParameterList.add(spNameWithParameter);
-                getTWLDataRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(getTWLDataRequestDTO, GetTWLDataRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getTWLGetMakeModelData(getTWLDataRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        try {
-                                            String strResponse = response.body().string();
-                                            JSONObject json = new JSONObject(strResponse);
-                                            if (json.length() != 0) {
-                                                String key = json.keys().next();
-                                                if (!TextUtils.isEmpty(key)) {
-                                                    String tableJson = json.get(key).toString();
-
-                                                    TWLCategoryResponseDTO twlCategoryResponseDTO = new Gson().fromJson(tableJson, TWLCategoryResponseDTO.class);
-                                                    if (twlCategoryResponseDTO != null && twlCategoryResponseDTO.getTwlCategoryResponseTables().size() > 0) {
-                                                        List<TWLCategoryResponseTable> list = new ArrayList<>();
-
-                                                        for (TWLCategoryResponseTable data : twlCategoryResponseDTO.getTwlCategoryResponseTables()) {
-                                                            list.add(data);
-                                                        }
-                                                        data.postValue(list);
-                                                    }
-                                                }
-                                            }
-                                        } catch (Exception ex) {
-                                            ex.printStackTrace();
-
-                                            insertLog("", ex.getMessage(), "", "", TAG, "", "", "");
-                                        }
-                                    } else {
-                                        insertLog("", response.message(), "", "", TAG, "", "", "");
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                t.printStackTrace();
-                                // TODO: Final result
-                                executor.execute(() -> {
-                                    insertLog("", t.getMessage(), "", "", TAG, "", "", "");
-                                });
-                            }
-                        });
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                // TODO: Final result
-                executor.execute(() -> {
-                });
-            }
-
-        });
-        return data;
-    }
-
-    public LiveData<List<TWLExShowRoomPriceResponseTable>> getExShowRoomPrice(String state,String manufacturer, String model, String variant, String twoWheelerType, String engine, String electricModel, String type,String category) {
-        final MutableLiveData<List<TWLExShowRoomPriceResponseTable>> data = new MutableLiveData<>();
-        DynamicUIWebService.changeApiBaseUrl(RAW_DATA_URL);
-
-        executor.execute(() -> {
-            try {
-                final GetTWLDataRequestDTO getTWLDataRequestDTO = new GetTWLDataRequestDTO();
-                getTWLDataRequestDTO.setIMEINumber(appHelper.getIMEI());
-                GetTWLDataRequestDTO.SpNameWithParameter spNameWithParameter = new GetTWLDataRequestDTO.SpNameWithParameter();
-                spNameWithParameter.setSpName(SP_NAME_TWL_ASSET_MASTER_DETAIL);
-                GetTWLDataRequestDTO.SpNameWithParameter.SpParameters spParameters = new GetTWLDataRequestDTO.SpNameWithParameter.SpParameters();
-                spParameters.setType(type);
-                spParameters.setElectricModel(electricModel);
-                spParameters.setEngineCC(engine);
-                spParameters.setTwowheelertype(twoWheelerType);
-                spParameters.setVariant(variant);
-                spParameters.setModel(model);
-                spParameters.setManufacturer(manufacturer);
-                spParameters.setState(state);
-                spParameters.setCategory(category);
-                spNameWithParameter.setSpParameters(spParameters);
-                ArrayList<GetTWLDataRequestDTO.SpNameWithParameter> SpNameWithParameterList = new ArrayList<GetTWLDataRequestDTO.SpNameWithParameter>();
-                SpNameWithParameterList.add(spNameWithParameter);
-                getTWLDataRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(getTWLDataRequestDTO, GetTWLDataRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getTWLGetMakeModelData(getTWLDataRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        try {
-                                            String strResponse = response.body().string();
-                                            JSONObject json = new JSONObject(strResponse);
-                                            if (json.length() != 0) {
-                                                String key = json.keys().next();
-                                                if (!TextUtils.isEmpty(key)) {
-                                                    String tableJson = json.get(key).toString();
-
-                                                    TWLExShowRoomPriceResponseDTO twlExShowRoomPriceResponseDTO = new Gson().fromJson(tableJson, TWLExShowRoomPriceResponseDTO.class);
-                                                    if (twlExShowRoomPriceResponseDTO != null && twlExShowRoomPriceResponseDTO.getTwlExShowRoomPriceResponseTables().size() > 0) {
-                                                        List<TWLExShowRoomPriceResponseTable> list = new ArrayList<>();
-
-                                                        for (TWLExShowRoomPriceResponseTable data : twlExShowRoomPriceResponseDTO.getTwlExShowRoomPriceResponseTables()) {
-                                                            list.add(data);
-                                                        }
-                                                        data.postValue(list);
-                                                    }
-                                                }
-                                            }
-                                        } catch (Exception ex) {
-                                            ex.printStackTrace();
-
-                                            insertLog("", ex.getMessage(), "", "", TAG, "", "", "");
-                                        }
-                                    } else {
-                                        insertLog("", response.message(), "", "", TAG, "", "", "");
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 // TODO: Final result
                                 executor.execute(() -> {
@@ -41937,18 +41268,31 @@ public class DynamicUIRepository {
                 ArrayList<PinCodeRequestDTO.SpNameWithParameter> SpNameWithparameterList = new ArrayList<PinCodeRequestDTO.SpNameWithParameter>();
                 SpNameWithparameterList.add(spNameWithParameter);
                 pinCodeRequestDTO.setSpNameWithParameter(SpNameWithparameterList);
-                String baseString = new Gson().toJson(pinCodeRequestDTO, PinCodeRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
+                Log.d(TAG, "Request: "+pinCodeRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(pinCodeRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
 
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getPinCodeMasterData(pinCodeRequestDTO,
-                        appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).enqueue(new Callback<ResponseBody>(){
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getPinCodeMasterData(encryptedValue,
+                        appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).enqueue(new Callback<String>(){
 
                     @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    public void onResponse(Call<String> call, Response<String> response) {
                         executor.execute(() -> {
-                            if(response.isSuccessful()){
+
+
+                            if (response!=null) {
                                 try {
-                                    String strResponse = response.body().string();
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                        decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                    }
+                                    String strResponse = decryptedValue;
                                     JSONObject jsonObject = new JSONObject(strResponse);
                                     if(jsonObject.length() != 0){
                                         String key = jsonObject.keys().next();
@@ -41972,7 +41316,7 @@ public class DynamicUIRepository {
                     }
 
                     @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    public void onFailure(Call<String> call, Throwable t) {
                         executor.execute(() -> {
 
                         });
@@ -42004,16 +41348,27 @@ public class DynamicUIRepository {
                 ArrayList<PinCodeAreaRequestDTO.SpNameWithParameter> SpNameWithParameterList = new ArrayList<PinCodeAreaRequestDTO.SpNameWithParameter>();
                 SpNameWithParameterList.add(spNameWithParameter);
                 pinCodeAreaRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(pinCodeAreaRequestDTO, PinCodeAreaRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getPinCodeAreaMasterData(pinCodeAreaRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
+                Log.d(TAG, "Request: "+pinCodeAreaRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(pinCodeAreaRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getPinCodeAreaMasterData(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
+                                    if (response!=null) {
                                         try {
-                                            String strResponse = response.body().string();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
                                             JSONObject json = new JSONObject(strResponse);
                                             if (json.length() != 0) {
                                                 String key = json.keys().next();
@@ -42042,7 +41397,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 // TODO: Final result
                                 executor.execute(() -> {
@@ -42089,16 +41444,27 @@ public class DynamicUIRepository {
                 ArrayList<NegitiveProfileListRequestDTO.SpNameWithParameter> SpNameWithParameterList = new ArrayList<NegitiveProfileListRequestDTO.SpNameWithParameter>();
                 SpNameWithParameterList.add(spNameWithParameter);
                 negitiveProfileListRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(negitiveProfileListRequestDTO, NegitiveProfileListRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getNegitiveProfileList(negitiveProfileListRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
+                Log.d(TAG, "Request: "+negitiveProfileListRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(negitiveProfileListRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getNegitiveProfileList(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
+                                    if (response!=null) {
                                         try {
-                                            String strResponse = response.body().string();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
                                             JSONObject json = new JSONObject(strResponse);
                                             if (json.length() != 0) {
                                                 String key = json.keys().next();
@@ -42128,7 +41494,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 // TODO: Final result
                                 executor.execute(() -> {
@@ -42341,16 +41707,27 @@ public class DynamicUIRepository {
                 ArrayList<MNachRequestDTO.SpNameWithParameter> SpNameWithParameterList = new ArrayList<MNachRequestDTO.SpNameWithParameter>();
                 SpNameWithParameterList.add(spNameWithParameter);
                 mNachRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(mNachRequestDTO, MNachRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).eNACH_GetRazorpayFetchToken(mNachRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
+                Log.d(TAG, "Request: "+mNachRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(mNachRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).eNACH_GetRazorpayFetchToken(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
+                                    if (response!=null) {
                                         try {
-                                            String strResponse = response.body().string();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
                                             JSONObject json = new JSONObject(strResponse);
                                             if (json.length() != 0) {
                                                 String key = json.keys().next();
@@ -42380,7 +41757,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 // TODO: Final result
                                 executor.execute(() -> {
@@ -42425,16 +41802,27 @@ public class DynamicUIRepository {
                 ArrayList<ProcessPricingWFRequestDTO.SpNameWithParameter> SpNameWithParameterList = new ArrayList<ProcessPricingWFRequestDTO.SpNameWithParameter>();
                 SpNameWithParameterList.add(spNameWithParameter);
                 processPricingWFRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(processPricingWFRequestDTO, ProcessPricingWFRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getProcessPricingWF(processPricingWFRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
+                Log.d(TAG, "Request: "+processPricingWFRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(processPricingWFRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getProcessPricingWF(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
+                                    if (response!=null) {
                                         try {
-                                            String strResponse = response.body().string();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
                                             JSONObject json = new JSONObject(strResponse);
                                             if (json.length() != 0) {
                                                 String key = json.keys().next();
@@ -42464,7 +41852,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 // TODO: Final result
                                 executor.execute(() -> {
@@ -42503,16 +41891,27 @@ public class DynamicUIRepository {
                 ArrayList<GetPricingInboxRequestDTO.SpNameWithParameter> SpNameWithParameterList = new ArrayList<GetPricingInboxRequestDTO.SpNameWithParameter>();
                 SpNameWithParameterList.add(spNameWithParameter);
                 getPricingInboxRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(getPricingInboxRequestDTO, GetPricingInboxRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getPricingInbox(getPricingInboxRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
+                Log.d(TAG, "Request: "+getPricingInboxRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(getPricingInboxRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getPricingInbox(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
+                                    if (response!=null) {
                                         try {
-                                            String strResponse = response.body().string();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
                                             JSONObject json = new JSONObject(strResponse);
                                             if (json.length() != 0) {
                                                 String key = json.keys().next();
@@ -42542,7 +41941,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 // TODO: Final result
                                 executor.execute(() -> {
@@ -42579,16 +41978,27 @@ public class DynamicUIRepository {
                 ArrayList<LoanAmountWisePricingDefaultValuesRequestDTO.SpNameWithParameter> SpNameWithParameterList = new ArrayList<LoanAmountWisePricingDefaultValuesRequestDTO.SpNameWithParameter>();
                 SpNameWithParameterList.add(spNameWithParameter);
                 loanAmountWisePricingDefaultValuesRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(loanAmountWisePricingDefaultValuesRequestDTO, LoanAmountWisePricingDefaultValuesRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getLoanAmountWisePricingDefaultValues(loanAmountWisePricingDefaultValuesRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
+                Log.d(TAG, "Request: "+loanAmountWisePricingDefaultValuesRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(loanAmountWisePricingDefaultValuesRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getLoanAmountWisePricingDefaultValues(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
+                                    if (response!=null) {
                                         try {
-                                            String strResponse = response.body().string();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
                                             JSONObject json = new JSONObject(strResponse);
                                             if (json.length() != 0) {
                                                 String key = json.keys().next();
@@ -42618,7 +42028,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 // TODO: Final result
                                 executor.execute(() -> {
@@ -42655,16 +42065,27 @@ public class DynamicUIRepository {
                 ArrayList<CreditApprovalScreenPricingrequestDTO.SpNameWithParameter> SpNameWithParameterList = new ArrayList<CreditApprovalScreenPricingrequestDTO.SpNameWithParameter>();
                 SpNameWithParameterList.add(spNameWithParameter);
                 creditApprovalScreenPricingrequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(creditApprovalScreenPricingrequestDTO, CreditApprovalScreenPricingrequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getCreditApprovalScreenPricing(creditApprovalScreenPricingrequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
+                Log.d(TAG, "Request: "+creditApprovalScreenPricingrequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(creditApprovalScreenPricingrequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getCreditApprovalScreenPricing(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
+                                    if (response!=null) {
                                         try {
-                                            String strResponse = response.body().string();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
                                             JSONObject json = new JSONObject(strResponse);
                                             if (json.length() != 0) {
                                                 String key = json.keys().next();
@@ -42694,7 +42115,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 // TODO: Final result
                                 executor.execute(() -> {
@@ -43147,42 +42568,55 @@ public class DynamicUIRepository {
                 requestStringClass.setCustomerFinancialInfo(customerFinancialInfo);
                 requestStringClass.setApplicationDetails(applicationDetails);
                 vkycRequestDTO.setRequestString(requestStringClass);
-                String baseString = new Gson().toJson(vkycRequestDTO, VKYCRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getVKYCServiceData(vkycRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<VKYCResponseDTO>() {
+                Log.d(TAG, "Request: "+vkycRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(vkycRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getVKYCServiceData(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<VKYCResponseDTO> call, Response<VKYCResponseDTO> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        VKYCResponseDTO vkycResponseDTO = response.body();
-                                        data.postValue(vkycResponseDTO);
+                                    VKYCResponseDTO vkycResponseDTO = null;
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        try {
+                                            getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                            decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            JSONObject json = new JSONObject(decryptedValue);
+                                            String tableJson = json.toString();
+                                            vkycResponseDTO = new Gson().fromJson(tableJson, VKYCResponseDTO.class);
+                                            data.postValue(vkycResponseDTO);
+                                            Log.d(TAG, "Response: "+vkycResponseDTO );
+                                            String vkycData = new Gson().toJson(vkycResponseDTO, VKYCResponseDTO.class);
+                                            RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_VKYC_UP_STREAM,
+                                                    clientId, moduleType);
+                                            if (rawDataTableFromDB == null) {
+                                                // TODO: Insert Raw Data Table
+                                                RawDataTable rawDataTable = new RawDataTable(vkycData, SCREEN_NO_VKYC_UP_STREAM, SCREEN_NAME_VKYC_UP_STREAM, "", clientId,
+                                                        loanType, userId, moduleType, "");
+                                                dynamicUIDao.insertRawData(rawDataTable);
 
-                                        String vkycData = new Gson().toJson(vkycResponseDTO, VKYCResponseDTO.class);
-                                        RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_VKYC_UP_STREAM,
-                                                clientId, moduleType);
-                                        if (rawDataTableFromDB == null) {
-                                            // TODO: Insert Raw Data Table
-                                            RawDataTable rawDataTable = new RawDataTable(vkycData, SCREEN_NO_VKYC_UP_STREAM, SCREEN_NAME_VKYC_UP_STREAM, "", clientId,
-                                                    loanType, userId, moduleType, "");
-                                            dynamicUIDao.insertRawData(rawDataTable);
+                                            } else {
+                                                // TODO: Update Raw Data Table
+                                                dynamicUIDao.updateRawDataBag(SCREEN_NO_VKYC_UP_STREAM, rawDataTableFromDB.getId(), vkycData);
+                                            }
+                                            postSubmittedAllScreensLiveData(vkycData, SCREEN_NO_VKYC_UP_STREAM,"", userId,SCREEN_NAME_VKYC_UP_STREAM,moduleType);
 
-                                        } else {
-                                            // TODO: Update Raw Data Table
-                                            dynamicUIDao.updateRawDataBag(SCREEN_NO_VKYC_UP_STREAM, rawDataTableFromDB.getId(), vkycData);
+                                        } catch (Exception e) {
+                                            throw new RuntimeException(e);
                                         }
-                                        postSubmittedAllScreensLiveData(vkycData, SCREEN_NO_VKYC_UP_STREAM,"", userId,SCREEN_NAME_VKYC_UP_STREAM,moduleType);
-
-                                    } else {
-                                        // TODO: Failure Case
-                                        data.postValue(new VKYCResponseDTO());
-
                                     }
+
                                 });
                             }
 
                             @Override
-                            public void onFailure(Call<VKYCResponseDTO> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 Log.d(TAG, "onFailure ==> " + t.getMessage());
                                 executor.execute(() -> {
                                     data.postValue(new VKYCResponseDTO());
@@ -43199,98 +42633,6 @@ public class DynamicUIRepository {
         }
         return data;
     }
-
-    public LiveData<DownStreamResponseDTO> getVKYCDownStreamServiceData(String userId, String clientId, String loanType, String moduleType) {
-        final MutableLiveData<DownStreamResponseDTO> data = new MutableLiveData<>();
-        try {
-            DynamicUIWebService.changeApiBaseUrl(POSIDEX_DILIQUENCY);
-            executor.execute(() -> {
-
-                List<RawDataTable> applicantRawDataTableList = null;
-
-                applicantRawDataTableList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_APPLICANT_KYC, clientId, MODULE_TYPE_APPLICANT, loanType);
-
-                final DownStreamRequestDTO downStreamRequestDTO = new DownStreamRequestDTO();
-                downStreamRequestDTO.setCreatedDate(appHelper.getCurrentDate(DATE_FORMAT_YYYY_MM_DD));
-                downStreamRequestDTO.setUniqueId(String.valueOf(System.currentTimeMillis()));
-                downStreamRequestDTO.setClientID(clientId);
-                downStreamRequestDTO.setServiceType("Vkycdownstream");
-                downStreamRequestDTO.setCreatedBy(loanType);
-                downStreamRequestDTO.setCreatedByProject(loanType);
-                if (applicantRawDataTableList != null && applicantRawDataTableList.size() > 0) {
-                    for (RawDataTable rawDataTable : applicantRawDataTableList) {
-                        HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
-                        if (hashMap != null && hashMap.size() > 0) {
-                            if (hashMap.containsKey(TAG_NAME_KYC_ID)) {
-                                String value = hashMap.get(TAG_NAME_KYC_ID).toString();
-                                if (!TextUtils.isEmpty(value)) {
-                                    downStreamRequestDTO.setKYCId(value);
-                                }
-                            }
-                        }
-                    }
-                }
-                DownStreamRequestDTO.RequestString requestStringClass = new DownStreamRequestDTO.RequestString();
-                requestStringClass.setClientCode("");
-                requestStringClass.setSession_id("");
-                requestStringClass.setCustomerId(userId);
-                downStreamRequestDTO.setRequestString(requestStringClass);
-                String baseString = new Gson().toJson(downStreamRequestDTO, DownStreamRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getVKYCDownStreamServiceData(downStreamRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<DownStreamResponseDTO>() {
-                            @Override
-                            public void onResponse(Call<DownStreamResponseDTO> call, Response<DownStreamResponseDTO> response) {
-                                executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        DownStreamResponseDTO downStreamResponseDTO = response.body();
-                                        data.postValue(downStreamResponseDTO);
-
-
-                                        /*String downStreamData = new Gson().toJson(downStreamResponseDTO, DownStreamResponseDTO.class);
-
-                                        RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_VKYC_DOWN_STREAM,
-                                                clientId, MODULE_TYPE_GENERATE_CIBIL);
-
-                                        if (rawDataTableFromDB == null) {
-                                            // TODO: Insert Raw Data Table
-                                            RawDataTable rawDataTable = new RawDataTable(downStreamData, SCREEN_NO_VKYC_DOWN_STREAM, SCREEN_NAME_VKYC_DOWN_STREAM, "", clientId,
-                                                    loanType, userId, MODULE_TYPE_GENERATE_CIBIL, "");
-                                            dynamicUIDao.insertRawData(rawDataTable);
-
-                                        } else {
-                                            // TODO: Update Raw Data Table
-                                            dynamicUIDao.updateRawDataBag(SCREEN_NO_VKYC_DOWN_STREAM, rawDataTableFromDB.getId(), downStreamData);
-                                        }*/
-
-
-                                    } else {
-                                        // TODO: Failure Case
-                                        data.postValue(new DownStreamResponseDTO());
-
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onFailure(Call<DownStreamResponseDTO> call, Throwable t) {
-                                Log.d(TAG, "onFailure ==> " + t.getMessage());
-                                executor.execute(() -> {
-                                    data.postValue(new DownStreamResponseDTO());
-                                });
-                            }
-                        });
-
-            });
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            executor.execute(() -> {
-                data.postValue(new DownStreamResponseDTO());
-            });
-        }
-        return data;
-    }
-
 
     public LiveData<ESignEStampResponseDTO> getEsignEStampData(String clientId,String tenure,String loanAmount,String rateOfInterest, List<CIBILTable> cibilTableDB) {
         final MutableLiveData<ESignEStampResponseDTO> data = new MutableLiveData<>();
@@ -43812,34 +43154,51 @@ public class DynamicUIRepository {
                 esignIntiationreq.setEstampdetails(estampdetails);
                 requestString.setEsignIntiationreq(esignIntiationreq);
                 eSignEStampRequestDTO.setRequestString(requestString);
-                String baseString = new Gson().toJson(eSignEStampRequestDTO, ESignEStampRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getEsignEStampData(eSignEStampRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ESignEStampResponseDTO>() {
+                Log.d(TAG, "Request: "+eSignEStampRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(eSignEStampRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getEsignEStampData(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ESignEStampResponseDTO> call, Response<ESignEStampResponseDTO> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        ESignEStampResponseDTO eSignEStampResponseDTO = response.body();
-                                        data.postValue(eSignEStampResponseDTO);
+                                    ESignEStampResponseDTO eSignEStampResponseDTO = null;
+                                    if (response!=null) {
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            try {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                                JSONObject json = new JSONObject(decryptedValue);
+                                                String tableJson = json.toString();
+                                                eSignEStampResponseDTO = new Gson().fromJson(tableJson, ESignEStampResponseDTO.class);
+                                                data.postValue(eSignEStampResponseDTO);
+                                                Log.e(TAG, "Response: "+eSignEStampResponseDTO );
+                                                String eSignEstampData = new Gson().toJson(eSignEStampResponseDTO, ESignEStampResponseDTO.class);
+                                                RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_ESIGN_ESTAMP,
+                                                        clientId, moduleType);
 
+                                                if (rawDataTableFromDB == null) {
+                                                    // TODO: Insert Raw Data Table
+                                                    RawDataTable rawDataTable = new RawDataTable(eSignEstampData, SCREEN_NO_ESIGN_ESTAMP, SCREEN_NAME_ESIGN_ESTAMP, "", clientId,
+                                                            loanType, userId, moduleType, "");
+                                                    dynamicUIDao.insertRawData(rawDataTable);
 
-                                        String eSignEstampData = new Gson().toJson(eSignEStampResponseDTO, ESignEStampResponseDTO.class);
-                                        RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_ESIGN_ESTAMP,
-                                                clientId, moduleType);
+                                                } else {
+                                                    // TODO: Update Raw Data Table
+                                                    dynamicUIDao.updateRawDataBag(SCREEN_NO_ESIGN_ESTAMP, rawDataTableFromDB.getId(), eSignEstampData);
+                                                }
+                                                postSubmittedAllScreensLiveData(eSignEstampData, SCREEN_NO_ESIGN_ESTAMP,"", userId,SCREEN_NAME_ESIGN_ESTAMP,moduleType);
 
-                                        if (rawDataTableFromDB == null) {
-                                            // TODO: Insert Raw Data Table
-                                            RawDataTable rawDataTable = new RawDataTable(eSignEstampData, SCREEN_NO_ESIGN_ESTAMP, SCREEN_NAME_ESIGN_ESTAMP, "", clientId,
-                                                    loanType, userId, moduleType, "");
-                                            dynamicUIDao.insertRawData(rawDataTable);
-
-                                        } else {
-                                            // TODO: Update Raw Data Table
-                                            dynamicUIDao.updateRawDataBag(SCREEN_NO_ESIGN_ESTAMP, rawDataTableFromDB.getId(), eSignEstampData);
+                                            } catch (Exception e) {
+                                                throw new RuntimeException(e);
+                                            }
                                         }
-                                        postSubmittedAllScreensLiveData(eSignEstampData, SCREEN_NO_ESIGN_ESTAMP,"", userId,SCREEN_NAME_ESIGN_ESTAMP,moduleType);
-
                                     } else {
                                         // TODO: Failure Case
                                         data.postValue(new ESignEStampResponseDTO());
@@ -43848,7 +43207,7 @@ public class DynamicUIRepository {
                                 });
                             }
                             @Override
-                            public void onFailure(Call<ESignEStampResponseDTO> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 executor.execute(() -> {
                                     data.postValue(new ESignEStampResponseDTO());
                                 });
@@ -43910,34 +43269,53 @@ public class DynamicUIRepository {
                 ddestatusreq.setSessiontoken("");
                 requestString.setDdestatusreq(ddestatusreq);
                 eSignEStampStatusRequestDTO.setRequestString(requestString);
-                String baseString = new Gson().toJson(eSignEStampStatusRequestDTO, ESignEStampStatusRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getEsignEStampStatusData(eSignEStampStatusRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ESignEStampStatusResponseDTO>() {
+                Log.d(TAG, "Request: "+eSignEStampStatusRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(eSignEStampStatusRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getEsignEStampStatusData(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ESignEStampStatusResponseDTO> call, Response<ESignEStampStatusResponseDTO> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        ESignEStampStatusResponseDTO eSignEStampStatusResponseDTO = response.body();
-                                        data.postValue(eSignEStampStatusResponseDTO);
+                                    ESignEStampStatusResponseDTO eSignEStampStatusResponseDTO = null;
+                                    if (response!=null) {
 
 
-                                        String eSignEstampStatusData = new Gson().toJson(eSignEStampStatusResponseDTO, ESignEStampStatusResponseDTO.class);
-                                        RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_ESIGN_ESTAMP_STATUS,
-                                                clientId, moduleType);
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            try {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                                JSONObject json = new JSONObject(decryptedValue);
+                                                String tableJson = json.toString();
+                                                eSignEStampStatusResponseDTO = new Gson().fromJson(tableJson, ESignEStampStatusResponseDTO.class);
+                                                data.postValue(eSignEStampStatusResponseDTO);
+                                                Log.e(TAG, "Response: "+eSignEStampStatusResponseDTO );
+                                                String eSignEstampStatusData = new Gson().toJson(eSignEStampStatusResponseDTO, ESignEStampStatusResponseDTO.class);
+                                                RawDataTable rawDataTableFromDB = dynamicUIDao.getRawDataByClientAndModuleTypeTopOne(SCREEN_NAME_ESIGN_ESTAMP_STATUS,
+                                                        clientId, moduleType);
 
-                                        if (rawDataTableFromDB == null) {
-                                            // TODO: Insert Raw Data Table
-                                            RawDataTable rawDataTable = new RawDataTable(eSignEstampStatusData, SCREEN_NO_ESIGN_ESTAMP_STATUS, SCREEN_NAME_ESIGN_ESTAMP_STATUS, "", clientId,
-                                                    loanType, userId, moduleType, "");
-                                            dynamicUIDao.insertRawData(rawDataTable);
+                                                if (rawDataTableFromDB == null) {
+                                                    // TODO: Insert Raw Data Table
+                                                    RawDataTable rawDataTable = new RawDataTable(eSignEstampStatusData, SCREEN_NO_ESIGN_ESTAMP_STATUS, SCREEN_NAME_ESIGN_ESTAMP_STATUS, "", clientId,
+                                                            loanType, userId, moduleType, "");
+                                                    dynamicUIDao.insertRawData(rawDataTable);
 
-                                        } else {
-                                            // TODO: Update Raw Data Table
-                                            dynamicUIDao.updateRawDataBag(SCREEN_NO_ESIGN_ESTAMP_STATUS, rawDataTableFromDB.getId(), eSignEstampStatusData);
+                                                } else {
+                                                    // TODO: Update Raw Data Table
+                                                    dynamicUIDao.updateRawDataBag(SCREEN_NO_ESIGN_ESTAMP_STATUS, rawDataTableFromDB.getId(), eSignEstampStatusData);
+                                                }
+                                                postSubmittedAllScreensLiveData(eSignEstampStatusData, SCREEN_NO_ESIGN_ESTAMP_STATUS,"", userId,SCREEN_NAME_ESIGN_ESTAMP_STATUS,moduleType);
+
+                                            } catch (Exception e) {
+                                                throw new RuntimeException(e);
+                                            }
                                         }
-                                        postSubmittedAllScreensLiveData(eSignEstampStatusData, SCREEN_NO_ESIGN_ESTAMP_STATUS,"", userId,SCREEN_NAME_ESIGN_ESTAMP_STATUS,moduleType);
-
 
                                     } else {
                                         // TODO: Failure Case
@@ -43948,7 +43326,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<ESignEStampStatusResponseDTO> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 Log.d(TAG, "onFailure ==> " + t.getMessage());
                                 executor.execute(() -> {
                                     data.postValue(new ESignEStampStatusResponseDTO());
@@ -44066,16 +43444,27 @@ public class DynamicUIRepository {
                 ArrayList<InsertRawDataBagRequestDTO.SpNameWithParameter> SpNameWithParameterList = new ArrayList<InsertRawDataBagRequestDTO.SpNameWithParameter>();
                 SpNameWithParameterList.add(spNameWithParameter);
                 insertRawDataBagRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(insertRawDataBagRequestDTO, InsertRawDataBagRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getInsertRawDataBag(insertRawDataBagRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
+                Log.d(TAG, "Request: "+insertRawDataBagRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(insertRawDataBagRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getInsertRawDataBag(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
+                                    if (response!=null) {
                                         try {
-                                            String strResponse = response.body().string();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
                                             JSONObject json = new JSONObject(strResponse);
                                             if (json.length() != 0) {
                                                 String key = json.keys().next();
@@ -44103,7 +43492,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 // TODO: Final result
                                 executor.execute(() -> {
@@ -44137,16 +43526,27 @@ public class DynamicUIRepository {
                 ArrayList<ScreenEditValidationRequestDTO.SpNameWithParameter> SpNameWithParameterList = new ArrayList<ScreenEditValidationRequestDTO.SpNameWithParameter>();
                 SpNameWithParameterList.add(spNameWithParameter);
                 screenEditValidationRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(screenEditValidationRequestDTO, ScreenEditValidationRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getScreenEditValidation(screenEditValidationRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
+                Log.e(TAG, "Request: "+screenEditValidationRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(screenEditValidationRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getScreenEditValidation(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
+                                    if (response!=null) {
                                         try {
-                                            String strResponse = response.body().string();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
                                             JSONObject json = new JSONObject(strResponse);
                                             if (json.length() != 0) {
                                                 String key = json.keys().next();
@@ -44175,7 +43575,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 // TODO: Final result
                                 executor.execute(() -> {
@@ -44209,16 +43609,30 @@ public class DynamicUIRepository {
                 ArrayList<StudentGradeRequestDTO.SpNameWithParameter> SpNameWithParameterList = new ArrayList<StudentGradeRequestDTO.SpNameWithParameter>();
                 SpNameWithParameterList.add(spNameWithParameter);
                 studentGradeRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(studentGradeRequestDTO, StudentGradeRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getStudentGrade(studentGradeRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
+                Log.d(TAG, "Request: "+studentGradeRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(studentGradeRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getStudentGrade(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
+                                    if (response!=null) {
                                         try {
-                                            String strResponse = response.body().string();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
+
+
                                             JSONObject json = new JSONObject(strResponse);
                                             if (json.length() != 0) {
                                                 String key = json.keys().next();
@@ -44244,7 +43658,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 // TODO: Final result
                                 executor.execute(() -> {
@@ -44277,16 +43691,27 @@ public class DynamicUIRepository {
                 ArrayList<TenureMonthsRequestDTO.SpNameWithParameter> SpNameWithParameterList = new ArrayList<TenureMonthsRequestDTO.SpNameWithParameter>();
                 SpNameWithParameterList.add(spNameWithParameter);
                 tenureMonthsRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(tenureMonthsRequestDTO, TenureMonthsRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getTenureInMonths(tenureMonthsRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
+                Log.d(TAG, "Request: "+tenureMonthsRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(tenureMonthsRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getTenureInMonths(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
+                                    if (response!=null) {
                                         try {
-                                            String strResponse = response.body().string();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
                                             JSONObject json = new JSONObject(strResponse);
                                             if (json.length() != 0) {
                                                 String key = json.keys().next();
@@ -44312,7 +43737,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 // TODO: Final result
                                 executor.execute(() -> {
