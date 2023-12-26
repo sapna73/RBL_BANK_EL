@@ -1222,35 +1222,57 @@ public class DynamicUIRepository {
             DynamicUIWebService.changeApiBaseUrl(OTP_TRIGGER_URL);
 
             executor.execute(() -> {
+                Log.d(TAG, "Request: "+otpTriggerDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(otpTriggerDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 if (appHelper.isNetworkAvailable()) { // TODO: Checking internet connection
 
-                    DynamicUIWebService.createService(DynamicUIApiInterface.class).generateOTP(otpTriggerDTO,
-                            appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, "")).enqueue(new Callback<OTPTriggerResponseDTO>() {
+                    DynamicUIWebService.createService(DynamicUIApiInterface.class).generateOTP(encryptedValue,
+                            appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""),getEncryptToken.getToken()).enqueue(new Callback<String>() {
                         @Override
-                        public void onResponse(Call<OTPTriggerResponseDTO> call, Response<OTPTriggerResponseDTO> response) {
+                        public void onResponse(Call<String> call, Response<String> response) {
                             Log.d(TAG, "DATA REFRESHED FROM NETWORK");
                             executor.execute(() -> {
-                                OTPTriggerResponseDTO otpTriggerResponseDTO = response.body();
+                                OTPTriggerResponseDTO otpTriggerResponseDTO = null;
                                 Log.d(TAG, "OTPTriggerResponseDTO  ==> " + otpTriggerResponseDTO);
-                                if (otpTriggerResponseDTO != null && otpTriggerResponseDTO.getApiResponse() != null) {
-                                    if (!TextUtils.isEmpty(otpTriggerResponseDTO.getApiResponse().getStatus())) {
-                                        String referenceId = otpTriggerResponseDTO.getApiResponse().getRefferenceId();
-                                        if (otpTriggerResponseDTO.getApiResponse().getStatus().equalsIgnoreCase("1")) {
-                                            dynamicUIDao.updateOTPGenerated(otpVerificationTable.getId(), otpVerificationTable.getMobileNumber()
-                                                    , true, referenceId);
-                                        } else {
-                                            dynamicUIDao.updateOTPGenerated(otpVerificationTable.getId(), otpVerificationTable.getMobileNumber()
-                                                    , false, referenceId);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    try {
+                                        getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                        decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                        JSONObject json = new JSONObject(decryptedValue);
+                                        String tableJson = json.toString();
+                                        otpTriggerResponseDTO = new Gson().fromJson(tableJson, OTPTriggerResponseDTO.class);
+                                        if (otpTriggerResponseDTO != null && otpTriggerResponseDTO.getApiResponse() != null) {
+                                            if (!TextUtils.isEmpty(otpTriggerResponseDTO.getApiResponse().getStatus())) {
+                                                String referenceId = otpTriggerResponseDTO.getApiResponse().getRefferenceId();
+                                                if (otpTriggerResponseDTO.getApiResponse().getStatus().equalsIgnoreCase("1")) {
+                                                    dynamicUIDao.updateOTPGenerated(otpVerificationTable.getId(), otpVerificationTable.getMobileNumber()
+                                                            , true, referenceId);
+                                                } else {
+                                                    dynamicUIDao.updateOTPGenerated(otpVerificationTable.getId(), otpVerificationTable.getMobileNumber()
+                                                            , false, referenceId);
+                                                }
+                                            }
                                         }
+                                        data.postValue(otpTriggerResponseDTO);
+
+                                        Log.e(TAG, "Response: "+otpTriggerResponseDTO );
+                                    } catch (Exception e) {
+                                        throw new RuntimeException(e);
                                     }
                                 }
-                                data.postValue(otpTriggerResponseDTO);
 
                             });
                         }
 
                         @Override
-                        public void onFailure(Call<OTPTriggerResponseDTO> call, Throwable t) {
+                        public void onFailure(Call<String> call, Throwable t) {
                             Log.d(TAG, "OTPTrigger Failure ==> " + t.getMessage());
                             data.postValue(new OTPTriggerResponseDTO());
                             insertLog("generateOTP", t.getMessage(), "", "", TAG, "", "", "");
@@ -1278,19 +1300,34 @@ public class DynamicUIRepository {
             DynamicUIWebService.changeApiBaseUrl(OTP_TRIGGER_URL);
 
             executor.execute(() -> {
+                Log.d(TAG, "Request: "+otpTriggerDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(otpTriggerDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 if (appHelper.isNetworkAvailable()) { // TODO: Checking internet connection
-
-                    DynamicUIWebService.createService(DynamicUIApiInterface.class).generateOTP(otpTriggerDTO,
-                            appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, "")).enqueue(new Callback<OTPTriggerResponseDTO>() {
+                    DynamicUIWebService.createService(DynamicUIApiInterface.class).generateOTP(encryptedValue,
+                            appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""),getEncryptToken.getToken()).enqueue(new Callback<String>() {
                         @Override
-                        public void onResponse(Call<OTPTriggerResponseDTO> call, Response<OTPTriggerResponseDTO> response) {
+                        public void onResponse(Call<String> call, Response<String> response) {
                             Log.d(TAG, "DATA REFRESHED FROM NETWORK");
                             executor.execute(() -> {
-                                OTPTriggerResponseDTO otpTriggerResponseDTO = response.body();
-                                Log.d(TAG, "OTPTriggerResponseDTO  ==> " + otpTriggerResponseDTO);
-                                if (otpTriggerResponseDTO != null && otpTriggerResponseDTO.getApiResponse() != null) {
-                                    if (!TextUtils.isEmpty(otpTriggerResponseDTO.getApiResponse().getStatus())) {
-                                        String referenceId = otpTriggerResponseDTO.getApiResponse().getRefferenceId();
+                                OTPTriggerResponseDTO otpTriggerResponseDTO = null;
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    try {
+                                        getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                        decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                        JSONObject json = new JSONObject(decryptedValue);
+                                        String tableJson = json.toString();
+                                        otpTriggerResponseDTO = new Gson().fromJson(tableJson, OTPTriggerResponseDTO.class);
+                                        Log.d(TAG, "OTPTriggerResponseDTO  ==> " + otpTriggerResponseDTO);
+                                        if (otpTriggerResponseDTO != null && otpTriggerResponseDTO.getApiResponse() != null) {
+                                            if (!TextUtils.isEmpty(otpTriggerResponseDTO.getApiResponse().getStatus())) {
+                                                String referenceId = otpTriggerResponseDTO.getApiResponse().getRefferenceId();
 //                                        if (otpTriggerResponseDTO.getApiResponse().getStatus().equalsIgnoreCase("1")) {
 //                                            dynamicUIDao.updateOTPGenerated(otpVerificationTable.getId(), otpVerificationTable.getMobileNumber()
 //                                                    , true, referenceId);
@@ -1298,15 +1335,19 @@ public class DynamicUIRepository {
 //                                            dynamicUIDao.updateOTPGenerated(otpVerificationTable.getId(), otpVerificationTable.getMobileNumber()
 //                                                    , false, referenceId);
 //                                        }
+                                            }
+                                        }
+                                        data.postValue(otpTriggerResponseDTO);
+                                    } catch (Exception e) {
+                                        throw new RuntimeException(e);
                                     }
                                 }
-                                data.postValue(otpTriggerResponseDTO);
 
                             });
                         }
 
                         @Override
-                        public void onFailure(Call<OTPTriggerResponseDTO> call, Throwable t) {
+                        public void onFailure(Call<String> call, Throwable t) {
                             Log.d(TAG, "OTPTrigger Failure ==> " + t.getMessage());
                             data.postValue(new OTPTriggerResponseDTO());
                             insertLog("generateOTP", t.getMessage(), "", "", TAG, "", "", "");
@@ -1422,35 +1463,53 @@ public class DynamicUIRepository {
 
             executor.execute(() -> {
                 if (appHelper.isNetworkAvailable()) { // TODO: Checking internet connection
-
-                    DynamicUIWebService.createService(DynamicUIApiInterface.class).verifyOTP(otpVerifyDTO,
-                                    appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, "")).
-                            enqueue(new Callback<OTPVerifyResponseDTO>() {
+                    Log.d(TAG, "Request: "+otpVerifyDTO);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        try {
+                            getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                            encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(otpVerifyDTO));
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    DynamicUIWebService.createService(DynamicUIApiInterface.class).verifyOTP(encryptedValue,
+                                    appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""),getEncryptToken.getToken()).
+                            enqueue(new Callback<String>() {
                                 @Override
-                                public void onResponse(Call<OTPVerifyResponseDTO> call, Response<OTPVerifyResponseDTO> response) {
+                                public void onResponse(Call<String> call, Response<String> response) {
                                     Log.d(TAG, "DATA REFRESHED FROM NETWORK");
                                     executor.execute(() -> {
-                                        OTPVerifyResponseDTO otpVerifyResponseDTO = response.body();
+                                        OTPVerifyResponseDTO otpVerifyResponseDTO = null;
                                         Log.d(TAG, "OTPVerifyResponseDTO  ==> " + otpVerifyResponseDTO);
-
-                                        if (otpVerifyResponseDTO != null && otpVerifyResponseDTO.getApiResponse() != null) {
-                                            if (!TextUtils.isEmpty(otpVerifyResponseDTO.getApiResponse().getStatus())) {
-                                                if (otpVerifyResponseDTO.getApiResponse().getStatus().equalsIgnoreCase("1")) {
-                                                    dynamicUIDao.updateOTPVerified(otpVerificationTable.getId(), otpVerificationTable.getMobileNumber()
-                                                            , true);
-                                                } else {
-                                                    dynamicUIDao.updateOTPVerified(otpVerificationTable.getId(), otpVerificationTable.getMobileNumber()
-                                                            , false);
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            try {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                                JSONObject json = new JSONObject(decryptedValue);
+                                                String tableJson = json.toString();
+                                                otpVerifyResponseDTO = new Gson().fromJson(tableJson, OTPVerifyResponseDTO.class);
+                                                if (otpVerifyResponseDTO != null && otpVerifyResponseDTO.getApiResponse() != null) {
+                                                    if (!TextUtils.isEmpty(otpVerifyResponseDTO.getApiResponse().getStatus())) {
+                                                        if (otpVerifyResponseDTO.getApiResponse().getStatus().equalsIgnoreCase("1")) {
+                                                            dynamicUIDao.updateOTPVerified(otpVerificationTable.getId(), otpVerificationTable.getMobileNumber()
+                                                                    , true);
+                                                        } else {
+                                                            dynamicUIDao.updateOTPVerified(otpVerificationTable.getId(), otpVerificationTable.getMobileNumber()
+                                                                    , false);
+                                                        }
+                                                    }
                                                 }
+                                                data.postValue(otpVerifyResponseDTO);
+                                            } catch (Exception e) {
+                                                throw new RuntimeException(e);
                                             }
                                         }
-                                        data.postValue(otpVerifyResponseDTO);
 
                                     });
                                 }
 
                                 @Override
-                                public void onFailure(Call<OTPVerifyResponseDTO> call, Throwable t) {
+                                public void onFailure(Call<String> call, Throwable t) {
                                     Log.d(TAG, "OTPVerify Failure ==> " + t.getMessage());
                                     insertLog("verifyOTP", t.getMessage(), "", "", TAG, "", "", "");
                                 }

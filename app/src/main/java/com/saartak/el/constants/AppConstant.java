@@ -162,8 +162,8 @@ public class AppConstant {
     public static String SUBMIT_DATA_POST_URL_JLG = "https://losservicesuat.rblbank.com/JLGoperations/api/"; // TODO: JLG DATA SYNC [ dummy url , not received tvName service team ]
    // public static String RAW_DATA_URL = "https://losservicesuat.rblbank.com/DBUtil/api/v1/uat/"; // TODO: RAW DATA URL
     public static String EKYC_URL= "https://losservicesuat.rblbank.com/ekyc/api/v1/uat/"; // TODO: EKYC URL
-    public static String OTP_TRIGGER_URL = "https://losservicesuat.rblbank.com/otp/api/v1/uat/"; // TODO: OTP TRIGGER
-    public static String OTP_VERIFY_URL = "https://losservicesuat.rblbank.com/otp/api/v1/uat/"; // TODO: OTP VERIFY
+//    public static String OTP_TRIGGER_URL = "https://losservicesuat.rblbank.com/otp/api/v1/uat/"; // TODO: OTP TRIGGER
+//    public static String OTP_VERIFY_URL = "https://losservicesuat.rblbank.com/otp/api/v1/uat/"; // TODO: OTP VERIFY
     public static String DOCUMENT_UPLOAD_URL = "https://losservicesuat.rblbank.com/Docupload/api/uat/V1/uploadImages"; // TODO: DOCUMENT UPLOAD URL UAT EL
     public static String DOCUMENT_DOWNLOAD_URL = "https://losservicesuat.rblbank.com/DownloadImg/api/uat/"; // TODO: DOCUMENT DOWNLOAD URL
     public static String LOG_TO_SERVER_URL = "https://losservicesuat.rblbank.com/LogsService/api/v1/prod/"; // TODO: LOG TO SERVER URL
@@ -199,6 +199,10 @@ public class AppConstant {
   public static String CIBIL_URL = "https://losservicesuat.rblbank.com/EncryptAPIs/api/v1/uat/"; // TODO: CIBIL
   public static String PAN_VALIDATION_URL = "https://losservicesuat.rblbank.com/EncryptAPIs/api/v1/uat/"; // TODO: PAN VALIDATION URL
   public static String AADHAAR_VAULT_URL = "https://losservicesuat.rblbank.com/EncryptAPIs/api/v1/uat/"; // TODO: AADHAAR VAULT URL
+
+  public static String OTP_TRIGGER_URL = "https://losservicesuat.rblbank.com/OTPEncrypt/api/v1/uat/"; // TODO: OTP TRIGGER
+  public static String OTP_VERIFY_URL = "https://losservicesuat.rblbank.com/OTPEncrypt/api/v1/uat/"; // TODO: OTP VERIFY
+
 
 
 

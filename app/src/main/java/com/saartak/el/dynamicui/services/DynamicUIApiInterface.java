@@ -71,9 +71,11 @@ public interface DynamicUIApiInterface {
 
     /* OTP TRIGGER SERVICE */
     @POST("otp/OTPTrigger")
-    Call<OTPTriggerResponseDTO> generateOTP(@Body OTPTriggerDTO otpTriggerDTO, @Header("Authorization") String authHeader);
+    Call<String> generateOTP(@Body String otpTriggerDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+    //Call<OTPTriggerResponseDTO> generateOTP(@Body OTPTriggerDTO otpTriggerDTO, @Header("Authorization") String authHeader);
 
     /* VERIFY OTP SERVICE */
     @POST("otp/OTPVerify")
-    Call<OTPVerifyResponseDTO> verifyOTP(@Body OTPVerifyDTO otpVerifyDTO, @Header("Authorization") String authHeader);
+    Call<String> verifyOTP(@Body String otpVerifyDTO, @Header("Authorization") String authHeader, @Header("k1") String k1);
+  //  Call<OTPVerifyResponseDTO> verifyOTP(@Body OTPVerifyDTO otpVerifyDTO, @Header("Authorization") String authHeader);
 }
