@@ -54,8 +54,8 @@ public class AppModule {
         return Room.databaseBuilder(application,
                 //DynamicUIDatabase.class, currentDBPath).addMigrations() // TODO: DB Migration
                                DynamicUIDatabase.class,currentDBPath)  // TODO: Without Migration
-                 .fallbackToDestructiveMigration() // TODO: Database will be cleared
-                 //.openHelperFactory(factory) // TODO: Set this encryption only for production release
+                 //.fallbackToDestructiveMigration() // TODO: Database will be cleared
+                 .openHelperFactory(factory) // TODO: Set this encryption only for production release
                 .build();
 
     }

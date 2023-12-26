@@ -72,7 +72,7 @@ public class OTPVerificationAdapter extends RecyclerView.Adapter<OTPVerification
                     }
 
 
-                    if( otpVerificationTable.isOTPVerified()){
+                    if( otpVerificationTable.isOTPVerified()&& otpVerificationTable.isOTPGenerated()){
                         holder.llOtpGenerate.setVisibility(View.GONE);
                         holder.llOtpVerify.setVisibility(View.GONE);
                         holder.pvEnteredOTP.setEnabled(false);
