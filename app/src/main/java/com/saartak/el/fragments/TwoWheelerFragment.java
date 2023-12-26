@@ -152,8 +152,6 @@ public class TwoWheelerFragment extends LOSBaseFragment implements LOSBaseFragme
                     viewModel.getDynamicUITableLiveData().removeObserver(this);
                     getRawDataForParentFragment(SCREEN_NAME, list);
                     getStateFromLead();
-                    applicanttwoWheelermakeScreenChangesByDropdown(leadState,list);
-
                 }
             };
             viewModel.getDynamicUITableLiveData().observe(getViewLifecycleOwner(), observer);
@@ -224,7 +222,6 @@ public class TwoWheelerFragment extends LOSBaseFragment implements LOSBaseFragme
                                     viewModel.getDynamicUITableLiveData().removeObserver(this);
                                     getRawDataForParentFragment(SCREEN_NAME, list);
                                     getStateFromLead();
-                                    applicanttwoWheelermakeScreenChangesByDropdown(leadState,list);
                                 }
                             };
                         }

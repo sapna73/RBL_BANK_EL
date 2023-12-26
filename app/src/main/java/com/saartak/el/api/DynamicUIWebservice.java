@@ -512,7 +512,8 @@ public interface  DynamicUIWebservice {
 
     // TODO: LOGOUT SERVICE
     @POST("LogOff")
-    Call<LogOutResponseDTO> logOutService(@Body LogOutRequestDTO logOutRequestDTO,@Header("ApiKey") String api_key, @Header("k1") String k1);
+    Call<String> logOutService(@Body String logOutRequestDTO,@Header("ApiKey") String api_key, @Header("k1") String k1);
+    //Call<LogOutResponseDTO> logOutService(@Body LogOutRequestDTO logOutRequestDTO,@Header("ApiKey") String api_key, @Header("k1") String k1);
 
     // TODO: BEARER TOKEN SERVICE
     @POST("identity/getidentity")

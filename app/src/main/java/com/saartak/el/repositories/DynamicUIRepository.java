@@ -12657,23 +12657,39 @@ public class DynamicUIRepository {
 
             final LogOutRequestDTO logOutRequestDTO = new LogOutRequestDTO();
             logOutRequestDTO.setUserID(userId);
-
             executor.execute(() -> {
-                String baseString = new Gson().toJson(logOutRequestDTO, LogOutRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(logOutRequestDTO));
 
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 DynamicUIWebService.createService(DynamicUIWebservice.class)
-                        .logOutService(logOutRequestDTO, appHelper.getSharedPrefObj().getString(USER_API_KEY, ""), k1)
-                        .enqueue(new Callback<LogOutResponseDTO>() {
+                        .logOutService(encryptedValue, appHelper.getSharedPrefObj().getString(USER_API_KEY, ""), getEncryptToken.getToken())
+                        .enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<LogOutResponseDTO> call, Response<LogOutResponseDTO> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 Log.d(TAG, "DATA REFRESHED FROM NETWORK");
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        LogOutResponseDTO logOutResponseDTO = response.body();
+                                    if (response!=null) {
+                                        LogOutResponseDTO logOutResponseDTO = null;
                                         Log.d(TAG, "onResponse  ==> " + logOutResponseDTO);
-
-                                        data.postValue(logOutResponseDTO);
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            try {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                                JSONObject json = new JSONObject(decryptedValue);
+                                                String tableJson = json.toString();
+                                                logOutResponseDTO = new Gson().fromJson(tableJson, LogOutResponseDTO.class);
+                                                data.postValue(logOutResponseDTO);
+                                                Log.e(TAG, "Response: "+logOutResponseDTO);
+                                            } catch (Exception e) {
+                                                throw new RuntimeException(e);
+                                            }
+                                        }
                                     } else {
                                         Log.d(TAG, "onResponse ==> " + response.code());
                                         data.postValue(new LogOutResponseDTO());
@@ -12684,7 +12700,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<LogOutResponseDTO> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 Log.d(TAG, "onFailure ==> " + t.getMessage());
                                 data.postValue(new LogOutResponseDTO());
 
