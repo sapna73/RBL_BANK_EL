@@ -472,7 +472,8 @@ public interface  DynamicUIWebservice {
 
     /* AADHAAR VAULT SERVICE CALL */
     @POST("AadhaarValut/keygeneration")
-    Call<AadhaarVaultResponseDTO> aadhaarVaultServiceCall(@Body AadhaarVaultRequestDTO aadhaarVaultRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
+    Call<String> aadhaarVaultServiceCall(@Body String aadhaarVaultRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
+    //Call<AadhaarVaultResponseDTO> aadhaarVaultServiceCall(@Body AadhaarVaultRequestDTO aadhaarVaultRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
 
 
     /* SALES TOOL SERVICE CALL */
@@ -495,7 +496,8 @@ public interface  DynamicUIWebservice {
 
     /* PAN Validation Request*/
     @POST("PanVerification/WithUserId")
-    Call<PanValidationResponseDTO> panValidationServiceCall(@Body PanValidationRequestDTO panValidationRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
+    Call<String> panValidationServiceCall(@Body String panValidationRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
+    //Call<PanValidationResponseDTO> panValidationServiceCall(@Body PanValidationRequestDTO panValidationRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
 
     /* SEND LOG TO SERVER */
     @POST("logs/add")

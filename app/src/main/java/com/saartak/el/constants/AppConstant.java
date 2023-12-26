@@ -167,8 +167,8 @@ public class AppConstant {
     public static String DOCUMENT_UPLOAD_URL = "https://losservicesuat.rblbank.com/Docupload/api/uat/V1/uploadImages"; // TODO: DOCUMENT UPLOAD URL UAT EL
     public static String DOCUMENT_DOWNLOAD_URL = "https://losservicesuat.rblbank.com/DownloadImg/api/uat/"; // TODO: DOCUMENT DOWNLOAD URL
     public static String LOG_TO_SERVER_URL = "https://losservicesuat.rblbank.com/LogsService/api/v1/prod/"; // TODO: LOG TO SERVER URL
-    public static String PAN_VALIDATION_URL = "https://losservicesuat.rblbank.com/bankproxy/api/v1/uat/"; // TODO: PAN VALIDATION URL
-    public static String AADHAAR_VAULT_URL = "https://losservicesuat.rblbank.com/bankproxy/api/v1/uat/"; // TODO: AADHAAR VAULT URL
+//    public static String PAN_VALIDATION_URL = "https://losservicesuat.rblbank.com/bankproxy/api/v1/uat/"; // TODO: PAN VALIDATION URL
+//    public static String AADHAAR_VAULT_URL = "https://losservicesuat.rblbank.com/bankproxy/api/v1/uat/"; // TODO: AADHAAR VAULT URL
     public static String CHANGE_PASSWORD_URL = "https://Saartakuat.rblbank.com/balApi/"; // TODO: CHANGE PASSWORD
     public static String RESET_PASSWORD_URL = "https://losservicesuat.rblbank.com/managecredentials/api/v1/uat/"; // TODO: RESET PASSWORD
     //public static String CIBIL_URL = "https://losservicesuat.rblbank.com/bankproxy/api/v1/uat/"; // TODO: CIBIL
@@ -197,6 +197,9 @@ public class AppConstant {
   public static String ESIGN_ESTAMP = "https://losservicesuat.rblbank.com/EsignEncryptApi/api/";
   public static String ESIGN_ESTAMP_INITIATION = "https://losservicesuat.rblbank.com/EsignEncryptApi/api/v1/uat/";
   public static String CIBIL_URL = "https://losservicesuat.rblbank.com/EncryptAPIs/api/v1/uat/"; // TODO: CIBIL
+  public static String PAN_VALIDATION_URL = "https://losservicesuat.rblbank.com/EncryptAPIs/api/v1/uat/"; // TODO: PAN VALIDATION URL
+  public static String AADHAAR_VAULT_URL = "https://losservicesuat.rblbank.com/EncryptAPIs/api/v1/uat/"; // TODO: AADHAAR VAULT URL
+
 
 
 

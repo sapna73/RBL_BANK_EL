@@ -25589,181 +25589,195 @@ public class DynamicUIRepository {
                 panVerificationClass.setPanNumbers(panNumbersClassList);
                 requestStringClass.setPanVerification(panVerificationClass);
                 panValidationRequestDTO.setRequestString(requestStringClass);
-                String baseString = new Gson().toJson(panValidationRequestDTO, PanValidationRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
+                Log.d(TAG, "Request: "+panValidationRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(panValidationRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 DynamicUIWebService.createService(DynamicUIWebservice.class).panValidationServiceCall
-                                (panValidationRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<PanValidationResponseDTO>() {
+                                (encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<PanValidationResponseDTO> call, Response<PanValidationResponseDTO> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        PanValidationResponseDTO panValidationResponseDTO = response.body();
-                                        if (panValidationResponseDTO != null && panValidationResponseDTO.getApiResponse() != null) {
-                                            PanValidationResponseDTO.ApiResponseClass apiResponse = panValidationResponseDTO.getApiResponse();
+                                    if (response!=null) {
+                                        PanValidationResponseDTO panValidationResponseDTO = null;
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            try {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                                JSONObject json = new JSONObject(decryptedValue);
+                                                String tableJson = json.toString();
+                                                panValidationResponseDTO = new Gson().fromJson(tableJson, PanValidationResponseDTO.class);
+                                                if (panValidationResponseDTO != null && panValidationResponseDTO.getApiResponse() != null) {
+                                                    PanValidationResponseDTO.ApiResponseClass apiResponse = panValidationResponseDTO.getApiResponse();
 
-                                            List<PanValidationResponseDTO.PanDetailsClass> panDetailsClassList = apiResponse.getPanDetails();
+                                                    List<PanValidationResponseDTO.PanDetailsClass> panDetailsClassList = apiResponse.getPanDetails();
 
-                                            if (panDetailsClassList != null && panDetailsClassList.size() > 0) {
+                                                    if (panDetailsClassList != null && panDetailsClassList.size() > 0) {
 
-                                                PanValidationResponseDTO.PanDetailsClass panDetailsClass = panDetailsClassList.get(0);
-                                                if (panDetailsClass != null && panDetailsClass.getPanstatus().equalsIgnoreCase("E")) {
+                                                        PanValidationResponseDTO.PanDetailsClass panDetailsClass = panDetailsClassList.get(0);
+                                                        if (panDetailsClass != null && panDetailsClass.getPanstatus().equalsIgnoreCase("E")) {
 
-                                                    String fullName = panDetailsClass.getFiller1();
-                                                    String pan = panDetailsClass.getPan();
-                                                    String panstatus = panDetailsClass.getPanstatus();
-                                                    String firstName = panDetailsClass.getFirstname();
-                                                    String middleName = panDetailsClass.getMiddlename();
-                                                    String lastName = panDetailsClass.getLastname();
-                                                    String pantitle = panDetailsClass.getPantitle();
-                                                    String lastupdatedate = panDetailsClass.getLastupdatedate();
-                                                    String aadhaarseedingstatus = panDetailsClass.getAadhaarseedingstatus();
+                                                            String fullName = panDetailsClass.getFiller1();
+                                                            String pan = panDetailsClass.getPan();
+                                                            String panstatus = panDetailsClass.getPanstatus();
+                                                            String firstName = panDetailsClass.getFirstname();
+                                                            String middleName = panDetailsClass.getMiddlename();
+                                                            String lastName = panDetailsClass.getLastname();
+                                                            String pantitle = panDetailsClass.getPantitle();
+                                                            String lastupdatedate = panDetailsClass.getLastupdatedate();
+                                                            String aadhaarseedingstatus = panDetailsClass.getAadhaarseedingstatus();
 
-                                                    if (TextUtils.isEmpty(fullName)) {
-                                                        fullName = panDetailsClass.getFirstname() + " " + panDetailsClass.getMiddlename() + " " + panDetailsClass.getLastname();
-                                                    }
-
-                                                    if (!TextUtils.isEmpty(fullName)) {
-
-                                                        // TODO: Update IsValid Success
-                                                        dynamicUIDao.updateIsValidAndErrorMessage(dynamicUITable.getFieldTag(),
-                                                                dynamicUITable.getScreenName(), true, SUCCESS_RESPONSE_FOR_PAN_VALIDATION);
-
-                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_PAN, dynamicUITable.getScreenName(),
-                                                                pan, false, true);
-                                                        RawDataTable leadRawData = null;
-                                                        List<RawDataTable> coApplicantKYCDetailRawDataList=null;
-                                                        HashMap<String, Object> hashMap =null;
-                                                        if (moduleType.equalsIgnoreCase(MODULE_TYPE_APPLICANT)) {
-                                                            leadRawData = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_LEAD, dynamicUITable.getClientID(), dynamicUITable.getLoanType());
-                                                            hashMap = setKeyValueForObject(leadRawData);
-                                                        } else {
-                                                            coApplicantKYCDetailRawDataList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_CO_APPLICANT_KYC, dynamicUITable.getClientID(), dynamicUITable.getModuleType(), dynamicUITable.getLoanType());
-                                                            if (coApplicantKYCDetailRawDataList != null && coApplicantKYCDetailRawDataList.size() > 0) {
-                                                                for (RawDataTable rawDataTable : coApplicantKYCDetailRawDataList) {
-                                                                     hashMap = setKeyValueForObject(rawDataTable);
-                                                                }
+                                                            if (TextUtils.isEmpty(fullName)) {
+                                                                fullName = panDetailsClass.getFirstname() + " " + panDetailsClass.getMiddlename() + " " + panDetailsClass.getLastname();
                                                             }
-                                                        }
-                                                        if (leadRawData != null||coApplicantKYCDetailRawDataList!=null) {
-                                                            String mobileNumber = "";
-                                                            if (hashMap != null && hashMap.size() > 0) {
-                                                                if (hashMap.containsKey(TAG_NAME_CUSTOMER_TYPE)) {
-                                                                    String customerType = hashMap.get(TAG_NAME_CUSTOMER_TYPE).toString();
-                                                                    String typeOfProdession = hashMap.get(TAG_NAME_TYPE_OF_PROFESSION).toString();
-                                                                    if(hashMap.containsKey(TAG_NAME_MOBILE_NUMBER)){
-                                                                        mobileNumber = hashMap.get(TAG_NAME_MOBILE_NUMBER).toString();
+
+                                                            if (!TextUtils.isEmpty(fullName)) {
+
+                                                                // TODO: Update IsValid Success
+                                                                dynamicUIDao.updateIsValidAndErrorMessage(dynamicUITable.getFieldTag(),
+                                                                        dynamicUITable.getScreenName(), true, SUCCESS_RESPONSE_FOR_PAN_VALIDATION);
+
+                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_PAN, dynamicUITable.getScreenName(),
+                                                                        pan, false, true);
+                                                                RawDataTable leadRawData = null;
+                                                                List<RawDataTable> coApplicantKYCDetailRawDataList=null;
+                                                                HashMap<String, Object> hashMap =null;
+                                                                if (moduleType.equalsIgnoreCase(MODULE_TYPE_APPLICANT)) {
+                                                                    leadRawData = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_LEAD, dynamicUITable.getClientID(), dynamicUITable.getLoanType());
+                                                                    hashMap = setKeyValueForObject(leadRawData);
+                                                                } else {
+                                                                    coApplicantKYCDetailRawDataList = dynamicUIDao.getRawDataByScreenNameAndModuleType(SCREEN_NAME_CO_APPLICANT_KYC, dynamicUITable.getClientID(), dynamicUITable.getModuleType(), dynamicUITable.getLoanType());
+                                                                    if (coApplicantKYCDetailRawDataList != null && coApplicantKYCDetailRawDataList.size() > 0) {
+                                                                        for (RawDataTable rawDataTable : coApplicantKYCDetailRawDataList) {
+                                                                            hashMap = setKeyValueForObject(rawDataTable);
+                                                                        }
                                                                     }
-                                                                    if (!TextUtils.isEmpty(typeOfProdession) && (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP))
-                                                                            && typeOfProdession.equalsIgnoreCase(TAG_NAME_PROPRIETORSHIP)) {
-                                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_PROPRIETORSHIP_PAN, dynamicUITable.getScreenName(),
-                                                                                pan, true, true);
-                                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_PROPRIETORSHIP_FIRM_NAME, dynamicUITable.getScreenName(),
-                                                                                fullName, true, true);
-                                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_PROPRIETORSHIP_FIRST_NAME, dynamicUITable.getScreenName(),
-                                                                                firstName, true, true);
-                                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_PROPRIETORSHIP_MIDDLE_NAME, dynamicUITable.getScreenName(),
-                                                                                middleName, true, true);
-                                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_PROPRIETORSHIP_LAST_NAME, dynamicUITable.getScreenName(),
-                                                                                lastName, true, true);
-                                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_MOBILE_NUMBER, dynamicUITable.getScreenName(),
-                                                                                mobileNumber, true, true);
-                                                                    } else if (!TextUtils.isEmpty(typeOfProdession) && (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP))
-                                                                            && typeOfProdession.equalsIgnoreCase(TAG_NAME_PARTNER)) {
-                                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_FULL_NAME, dynamicUITable.getScreenName(),
-                                                                                fullName, true, true);
-                                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_PAN_STATUS, dynamicUITable.getScreenName(),
-                                                                                panstatus, true, true);
-                                                                        //
-                                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_LAST_UPDATE_DATE, dynamicUITable.getScreenName(),
-                                                                                lastupdatedate, true, true);
+                                                                }
+                                                                if (leadRawData != null||coApplicantKYCDetailRawDataList!=null) {
+                                                                    String mobileNumber = "";
+                                                                    if (hashMap != null && hashMap.size() > 0) {
+                                                                        if (hashMap.containsKey(TAG_NAME_CUSTOMER_TYPE)) {
+                                                                            String customerType = hashMap.get(TAG_NAME_CUSTOMER_TYPE).toString();
+                                                                            String typeOfProdession = hashMap.get(TAG_NAME_TYPE_OF_PROFESSION).toString();
+                                                                            if(hashMap.containsKey(TAG_NAME_MOBILE_NUMBER)){
+                                                                                mobileNumber = hashMap.get(TAG_NAME_MOBILE_NUMBER).toString();
+                                                                            }
+                                                                            if (!TextUtils.isEmpty(typeOfProdession) && (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP))
+                                                                                    && typeOfProdession.equalsIgnoreCase(TAG_NAME_PROPRIETORSHIP)) {
+                                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_PROPRIETORSHIP_PAN, dynamicUITable.getScreenName(),
+                                                                                        pan, true, true);
+                                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_PROPRIETORSHIP_FIRM_NAME, dynamicUITable.getScreenName(),
+                                                                                        fullName, true, true);
+                                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_PROPRIETORSHIP_FIRST_NAME, dynamicUITable.getScreenName(),
+                                                                                        firstName, true, true);
+                                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_PROPRIETORSHIP_MIDDLE_NAME, dynamicUITable.getScreenName(),
+                                                                                        middleName, true, true);
+                                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_PROPRIETORSHIP_LAST_NAME, dynamicUITable.getScreenName(),
+                                                                                        lastName, true, true);
+                                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_MOBILE_NUMBER, dynamicUITable.getScreenName(),
+                                                                                        mobileNumber, true, true);
+                                                                            } else if (!TextUtils.isEmpty(typeOfProdession) && (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP))
+                                                                                    && typeOfProdession.equalsIgnoreCase(TAG_NAME_PARTNER)) {
+                                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_FULL_NAME, dynamicUITable.getScreenName(),
+                                                                                        fullName, true, true);
+                                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_PAN_STATUS, dynamicUITable.getScreenName(),
+                                                                                        panstatus, true, true);
+                                                                                //
+                                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_LAST_UPDATE_DATE, dynamicUITable.getScreenName(),
+                                                                                        lastupdatedate, true, true);
                                                                        /* dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_AADHAAR_SEEDINGS_STATUS, dynamicUITable.getScreenName(),
                                                                                 aadhaarseedingstatus, false, true);*/
-                                                                        //
-                                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_FIRST_NAME, dynamicUITable.getScreenName(),
-                                                                                firstName, true, true);
-                                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_MIDDLE_NAME, dynamicUITable.getScreenName(),
-                                                                                middleName, true, true);
-                                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_LAST_NAME, dynamicUITable.getScreenName(),
-                                                                                lastName, true, true);
-                                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_MOBILE_NUMBER, dynamicUITable.getScreenName(),
-                                                                                mobileNumber, true, true);
-                                                                    } else if (!TextUtils.isEmpty(typeOfProdession) && (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP))
-                                                                            && typeOfProdession.equalsIgnoreCase(TAG_NAME_PARTNERSHIP)) {
-                                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_PARTNERSHIP_FIRM_NAME, dynamicUITable.getScreenName(),
-                                                                                fullName, true, true);
-                                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_PARTNERSHIP_PAN, dynamicUITable.getScreenName(),
-                                                                                pan, true, true);
-                                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_MOBILE_NUMBER, dynamicUITable.getScreenName(),
-                                                                                mobileNumber, true, true);
+                                                                                //
+                                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_FIRST_NAME, dynamicUITable.getScreenName(),
+                                                                                        firstName, true, true);
+                                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_MIDDLE_NAME, dynamicUITable.getScreenName(),
+                                                                                        middleName, true, true);
+                                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_LAST_NAME, dynamicUITable.getScreenName(),
+                                                                                        lastName, true, true);
+                                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_MOBILE_NUMBER, dynamicUITable.getScreenName(),
+                                                                                        mobileNumber, true, true);
+                                                                            } else if (!TextUtils.isEmpty(typeOfProdession) && (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP))
+                                                                                    && typeOfProdession.equalsIgnoreCase(TAG_NAME_PARTNERSHIP)) {
+                                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_PARTNERSHIP_FIRM_NAME, dynamicUITable.getScreenName(),
+                                                                                        fullName, true, true);
+                                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_PARTNERSHIP_PAN, dynamicUITable.getScreenName(),
+                                                                                        pan, true, true);
+                                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_MOBILE_NUMBER, dynamicUITable.getScreenName(),
+                                                                                        mobileNumber, true, true);
                                                                         /*dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_PAN_STATUS, dynamicUITable.getScreenName(),
                                                                                 panstatus, true, true);*/
-                                                                        //
+                                                                                //
                                                                        /* dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_LAST_UPDATE_DATE, dynamicUITable.getScreenName(),
                                                                                 lastupdatedate, true, true);*/
                                                                        /* dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_AADHAAR_SEEDINGS_STATUS, dynamicUITable.getScreenName(),
                                                                                 aadhaarseedingstatus, false, true);*/
-                                                                        //
+                                                                                //
                                                                       /*  dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_FIRST_NAME, dynamicUITable.getScreenName(),
                                                                                 firstName, true, false);
                                                                         dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_MIDDLE_NAME, dynamicUITable.getScreenName(),
                                                                                 middleName, true, false);
                                                                         dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_LAST_NAME, dynamicUITable.getScreenName(),
                                                                                 lastName, true, false);*/
-                                                                    } else if (!TextUtils.isEmpty(typeOfProdession) && (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP))
-                                                                            && typeOfProdession.equalsIgnoreCase(TAG_NAME_PRIVATE_LIMITED)
-                                                                            || typeOfProdession.equalsIgnoreCase(TAG_NAME_PUBLIC_LIMITED)
-                                                                            || typeOfProdession.equalsIgnoreCase(TAG_NAME_LLP)
-                                                                            || typeOfProdession.equalsIgnoreCase(TAG_NAME_HUF) || typeOfProdession.equalsIgnoreCase(TAG_NAME_DIRECTOR)) {
+                                                                            } else if (!TextUtils.isEmpty(typeOfProdession) && (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP))
+                                                                                    && typeOfProdession.equalsIgnoreCase(TAG_NAME_PRIVATE_LIMITED)
+                                                                                    || typeOfProdession.equalsIgnoreCase(TAG_NAME_PUBLIC_LIMITED)
+                                                                                    || typeOfProdession.equalsIgnoreCase(TAG_NAME_LLP)
+                                                                                    || typeOfProdession.equalsIgnoreCase(TAG_NAME_HUF) || typeOfProdession.equalsIgnoreCase(TAG_NAME_DIRECTOR)) {
 
-                                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_COMPANYNAME, dynamicUITable.getScreenName(),
-                                                                                fullName, true, true);
-                                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_COMPANY_PAN, dynamicUITable.getScreenName(),
-                                                                                pan, true, true);
-                                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_MOBILE_NUMBER, dynamicUITable.getScreenName(),
-                                                                                mobileNumber, true, true);
+                                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_COMPANYNAME, dynamicUITable.getScreenName(),
+                                                                                        fullName, true, true);
+                                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_COMPANY_PAN, dynamicUITable.getScreenName(),
+                                                                                        pan, true, true);
+                                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_MOBILE_NUMBER, dynamicUITable.getScreenName(),
+                                                                                        mobileNumber, true, true);
 
-                                                                    } else {
-                                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_FULL_NAME, dynamicUITable.getScreenName(),
-                                                                                fullName, true, true);
-                                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_PAN_STATUS, dynamicUITable.getScreenName(),
-                                                                                panstatus, true, true);
-                                                                        //
-                                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_LAST_UPDATE_DATE, dynamicUITable.getScreenName(),
-                                                                                lastupdatedate, true, true);
+                                                                            } else {
+                                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_FULL_NAME, dynamicUITable.getScreenName(),
+                                                                                        fullName, true, true);
+                                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_PAN_STATUS, dynamicUITable.getScreenName(),
+                                                                                        panstatus, true, true);
+                                                                                //
+                                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_LAST_UPDATE_DATE, dynamicUITable.getScreenName(),
+                                                                                        lastupdatedate, true, true);
                                                                        /* dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_AADHAAR_SEEDINGS_STATUS, dynamicUITable.getScreenName(),
                                                                                 aadhaarseedingstatus, false, true);*/
-                                                                        //
-                                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_FIRST_NAME, dynamicUITable.getScreenName(),
-                                                                                firstName, true, true);
-                                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_MIDDLE_NAME, dynamicUITable.getScreenName(),
-                                                                                middleName, true, true);
-                                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_LAST_NAME, dynamicUITable.getScreenName(),
-                                                                                lastName, true, true);
-                                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_MOBILE_NUMBER, dynamicUITable.getScreenName(),
-                                                                                mobileNumber, true, true);
+                                                                                //
+                                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_FIRST_NAME, dynamicUITable.getScreenName(),
+                                                                                        firstName, true, true);
+                                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_MIDDLE_NAME, dynamicUITable.getScreenName(),
+                                                                                        middleName, true, true);
+                                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_LAST_NAME, dynamicUITable.getScreenName(),
+                                                                                        lastName, true, true);
+                                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_MOBILE_NUMBER, dynamicUITable.getScreenName(),
+                                                                                        mobileNumber, true, true);
+                                                                            }
+                                                                        }
                                                                     }
-                                                                }
-                                                            }
-                                                        } else {
-                                                            dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_FULL_NAME, dynamicUITable.getScreenName(),
-                                                                    fullName, true, true);
-                                                            dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_PAN_STATUS, dynamicUITable.getScreenName(),
-                                                                    panstatus, true, true);
-                                                            //
-                                                            dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_LAST_UPDATE_DATE, dynamicUITable.getScreenName(),
-                                                                    lastupdatedate, true, true);
+                                                                } else {
+                                                                    dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_FULL_NAME, dynamicUITable.getScreenName(),
+                                                                            fullName, true, true);
+                                                                    dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_PAN_STATUS, dynamicUITable.getScreenName(),
+                                                                            panstatus, true, true);
+                                                                    //
+                                                                    dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_LAST_UPDATE_DATE, dynamicUITable.getScreenName(),
+                                                                            lastupdatedate, true, true);
                                                             /*dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_AADHAAR_SEEDINGS_STATUS, dynamicUITable.getScreenName(),
                                                                     aadhaarseedingstatus, false, true);*/
-                                                            //
-                                                            dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_FIRST_NAME, dynamicUITable.getScreenName(),
-                                                                    firstName, true, true);
-                                                            dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_MIDDLE_NAME, dynamicUITable.getScreenName(),
-                                                                    middleName, true, true);
-                                                            dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_LAST_NAME, dynamicUITable.getScreenName(),
-                                                                    lastName, true, true);
+                                                                    //
+                                                                    dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_FIRST_NAME, dynamicUITable.getScreenName(),
+                                                                            firstName, true, true);
+                                                                    dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_MIDDLE_NAME, dynamicUITable.getScreenName(),
+                                                                            middleName, true, true);
+                                                                    dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_LAST_NAME, dynamicUITable.getScreenName(),
+                                                                            lastName, true, true);
 
-                                                        }
+                                                                }
 
                                                         /*if(pantitle.equalsIgnoreCase("")) {
                                                             dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_TITLE, dynamicUITable.getScreenName(), "", false, true);
@@ -25772,11 +25786,11 @@ public class DynamicUIRepository {
                                                             dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_TITLE, dynamicUITable.getScreenName(), pantitle, false, true);
                                                         }*/
 
-                                                        dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_IS_VERIFIED,
-                                                                dynamicUITable.getScreenName(),
-                                                                IS_VERIFIED_TRUE, false, false);
-                                                    }
-                                                } else {
+                                                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_IS_VERIFIED,
+                                                                        dynamicUITable.getScreenName(),
+                                                                        IS_VERIFIED_TRUE, false, false);
+                                                            }
+                                                        } else {
                                       /*  // TODO: Update IsValid False
                                         dynamicUIDao.updateIsValidAndErrorMessage(dynamicUITable.getFieldTag(),
                                                 dynamicUITable.getScreenName(),false,FAILURE_RESPONSE_FOR_PAN_VALIDATION);
@@ -25786,12 +25800,16 @@ public class DynamicUIRepository {
                                                 dynamicUITable.getScreenName(),
                                                 "",true,true);
 */
-                                                    dynamicUIDao.updateIsValidAndErrorMessage(dynamicUITable.getFieldTag(),
-                                                            dynamicUITable.getScreenName(), false, "");
+                                                            dynamicUIDao.updateIsValidAndErrorMessage(dynamicUITable.getFieldTag(),
+                                                                    dynamicUITable.getScreenName(), false, "");
 
-                                                    // TODO: Updating Full Name as empty
-                                                    dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_FULL_NAME, dynamicUITable.getScreenName(), "", true, true);
+                                                            // TODO: Updating Full Name as empty
+                                                            dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_FULL_NAME, dynamicUITable.getScreenName(), "", true, true);
+                                                        }
+                                                    }
                                                 }
+                                            } catch (Exception e) {
+                                                throw new RuntimeException(e);
                                             }
                                         }
                                     } else {
@@ -25806,7 +25824,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<PanValidationResponseDTO> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 executor.execute(() -> {
                                     // TODO: Final Result
@@ -25868,26 +25886,45 @@ public class DynamicUIRepository {
 
                 requestStringClass.setAadharVault(aadhaarVaultClass);
                 aadhaarVaultRequestDTO.setRequestString(requestStringClass);
-                String baseString = new Gson().toJson(aadhaarVaultRequestDTO, AadhaarVaultRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
+                Log.d(TAG, "Request: "+aadhaarVaultRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(aadhaarVaultRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 DynamicUIWebService.createService(DynamicUIWebservice.class).aadhaarVaultServiceCall
-                                (aadhaarVaultRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<AadhaarVaultResponseDTO>() {
+                                (encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<AadhaarVaultResponseDTO> call, Response<AadhaarVaultResponseDTO> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        AadhaarVaultResponseDTO aadhaarVaultResponseDTO = response.body();
-                                        if (aadhaarVaultResponseDTO != null && aadhaarVaultResponseDTO.getApiResponse() != null) {
-                                            AadhaarVaultResponseDTO.ApiResponseClass apiResponse = aadhaarVaultResponseDTO.getApiResponse();
-                                            if (apiResponse != null && apiResponse.getStatus().equals("1") &&
-                                                    !TextUtils.isEmpty(apiResponse.getAadhaarRefKey())) {
-                                                String aadhaarRefKey = apiResponse.getAadhaarRefKey();
+                                    if (response!=null) {
+                                        AadhaarVaultResponseDTO aadhaarVaultResponseDTO = null;
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            try {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                                JSONObject json = new JSONObject(decryptedValue);
+                                                String tableJson = json.toString();
+                                                aadhaarVaultResponseDTO = new Gson().fromJson(tableJson, AadhaarVaultResponseDTO.class);
+                                                if (aadhaarVaultResponseDTO != null && aadhaarVaultResponseDTO.getApiResponse() != null) {
+                                                    AadhaarVaultResponseDTO.ApiResponseClass apiResponse = aadhaarVaultResponseDTO.getApiResponse();
+                                                    if (apiResponse != null && apiResponse.getStatus().equals("1") &&
+                                                            !TextUtils.isEmpty(apiResponse.getAadhaarRefKey())) {
+                                                        String aadhaarRefKey = apiResponse.getAadhaarRefKey();
 
-                                                dynamicUIDao.updateDynamicTableOptionalValue(dynamicUITable.getFieldTag(),
-                                                        dynamicUITable.getScreenName(), aadhaarRefKey);
+                                                        dynamicUIDao.updateDynamicTableOptionalValue(dynamicUITable.getFieldTag(),
+                                                                dynamicUITable.getScreenName(), aadhaarRefKey);
+                                                    }
+                                                }
+                                            } catch (Exception e) {
+                                                throw new RuntimeException(e);
                                             }
                                         }
+
                                     } else {
                                         insertLog("aadhaarVaultServiceCall", response.message(), "", "", TAG, "", "", "");
                                     }
@@ -25898,7 +25935,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<AadhaarVaultResponseDTO> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 executor.execute(() -> {
                                     // TODO: Final Result
