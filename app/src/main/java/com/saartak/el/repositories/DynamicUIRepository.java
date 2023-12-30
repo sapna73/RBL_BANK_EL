@@ -25711,12 +25711,16 @@ public class DynamicUIRepository {
         executor.execute(() -> {
             try {
                 String customerType="";
+                String loanProduct="";
                 RawDataTable leadRawData = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_LEAD, CLIENT_ID, loanType);
                 if (leadRawData != null) {
                     HashMap<String, Object> hashMap = setKeyValueForObject(leadRawData);
                     if (hashMap != null && hashMap.size() > 0) {
                         if (hashMap.containsKey(TAG_NAME_CUSTOMER_TYPE)) {
                              customerType = hashMap.get(TAG_NAME_CUSTOMER_TYPE).toString();
+                        }
+                        if (hashMap.containsKey(TAG_NAME_LOAN_PRODUCT)) {
+                            loanProduct = hashMap.get(TAG_NAME_LOAN_PRODUCT).toString();
                         }
                     }
                 }
@@ -25727,16 +25731,24 @@ public class DynamicUIRepository {
                 ProductMasterRequestDTO.SpParametersClass spParametersClass = new ProductMasterRequestDTO.SpParametersClass();
                 spParametersClass.setSegmentId(productId); // TODO: segment id ( product id )
                 spParametersClass.setBCID(bcId); // TODO: BC id
-                /*if (!TextUtils.isEmpty(customerType)) {
+                if (!TextUtils.isEmpty(customerType)) {
                     if (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SELF_EMPLOYED)
                             || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SEP) || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP)) {
-                        spParametersClass.setType("2");
+                        spParametersClass.setType(2);
                     } else if (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_BANK_SALARIED) || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SALARIED)) {
-                        spParametersClass.setType("1");
+                        spParametersClass.setType(1);
                     }
                 }else {
-                    spParametersClass.setType("0");
-                }*/
+                    spParametersClass.setType(0);
+                }
+                if (!TextUtils.isEmpty(loanProduct)) {
+                    if (loanProduct.equalsIgnoreCase("Education Loan Secured - EDLNS")) {
+                        spParametersClass.setPrmSec_Unsec(1);
+                    } else if (loanProduct.equalsIgnoreCase("Education Loan Un Secured - EDLNU")) {
+                        spParametersClass.setType(0);
+                    }
+
+                }
                 spNameWithParameter.setSpParameters(spParametersClass);
                 ArrayList<ProductMasterRequestDTO.SpNameWithParameterClass> SpNameWithParameterList = new ArrayList<ProductMasterRequestDTO.SpNameWithParameterClass>();
                 SpNameWithParameterList.add(spNameWithParameter);

@@ -109,7 +109,10 @@ public class ProductMasterRequestDTO {
         @Expose
         private String BCID = "";
         @Expose
-        private String Type = "";
+        private int type ;
+
+        @Expose
+        private int prmSec_Unsec ;
 
         public String getSegmentId() {
             return SegmentId;
@@ -127,12 +130,20 @@ public class ProductMasterRequestDTO {
             this.BCID = BCID;
         }
 
-        public String getType() {
-            return Type;
+        public int getType() {
+            return type;
         }
 
-        public void setType(String type) {
-            Type = type;
+        public void setType(int type) {
+            this.type = type;
+        }
+
+        public int getPrmSec_Unsec() {
+            return prmSec_Unsec;
+        }
+
+        public void setPrmSec_Unsec(int prmSec_Unsec) {
+            this.prmSec_Unsec = prmSec_Unsec;
         }
     }
 }
