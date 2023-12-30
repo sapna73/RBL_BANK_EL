@@ -191,7 +191,8 @@ public interface  DynamicUIWebservice {
 
     /*  Post Entered data to server */
     @POST("workflow/SubmitRequest")
-    Call<String> postDataToServer(@Body SubmitDataDTO submitDataDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
+    Call<String> postDataToServer(@Body String submitDataDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
+   // Call<String> postDataToServer(@Body SubmitDataDTO submitDataDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
 
     /*  Screen data to server on every Screen */
     @POST("DBUtil/Submit")
@@ -204,7 +205,10 @@ public interface  DynamicUIWebservice {
 
     /*  Post Entered data to server using RX Java*/
     @POST("workflow/SubmitRequest")
-    Observable<String> postDataToServerRXJAVA(@Body SubmitDataDTO submitDataDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
+    //Observable<String> postDataToServerRXJAVA(@Body String submitDataDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
+   Observable<String> postDataToServerRXJAVA(@Body SubmitDataDTO submitDataDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
+   @POST("workflow/SubmitRequest")
+   Call<String> finalSubmit(@Body String submitDataDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
 
     /*  Post Entered data to server for JLG*/
     @POST("v1/uat/JLG/SubmitRequest")
@@ -260,8 +264,8 @@ public interface  DynamicUIWebservice {
    // Call<ResponseBody> getIFSCDataServiceCall(@Body IFSCRequestDTO ifscRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
 
     // TODO: GET ROLE NAMES SERVICE
-    @POST("UserList")
-    Call<ResponseBody> getRoleNamesServiceCall(@Body RoleNamesRequestDTO roleNamesRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
+    @POST("UserList/Get")
+    Call<String> getRoleNamesServiceCall(@Body String roleNamesRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
 
     /* collection tvName server */
     @POST("utility/GetDataUtil")
@@ -376,7 +380,8 @@ public interface  DynamicUIWebservice {
 
     /* Document Master tvName server */
     @POST("utility/GetDataUtil")
-    Call<ResponseBody> getDocumentMasterFromServer(@Body DocumentMasterRequestDTO documentMasterRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
+    Call<String> getDocumentMasterFromServer(@Body String documentMasterRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
+    //Call<ResponseBody> getDocumentMasterFromServer(@Body DocumentMasterRequestDTO documentMasterRequestDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
 
     /* Knowledge Bank Master From server */
     @POST("utility/GetDataUtil")
@@ -620,4 +625,7 @@ public interface  DynamicUIWebservice {
     @POST("IBBPrice/Enquiry")
     Call<String> getIBPDataFromServer(@Body String string, @Header("Authorization") String authHeader, @Header("k1") String k1);
     //Call<IBPResponse> getIBPDataFromServer(@Body IBPRequest ibpRequest, @Header("Authorization") String authHeader, @Header("k1") String k1);
+
+   @POST("utility/GetDataUtil")
+   Call<String> getDataUtil(@Body String s, @Header("Authorization") String authHeader, @Header("k1") String k1);
 }

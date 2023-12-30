@@ -41,7 +41,7 @@ public class AppModule {
     DynamicUIDatabase provideDynamicUIDatabase(Application application) {
         String currentDBPath = "";
 
-        SafeHelperFactory factory = SafeHelperFactory.fromUser(new SpannableStringBuilder("Rbl@123"));
+        SafeHelperFactory factory = SafeHelperFactory.fromUser(new SpannableStringBuilder("EL_1234567"));
 
         try {
             currentDBPath = App.createDBPath();
@@ -54,8 +54,8 @@ public class AppModule {
         return Room.databaseBuilder(application,
                 //DynamicUIDatabase.class, currentDBPath).addMigrations() // TODO: DB Migration
                                DynamicUIDatabase.class,currentDBPath)  // TODO: Without Migration
-                 .fallbackToDestructiveMigration() // TODO: Database will be cleared
-                 //.openHelperFactory(factory) // TODO: Set this encryption only for production release
+                 //.fallbackToDestructiveMigration() // TODO: Database will be cleared
+                 .openHelperFactory(factory) // TODO: Set this encryption only for production release
                 .build();
 
     }

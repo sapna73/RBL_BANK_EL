@@ -67,7 +67,8 @@ public interface DynamicUIApiInterface {
 
     /* EKYC Login Request*/
     @POST("ekyc/enquiry")
-    Call<EKYCResponseDTO> EKYCRequest(@Body EKYCRootDTO ekycRootDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
+    Call<String> EKYCRequest(@Body String ekycRootDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
+    //Call<EKYCResponseDTO> EKYCRequest(@Body EKYCRootDTO ekycRootDTO, @Header("Authorization") String authHeader,@Header("k1") String k1);
 
     /* OTP TRIGGER SERVICE */
     @POST("otp/OTPTrigger")

@@ -177,6 +177,9 @@ import com.saartak.el.models.LoanAmountWisePricingDefaultValues.LoanAmountWisePr
 import com.saartak.el.models.LoanTenure.TenureMonthsRequestDTO;
 import com.saartak.el.models.LoanTenure.TenureMonthsResponseDTO;
 import com.saartak.el.models.LoanTenure.TenureMonthsResponseTable;
+import com.saartak.el.models.Logoff.LogOffResponseDTO;
+import com.saartak.el.models.Logoff.LogOffResponseTable;
+import com.saartak.el.models.Logoff.LogoffRequestDTO;
 import com.saartak.el.models.NegitiveProfileList.NegitiveProfileListRequestDTO;
 import com.saartak.el.models.NegitiveProfileList.NegitiveProfileListResponseDTO;
 import com.saartak.el.models.NegitiveProfileList.NegitiveProfileListResponseTable;
@@ -720,9 +723,16 @@ public class DynamicUIRepository {
 
             String uniqueId = "" + System.currentTimeMillis();
             ekycRootDTO.setUniqueId(uniqueId);
-            String baseString = new Gson().toJson(ekycRootDTO, EKYCRootDTO.class).replace("\\u003d", "=");
-            Log.d(TAG, "EKYCRequest: baseString ==    " + baseString);
-            String k1 = SHA256Encrypt.sha256(baseString);
+            Log.d(TAG, "Request: "+ekycRootDTO);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                try {
+                    getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                    encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(ekycRootDTO));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
             executor.execute(() -> {
 
                 // TODO: Initially it will be false
@@ -731,117 +741,124 @@ public class DynamicUIRepository {
 
                 if (appHelper.isNetworkAvailable()) { // TODO: Checking internet connection
 
-                    DynamicUIWebService.createService(DynamicUIApiInterface.class).EKYCRequest(ekycRootDTO,
-                                    appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                            enqueue(new Callback<EKYCResponseDTO>() {
+                    DynamicUIWebService.createService(DynamicUIApiInterface.class).EKYCRequest(encryptedValue,
+                                    appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                            enqueue(new Callback<String>() {
                                 @Override
-                                public void onResponse(Call<EKYCResponseDTO> call, Response<EKYCResponseDTO> response) {
+                                public void onResponse(Call<String> call, Response<String> response) {
                                     Log.d(TAG, "DATA REFRESHED FROM NETWORK");
                                     executor.execute(() -> {
-                                        EKYCResponseDTO ekycResponseDTO = new EKYCResponseDTO();
-                                        ekycResponseDTO = response.body();
-                                        Log.d(TAG, "EKYCResponseDTO  ==> " + ekycResponseDTO);
-                                        // TODO: Ekyc Success Case
-                                        if (ekycResponseDTO != null && ekycResponseDTO.getApiResponse() != null &&
-                                                !TextUtils.isEmpty(ekycResponseDTO.getApiResponse().getObj_responseCode())
-                                                && ekycResponseDTO.getApiResponse().getObj_responseCode().equalsIgnoreCase("00")) {
+                                        EKYCResponseDTO ekycResponseDTO = null;
 
-                                            String headerK1 = response.headers().get("k1");
-                                            //String baseString = new Gson().toJson(ekycRootDTO,EKYCRootDTO.class);
-                                            String k1 = SHA256Encrypt.sha256(response.body().toString().replace("\\u003d", "="));
-                                            dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_IS_VERIFIED,
-                                                    dynamicUITable.getScreenName(), IS_VERIFIED_TRUE, false, false);
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            try {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                                JSONObject json = new JSONObject(decryptedValue);
+                                                String tableJson = json.toString();
+                                                ekycResponseDTO = new Gson().fromJson(tableJson, EKYCResponseDTO.class);
+                                                Log.d(TAG, "EKYCResponseDTO  ==> " + ekycResponseDTO);
+                                                // TODO: Ekyc Success Case
+                                                if (ekycResponseDTO != null && ekycResponseDTO.getApiResponse() != null &&
+                                                        !TextUtils.isEmpty(ekycResponseDTO.getApiResponse().getObj_responseCode())
+                                                        && ekycResponseDTO.getApiResponse().getObj_responseCode().equalsIgnoreCase("00")) {
+
+                                                    String headerK1 = response.headers().get("k1");
+                                                    //String baseString = new Gson().toJson(ekycRootDTO,EKYCRootDTO.class);
+                                                    String k1 = SHA256Encrypt.sha256(response.body().toString().replace("\\u003d", "="));
+                                                    dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_IS_VERIFIED,
+                                                            dynamicUITable.getScreenName(), IS_VERIFIED_TRUE, false, false);
                                            /* dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_PHOTO,
                                                     dynamicUITable.getScreenName(),ekycResponseDTO.getApiResponse().getPhoto() , false, false);
 */
-                                            if (!TextUtils.isEmpty(dynamicUITable.getClientID())) {
-                                                MasterTable masterTable = dynamicUIDao.getMasterTableByClientId(dynamicUITable.getClientID());
-                                                if (masterTable != null) {
-                                                    // TODO: ALREADY EXISTING CLIENT IN MASTER TABLE
-                                                    if(moduleType.equalsIgnoreCase(MODULE_TYPE_APPLICANT)){
-                                                        dynamicUIDao.updateMasterTableVKYCStatus(masterTable.getId(), "E");
-                                                    }else {
-                                                        dynamicUIDao.updateMasterTableVKYCStatusForCoAPPLICANT(masterTable.getId(),"E");
+                                                    if (!TextUtils.isEmpty(dynamicUITable.getClientID())) {
+                                                        MasterTable masterTable = dynamicUIDao.getMasterTableByClientId(dynamicUITable.getClientID());
+                                                        if (masterTable != null) {
+                                                            // TODO: ALREADY EXISTING CLIENT IN MASTER TABLE
+                                                            if(moduleType.equalsIgnoreCase(MODULE_TYPE_APPLICANT)){
+                                                                dynamicUIDao.updateMasterTableVKYCStatus(masterTable.getId(), "E");
+                                                            }else {
+                                                                dynamicUIDao.updateMasterTableVKYCStatusForCoAPPLICANT(masterTable.getId(),"E");
+                                                            }
+                                                        }
                                                     }
-                                                }
-                                            }
 
-                                            // TODO: success case - delete EkycAttemptTable all data
-                                            dynamicUIDao.deleteEkycAttemptTable();
+                                                    // TODO: success case - delete EkycAttemptTable all data
+                                                    dynamicUIDao.deleteEkycAttemptTable();
 
-                                            // TODO: Insert EKY Document only for JLG
-                                            //  if(dynamicUITable.getLoanType().equalsIgnoreCase(LOAN_NAME_EL)) {
-                                            DocumentMasterTable documentMasterTable = dynamicUIDao.getDocumentMasterByScreenAndDocumentName(
-                                                    dynamicUITable.getScreenID(), SPINNER_ITEM_FIELD_NAME_AADHAAR, dynamicUITable.getModuleType());
-                                            if (documentMasterTable != null) {
-                                                if (!TextUtils.isEmpty(documentMasterTable.getFileFormat())) {
-                                                    String fileName = documentMasterTable.getFileFormat();
-                                                    fileName = fileName.replace("{0}", dynamicUITable.getClientID());
-                                                    fileName = fileName.replace("{1}", String.valueOf(1));
+                                                    // TODO: Insert EKY Document only for JLG
+                                                    //  if(dynamicUITable.getLoanType().equalsIgnoreCase(LOAN_NAME_EL)) {
+                                                    DocumentMasterTable documentMasterTable = dynamicUIDao.getDocumentMasterByScreenAndDocumentName(
+                                                            dynamicUITable.getScreenID(), SPINNER_ITEM_FIELD_NAME_AADHAAR, dynamicUITable.getModuleType());
+                                                    if (documentMasterTable != null) {
+                                                        if (!TextUtils.isEmpty(documentMasterTable.getFileFormat())) {
+                                                            String fileName = documentMasterTable.getFileFormat();
+                                                            fileName = fileName.replace("{0}", dynamicUITable.getClientID());
+                                                            fileName = fileName.replace("{1}", String.valueOf(1));
 
-                                                    if (!TextUtils.isEmpty(fileName)) {
+                                                            if (!TextUtils.isEmpty(fileName)) {
 
-                                                        String appFolderPath = Environment.getExternalStorageDirectory()
-                                                                .getAbsolutePath() + "/" + APP_FOLDER + "/";
-                                                        String imageUploadFolderPath = Environment.getExternalStorageDirectory()
-                                                                .getAbsolutePath() + "/" + APP_FOLDER + "/" + IMAGE_UPLOAD_FOLDER_NAME + "/";
-                                                        String clientIdFolderPath = Environment.getExternalStorageDirectory()
-                                                                .getAbsolutePath() + "/" + APP_FOLDER + "/" + IMAGE_UPLOAD_FOLDER_NAME + "/"
-                                                                + dynamicUITable.getClientID() + "/";
+                                                                String appFolderPath = Environment.getExternalStorageDirectory()
+                                                                        .getAbsolutePath() + "/" + APP_FOLDER + "/";
+                                                                String imageUploadFolderPath = Environment.getExternalStorageDirectory()
+                                                                        .getAbsolutePath() + "/" + APP_FOLDER + "/" + IMAGE_UPLOAD_FOLDER_NAME + "/";
+                                                                String clientIdFolderPath = Environment.getExternalStorageDirectory()
+                                                                        .getAbsolutePath() + "/" + APP_FOLDER + "/" + IMAGE_UPLOAD_FOLDER_NAME + "/"
+                                                                        + dynamicUITable.getClientID() + "/";
 
-                                                        String imagePath = Environment.getExternalStorageDirectory()
-                                                                .getAbsolutePath() + "/" + APP_FOLDER + "/" + IMAGE_UPLOAD_FOLDER_NAME + "/"
-                                                                + dynamicUITable.getClientID() + "/" + fileName + "." + EXTENSION_JPG;
+                                                                String imagePath = Environment.getExternalStorageDirectory()
+                                                                        .getAbsolutePath() + "/" + APP_FOLDER + "/" + IMAGE_UPLOAD_FOLDER_NAME + "/"
+                                                                        + dynamicUITable.getClientID() + "/" + fileName + "." + EXTENSION_JPG;
 
-                                                        String pdfPath = Environment.getExternalStorageDirectory()
-                                                                .getAbsolutePath() + "/" + APP_FOLDER + "/" + IMAGE_UPLOAD_FOLDER_NAME + "/"
-                                                                + dynamicUITable.getClientID() + "/" + fileName + "." + EXTENSION_PDF;
+                                                                String pdfPath = Environment.getExternalStorageDirectory()
+                                                                        .getAbsolutePath() + "/" + APP_FOLDER + "/" + IMAGE_UPLOAD_FOLDER_NAME + "/"
+                                                                        + dynamicUITable.getClientID() + "/" + fileName + "." + EXTENSION_PDF;
 
-                                                        File root = new File(appFolderPath);
-                                                        if (!root.exists()) {
-                                                            root.mkdirs();
-                                                        }
-                                                        File imageUploadFolder = new File(imageUploadFolderPath);
-                                                        if (!imageUploadFolder.exists()) {
-                                                            imageUploadFolder.mkdirs();
-                                                        }
-                                                        File clientIdFolder = new File(clientIdFolderPath);
-                                                        if (!clientIdFolder.exists()) {
-                                                            clientIdFolder.mkdirs();
-                                                        }
+                                                                File root = new File(appFolderPath);
+                                                                if (!root.exists()) {
+                                                                    root.mkdirs();
+                                                                }
+                                                                File imageUploadFolder = new File(imageUploadFolderPath);
+                                                                if (!imageUploadFolder.exists()) {
+                                                                    imageUploadFolder.mkdirs();
+                                                                }
+                                                                File clientIdFolder = new File(clientIdFolderPath);
+                                                                if (!clientIdFolder.exists()) {
+                                                                    clientIdFolder.mkdirs();
+                                                                }
 
-                                                        try {
-                                                            File imagePathFile = new File(imagePath);
-                                                            if (!imagePathFile.exists()) {
-                                                                imagePathFile.createNewFile();
-                                                                FileOutputStream out = new FileOutputStream(imagePathFile);
-                                                                out.flush();
-                                                                out.close();
-                                                            }
-                                                            File pdfPathFile = new File(pdfPath);
-                                                            if (!pdfPathFile.exists()) {
-                                                                pdfPathFile.createNewFile();
-                                                                FileOutputStream out = new FileOutputStream(pdfPathFile);
-                                                                out.flush();
-                                                                out.close();
-                                                            }
-                                                        } catch (Exception e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                        // TODO: Create PDF document
-                                                        Bitmap bitmap = createPDF(ekycResponseDTO.getApiResponse(), imagePath, pdfPath);
-                                                        if (bitmap != null) {
-                                                            // TODO: Write bitmap to file location
+                                                                try {
+                                                                    File imagePathFile = new File(imagePath);
+                                                                    if (!imagePathFile.exists()) {
+                                                                        imagePathFile.createNewFile();
+                                                                        FileOutputStream out = new FileOutputStream(imagePathFile);
+                                                                        out.flush();
+                                                                        out.close();
+                                                                    }
+                                                                    File pdfPathFile = new File(pdfPath);
+                                                                    if (!pdfPathFile.exists()) {
+                                                                        pdfPathFile.createNewFile();
+                                                                        FileOutputStream out = new FileOutputStream(pdfPathFile);
+                                                                        out.flush();
+                                                                        out.close();
+                                                                    }
+                                                                } catch (Exception e) {
+                                                                    e.printStackTrace();
+                                                                }
+                                                                // TODO: Create PDF document
+                                                                Bitmap bitmap = createPDF(ekycResponseDTO.getApiResponse(), imagePath, pdfPath);
+                                                                if (bitmap != null) {
+                                                                    // TODO: Write bitmap to file location
 //                                                                try (FileOutputStream out = new FileOutputStream(imagePath)) {
 //                                                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out); // bmp is your Bitmap instance
 //                                                                    // PNG is a lossless format, the compression factor (100) is ignored
 //                                                                } catch (IOException e) {
 //                                                                    e.printStackTrace();
 //                                                                }
-                                                            // TODO: Compress Image
-                                                            compressImagefromPath(imagePath);
+                                                                    // TODO: Compress Image
+                                                                    compressImagefromPath(imagePath);
 
-                                                            // TODO: IMAGE ENCRYPTION
+                                                                    // TODO: IMAGE ENCRYPTION
 //                                                                try {
 //                                                                    File file = new File(imagePath);
 //                                                                    JealousSky jealousSky = JealousSky.getInstance();
@@ -862,37 +879,42 @@ public class DynamicUIRepository {
 //                                                                } catch (Exception ex) {
 //                                                                    ex.printStackTrace();
 //                                                                }
+                                                                }
+                                                            }
                                                         }
                                                     }
+
+                                                    //  }
+                                                } else {
+                                                    // TODO: get attempt value functionality
+                                                    String errorMessage = "EKYC FAILED";
+                                                    if (ekycResponseDTO != null && ekycResponseDTO.getApiResponse() != null
+                                                            && !TextUtils.isEmpty(ekycResponseDTO.getApiResponse().getAuthenticationMessage())) {
+                                                        errorMessage = ekycResponseDTO.getApiResponse().getAuthenticationMessage();
+                                                    } else if (ekycResponseDTO != null && !TextUtils.isEmpty(ekycResponseDTO.getErrorMessage())) {
+                                                        errorMessage = ekycResponseDTO.getErrorMessage();
+                                                    }
+
+                                                    int attemptValue = getAttemptValue(dynamicUITable, ekycRootDTO.getKYCId() + "", errorMessage);
+                                                    if (ekycResponseDTO != null) {
+                                                        ekycResponseDTO.setAttempt(attemptValue);
+                                                    } else {
+                                                        ekycResponseDTO = new EKYCResponseDTO();
+                                                        ekycResponseDTO.setAttempt(attemptValue);
+
+                                                    }
                                                 }
-                                            }
-
-                                            //  }
-                                        } else {
-                                            // TODO: get attempt value functionality
-                                            String errorMessage = "EKYC FAILED";
-                                            if (ekycResponseDTO != null && ekycResponseDTO.getApiResponse() != null
-                                                    && !TextUtils.isEmpty(ekycResponseDTO.getApiResponse().getAuthenticationMessage())) {
-                                                errorMessage = ekycResponseDTO.getApiResponse().getAuthenticationMessage();
-                                            } else if (ekycResponseDTO != null && !TextUtils.isEmpty(ekycResponseDTO.getErrorMessage())) {
-                                                errorMessage = ekycResponseDTO.getErrorMessage();
-                                            }
-
-                                            int attemptValue = getAttemptValue(dynamicUITable, ekycRootDTO.getKYCId() + "", errorMessage);
-                                            if (ekycResponseDTO != null) {
-                                                ekycResponseDTO.setAttempt(attemptValue);
-                                            } else {
-                                                ekycResponseDTO = new EKYCResponseDTO();
-                                                ekycResponseDTO.setAttempt(attemptValue);
-
+                                                data.postValue(ekycResponseDTO);
+                                            } catch (Exception e) {
+                                                throw new RuntimeException(e);
                                             }
                                         }
-                                        data.postValue(ekycResponseDTO);
+
                                     });
                                 }
 
                                 @Override
-                                public void onFailure(Call<EKYCResponseDTO> call, Throwable t) {
+                                public void onFailure(Call<String> call, Throwable t) {
                                     Log.d(TAG, "EKYCRequest Failure ==> " + t.getMessage());
 
                                     executor.execute(() -> {
@@ -5615,22 +5637,37 @@ public class DynamicUIRepository {
                     submitDataTables.setRequest(request);
                     submitDataDTO.setRequest(request);
 
-                    String baseString = new Gson().toJson(submitDataDTO, SubmitDataDTO.class).replace("\\u003d", "=");
-                    String k1 = SHA256Encrypt.sha256(baseString);
+                    Log.d(TAG, "Request: "+submitDataDTO);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        try {
+                            getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                            encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(submitDataDTO));
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
 
-                    DynamicUIWebService.createService(DynamicUIWebservice.class).postDataToServer(submitDataDTO,
-                                    appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
+                    DynamicUIWebService.createService(DynamicUIWebservice.class).postDataToServer(encryptedValue,
+                                    appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
                             enqueue(new Callback<String>() {
                                 @Override
                                 public void onResponse(Call<String> call, Response<String> response) {
                                     Log.d("TAG", "DATA SUBMITTED TO SERVER");
                                     executor.execute(() -> {
-                                        if (response.isSuccessful()) {
-                                            String serverResponse = response.body();
-                                            submitDataTables.setResponse(serverResponse);
-                                            submitDataDTO.setResponse(serverResponse);
-                                            dynamicUIDao.saveResponseData(submitDataTables);
+                                        if (response != null) {
 
+                                            try {
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                    getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                    decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                                }
+                                                String serverResponse = decryptedValue;
+                                                submitDataTables.setResponse(serverResponse);
+                                                submitDataDTO.setResponse(serverResponse);
+                                                dynamicUIDao.saveResponseData(submitDataTables);
+                                            } catch (Exception e) {
+                                                throw new RuntimeException(e);
+                                            }
 //                                            if (rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_COLLECTION)) {
 //
 //                                                dynamicUIDao.updateRawDataForSyncById(screenNumber, rawDataTable.getId());
@@ -5739,63 +5776,79 @@ public class DynamicUIRepository {
                     submitDataTables.setRequest(request);
                     submitDataDTO.setRequest(request);
 
-                    String baseString = new Gson().toJson(submitDataDTO, SubmitDataDTO.class).replace("\\u003d", "=");
-                    String k1 = SHA256Encrypt.sha256(baseString);
-                    DynamicUIWebService.createService(DynamicUIWebservice.class).postDataToServer(submitDataDTO,
-                                    appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
+                    Log.d(TAG, "Request: "+submitDataDTO);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        try {
+                            getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                            encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(submitDataDTO));
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    DynamicUIWebService.createService(DynamicUIWebservice.class).postDataToServer(encryptedValue,
+                                    appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
                             enqueue(new Callback<String>() {
                                 @Override
                                 public void onResponse(Call<String> call, Response<String> response) {
                                     Log.d("TAG", "DATA SUBMITTED TO SERVER");
                                     executor.execute(() -> {
-                                        if (response.isSuccessful()) {
-                                            String serverResponse = response.body();
-                                            submitDataTables.setResponse(serverResponse);
-                                            submitDataDTO.setResponse(serverResponse);
-                                            dynamicUIDao.saveResponseData(submitDataTables);
 
-                                            if (rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_LEAD)) {
-
-                                                dynamicUIDao.updateRawDataForSyncById(screenNumber, rawDataTable.getId());
-                                                dynamicUIDao.updateLeadDataForSyncByClientId(leadTable.getClientId());
-
-
-                                                // TODO: insert master Table
-                                                // TODO: for MSME only we are inserting data in to sales tool table else master table
-
-                                                MasterTable masterTable = new MasterTable();
-                                                masterTable.setClientId(rawDataTable.getClient_id());
-                                                masterTable.setCurrentStage(CURRENT_STAGE_APPLICATION);
-                                                masterTable.setApplicationStatus(APPLICATION_STATUS_NEW);
-                                                masterTable.setFinalStatus(FINAL_STATUS_PENDING);
-                                                masterTable.setSync(false);
-                                                masterTable.setLoan_type(rawDataTable.getLoan_type()); // TODO: LOAN TYPE
-                                                masterTable.setAllDataCaptured(false);
-                                                masterTable.setBranchId(submitDataTables.getBCID());
-                                                masterTable.setBranchGSTcode(submitDataTables.getBCBRID());
-                                                masterTable.setCreatedBy(rawDataTable.getUser_id()); // TODO: STAFF ID
-                                                masterTable.setReviewBy(rawDataTable.getUser_id()); // TODO: STAFF ID
-                                                String dateTime = appHelper.getCurrentDateTime(AppConstant.DATE_FORMAT_DD_MM_YYYY2);
-                                                masterTable.setCreated_date(TimestampConverter.toDate(dateTime));
-                                                HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
-
-
-                                                if (hashMap != null && hashMap.size() > 0) {
-                                                    if (hashMap.containsKey(TAG_NAME_APPLICANT_FULL_NAME)) {
-                                                        masterTable.setClientName(hashMap.get(TAG_NAME_APPLICANT_FULL_NAME).toString());
-                                                    }
-                                                    if (hashMap.containsKey(TAG_NAME_MOBILE_NUMBER)) {
-                                                        masterTable.setPhoneNo(hashMap.get(TAG_NAME_MOBILE_NUMBER).toString());
-                                                    }
-                                                    if (hashMap.containsKey(TAG_NAME_REQUESTED_LOAN_AMOUNT)) {
-                                                        masterTable.setLoan_amount(hashMap.get(TAG_NAME_REQUESTED_LOAN_AMOUNT).toString());
-                                                    }
-                                                    dynamicUIDao.insertAndDeleteMasterTable(masterTable, rawDataTable.getClient_id());
+                                        if (response!=null) {
+                                            try {
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                    getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                    decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
                                                 }
+                                                String serverResponse = decryptedValue;
+                                                submitDataTables.setResponse(serverResponse);
+                                                submitDataDTO.setResponse(serverResponse);
+                                                dynamicUIDao.saveResponseData(submitDataTables);
+
+                                                if (rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_LEAD)) {
+
+                                                    dynamicUIDao.updateRawDataForSyncById(screenNumber, rawDataTable.getId());
+                                                    dynamicUIDao.updateLeadDataForSyncByClientId(leadTable.getClientId());
 
 
-                                            } else {
-                                                dynamicUIDao.updateRawDataForSync(screenNumber);
+                                                    // TODO: insert master Table
+                                                    // TODO: for MSME only we are inserting data in to sales tool table else master table
+
+                                                    MasterTable masterTable = new MasterTable();
+                                                    masterTable.setClientId(rawDataTable.getClient_id());
+                                                    masterTable.setCurrentStage(CURRENT_STAGE_APPLICATION);
+                                                    masterTable.setApplicationStatus(APPLICATION_STATUS_NEW);
+                                                    masterTable.setFinalStatus(FINAL_STATUS_PENDING);
+                                                    masterTable.setSync(false);
+                                                    masterTable.setLoan_type(rawDataTable.getLoan_type()); // TODO: LOAN TYPE
+                                                    masterTable.setAllDataCaptured(false);
+                                                    masterTable.setBranchId(submitDataTables.getBCID());
+                                                    masterTable.setBranchGSTcode(submitDataTables.getBCBRID());
+                                                    masterTable.setCreatedBy(rawDataTable.getUser_id()); // TODO: STAFF ID
+                                                    masterTable.setReviewBy(rawDataTable.getUser_id()); // TODO: STAFF ID
+                                                    String dateTime = appHelper.getCurrentDateTime(AppConstant.DATE_FORMAT_DD_MM_YYYY2);
+                                                    masterTable.setCreated_date(TimestampConverter.toDate(dateTime));
+                                                    HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
+
+
+                                                    if (hashMap != null && hashMap.size() > 0) {
+                                                        if (hashMap.containsKey(TAG_NAME_APPLICANT_FULL_NAME)) {
+                                                            masterTable.setClientName(hashMap.get(TAG_NAME_APPLICANT_FULL_NAME).toString());
+                                                        }
+                                                        if (hashMap.containsKey(TAG_NAME_MOBILE_NUMBER)) {
+                                                            masterTable.setPhoneNo(hashMap.get(TAG_NAME_MOBILE_NUMBER).toString());
+                                                        }
+                                                        if (hashMap.containsKey(TAG_NAME_REQUESTED_LOAN_AMOUNT)) {
+                                                            masterTable.setLoan_amount(hashMap.get(TAG_NAME_REQUESTED_LOAN_AMOUNT).toString());
+                                                        }
+                                                        dynamicUIDao.insertAndDeleteMasterTable(masterTable, rawDataTable.getClient_id());
+                                                    }
+
+
+                                                } else {
+                                                    dynamicUIDao.updateRawDataForSync(screenNumber);
+                                                }
+                                            } catch (Exception e) {
+                                                throw new RuntimeException(e);
                                             }
                                         } else {
                                             // TODO:  show something went wrong
@@ -5883,65 +5936,81 @@ public class DynamicUIRepository {
                 String request = new Gson().toJson(submitDataTables, SubmitDataTable.class);
                 submitDataTables.setRequest(request);
                 submitDataDTO.setRequest(request);
-                String baseString = new Gson().toJson(submitDataDTO, SubmitDataDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).postDataToServer(submitDataDTO,
-                                appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
+                Log.d(TAG, "Request: "+submitDataDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(submitDataDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).postDataToServer(encryptedValue,
+                                appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
                         enqueue(new Callback<String>() {
                             @Override
                             public void onResponse(Call<String> call, Response<String> response) {
                                 Log.d("TAG", "DATA SUBMITTED TO SERVER");
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        String serverResponse = response.body();
-                                        submitDataTables.setResponse(serverResponse);
-                                        submitDataDTO.setResponse(serverResponse);
-                                        dynamicUIDao.saveResponseData(submitDataTables);
+                                    if (response != null) {
 
-                                        if (rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_LEAD)) {
+                                        try {
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String serverResponse = decryptedValue;
+                                            submitDataTables.setResponse(serverResponse);
+                                            submitDataDTO.setResponse(serverResponse);
+                                            dynamicUIDao.saveResponseData(submitDataTables);
 
-                                            dynamicUIDao.updateRawDataForSyncById(screenNumber, rawDataTable.getId());
+                                            if (rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_LEAD)) {
 
-                                            MasterTable masterTable = new MasterTable();
-                                            masterTable.setClientId(rawDataTable.getClient_id());
-                                            masterTable.setCurrentStage(CURRENT_STAGE_APPLICATION);
-                                            masterTable.setApplicationStatus(APPLICATION_STATUS_NEW);
-                                            masterTable.setFinalStatus(FINAL_STATUS_PENDING);
-                                            masterTable.setSync(false);
-                                            masterTable.setLoan_type(rawDataTable.getLoan_type()); // TODO: LOAN TYPE
-                                            masterTable.setAllDataCaptured(false);
-                                            masterTable.setBranchId(submitDataTables.getBCID());
-                                            masterTable.setBranchGSTcode(submitDataTables.getBCBRID());
-                                            masterTable.setCreatedBy(rawDataTable.getUser_id()); // TODO: STAFF ID
-                                            masterTable.setReviewBy(rawDataTable.getUser_id()); // TODO: STAFF ID
-                                            String dateTime = appHelper.getCurrentDateTime(AppConstant.DATE_FORMAT_YYYY_MM_DD);
-                                            masterTable.setCreated_date(TimestampConverter.toDate(dateTime));
-                                            HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
+                                                dynamicUIDao.updateRawDataForSyncById(screenNumber, rawDataTable.getId());
+
+                                                MasterTable masterTable = new MasterTable();
+                                                masterTable.setClientId(rawDataTable.getClient_id());
+                                                masterTable.setCurrentStage(CURRENT_STAGE_APPLICATION);
+                                                masterTable.setApplicationStatus(APPLICATION_STATUS_NEW);
+                                                masterTable.setFinalStatus(FINAL_STATUS_PENDING);
+                                                masterTable.setSync(false);
+                                                masterTable.setLoan_type(rawDataTable.getLoan_type()); // TODO: LOAN TYPE
+                                                masterTable.setAllDataCaptured(false);
+                                                masterTable.setBranchId(submitDataTables.getBCID());
+                                                masterTable.setBranchGSTcode(submitDataTables.getBCBRID());
+                                                masterTable.setCreatedBy(rawDataTable.getUser_id()); // TODO: STAFF ID
+                                                masterTable.setReviewBy(rawDataTable.getUser_id()); // TODO: STAFF ID
+                                                String dateTime = appHelper.getCurrentDateTime(AppConstant.DATE_FORMAT_YYYY_MM_DD);
+                                                masterTable.setCreated_date(TimestampConverter.toDate(dateTime));
+                                                HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
 
 
-                                            if (hashMap != null && hashMap.size() > 0) {
-                                                if (hashMap.containsKey(TAG_NAME_APPLICANT_FULL_NAME)) {
-                                                    masterTable.setClientName(hashMap.get(TAG_NAME_APPLICANT_FULL_NAME).toString());
-                                                }
-                                                if (hashMap.containsKey(TAG_NAME_MOBILE_NUMBER)) {
-                                                    masterTable.setPhoneNo(hashMap.get(TAG_NAME_MOBILE_NUMBER).toString());
-                                                }
+                                                if (hashMap != null && hashMap.size() > 0) {
+                                                    if (hashMap.containsKey(TAG_NAME_APPLICANT_FULL_NAME)) {
+                                                        masterTable.setClientName(hashMap.get(TAG_NAME_APPLICANT_FULL_NAME).toString());
+                                                    }
+                                                    if (hashMap.containsKey(TAG_NAME_MOBILE_NUMBER)) {
+                                                        masterTable.setPhoneNo(hashMap.get(TAG_NAME_MOBILE_NUMBER).toString());
+                                                    }
                                         /*if (hashMap.containsKey(TAG_NAME_TYPE_OF_LOAN)) {
                                             masterTable.setLoan_type(hashMap.get(TAG_NAME_TYPE_OF_LOAN).toString());
                                         }*/
-                                                if (hashMap.containsKey(TAG_NAME_REQUESTED_LOAN_AMOUNT)) {
-                                                    masterTable.setLoan_amount(hashMap.get(TAG_NAME_REQUESTED_LOAN_AMOUNT).toString());
-                                                }
-                                                if (hashMap.containsKey(TAG_NAME_INTERESTED_IN_LOAN)) {
-                                                    String interestedInLoan = hashMap.get(TAG_NAME_INTERESTED_IN_LOAN).toString();
-                                                    if (!TextUtils.isEmpty(interestedInLoan) && interestedInLoan.equalsIgnoreCase("yes")) {
-                                                        dynamicUIDao.insertAndDeleteMasterTable(masterTable, rawDataTable.getClient_id());
+                                                    if (hashMap.containsKey(TAG_NAME_REQUESTED_LOAN_AMOUNT)) {
+                                                        masterTable.setLoan_amount(hashMap.get(TAG_NAME_REQUESTED_LOAN_AMOUNT).toString());
                                                     }
+                                                    if (hashMap.containsKey(TAG_NAME_INTERESTED_IN_LOAN)) {
+                                                        String interestedInLoan = hashMap.get(TAG_NAME_INTERESTED_IN_LOAN).toString();
+                                                        if (!TextUtils.isEmpty(interestedInLoan) && interestedInLoan.equalsIgnoreCase("yes")) {
+                                                            dynamicUIDao.insertAndDeleteMasterTable(masterTable, rawDataTable.getClient_id());
+                                                        }
 
+                                                    }
                                                 }
+                                            } else {
+                                                dynamicUIDao.updateRawDataForSync(screenNumber);
                                             }
-                                        } else {
-                                            dynamicUIDao.updateRawDataForSync(screenNumber);
+                                        } catch (Exception e) {
+                                            throw new RuntimeException(e);
                                         }
                                     } else {
                                         // TODO:  show something went wrong
@@ -6200,23 +6269,39 @@ public class DynamicUIRepository {
                 String request = new Gson().toJson(submitDataTables, SubmitDataTable.class);
                 submitDataTables.setRequest(request);
                 submitDataDTO.setRequest(request);
-                String baseString = new Gson().toJson(submitDataDTO, SubmitDataDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).postDataToServer(submitDataDTO,
-                                appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).enqueue(new Callback<String>() {
+                Log.d(TAG, "Request: "+submitDataDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(submitDataDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).postDataToServer(encryptedValue,
+                                appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
                             public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
-                                        String serverResponse = response.body();
-                                        submitDataTables.setResponse(serverResponse);
-                                        submitDataDTO.setResponse(serverResponse);
-                                        dynamicUIDao.saveResponseData(submitDataTables);
+                                    if (response != null) {
+                                        try {
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String serverResponse = decryptedValue;
+                                            submitDataTables.setResponse(serverResponse);
+                                            submitDataDTO.setResponse(serverResponse);
+                                            dynamicUIDao.saveResponseData(submitDataTables);
 
-                                        if (!TextUtils.isEmpty(serverResponse) && serverResponse.equalsIgnoreCase(SUCCESS_RESPONSE_MESSAGE)) {
-                                            dynamicUIDao.updateRawDataForSyncById(screenNumber, rawDataTable.getId());
+                                            if (!TextUtils.isEmpty(serverResponse) && serverResponse.equalsIgnoreCase(SUCCESS_RESPONSE_MESSAGE)) {
+                                                dynamicUIDao.updateRawDataForSyncById(screenNumber, rawDataTable.getId());
+                                            }
+
+                                        } catch (Exception e) {
+                                            throw new RuntimeException(e);
                                         }
-
                                     } else {
                                         // TODO: 20-04-2019 show something went wrong
                                         String serverResponse = response.body();
@@ -6300,23 +6385,38 @@ public class DynamicUIRepository {
                     String request = new Gson().toJson(submitDataTable, SubmitDataTable.class);
                     submitDataTable.setRequest(request);
                     submitDataDTO.setRequest(request);
-                    String baseString = new Gson().toJson(submitDataDTO, SubmitDataDTO.class).replace("\\u003d", "=");
-                    String k1 = SHA256Encrypt.sha256(baseString);
-                    DynamicUIWebService.createService(DynamicUIWebservice.class).postDataToServer(submitDataDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).enqueue(new Callback<String>() {
+                    Log.d(TAG, "Request: "+submitDataDTO);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        try {
+                            getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                            encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(submitDataDTO));
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    DynamicUIWebService.createService(DynamicUIWebservice.class).postDataToServer(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).enqueue(new Callback<String>() {
                                 @Override
                                 public void onResponse(Call<String> call, Response<String> response) {
                                     executor.execute(() -> {
-                                        if (response.isSuccessful()) {
-                                            String serverResponse = response.body();
-                                            submitDataTable.setResponse(serverResponse);
-                                            submitDataDTO.setResponse(serverResponse);
-                                            dynamicUIDao.saveResponseData(submitDataTable);
+                                        if (response!=null) {
+                                            try {
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                    getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                    decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                                }
+                                                String serverResponse = decryptedValue;
+                                                submitDataTable.setResponse(serverResponse);
+                                                submitDataDTO.setResponse(serverResponse);
+                                                dynamicUIDao.saveResponseData(submitDataTable);
 
-                                            if (!TextUtils.isEmpty(serverResponse) && serverResponse.equalsIgnoreCase(SUCCESS_RESPONSE_MESSAGE)) {
-                                                dynamicUIDao.updateRawDataForSyncById(rawDataTable.getScreen_no(), rawDataTable.getId());
+                                                if (!TextUtils.isEmpty(serverResponse) && serverResponse.equalsIgnoreCase(SUCCESS_RESPONSE_MESSAGE)) {
+                                                    dynamicUIDao.updateRawDataForSyncById(rawDataTable.getScreen_no(), rawDataTable.getId());
 
-                                                // TODO: Update village survey table status
-                                                dynamicUIDao.updateVillageSurveyTableSyncAndStatus(true, FINAL_STATUS_SUBMITTED, villageSurveyTable.getId());
+                                                    // TODO: Update village survey table status
+                                                    dynamicUIDao.updateVillageSurveyTableSyncAndStatus(true, FINAL_STATUS_SUBMITTED, villageSurveyTable.getId());
+                                                }
+                                            } catch (Exception e) {
+                                                throw new RuntimeException(e);
                                             }
 
                                         } else {
@@ -7811,7 +7911,7 @@ public class DynamicUIRepository {
         return data;
     }
 
-    public LiveData<MasterTable> syncAllScreenByClient(MasterTable masterTable) {
+    /*public LiveData<MasterTable> syncAllScreenByClient(MasterTable masterTable) {
 
         final LiveData<MasterTable> data = new MutableLiveData<>();
 
@@ -7898,47 +7998,7 @@ public class DynamicUIRepository {
                                                             submitDataTable.setStageId("0"); // TODO: STAGE ID
                                                             submitDataTable.setCurrentStageId(0); // TODO: STAGE ID
                                                         }
-                                                    } else {
-                                                        List<RawDataTable> cibilStatusrawDataTableList = dynamicUIDao.getRawDataByClientAndScreenNameModuleTye(SCREEN_NAME_CIBIL_STATUS, rawDataTable.getClient_id(), MODULE_TYPE_GENERATE_CIBIL);
-
-                                                        CibilResponseModel cibilResponseModel = null;
-                                                        if (cibilStatusrawDataTableList != null && cibilStatusrawDataTableList.size() > 0) {
-                                                            for (RawDataTable datalist : cibilStatusrawDataTableList) {
-                                                                String rawData = datalist.getRawdata();
-                                                                cibilResponseModel = new Gson().fromJson(rawData, CibilResponseModel.class);
-                                                            }
-                                                            if (currentStage != null && currentStage.equalsIgnoreCase("Document Execution")) {
-                                                                // TODO: STAGE ID 172 MEANS  OPS STAGE
-                                                                submitDataDTO.setStageId("172"); // TODO: STAGE ID
-                                                                submitDataDTO.setCurrentStageId(172); // TODO: STAGE ID
-                                                                submitDataTable.setStageId("172"); // TODO: STAGE ID
-                                                                submitDataTable.setCurrentStageId(172); // TODO: STAGE ID
-                                                            } else {
-                                                                if (cibilResponseModel != null && cibilResponseModel.getIsAccepctOrDecline().equalsIgnoreCase("0")) {
-                                                                    // TODO: STAGE ID 0 MEANS  PD STAGE
-                                                                    submitDataDTO.setStageId("0"); // TODO: STAGE ID
-                                                                    submitDataDTO.setCurrentStageId(0); // TODO: STAGE ID
-                                                                    submitDataTable.setStageId("0"); // TODO: STAGE ID
-                                                                    submitDataTable.setCurrentStageId(0); // TODO: STAGE ID
-                                                                } else {
-                                                                    if (cibilResponseModel != null && cibilResponseModel.getFlag().equalsIgnoreCase("P")) {
-                                                                        // TODO: STAGE ID 170 MEANS  RBL SCANCTION
-                                                                        submitDataDTO.setStageId("0"); // TODO: STAGE ID
-                                                                        submitDataDTO.setCurrentStageId(0); // TODO: STAGE ID
-                                                                        submitDataTable.setStageId("0"); // TODO: STAGE ID
-                                                                        submitDataTable.setCurrentStageId(0); // TODO: STAGE ID
-                                                                    } else {
-                                                                        submitDataDTO.setStageId("0"); // TODO: STAGE ID
-                                                                        submitDataDTO.setCurrentStageId(0); // TODO: STAGE ID
-                                                                        submitDataTable.setStageId("0"); // TODO: STAGE ID
-                                                                        submitDataTable.setCurrentStageId(0); // TODO: STAGE ID
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
                                                     }
-
-
                                                     submitDataDTO.setActionName(String.valueOf(masterTable.getActionId())); // TODO: ACTION ID
                                                     //submitDataDTO.setRemarks(masterTable.getRemarks()); // TODO: REMARKS
 
@@ -8068,6 +8128,7 @@ public class DynamicUIRepository {
                                 new Function<Object[], List<SubmitDataTable>>() {
                                     @Override
                                     public List<SubmitDataTable> apply(Object[] objects) throws Exception {
+
                                         try {
                                             if (objects != null && objects.length > 0) {
                                                 if (submitDataTableList.size() == objects.length) {
@@ -8190,7 +8251,239 @@ public class DynamicUIRepository {
         }
 
         return data;
+    }*/
+    public LiveData<MasterTable> syncAllScreenByClient(MasterTable masterTable) {
+
+        final LiveData<MasterTable> data = new MutableLiveData<>();
+        try {
+            DynamicUIWebService.changeApiBaseUrl(SUBMIT_DATA_POST_URL);
+
+            executor.execute(() -> {
+
+                // TODO: SET ERROR MESSAGE AS SYNC FAILED
+                dynamicUIDao.updateMasterTableResponse(ERROR_MESSAGE_SYNC_FAILED, masterTable.getClientId(), masterTable.getLoan_type());
+
+                List<SubmitDataTable> submitDataTableList = new ArrayList<>();
+                List<SubmitDataDTO> submitDataDTOList = new ArrayList<>();
+
+                List<String> moduleTypeList = dynamicUIDao.getDistinctModuleType(masterTable.getClientId());
+                List<RawDataTable> rawDataTableList = dynamicUIDao.getRawDataByScreenNoAndClientId("620", masterTable.getClientId());
+
+                if (rawDataTableList != null) {
+
+                    List<String> stringList = new ArrayList<>();
+                    final SubmitDataTable submitDataTable = new SubmitDataTable();
+                    final SubmitDataDTO submitDataDTO = new SubmitDataDTO();
+                    for (int i = 0; i < rawDataTableList.size(); i++) {
+                        RawDataTable rawDataTable = rawDataTableList.get(i);
+                        if (!rawDataTable.isSync()) {
+
+                            if (i == 0) {
+                                submitDataTable.setScreenId(rawDataTable.getScreen_no());
+                                submitDataTable.setScreenName(rawDataTable.getScreen_name());
+                                submitDataTable.setUniqueID(rawDataTable.getClient_id());
+                                submitDataTable.setApplicationId(rawDataTable.getClient_id());
+                                submitDataTable.setIMEINumber(appHelper.getIMEI());
+                                submitDataTable.setBCBRID(masterTable.getBranchGSTcode());
+                                submitDataTable.setBCID(masterTable.getBranchId());
+                                // TODO: 22-12-2020 submitDTO
+                                submitDataDTO.setScreenId(rawDataTable.getScreen_no());
+                                submitDataDTO.setScreenName(rawDataTable.getScreen_name());
+                                submitDataDTO.setUniqueID(rawDataTable.getClient_id());
+                                submitDataDTO.setApplicationId(rawDataTable.getClient_id());
+                                submitDataDTO.setIMEINumber(appHelper.getIMEI());
+                                submitDataDTO.setBCBRID(masterTable.getBranchGSTcode());
+                                submitDataDTO.setBCID(masterTable.getBranchId());
+                                LogInTable logInTable = dynamicUIDao.getLoginTable(rawDataTable.getUser_id());
+                                if (logInTable != null) {
+                                    submitDataTable.setBCBRID(logInTable.getBranchGSTCode());
+                                    submitDataTable.setBCID(String.valueOf(logInTable.getBCID()));
+                                    submitDataTable.setRoleId(String.valueOf(logInTable.getRoleId()));
+                                    // TODO: 22-12-2020 submit DTO
+                                    submitDataDTO.setBCBRID(logInTable.getBranchGSTCode());
+                                    submitDataDTO.setBCID(String.valueOf(logInTable.getBCID()));
+                                    submitDataDTO.setRoleId(String.valueOf(logInTable.getRoleId()));
+                                }
+                                submitDataTable.setCreatedBy(masterTable.getReviewBy()); // TODO: STAFF ID
+                                submitDataTable.setModuleType(rawDataTable.getModuleType());
+                                //submitDataTable.setStageId(String.valueOf(masterTable.getCurrentStageId())); // TODO: STAGE ID
+                                //submitDataTable.setCurrentStageId(masterTable.getCurrentStageId()); // TODO: STAGE ID
+                                submitDataTable.setActionName(String.valueOf(masterTable.getActionId())); // TODO: ACTION ID
+                                // submitDataTable.setRemarks(masterTable.getRemarks()); // TODO: REMARKS
+
+                                submitDataDTO.setCreatedBy(masterTable.getReviewBy()); // TODO: STAFF ID
+                                submitDataDTO.setModuleType(rawDataTable.getModuleType());
+                                //submitDataDTO.setStageId(String.valueOf(masterTable.getCurrentStageId())); // TODO: STAGE ID
+                                //submitDataDTO.setCurrentStageId(masterTable.getCurrentStageId()); // TODO: STAGE ID
+
+                                if (loanType.equalsIgnoreCase(LOAN_NAME_EL)) {
+                                    if (currentStage != null && currentStage.equalsIgnoreCase("Document Execution")) {
+                                        // TODO: STAGE ID 148 MEANS RBL OPS OR DiSBUSMENT
+                                        submitDataDTO.setStageId("148"); // TODO: STAGE ID
+                                        submitDataDTO.setCurrentStageId(148); // TODO: STAGE ID
+                                        submitDataTable.setStageId("148"); // TODO: STAGE ID
+                                        submitDataTable.setCurrentStageId(148); // TODO: STAGE ID
+                                    } else {
+                                        // TODO: STAGE ID 0 MEANS  PD STAGE
+                                        submitDataDTO.setStageId("0"); // TODO: STAGE ID
+                                        submitDataDTO.setCurrentStageId(0); // TODO: STAGE ID
+                                        submitDataTable.setStageId("0"); // TODO: STAGE ID
+                                        submitDataTable.setCurrentStageId(0); // TODO: STAGE ID
+                                    }
+                                }
+                                submitDataDTO.setActionName(String.valueOf(masterTable.getActionId())); // TODO: ACTION ID
+                                //submitDataDTO.setRemarks(masterTable.getRemarks()); // TODO: REMARKS
+
+                                if (!TextUtils.isEmpty(masterTable.getLoan_type()) && masterTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)) {
+
+                                    submitDataTable.setWorkflowId(WORKFLOW_ID_EL); // TODO: WORKFLOW ID PHL
+                                    submitDataTable.setProductId(PRODUCT_ID_EL); // TODO: PRODUCT ID PHL
+                                    submitDataDTO.setWorkflowId(WORKFLOW_ID_EL); // TODO: WORKFLOW ID PHL
+                                    submitDataDTO.setProductId(PRODUCT_ID_EL); // TODO: PRODUCT ID PHL
+                                }
+                            }
+                            JsonParser jsonParser = new JsonParser();
+                            if (rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_DOCUMENT_UPLOAD)) {
+                                submitDataTable.setRawData(rawDataTable.getRawdata());
+//                                                JsonObject jsonObject = (JsonObject)jsonParser.parse(rawDataTable.getRawdata());
+//                                                JsonArray jsonArrayRawData=new JsonArray();
+//                                                jsonArrayRawData.add(jsonObject);
+                                JsonArray jsonArrayStringList = (JsonArray) jsonParser.parse(rawDataTable.getRawdata());
+                                submitDataDTO.setRawData(jsonArrayStringList);
+                            } else {
+                                stringList.add(rawDataTable.getRawdata());
+                                submitDataTable.setRawData(stringList.toString());
+                                JsonArray jsonArrayStringList = (JsonArray) jsonParser.parse(stringList.toString());
+                                submitDataDTO.setRawData(jsonArrayStringList);
+                            }
+                        }
+                    }
+
+                    if (submitDataTableList.size() > 0) {
+                        boolean alreadyExist = false;
+                        for (SubmitDataTable dataTable : submitDataTableList) {
+                            if (dataTable.getScreenId().equalsIgnoreCase(submitDataTable.getScreenId())) {
+                                alreadyExist = true;
+                                break;
+                            }
+                        }
+                        if (!alreadyExist) {
+                            submitDataTableList.add(submitDataTable);
+                            submitDataDTOList.add(submitDataDTO);
+                        }
+                    } else {
+                        submitDataTableList.add(submitDataTable);
+                        submitDataDTOList.add(submitDataDTO);
+                    }
+                    Log.d(TAG, "Request: " + submitDataTableList);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(submitDataTableList.get(0)));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).finalSubmit(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""),
+                        getEncryptToken.getToken()).enqueue(new Callback<String>() {
+                        @Override
+                        public void onResponse(Call<String> call, Response<String> response) {
+                            executor.execute(() -> {
+                                if (response!=null) {
+                                    try {
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                            decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body());
+                                        }
+                                        String serverResponse = decryptedValue;
+                                        submitDataTable.setResponse(serverResponse);
+                                        submitDataDTO.setResponse(serverResponse);
+                                        dynamicUIDao.saveResponseData(submitDataTable);
+                                        dynamicUIDao.insertAndDeleteSubmitDataTablee(submitDataTable, masterTable.getClientId());
+
+                                        boolean allGotSuccess = false;
+
+                                        if (!TextUtils.isEmpty(submitDataTable.getResponse()) &&
+                                                (submitDataTable.getResponse().equalsIgnoreCase(SUCCESS_RESPONSE_MESSAGE)||submitDataTable.getResponse().equalsIgnoreCase("\"Success\"")||submitDataTable.getResponse().equalsIgnoreCase(SUCCESS_RESPONSE_SUCCESS_MESSAGE))) {
+                                            allGotSuccess = true;
+                                        } else {
+                                            allGotSuccess = false;
+                                            // TODO: SET ERROR MESSAGE AS WHATEVER GETTING FROM SERVER
+                                            dynamicUIDao.updateMasterTableResponse(submitDataTable.getResponse(),
+                                                    masterTable.getClientId(), masterTable.getLoan_type());
+
+                                            insertLog("syncAllScreenByClient", submitDataTable.getResponse(), "", "", TAG, "", "", "");
+
+                                        }
+
+                                        if (allGotSuccess) {
+                                            dynamicUIDao.updateMasterTableSync(true, masterTable.getId());
+                                            // TODO: SET MESSAGE AS SYNC SUCCESS
+                                            dynamicUIDao.updateMasterTableResponse(ERROR_MESSAGE_SYNC_SUCCESS, masterTable.getClientId(), masterTable.getLoan_type());
+
+                                        } else {
+                                            dynamicUIDao.updateMasterTableSync(false, masterTable.getId());
+                                            // TODO: SET ERROR MESSAGE AS SYNC FAILED
+                                            MasterTable masterTableFromDB = dynamicUIDao.getMasterTableByClientId(masterTable.getClientId());
+                                            if (masterTableFromDB != null) {
+                                                if (TextUtils.isEmpty(masterTable.getResponse()) ||
+                                                        masterTableFromDB.getResponse().equalsIgnoreCase(ERROR_MESSAGE_CAPTURE_ALL_DETAILS)) {
+                                                    // TODO: Hardcoded Response tvMobNo
+                                                    dynamicUIDao.updateMasterTableResponse(ERROR_MESSAGE_SYNC_FAILED,
+                                                            masterTable.getClientId(), masterTable.getLoan_type());
+                                                }
+                                            }
+                                        }
+
+
+                                    } catch (Exception e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                   /* if (submitDataTableList != null && submitDataTableList.size() > 0) {
+
+                                        dynamicUIDao.insertAndDeleteSubmitDataTable(submitDataTableList, masterTable.getClientId());
+
+
+                                    } else {
+                                        dynamicUIDao.updateMasterTableSync(false, masterTable.getId());
+                                    }*/
+                                    MasterTable masterTableResult = dynamicUIDao.getMasterTableDetailById(masterTable.getId());
+                                    ((MutableLiveData<MasterTable>) data).postValue(masterTableResult);
+
+                                } else {
+                                    // TODO: 20-04-2019 show something went wrong
+                                    String serverResponse = response.body();
+                                    submitDataTable.setResponse(serverResponse);
+                                    submitDataDTO.setResponse(serverResponse);
+                                    dynamicUIDao.saveResponseData(submitDataTable);
+
+                                    insertLog("syncSingleVillageSurveyData", serverResponse, "", "", TAG, "", "", "");
+                                }
+                                ((MutableLiveData<MasterTable>) data).postValue(dynamicUIDao.getMasterTableDetailById(masterTable.getId()));
+                            });
+                        }
+
+                        @Override
+                        public void onFailure(Call<String> call, Throwable t) {
+                            ((MutableLiveData<MasterTable>) data).postValue(dynamicUIDao.getMasterTableDetailById(masterTable.getId()));
+
+                            insertLog("syncSingleVillageSurveyData", t.getMessage(), "", "", TAG, "", "", "");
+                        }
+                    });
+                } else {
+                    // TODO: Raw data null
+                    ((MutableLiveData<MasterTable>) data).postValue(new MasterTable());
+                }
+            });
+        } catch (Exception ex) {
+            ex.printStackTrace();
+
+            insertLog("syncSingleVillageSurveyData", ex.getMessage(), "", "", TAG, "", "", "");
+        }
+        return data;
     }
+
 
     public LiveData<MultipleSyncResponseDTO> syncAllScreenDataForMultipleClient(List<CGTTable> cgtTwoCompletedList) {
 
@@ -17751,7 +18044,7 @@ public class DynamicUIRepository {
                             }
                             if (hashMap.containsKey(TAG_NAME_E_MAIL_ID)) {
                                 String value = hashMap.get(TAG_NAME_E_MAIL_ID).toString();
-                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_E_MAIL_ID, SCREEN_NAME_PERSONAL_DETAIL, value, false, true);
+                                dynamicUIDao.updateDynamicTableValueAndVisibility(TAG_NAME_E_MAIL_ID, SCREEN_NAME_PERSONAL_DETAIL, value, true, true);
                             }
                         }
                     }
@@ -25417,6 +25710,16 @@ public class DynamicUIRepository {
         DynamicUIWebService.changeApiBaseUrl(RAW_DATA_URL);
         executor.execute(() -> {
             try {
+                String customerType="";
+                RawDataTable leadRawData = dynamicUIDao.getRawdataByScreenNameTopOne(SCREEN_NAME_LEAD, CLIENT_ID, loanType);
+                if (leadRawData != null) {
+                    HashMap<String, Object> hashMap = setKeyValueForObject(leadRawData);
+                    if (hashMap != null && hashMap.size() > 0) {
+                        if (hashMap.containsKey(TAG_NAME_CUSTOMER_TYPE)) {
+                             customerType = hashMap.get(TAG_NAME_CUSTOMER_TYPE).toString();
+                        }
+                    }
+                }
                 final ProductMasterRequestDTO rawDataRequestDTO = new ProductMasterRequestDTO();
                 rawDataRequestDTO.setIMEINumber(appHelper.getIMEI());
                 ProductMasterRequestDTO.SpNameWithParameterClass spNameWithParameter = new ProductMasterRequestDTO.SpNameWithParameterClass();
@@ -25424,6 +25727,16 @@ public class DynamicUIRepository {
                 ProductMasterRequestDTO.SpParametersClass spParametersClass = new ProductMasterRequestDTO.SpParametersClass();
                 spParametersClass.setSegmentId(productId); // TODO: segment id ( product id )
                 spParametersClass.setBCID(bcId); // TODO: BC id
+                /*if (!TextUtils.isEmpty(customerType)) {
+                    if (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SELF_EMPLOYED)
+                            || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SEP) || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP)) {
+                        spParametersClass.setType("2");
+                    } else if (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_BANK_SALARIED) || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SALARIED)) {
+                        spParametersClass.setType("1");
+                    }
+                }else {
+                    spParametersClass.setType("0");
+                }*/
                 spNameWithParameter.setSpParameters(spParametersClass);
                 ArrayList<ProductMasterRequestDTO.SpNameWithParameterClass> SpNameWithParameterList = new ArrayList<ProductMasterRequestDTO.SpNameWithParameterClass>();
                 SpNameWithParameterList.add(spNameWithParameter);
@@ -32558,17 +32871,28 @@ public class DynamicUIRepository {
         DynamicUIWebService.changeApiBaseUrl(GET_ROLE_NAMES_URL);
 
         executor.execute(() -> {
-            String baseString = new Gson().toJson(roleNamesRequestDTO, RoleNamesRequestDTO.class).replace("\\u003d", "=");
-            String k1 = SHA256Encrypt.sha256(baseString);
-            DynamicUIWebService.createService(DynamicUIWebservice.class).getRoleNamesServiceCall(roleNamesRequestDTO,
-                            appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                    enqueue(new Callback<ResponseBody>() {
+            Log.d(TAG, "Request: "+roleNamesRequestDTO);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                try {
+                    getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                    encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(roleNamesRequestDTO));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            DynamicUIWebService.createService(DynamicUIWebservice.class).getRoleNamesServiceCall(encryptedValue,
+                            appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                    enqueue(new Callback<String>() {
                         @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        public void onResponse(Call<String> call, Response<String> response) {
                             executor.execute(() -> {
-                                if (response.isSuccessful()) {
+                                if (response!=null) {
                                     try {
-                                        String strResponse = response.body().string();
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                            decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                        }
+                                        String strResponse = decryptedValue;
                                         JSONObject json = new JSONObject(strResponse);
                                         // String key = json.keys().next();
                                         String tableJson = json.toString();
@@ -32611,7 +32935,7 @@ public class DynamicUIRepository {
                         }
 
                         @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        public void onFailure(Call<String> call, Throwable t) {
                             t.printStackTrace();
                             // TODO: Sending result
                             executor.execute(() -> {
@@ -35205,16 +35529,27 @@ public class DynamicUIRepository {
                 ArrayList<DocumentMasterRequestDTO.SpNameWithParameterClass> SpNameWithParameterList = new ArrayList<DocumentMasterRequestDTO.SpNameWithParameterClass>();
                 SpNameWithParameterList.add(spNameWithParameter);
                 rawDataRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
-                String baseString = new Gson().toJson(rawDataRequestDTO, DocumentMasterRequestDTO.class).replace("\\u003d", "=");
-                String k1 = SHA256Encrypt.sha256(baseString);
-                DynamicUIWebService.createService(DynamicUIWebservice.class).getDocumentMasterFromServer(rawDataRequestDTO, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), k1).
-                        enqueue(new Callback<ResponseBody>() {
+                Log.d(TAG, "Request: "+rawDataRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(rawDataRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getDocumentMasterFromServer(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<String> call, Response<String> response) {
                                 executor.execute(() -> {
-                                    if (response.isSuccessful()) {
+                                    if (response!=null) {
                                         try {
-                                            String strResponse = response.body().string();
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
                                             JSONObject json = new JSONObject(strResponse);
                                             if (json.length() != 0) {
                                                 String key = json.keys().next();
@@ -35246,7 +35581,7 @@ public class DynamicUIRepository {
                             }
 
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<String> call, Throwable t) {
                                 t.printStackTrace();
                                 // TODO: Final result
                                 executor.execute(() -> {
@@ -39918,9 +40253,8 @@ public class DynamicUIRepository {
                                             decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
                                         }
                                          JSONObject json = new JSONObject(decryptedValue);
-                                        String tableJson = json.toString();
-
-                                            hunterResponseDTO = new Gson().fromJson(tableJson, HunterResponseDTO.class);
+                                         String tableJson = json.toString();
+                                         hunterResponseDTO = new Gson().fromJson(tableJson, HunterResponseDTO.class);
                                             data.postValue(hunterResponseDTO);
 
                                             String hunterDataResponse = new Gson().toJson(hunterResponseDTO, HunterResponseDTO.class);
@@ -43833,6 +44167,87 @@ public class DynamicUIRepository {
                                                     if (tenureMonthsResponseDTO != null && tenureMonthsResponseDTO.getTenureMonthsResponseTable().size() > 0) {
                                                         List<TenureMonthsResponseTable> list = new ArrayList<>();
                                                         for (TenureMonthsResponseTable data : tenureMonthsResponseDTO.getTenureMonthsResponseTable()) {
+                                                            list.add(data);
+                                                        }
+                                                        data.postValue(list);
+                                                    }
+                                                }
+                                            }
+                                        } catch (Exception ex) {
+                                            ex.printStackTrace();
+                                        }
+                                    } else {
+                                        insertLog("", response.message(), "", "", TAG, "", "", "");
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onFailure(Call<String> call, Throwable t) {
+                                t.printStackTrace();
+                                // TODO: Final result
+                                executor.execute(() -> {
+                                    insertLog("", t.getMessage(), "", "", TAG, "", "", "");
+                                });
+                            }
+                        });
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                // TODO: Final result
+                executor.execute(() -> {
+                });
+            }
+        });
+        return data;
+    }
+
+
+    public LiveData<List<LogOffResponseTable>> getLogOff(String userId) {
+        final MutableLiveData<List<LogOffResponseTable>> data = new MutableLiveData<>();
+        DynamicUIWebService.changeApiBaseUrl(RAW_DATA_URL);
+        executor.execute(() -> {
+            try {
+                final LogoffRequestDTO logoffRequestDTO = new LogoffRequestDTO();
+                logoffRequestDTO.setIMEINumber(appHelper.getIMEI());
+                logoffRequestDTO.setProjectName(loanType);
+                LogoffRequestDTO.SpNameWithParameter spNameWithParameter = new LogoffRequestDTO.SpNameWithParameter();
+                spNameWithParameter.setSpName(SP_NAME_LOGOUT);
+                LogoffRequestDTO.SpNameWithParameter.SpParameters spParameters = new LogoffRequestDTO.SpNameWithParameter.SpParameters();
+                spParameters.setUserId(userId);
+                spNameWithParameter.setSpParameters(spParameters);
+                ArrayList<LogoffRequestDTO.SpNameWithParameter> SpNameWithParameterList = new ArrayList<LogoffRequestDTO.SpNameWithParameter>();
+                SpNameWithParameterList.add(spNameWithParameter);
+                logoffRequestDTO.setSpNameWithParameter(SpNameWithParameterList);
+                Log.d(TAG, "Request: "+logoffRequestDTO);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    try {
+                        getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(logoffRequestDTO));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                DynamicUIWebService.createService(DynamicUIWebservice.class).getDataUtil(encryptedValue, appHelper.getSharedPrefObj().getString(AUTHORIZATION_TOKEN_KEY, ""), getEncryptToken.getToken()).
+                        enqueue(new Callback<String>() {
+                            @Override
+                            public void onResponse(Call<String> call, Response<String> response) {
+                                executor.execute(() -> {
+                                    if (response!=null) {
+                                        try {
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                getDecryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.DECRYPT_MODE, response.headers().get("k1"));
+                                                decryptedValue = AES256EncryptAndDecrypt.decodeAndDecrypt(getDecryptToken.getCipher(), response.body().toString());
+                                            }
+                                            String strResponse = decryptedValue;
+                                            JSONObject json = new JSONObject(strResponse);
+                                            if (json.length() != 0) {
+                                                String key = json.keys().next();
+                                                if (!TextUtils.isEmpty(key)) {
+                                                    String tableJson = json.get(key).toString();
+                                                    LogOffResponseDTO logOffResponseDTO = new Gson().fromJson(tableJson, LogOffResponseDTO.class);
+                                                    if (logOffResponseDTO != null && logOffResponseDTO.getLogOffResponseTables().size() > 0) {
+                                                        List<LogOffResponseTable> list = new ArrayList<>();
+                                                        for (LogOffResponseTable data : logOffResponseDTO.getLogOffResponseTables()) {
                                                             list.add(data);
                                                         }
                                                         data.postValue(list);

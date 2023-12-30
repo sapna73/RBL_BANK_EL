@@ -12,7 +12,7 @@ android {
     buildToolsVersion "28.0.3"
     defaultConfig {
         applicationId "com.saartak.el"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.1.1"  //This is for UAT Release
@@ -31,6 +31,7 @@ android {
         release {
             multiDexEnabled true
             minifyEnabled true
+            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

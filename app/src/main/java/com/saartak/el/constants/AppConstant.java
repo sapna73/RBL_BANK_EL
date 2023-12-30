@@ -157,11 +157,9 @@ public class AppConstant {
     public static String STAGE_URL = "https://losservicesuat.rblbank.com/Tranuat/api/"; // TODO: STAGE URL
     public static String WORKFLOW_URL = "https://losservicesuat.rblbank.com/Tranuat/api/"; // TODO: WORKFLOW URL
     public static String BASE_URL = "https://losservicesuat.rblbank.com/metaservice/api/"; // TODO: META DATA URL
-    public static String SUBMIT_DATA_POST_URL = "https://losservicesuat.rblbank.com/Tranuat/api/"; // TODO: SYNC & WORKFLOW
-    public static String SUBMIT_DATA_POST_URL_LEAD = "https://losservicesuat.rblbank.com/LossrvDatastore/api/"; // TODO: ONLY SYNC
     public static String SUBMIT_DATA_POST_URL_JLG = "https://losservicesuat.rblbank.com/JLGoperations/api/"; // TODO: JLG DATA SYNC [ dummy url , not received tvName service team ]
    // public static String RAW_DATA_URL = "https://losservicesuat.rblbank.com/DBUtil/api/v1/uat/"; // TODO: RAW DATA URL
-    public static String EKYC_URL= "https://losservicesuat.rblbank.com/ekyc/api/v1/uat/"; // TODO: EKYC URL
+ //   public static String EKYC_URL= "https://losservicesuat.rblbank.com/ekyc/api/v1/uat/"; // TODO: EKYC URL
 //    public static String OTP_TRIGGER_URL = "https://losservicesuat.rblbank.com/otp/api/v1/uat/"; // TODO: OTP TRIGGER
 //    public static String OTP_VERIFY_URL = "https://losservicesuat.rblbank.com/otp/api/v1/uat/"; // TODO: OTP VERIFY
     public static String DOCUMENT_UPLOAD_URL = "https://losservicesuat.rblbank.com/Docupload/api/uat/V1/uploadImages"; // TODO: DOCUMENT UPLOAD URL UAT EL
@@ -172,7 +170,7 @@ public class AppConstant {
     public static String CHANGE_PASSWORD_URL = "https://Saartakuat.rblbank.com/balApi/"; // TODO: CHANGE PASSWORD
     public static String RESET_PASSWORD_URL = "https://losservicesuat.rblbank.com/managecredentials/api/v1/uat/"; // TODO: RESET PASSWORD
     //public static String CIBIL_URL = "https://losservicesuat.rblbank.com/bankproxy/api/v1/uat/"; // TODO: CIBIL
-    public static String GET_ROLE_NAMES_URL = "https://saartakuat.rblbank.com/balApi/"; // TODO: GET ROLE NAMES
+    //public static String GET_ROLE_NAMES_URL = "https://saartakuat.rblbank.com/balApi/"; // TODO: GET ROLE NAMES
     public static String CB_MFI_URL = " https://losservicesuat.rblbank.com/bankproxy/api/v1/prod/"; // TODO: CB MFI
     public static String SALES_TOOL_URL = "https://losservicesuat.rblbank.com/SalesTool/api/v1/uat/"; // TODO: SALES TOOL
     public static String INITIATE_TRANSACTION_URL = " https://losservicesuat.rblbank.com/collections/api/v1/prod/"; // TODO: TWINLINE FOR DIGITAL PAYMENT
@@ -200,10 +198,13 @@ public class AppConstant {
   public static String PAN_VALIDATION_URL = "https://losservicesuat.rblbank.com/EncryptAPIs/api/v1/uat/"; // TODO: PAN VALIDATION URL
   public static String AADHAAR_VAULT_URL = "https://losservicesuat.rblbank.com/EncryptAPIs/api/v1/uat/"; // TODO: AADHAAR VAULT URL
 
-  public static String OTP_TRIGGER_URL = "https://losservicesuat.rblbank.com/OTPEncrypt/api/v1/uat/"; // TODO: OTP TRIGGER
-  public static String OTP_VERIFY_URL = "https://losservicesuat.rblbank.com/OTPEncrypt/api/v1/uat/"; // TODO: OTP VERIFY
+  public static String OTP_TRIGGER_URL = "https://losservicesuat.rblbank.com/OTP/api/v1/uat/"; // TODO: OTP TRIGGER
+  public static String OTP_VERIFY_URL = "https://losservicesuat.rblbank.com/OTP/api/v1/uat/"; // TODO: OTP VERIFY
 
-
+  public static String SUBMIT_DATA_POST_URL = "https://losservicesuat.rblbank.com/TranUatEncrypt/api/"; // TODO: SYNC & WORKFLOW
+  public static String SUBMIT_DATA_POST_URL_LEAD = "https://losservicesuat.rblbank.com/TranUatEncrypt/api/"; // TODO: ONLY SYNC
+  public static String GET_ROLE_NAMES_URL = "https://losservicesuat.rblbank.com/EncryptAPIs/api/"; // TODO: GET ROLE NAMES
+  public static String EKYC_URL= "https://losservicesuat.rblbank.com/EkycEncrypt/api/v1/uat/"; // TODO: EKYC URL
 
 
 
@@ -1187,7 +1188,7 @@ public class AppConstant {
 
   public static String[] APPLICANT_TAB_SCREEN_NAMES_NO_CUSTOMERTYPE_IL = {
           SCREEN_NAME_APPLICANT_KYC,
-         /* SCREEN_NAME_APPLICANT_PAN_DETAILS,*/
+          SCREEN_NAME_APPLICANT_PAN_DETAILS,
           SCREEN_NAME_PERSONAL_DETAIL,
           SCREEN_NAME_SOCIO_ECONOMIC_DETAIL,
           SCREEN_NAME_ADDRESS_DETAIL,
@@ -1243,7 +1244,7 @@ public class AppConstant {
     };
   public static String[] APPLICANT_TAB_SCREEN_NAMES_NO_CUSTOMERTYPE_EL = {
           SCREEN_NAME_APPLICANT_KYC,
-         /* SCREEN_NAME_APPLICANT_PAN_DETAILS,*/
+          SCREEN_NAME_APPLICANT_PAN_DETAILS,
           SCREEN_NAME_PERSONAL_DETAIL,
           SCREEN_NAME_SOCIO_ECONOMIC_DETAIL,
           SCREEN_NAME_ADDRESS_DETAIL,
@@ -1279,7 +1280,7 @@ public class AppConstant {
     };
     public static String[] APPLICANT_TAB_SCREEN_NUMBERS_NO_CUSTOMERTYPE_EL = {
             SCREEN_NO_APPLICANT_KYC_EL,
-           /* SCREEN_NO_APPLICANT_PAN_DETAILS_EL,*/
+            SCREEN_NO_APPLICANT_PAN_DETAILS_EL,
             SCREEN_NO_PERSONAL_DETAIL_EL,
             SCREEN_NO_SOCIO_ECONOMIC_DETAIL_EL,
             SCREEN_NO_ADDRESS_DETAIL_EL,
@@ -1316,7 +1317,7 @@ public class AppConstant {
     };
     public static int[] APPLICANT_TAB_ICONS_NO_CUSTOMERTYPE_EL = {
             R.drawable.ic_fingerprint_24dp,
-            /*R.drawable.ic_person_white_24dp,*/
+            R.drawable.ic_person_white_24dp,
             R.drawable.ic_domain_black_24dp,
             R.drawable.ic_home_black_24dp,
             R.drawable.ic_person_pin_black_24dp,

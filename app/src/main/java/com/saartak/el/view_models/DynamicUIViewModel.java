@@ -74,6 +74,7 @@ import com.saartak.el.models.ChangePasswordRequestDTO;
 import com.saartak.el.models.ChangePasswordResponseDTO;
 import com.saartak.el.models.CibilResponseModel;
 import com.saartak.el.models.LoanTenure.TenureMonthsResponseTable;
+import com.saartak.el.models.Logoff.LogOffResponseTable;
 import com.saartak.el.models.PINCodeArea.PinCodeAreaResponseTable;
 import com.saartak.el.models.PostSubmitSuccesOrFaiurModel;
 import com.saartak.el.models.ScreenEditValidation.ScreenEditValidationResponseTable;
@@ -264,6 +265,7 @@ public class DynamicUIViewModel extends ViewModel {
     private LiveData<List<ScreenEditValidationResponseTable>>  getScreenEditValidationResponseTable;
     private LiveData<List<StudentGradeResponseTable>>  getStudentGradeResponseTable;
     private LiveData<List<TenureMonthsResponseTable>>  getTenureMonthsResponseTable;
+    private LiveData<List<LogOffResponseTable>>  getLogOffResponseTable;
     private LiveData<List<SPIndustryTypeResponseTable>> getSPIndustryTypeResponseTableLiveData;
     private LiveData<List<GetLeadDropDownProductNameTable>> getLeadDropDownProductNameTableListLiveData;
     private LiveData<List<GetLeadDropDownProductTypeTable>> getLeadDropDownProductTypeTableListLiveData;
@@ -3088,6 +3090,13 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
             ex.printStackTrace();
         }
     }
+    public void getLogOff(String userId){
+        try{
+            getLogOffResponseTable = dynamicUIRepository.getLogOff(userId);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
 
     public void getBreSnsManageResults(String breTenure,String loanAMount,String customerId,String loanScheme,String snsWorkFlow,String snsStatus,String breROI,String type,String createdBy,String projectId,String productId,String loanEmi){
         try{
@@ -3676,6 +3685,9 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
     }
     public LiveData<List<TenureMonthsResponseTable>> getTenureMonthsResponseTableLiveData() {
         return getTenureMonthsResponseTable;
+    }
+    public LiveData<List<LogOffResponseTable>> getLogOffResponseTableLiveData() {
+        return getLogOffResponseTable;
     }
     public LiveData<List<BreSnsManageResultsREsponseTable>> getBreSnsManageResultsREsponseTableLiveData() {
         return getBreSnsManageResultsREsponseTable ;

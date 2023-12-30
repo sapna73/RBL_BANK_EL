@@ -494,6 +494,12 @@ public abstract class DynamicUIDao {
         deleteSubmitDataTable(clientId);
         insertSubmitTableDataList(submitDataTableList);
     }
+    @Transaction
+    public void insertAndDeleteSubmitDataTablee(SubmitDataTable submitDataTableList, String clientId) {
+        // Anything inside this method runs in a single transaction.
+        deleteSubmitDataTable(clientId);
+        insertSubmitTableDataListt(submitDataTableList);
+    }
 
     @Transaction
     public void deleteAndInsertWorkFlowTable(List<WorkFlowTable> workFlowTableList) {
@@ -610,6 +616,8 @@ public abstract class DynamicUIDao {
 
     @Insert(onConflict = REPLACE)
     public abstract void insertSubmitTableDataList(List<SubmitDataTable> submitDataTableList);
+    @Insert(onConflict = REPLACE)
+    public abstract void insertSubmitTableDataListt(SubmitDataTable submitDataTableList);
 
     @Insert(onConflict = REPLACE)
     public abstract void insertCenterMeetingAttendanceTableList(List<CenterMeetingAttendanceTable> centerMeetingAttendanceTableList);

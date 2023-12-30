@@ -110,6 +110,7 @@ import com.saartak.el.models.BankDetailsParameterInfo;
 import com.saartak.el.models.GetBankDetailsByIfscCodeRequestDTO;
 import com.saartak.el.models.GetBankDetailsByIfscCodeResponseDTO;
 import com.saartak.el.models.LoanTenure.TenureMonthsResponseTable;
+import com.saartak.el.models.Logoff.LogOffResponseTable;
 import com.saartak.el.models.PINCodeArea.PinCodeAreaResponseTable;
 import com.saartak.el.models.DataTypeInfo;
 import com.saartak.el.models.EKYCResponseDTO;
@@ -4443,6 +4444,35 @@ public class LOSBaseFragment extends BaseFragment {
                                                             parameterInfoList.add(new ParameterInfo(TAG_NAME_CONTAINS_AGE, SCREEN_ID, "", true, true));
                                                             parameterInfoList.add(new ParameterInfo(TAG_NAME_GENDER, SCREEN_ID, "", true, true));
                                                         }*/
+                                                    }else {
+                                                        if(TextUtils.isEmpty(hashMap.get(TAG_NAME_CUSTOMER_TYPE).toString())&&LOSBaseFragment.this instanceof ApplicantPANDetailsFragment) {
+
+                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_CONTAINS_DOB, SCREEN_ID, "", true, true));
+                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_DATE_OF_INCORPORATION, SCREEN_ID, "", false, true));
+                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_CONTAINS_AGE, SCREEN_ID, "", true, true));
+                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_GENDER, SCREEN_ID, "", true, true));
+                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_PAN, SCREEN_ID, "", true, true));
+                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_PAN_STATUS, SCREEN_ID, "", true, true));
+                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_FIRST_NAME, SCREEN_ID, first_FullName, true, true));
+                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_MIDDLE_NAME, SCREEN_ID, middleName, true, true));
+                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_LAST_NAME, SCREEN_ID, lastName, true, true));
+                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_TITLE, SCREEN_ID, "", true, true));
+                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_FULL_NAME, SCREEN_ID, applicantFullName, true, true));
+
+                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_FIRST_NAME, SCREEN_ID, "", false, true));
+                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_MIDDLE_NAME, SCREEN_ID, "", false, true));
+                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_LAST_NAME, SCREEN_ID, "", false, true));
+                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_FIRM_NAME, SCREEN_ID, "", false, true));
+
+                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_PARTNERSHIP_PAN, SCREEN_ID, "", false, true));
+                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_PARTNERSHIP_FIRM_NAME, SCREEN_ID, "", false, true));
+
+                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_COMPANY_PAN, SCREEN_ID, "", false, true));
+                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_COMPANYNAME, SCREEN_ID, "", false, true));
+
+                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_CIN, SCREEN_ID, "", false, true));
+                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_DIN, SCREEN_ID, "", false, true));
+                                                        }
                                                     }
 
                                                 }

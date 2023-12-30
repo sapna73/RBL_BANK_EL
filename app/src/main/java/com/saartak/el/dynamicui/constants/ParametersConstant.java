@@ -214,6 +214,7 @@ public class ParametersConstant {
     public static String SP_NAME_GET_SCREEN_EDIT_VALIDATION="usp_ScreenEditValidation_UCTW";
     public static String SP_NAME_GET_STUDENT_GRADE="Usp_EL_Grade";
     public static String SP_NAME_GET_TENURE="USP_Loan_Tenure";
+    public static String SP_NAME_LOGOUT="usp_Logout";
     public static String SP_NAME_GET_BRE_SNS_MANAGE_RESULTS="USP_BreSnsManageResults";
     public static String SP_NAME_PIN_CAODE_MASTER="usp_PincodeMaster_UCTW";
     public static String SP_NAME_PIN_CAODE_AREA="usp_PincodeArea_UCTW";

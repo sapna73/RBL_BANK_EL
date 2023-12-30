@@ -108,6 +108,8 @@ public class ProductMasterRequestDTO {
         private String SegmentId = "";
         @Expose
         private String BCID = "";
+        @Expose
+        private String Type = "";
 
         public String getSegmentId() {
             return SegmentId;
@@ -123,6 +125,14 @@ public class ProductMasterRequestDTO {
 
         public void setBCID(String BCID) {
             this.BCID = BCID;
+        }
+
+        public String getType() {
+            return Type;
+        }
+
+        public void setType(String type) {
+            Type = type;
         }
     }
 }

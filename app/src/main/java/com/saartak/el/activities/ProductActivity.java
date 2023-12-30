@@ -50,6 +50,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.saartak.el.BuildConfig;
 import com.saartak.el.database.entity.CenterMeetingCollectionTable;
+import com.saartak.el.database.entity.DynamicUITable;
 import com.saartak.el.helper.ItemOffsetDecoration;
 import com.saartak.el.R;
 import com.saartak.el.adapter.LoanTypeAdapter;
@@ -61,6 +62,7 @@ import com.saartak.el.models.BearerTokenRequestDTO;
 import com.saartak.el.models.BearerTokenResponseDTO;
 import com.saartak.el.models.LoanTypeDto;
 import com.saartak.el.models.LogOutResponseDTO;
+import com.saartak.el.models.Logoff.LogOffResponseTable;
 import com.saartak.el.models.UserLoginMenu.UserLoginMenuTable;
 import com.saartak.el.view_models.DynamicUIViewModel;
 
@@ -576,7 +578,7 @@ public class ProductActivity extends LOSBaseActivity implements HasSupportFragme
         }
     }
 
-    private void callLogOutService(String userId) {
+   /* private void callLogOutService(String userId) {
         try {
             appHelper.getDialogHelper().getLoadingDialog().showGIFLoading();
             viewModel.logOutService(userId);
@@ -613,6 +615,44 @@ public class ProductActivity extends LOSBaseActivity implements HasSupportFragme
             ex.printStackTrace();
             appHelper.getDialogHelper().getLoadingDialog().closeDialog();
             INSERT_LOG("callLogOutService", "Exception : " + ex.getMessage());
+        }
+    }*/
+
+    public void callLogOutService(String userId) {
+        try {
+            appHelper.getDialogHelper().getLoadingDialog().showGIFLoading();
+            viewModel.getLogOff(userId);
+            if (viewModel.getLogOffResponseTableLiveData() != null) {
+                Observer observer = new Observer() {
+                    @Override
+                    public void onChanged(Object o) {
+                        appHelper.getDialogHelper().getLoadingDialog().closeDialog();
+                        ArrayList<LogOffResponseTable> logOffResponseTable = (ArrayList<LogOffResponseTable>) o;
+                        viewModel.getLogOffResponseTableLiveData().removeObserver(this);
+
+                        if (logOffResponseTable != null && logOffResponseTable.size() > 0) {
+                            if (logOffResponseTable != null && !TextUtils.isEmpty(logOffResponseTable.get(0).getError())
+                                    && logOffResponseTable.get(0).getError().equalsIgnoreCase("0")) {
+                                // TODO: LOG OUT SUCCESS
+                                // TODO: Finish the activity
+                                finish();
+
+                            } else {
+                                String errorMessage = ERROR_MESSAGE_LOGOUT_FAILED;
+                                if (logOffResponseTable != null && !TextUtils.isEmpty(logOffResponseTable.get(0).getMessage())) {
+                                    errorMessage = logOffResponseTable.get(0).getMessage();
+                                }
+                                appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ALERT,
+                                        errorMessage);
+                            }
+                        }
+                    }
+                };
+                viewModel.getLogOffResponseTableLiveData().observe(this, observer);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            appHelper.getDialogHelper().getLoadingDialog().closeDialog();
         }
     }
 
