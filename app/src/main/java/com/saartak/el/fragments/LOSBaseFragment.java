@@ -187,7 +187,7 @@ public class LOSBaseFragment extends BaseFragment {
     String stateGetFromLead = "", twlMake = "", twlModel = "", twlVariant = "", twlTwowheelertype = "",
             twlElectricModel = "", twlEngineCC, twlPrice = "", twlCategory;
     String kilometer = "", vechicalAge = "", applicantFullName = "", addressDetailCommunicationPinCode = "";
-    String studentFullName = "", coApplicantFullName = "";
+    String studentFullName = "", coApplicantFullName = "",leadCustomerType="";
     String[] splitNameValue;
     int applicantAge = 0;
     int exShowRoomPrice = 0;
@@ -1085,7 +1085,7 @@ public class LOSBaseFragment extends BaseFragment {
 
                     if (isLoanProduct == false && isLoanType == true && LOSBaseFragment.this instanceof ApplicantLoanProposalFragment){
 //                        pincodeMasterDataForLoanProposal(viewParametersList, CLIENT_ID);
-                        getProductLoanSchemeMasterFromServer(viewParametersList,"2");
+                        //getProductLoanSchemeMasterFromServer(viewParametersList,"2");
                         getTenureInMonths(viewParametersList, SCREEN_NAME);
                         isLoanProduct = true;
                         break;
@@ -1422,7 +1422,7 @@ public class LOSBaseFragment extends BaseFragment {
                                     //-----------------Loan Scheme--------------------------
                                     if (dynamicUITable.getFieldTag().equalsIgnoreCase(TAG_NAME_LOAN_TYPE)) {
                                         isLoanProduct = true;
-                                        getProductLoanSchemeMasterFromServer(viewParametersList,"2");
+                                        //getProductLoanSchemeMasterFromServer(viewParametersList,"2");
                                     }
                                 }
                                 else if (LOSBaseFragment.this instanceof NomineeDetailFragment
@@ -2067,7 +2067,8 @@ public class LOSBaseFragment extends BaseFragment {
                                         }
                                     }
 
-                                } else if (LOSBaseFragment.this instanceof CourseDetailsFragment) {
+                                }
+                                else if (LOSBaseFragment.this instanceof CourseDetailsFragment) {
                                     if (!TextUtils.isEmpty(viewParameters.getFieldTag()) && viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_OF_THE_ENTRANCE_EXAMINATION)) {
                                         List<ParameterInfo> parameterInfoList = new ArrayList<>();
                                         if (!TextUtils.isEmpty(selectedItem) && selectedItem.equalsIgnoreCase("Others")){
@@ -2126,7 +2127,8 @@ public class LOSBaseFragment extends BaseFragment {
                                         EnableOrDisableByFieldNameInDB(parameterInfoList, viewParametersList);
                                     }
 
-                                } else if (LOSBaseFragment.this instanceof LoanProposalSummaryFragment) {
+                                }
+                                else if (LOSBaseFragment.this instanceof LoanProposalSummaryFragment) {
                                     // TODO: Loan proposal summary screen
                                     calculateLoanProposal(viewParametersList.get(0), viewParametersList);
                                 }
@@ -2275,6 +2277,13 @@ public class LOSBaseFragment extends BaseFragment {
                                             parameterInfoList.add(new ParameterInfo(TAG_NAME_TYPE_OF_MORATORIUM, SCREEN_ID, "", false, true));
                                         }
                                         EnableOrDisableByFieldNameInDB(parameterInfoList, viewParametersList);
+                                    }
+                                    if (!TextUtils.isEmpty(viewParameters.getFieldTag()) && viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_LOAN_PRODUCT)) {
+                                        if (selectedItem.equalsIgnoreCase("Education Loan Secured - EDLNS")) {
+                                            getProductLoanSchemeMasterFromServer(viewParametersList,leadCustomerType,"1","2");
+                                        } else {
+                                            getProductLoanSchemeMasterFromServer(viewParametersList,leadCustomerType,"0","2");
+                                        }
                                     }
 //                                    if(!TextUtils.isEmpty(viewParameters.getFieldTag()) && viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_LOAN_SCHEME)){
 //                                        getProductLoanSchemeMasterFromServer(viewParametersList, customSpinner.getSelectedItem().toString());
@@ -4028,7 +4037,7 @@ public class LOSBaseFragment extends BaseFragment {
                         parameterInfoList.add(new ParameterInfo(TAG_NAME_ENTERPRISE_NAME, SCREEN_ID, "", true, true));
                         parameterInfoList.add(new ParameterInfo(TAG_NAME_COMPANY_NAME, SCREEN_ID, "", false, true));
                         EnableOrDisableByFieldNameInDB(parameterInfoList, dynamicUITableList);
-
+                        leadCustomerType="2";
                     } else {
                         List<ParameterInfo> parameterInfoList = new ArrayList<>();
                         parameterInfoList.add(new ParameterInfo(TAG_NAME_BUSINESS_SECTOR, SCREEN_ID, "", false, true));
@@ -4036,6 +4045,7 @@ public class LOSBaseFragment extends BaseFragment {
                         parameterInfoList.add(new ParameterInfo(TAG_NAME_ENTERPRISE_NAME, SCREEN_ID, "", false, true));
                         parameterInfoList.add(new ParameterInfo(TAG_NAME_COMPANY_NAME, SCREEN_ID, "", true, true));
                         EnableOrDisableByFieldNameInDB(parameterInfoList, dynamicUITableList);
+                        leadCustomerType="1";
                     }
                 }
             }
@@ -4136,6 +4146,15 @@ public class LOSBaseFragment extends BaseFragment {
                     parameterInfoList.add(new ParameterInfo(TAG_LEAD_NAME_EMPLOYEE_ID, SCREEN_ID, "", false, true));
                 }
                 EnableOrDisableByFieldNameInDB(parameterInfoList, viewParametersList);
+            }
+
+            if (!TextUtils.isEmpty(viewParameters.getFieldTag()) && viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_LOAN_PRODUCT)) {
+                String selectedItem = customSpinner.getSelectedItem().toString();
+                if (selectedItem.equalsIgnoreCase("Education Loan Secured - EDLNS")) {
+                    getProductLoanSchemeMasterFromServer(viewParametersList,leadCustomerType,"1","1");
+                } else {
+                    getProductLoanSchemeMasterFromServer(viewParametersList,leadCustomerType,"0","1");
+                }
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -4445,33 +4464,38 @@ public class LOSBaseFragment extends BaseFragment {
                                                             parameterInfoList.add(new ParameterInfo(TAG_NAME_GENDER, SCREEN_ID, "", true, true));
                                                         }*/
                                                     }else {
-                                                        if(LOSBaseFragment.this instanceof ApplicantPANDetailsFragment) {
+                                                        try {
+                                                            if(LOSBaseFragment.this instanceof ApplicantPANDetailsFragment) {
 
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_CONTAINS_DOB, SCREEN_ID, "", true, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_DATE_OF_INCORPORATION, SCREEN_ID, "", false, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_CONTAINS_AGE, SCREEN_ID, "", true, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_GENDER, SCREEN_ID, "", true, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_PAN, SCREEN_ID, "", true, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_PAN_STATUS, SCREEN_ID, "", true, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_FIRST_NAME, SCREEN_ID, first_FullName, true, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_MIDDLE_NAME, SCREEN_ID, middleName, true, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_LAST_NAME, SCREEN_ID, lastName, true, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_TITLE, SCREEN_ID, "", true, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_FULL_NAME, SCREEN_ID, applicantFullName, true, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_CONTAINS_DOB, SCREEN_ID, "", true, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_DATE_OF_INCORPORATION, SCREEN_ID, "", false, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_CONTAINS_AGE, SCREEN_ID, "", true, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_GENDER, SCREEN_ID, "", true, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_PAN, SCREEN_ID, "", true, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_PAN_STATUS, SCREEN_ID, "", true, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_FIRST_NAME, SCREEN_ID, first_FullName, true, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_MIDDLE_NAME, SCREEN_ID, middleName, true, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_LAST_NAME, SCREEN_ID, lastName, true, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_TITLE, SCREEN_ID, "", true, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_FULL_NAME, SCREEN_ID, applicantFullName, true, true));
 
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_FIRST_NAME, SCREEN_ID, "", false, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_MIDDLE_NAME, SCREEN_ID, "", false, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_LAST_NAME, SCREEN_ID, "", false, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_FIRM_NAME, SCREEN_ID, "", false, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_FIRST_NAME, SCREEN_ID, "", false, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_MIDDLE_NAME, SCREEN_ID, "", false, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_LAST_NAME, SCREEN_ID, "", false, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_FIRM_NAME, SCREEN_ID, "", false, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_PAN, SCREEN_ID, "", false, true));
 
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_PARTNERSHIP_PAN, SCREEN_ID, "", false, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_PARTNERSHIP_FIRM_NAME, SCREEN_ID, "", false, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_PARTNERSHIP_PAN, SCREEN_ID, "", false, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_PARTNERSHIP_FIRM_NAME, SCREEN_ID, "", false, true));
 
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_COMPANY_PAN, SCREEN_ID, "", false, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_COMPANYNAME, SCREEN_ID, "", false, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_COMPANY_PAN, SCREEN_ID, "", false, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_COMPANYNAME, SCREEN_ID, "", false, true));
 
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_CIN, SCREEN_ID, "", false, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_DIN, SCREEN_ID, "", false, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_CIN, SCREEN_ID, "", false, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_DIN, SCREEN_ID, "", false, true));
+                                                            }
+                                                        } catch (Exception e) {
+                                                            throw new RuntimeException(e);
                                                         }
                                                     }
 
@@ -5299,33 +5323,39 @@ public class LOSBaseFragment extends BaseFragment {
                                                             parameterInfoList.add(new ParameterInfo(TAG_NAME_DIN, SCREEN_ID, "", false, true));
                                                         }
                                                     } else {
-                                                        if (LOSBaseFragment.this instanceof ApplicantPANDetailsFragment) {
 
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_CONTAINS_DOB, SCREEN_ID, "", true, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_DATE_OF_INCORPORATION, SCREEN_ID, "", false, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_CONTAINS_AGE, SCREEN_ID, "", true, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_GENDER, SCREEN_ID, "", true, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_PAN, SCREEN_ID, "", true, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_PAN_STATUS, SCREEN_ID, "", true, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_FIRST_NAME, SCREEN_ID, first_FullName, true, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_MIDDLE_NAME, SCREEN_ID, middleName, true, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_LAST_NAME, SCREEN_ID, lastName, true, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_TITLE, SCREEN_ID, "", true, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_FULL_NAME, SCREEN_ID, applicantFullName, true, true));
+                                                        try {
+                                                            if (LOSBaseFragment.this instanceof ApplicantPANDetailsFragment) {
 
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_FIRST_NAME, SCREEN_ID, "", false, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_MIDDLE_NAME, SCREEN_ID, "", false, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_LAST_NAME, SCREEN_ID, "", false, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_FIRM_NAME, SCREEN_ID, "", false, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_CONTAINS_DOB, SCREEN_ID, "", true, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_DATE_OF_INCORPORATION, SCREEN_ID, "", false, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_CONTAINS_AGE, SCREEN_ID, "", true, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_GENDER, SCREEN_ID, "", true, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_PAN, SCREEN_ID, "", true, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_PAN_STATUS, SCREEN_ID, "", true, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_FIRST_NAME, SCREEN_ID, first_FullName, true, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_MIDDLE_NAME, SCREEN_ID, middleName, true, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_LAST_NAME, SCREEN_ID, lastName, true, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_TITLE, SCREEN_ID, "", true, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_FULL_NAME, SCREEN_ID, applicantFullName, true, true));
 
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_PARTNERSHIP_PAN, SCREEN_ID, "", false, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_PARTNERSHIP_FIRM_NAME, SCREEN_ID, "", false, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_FIRST_NAME, SCREEN_ID, "", false, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_MIDDLE_NAME, SCREEN_ID, "", false, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_LAST_NAME, SCREEN_ID, "", false, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_FIRM_NAME, SCREEN_ID, "", false, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_PAN, SCREEN_ID, "", false, true));
 
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_COMPANY_PAN, SCREEN_ID, "", false, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_COMPANYNAME, SCREEN_ID, "", false, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_PARTNERSHIP_PAN, SCREEN_ID, "", false, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_PARTNERSHIP_FIRM_NAME, SCREEN_ID, "", false, true));
 
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_CIN, SCREEN_ID, "", false, true));
-                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_DIN, SCREEN_ID, "", false, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_COMPANY_PAN, SCREEN_ID, "", false, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_COMPANYNAME, SCREEN_ID, "", false, true));
+
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_CIN, SCREEN_ID, "", false, true));
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_DIN, SCREEN_ID, "", false, true));
+                                                            }
+                                                        } catch (Exception e) {
+                                                            throw new RuntimeException(e);
                                                         }
                                                     }
                                                 }
@@ -12928,7 +12958,7 @@ public class LOSBaseFragment extends BaseFragment {
 
     }
     public void leadCustomerTypeVisibility(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList) {
-        getProductLoanSchemeMasterFromServer(dynamicUITableList,"1");
+        getProductLoanSchemeMasterFromServer(dynamicUITableList,"1","1","1");
         List<ParameterInfo> parameterInfoList = new ArrayList<>();
         parameterInfoList.add(new ParameterInfo(TAG_NAME_CUSTOMER_TYPE, SCREEN_ID, "", true, true));
         EnableOrDisableByFieldNameInDB(parameterInfoList, dynamicUITableList);
@@ -14166,10 +14196,10 @@ public class LOSBaseFragment extends BaseFragment {
         }
     }*/
 
-    public void getProductLoanSchemeMasterFromServer(List<DynamicUITable> dynamicUITableList,String value) {
+    public void getProductLoanSchemeMasterFromServer(List<DynamicUITable> dynamicUITableList,String customerType,String secOrUnSec,String value) {
         try {
             appHelper.getDialogHelper().getLoadingDialog().showGIFLoading();
-            viewModel.getProductMasterFromServer( "26", BCID);
+            viewModel.getProductMasterFromServer( "26", BCID,customerType,secOrUnSec);
             if (viewModel.getProductMasterTableLiveDataList() != null) {
                 Observer observer = new Observer() {
                     @Override
@@ -14208,10 +14238,10 @@ public class LOSBaseFragment extends BaseFragment {
                             Log.d(TAG, "get the loan scheme list!!.............................." + laonSchemeList.toString());
                             Log.d(TAG, "get loan product e list!!.............................." + loanProductList.toString());
                             if(value.equalsIgnoreCase("1")){
-                                addOrRemoveSpinnerItem(TAG_NAME_LOAN_PRODUCT, loanProductList, "", true, SCREEN_N0_LEAD_EL,dynamicUITableList);
+                               // addOrRemoveSpinnerItem(TAG_NAME_LOAN_PRODUCT, loanProductList, "", true, SCREEN_N0_LEAD_EL,dynamicUITableList);
                                 addOrRemoveSpinnerItem(TAG_NAME_LOAN_SCHEME, laonSchemeList, "", true, SCREEN_N0_LEAD_EL, dynamicUITableList);
                             }else {
-                                addOrRemoveSpinnerItem(TAG_NAME_LOAN_PRODUCT, loanProductList, "", true, SCREEN_NO_APPLICANT_LOAN_PROPOSAL_EL, dynamicUITableList);
+                                //addOrRemoveSpinnerItem(TAG_NAME_LOAN_PRODUCT, loanProductList, "", true, SCREEN_NO_APPLICANT_LOAN_PROPOSAL_EL, dynamicUITableList);
                                 addOrRemoveSpinnerItem(TAG_NAME_LOAN_SCHEME, laonSchemeList, "", true, SCREEN_NO_APPLICANT_LOAN_PROPOSAL_EL, dynamicUITableList);
                             }
                         }

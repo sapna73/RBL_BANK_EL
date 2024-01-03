@@ -2229,9 +2229,9 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
         }
     }
 
-    public void getProductMasterFromServer(String productId, String bcId){
+    public void getProductMasterFromServer(String productId, String bcId,String customerType,String secOrUnSec){
         try{
-            productMasterTableLiveDataList = dynamicUIRepository.getProductMasterFromServer(productId, bcId);
+            productMasterTableLiveDataList = dynamicUIRepository.getProductMasterFromServer(productId, bcId, customerType, secOrUnSec);
         }catch (Exception ex){
             ex.printStackTrace();
         }

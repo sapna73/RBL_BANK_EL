@@ -137,7 +137,7 @@ public class TwoWheelerFragment extends LOSBaseFragment implements LOSBaseFragme
     public void configureViewModel() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(DynamicUIViewModel.class);
 
-        getProductMasterFromServer(PRODUCT_ID,BCID);
+//        getProductMasterFromServer(PRODUCT_ID,BCID);
 
     }
 
@@ -204,7 +204,7 @@ public class TwoWheelerFragment extends LOSBaseFragment implements LOSBaseFragme
     }
 
 
-    private void getProductMasterFromServer(String productId, String bcId) {
+    /*private void getProductMasterFromServer(String productId, String bcId) {
         try {
             viewModel.getProductMasterFromServer(productId, bcId);
             if (viewModel.getProductMasterTableLiveDataList() != null) {
@@ -232,5 +232,5 @@ public class TwoWheelerFragment extends LOSBaseFragment implements LOSBaseFragme
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    }
+    }*/
 }

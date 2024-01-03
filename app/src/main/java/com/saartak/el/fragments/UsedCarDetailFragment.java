@@ -183,7 +183,7 @@ public class UsedCarDetailFragment extends LOSBaseFragment implements LOSBaseFra
 
     public void configureViewModel() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(DynamicUIViewModel.class);
-        getProductMasterFromServer(PRODUCT_ID,BCID);
+       // getProductMasterFromServer(PRODUCT_ID,BCID);
     }
 
     @Override
@@ -230,7 +230,7 @@ public class UsedCarDetailFragment extends LOSBaseFragment implements LOSBaseFra
         }
     }
 
-    private void getProductMasterFromServer(String productId, String bcId) {
+    /*private void getProductMasterFromServer(String productId, String bcId) {
         try {
             viewModel.getProductMasterFromServer(productId, bcId);
             if (viewModel.getProductMasterTableLiveDataList() != null) {
@@ -250,7 +250,7 @@ public class UsedCarDetailFragment extends LOSBaseFragment implements LOSBaseFra
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    }
+    }*/
 
     private void updateUI(@Nullable List<DynamicUITable> dynamicUITable) {
         if (dynamicUITable != null) {

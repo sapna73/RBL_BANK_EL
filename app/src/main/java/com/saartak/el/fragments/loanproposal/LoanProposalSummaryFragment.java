@@ -173,12 +173,13 @@ public class LoanProposalSummaryFragment extends LOSBaseFragment implements LOSB
     public void configureViewModel() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(DynamicUIViewModel.class);
         // TODO: get productmaster data
-        if (PRODUCT_ID.equalsIgnoreCase(LOAN_NAME_PHL)) {
+       /* if (PRODUCT_ID.equalsIgnoreCase(LOAN_NAME_PHL)) {
             getProductMasterFromServer(PRODUCT_ID, AppConstant.BCID_PHL); // TODO: BCID is static value
 
         } else {
             getProductMasterFromServer(PRODUCT_ID, AppConstant.BCID); // TODO: BCID is static value
-        }
+        }*/
+        init();
     }
     public void init() {
         try{
@@ -204,7 +205,7 @@ public class LoanProposalSummaryFragment extends LOSBaseFragment implements LOSB
 
     private void getProductMasterFromServer(String productId, String bcId) {
         try {
-            viewModel.getProductMasterFromServer( productId,bcId);
+            viewModel.getProductMasterFromServer( productId,bcId,"","");
             if (viewModel.getProductMasterTableLiveDataList() != null) {
                 Observer getProductMasterFromServerObserver = new Observer() {
                     @Override

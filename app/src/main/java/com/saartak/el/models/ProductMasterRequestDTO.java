@@ -1,6 +1,7 @@
 package com.saartak.el.models;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
@@ -104,15 +105,18 @@ public class ProductMasterRequestDTO {
     }
 
     public static class SpParametersClass {
+        @SerializedName("SegmentId")
         @Expose
         private String SegmentId = "";
+        @SerializedName("BCID")
         @Expose
         private String BCID = "";
+        @SerializedName("type")
         @Expose
-        private int type ;
-
+        private String type;
+        @SerializedName("prmSec_Unsec")
         @Expose
-        private int prmSec_Unsec ;
+        private String prmSec_Unsec;
 
         public String getSegmentId() {
             return SegmentId;
@@ -130,19 +134,11 @@ public class ProductMasterRequestDTO {
             this.BCID = BCID;
         }
 
-        public int getType() {
-            return type;
-        }
-
-        public void setType(int type) {
+        public void setType(String type) {
             this.type = type;
         }
 
-        public int getPrmSec_Unsec() {
-            return prmSec_Unsec;
-        }
-
-        public void setPrmSec_Unsec(int prmSec_Unsec) {
+        public void setPrmSec_Unsec(String prmSec_Unsec) {
             this.prmSec_Unsec = prmSec_Unsec;
         }
     }
