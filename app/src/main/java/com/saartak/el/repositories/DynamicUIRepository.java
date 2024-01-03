@@ -8261,126 +8261,200 @@ public class DynamicUIRepository {
             executor.execute(() -> {
 
                 // TODO: SET ERROR MESSAGE AS SYNC FAILED
-                dynamicUIDao.updateMasterTableResponse(ERROR_MESSAGE_SYNC_FAILED, masterTable.getClientId(), masterTable.getLoan_type());
+                dynamicUIDao.updateMasterTableResponse(ERROR_MESSAGE_SYNC_FAILED,
+                        masterTable.getClientId(), masterTable.getLoan_type());
 
                 List<SubmitDataTable> submitDataTableList = new ArrayList<>();
                 List<SubmitDataDTO> submitDataDTOList = new ArrayList<>();
 
                 List<String> moduleTypeList = dynamicUIDao.getDistinctModuleType(masterTable.getClientId());
-                List<RawDataTable> rawDataTableList = dynamicUIDao.getRawDataByScreenNoAndClientId("620", masterTable.getClientId());
 
-                if (rawDataTableList != null) {
+                if (moduleTypeList != null && moduleTypeList.size() > 0) {
+                    for (String moduleType : moduleTypeList) {
+                        List<String> screenNoList = dynamicUIDao.getDistinctScreenNumbers(masterTable.getClientId(),
+                                moduleType);
+                        if (screenNoList != null && screenNoList.size() > 0) {
+                            for (String screenNo : screenNoList) {
+                                if(screenNo.equalsIgnoreCase(SCREEN_NO_APPLICANT_LOAN_PROPOSAL_EL)) {
+                                    List<RawDataTable> rawDataTableList = dynamicUIDao.getRawDataByScreenNoAndClientId(screenNo, masterTable.getClientId());
+                                    if (rawDataTableList != null && rawDataTableList.size() > 0) {
+                                        List<String> stringList = new ArrayList<>();
+                                        final SubmitDataTable submitDataTable = new SubmitDataTable();
+                                        final SubmitDataDTO submitDataDTO = new SubmitDataDTO();
+                                        for (int i = 0; i < rawDataTableList.size(); i++) {
+                                            RawDataTable rawDataTable = rawDataTableList.get(i);
+                                            if (!rawDataTable.isSync()) {
 
-                    List<String> stringList = new ArrayList<>();
-                    final SubmitDataTable submitDataTable = new SubmitDataTable();
-                    final SubmitDataDTO submitDataDTO = new SubmitDataDTO();
-                    for (int i = 0; i < rawDataTableList.size(); i++) {
-                        RawDataTable rawDataTable = rawDataTableList.get(i);
-                        if (!rawDataTable.isSync()) {
+                                                if (i == 0) {
+                                                    submitDataTable.setScreenId(rawDataTable.getScreen_no());
+                                                    submitDataTable.setScreenName(rawDataTable.getScreen_name());
+                                                    submitDataTable.setUniqueID(rawDataTable.getClient_id());
+                                                    submitDataTable.setApplicationId(rawDataTable.getClient_id());
+                                                    submitDataTable.setIMEINumber(appHelper.getIMEI());
+                                                    submitDataTable.setBCBRID(masterTable.getBranchGSTcode());
+                                                    submitDataTable.setBCID(masterTable.getBranchId());
+                                                    // TODO: 22-12-2020 submitDTO
+                                                    submitDataDTO.setScreenId(rawDataTable.getScreen_no());
+                                                    submitDataDTO.setScreenName(rawDataTable.getScreen_name());
+                                                    submitDataDTO.setUniqueID(rawDataTable.getClient_id());
+                                                    submitDataDTO.setApplicationId(rawDataTable.getClient_id());
+                                                    submitDataDTO.setIMEINumber(appHelper.getIMEI());
+                                                    submitDataDTO.setBCBRID(masterTable.getBranchGSTcode());
+                                                    submitDataDTO.setBCID(masterTable.getBranchId());
+                                                    LogInTable logInTable = dynamicUIDao.getLoginTable(rawDataTable.getUser_id());
+                                                    if (logInTable != null) {
+                                                        submitDataTable.setBCBRID(logInTable.getBranchGSTCode());
+                                                        submitDataTable.setBCID(String.valueOf(logInTable.getBCID()));
+                                                        submitDataTable.setRoleId(String.valueOf(logInTable.getRoleId()));
+                                                        // TODO: 22-12-2020 submit DTO
+                                                        submitDataDTO.setBCBRID(logInTable.getBranchGSTCode());
+                                                        submitDataDTO.setBCID(String.valueOf(logInTable.getBCID()));
+                                                        submitDataDTO.setRoleId(String.valueOf(logInTable.getRoleId()));
+                                                    }
+                                                    submitDataTable.setCreatedBy(masterTable.getReviewBy()); // TODO: STAFF ID
+                                                    submitDataTable.setModuleType(rawDataTable.getModuleType());
+                                                    //submitDataTable.setStageId(String.valueOf(masterTable.getCurrentStageId())); // TODO: STAGE ID
+                                                    //submitDataTable.setCurrentStageId(masterTable.getCurrentStageId()); // TODO: STAGE ID
+                                                    submitDataTable.setActionName(String.valueOf(masterTable.getActionId())); // TODO: ACTION ID
+                                                    // submitDataTable.setRemarks(masterTable.getRemarks()); // TODO: REMARKS
 
-                            if (i == 0) {
-                                submitDataTable.setScreenId(rawDataTable.getScreen_no());
-                                submitDataTable.setScreenName(rawDataTable.getScreen_name());
-                                submitDataTable.setUniqueID(rawDataTable.getClient_id());
-                                submitDataTable.setApplicationId(rawDataTable.getClient_id());
-                                submitDataTable.setIMEINumber(appHelper.getIMEI());
-                                submitDataTable.setBCBRID(masterTable.getBranchGSTcode());
-                                submitDataTable.setBCID(masterTable.getBranchId());
-                                // TODO: 22-12-2020 submitDTO
-                                submitDataDTO.setScreenId(rawDataTable.getScreen_no());
-                                submitDataDTO.setScreenName(rawDataTable.getScreen_name());
-                                submitDataDTO.setUniqueID(rawDataTable.getClient_id());
-                                submitDataDTO.setApplicationId(rawDataTable.getClient_id());
-                                submitDataDTO.setIMEINumber(appHelper.getIMEI());
-                                submitDataDTO.setBCBRID(masterTable.getBranchGSTcode());
-                                submitDataDTO.setBCID(masterTable.getBranchId());
-                                LogInTable logInTable = dynamicUIDao.getLoginTable(rawDataTable.getUser_id());
-                                if (logInTable != null) {
-                                    submitDataTable.setBCBRID(logInTable.getBranchGSTCode());
-                                    submitDataTable.setBCID(String.valueOf(logInTable.getBCID()));
-                                    submitDataTable.setRoleId(String.valueOf(logInTable.getRoleId()));
-                                    // TODO: 22-12-2020 submit DTO
-                                    submitDataDTO.setBCBRID(logInTable.getBranchGSTCode());
-                                    submitDataDTO.setBCID(String.valueOf(logInTable.getBCID()));
-                                    submitDataDTO.setRoleId(String.valueOf(logInTable.getRoleId()));
-                                }
-                                submitDataTable.setCreatedBy(masterTable.getReviewBy()); // TODO: STAFF ID
-                                submitDataTable.setModuleType(rawDataTable.getModuleType());
-                                //submitDataTable.setStageId(String.valueOf(masterTable.getCurrentStageId())); // TODO: STAGE ID
-                                //submitDataTable.setCurrentStageId(masterTable.getCurrentStageId()); // TODO: STAGE ID
-                                submitDataTable.setActionName(String.valueOf(masterTable.getActionId())); // TODO: ACTION ID
-                                // submitDataTable.setRemarks(masterTable.getRemarks()); // TODO: REMARKS
+                                                    submitDataDTO.setCreatedBy(masterTable.getReviewBy()); // TODO: STAFF ID
+                                                    submitDataDTO.setModuleType(rawDataTable.getModuleType());
+                                                    //submitDataDTO.setStageId(String.valueOf(masterTable.getCurrentStageId())); // TODO: STAGE ID
+                                                    //submitDataDTO.setCurrentStageId(masterTable.getCurrentStageId()); // TODO: STAGE ID
 
-                                submitDataDTO.setCreatedBy(masterTable.getReviewBy()); // TODO: STAFF ID
-                                submitDataDTO.setModuleType(rawDataTable.getModuleType());
-                                //submitDataDTO.setStageId(String.valueOf(masterTable.getCurrentStageId())); // TODO: STAGE ID
-                                //submitDataDTO.setCurrentStageId(masterTable.getCurrentStageId()); // TODO: STAGE ID
+                                                    if (loanType.equalsIgnoreCase(LOAN_NAME_EL)) {
+                                                        if (currentStage != null && currentStage.equalsIgnoreCase("Document Execution")) {
+                                                            // TODO: STAGE ID 148 MEANS RBL OPS OR DiSBUSMENT
+                                                            submitDataDTO.setStageId("148"); // TODO: STAGE ID
+                                                            submitDataDTO.setCurrentStageId(148); // TODO: STAGE ID
+                                                            submitDataTable.setStageId("148"); // TODO: STAGE ID
+                                                            submitDataTable.setCurrentStageId(148); // TODO: STAGE ID
+                                                        } else {
+                                                            // TODO: STAGE ID 0 MEANS  PD STAGE
+                                                            submitDataDTO.setStageId("0"); // TODO: STAGE ID
+                                                            submitDataDTO.setCurrentStageId(0); // TODO: STAGE ID
+                                                            submitDataTable.setStageId("0"); // TODO: STAGE ID
+                                                            submitDataTable.setCurrentStageId(0); // TODO: STAGE ID
+                                                        }
+                                                    }
+                                                    submitDataDTO.setActionName(String.valueOf(masterTable.getActionId())); // TODO: ACTION ID
+                                                    //submitDataDTO.setRemarks(masterTable.getRemarks()); // TODO: REMARKS
 
-                                if (loanType.equalsIgnoreCase(LOAN_NAME_EL)) {
-                                    if (currentStage != null && currentStage.equalsIgnoreCase("Document Execution")) {
-                                        // TODO: STAGE ID 148 MEANS RBL OPS OR DiSBUSMENT
-                                        submitDataDTO.setStageId("148"); // TODO: STAGE ID
-                                        submitDataDTO.setCurrentStageId(148); // TODO: STAGE ID
-                                        submitDataTable.setStageId("148"); // TODO: STAGE ID
-                                        submitDataTable.setCurrentStageId(148); // TODO: STAGE ID
-                                    } else {
-                                        // TODO: STAGE ID 0 MEANS  PD STAGE
-                                        submitDataDTO.setStageId("0"); // TODO: STAGE ID
-                                        submitDataDTO.setCurrentStageId(0); // TODO: STAGE ID
-                                        submitDataTable.setStageId("0"); // TODO: STAGE ID
-                                        submitDataTable.setCurrentStageId(0); // TODO: STAGE ID
-                                    }
-                                }
-                                submitDataDTO.setActionName(String.valueOf(masterTable.getActionId())); // TODO: ACTION ID
-                                //submitDataDTO.setRemarks(masterTable.getRemarks()); // TODO: REMARKS
+                                                    if (!TextUtils.isEmpty(masterTable.getLoan_type()) && masterTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_INDIVIDUAL)) {
 
-                                if (!TextUtils.isEmpty(masterTable.getLoan_type()) && masterTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)) {
+                                                        submitDataTable.setWorkflowId(WORKFLOW_ID_IL); // TODO: WORKFLOW ID IL
+                                                        submitDataTable.setProductId(PRODUCT_ID_IL); // TODO: PRODUCT ID IL
+                                                        submitDataDTO.setWorkflowId(WORKFLOW_ID_IL); // TODO: WORKFLOW ID IL
+                                                        submitDataDTO.setProductId(PRODUCT_ID_IL); // TODO: PRODUCT ID IL
+                                                    } else if (!TextUtils.isEmpty(masterTable.getLoan_type())
+                                                            && masterTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_MSME)) {
 
-                                    submitDataTable.setWorkflowId(WORKFLOW_ID_EL); // TODO: WORKFLOW ID PHL
-                                    submitDataTable.setProductId(PRODUCT_ID_EL); // TODO: PRODUCT ID PHL
-                                    submitDataDTO.setWorkflowId(WORKFLOW_ID_EL); // TODO: WORKFLOW ID PHL
-                                    submitDataDTO.setProductId(PRODUCT_ID_EL); // TODO: PRODUCT ID PHL
-                                }
-                            }
-                            JsonParser jsonParser = new JsonParser();
-                            if (rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_DOCUMENT_UPLOAD)) {
-                                submitDataTable.setRawData(rawDataTable.getRawdata());
+                                                        submitDataTable.setWorkflowId(WORKFLOW_ID_MSME); // TODO: WORKFLOW ID MSME
+                                                        submitDataTable.setProductId(PRODUCT_ID_MSME); // TODO: PRODUCT ID MSME
+                                                        submitDataDTO.setWorkflowId(WORKFLOW_ID_MSME); // TODO: WORKFLOW ID MSME
+                                                        submitDataDTO.setProductId(PRODUCT_ID_MSME); // TODO: PRODUCT ID MSME
+                                                    } else if (!TextUtils.isEmpty(masterTable.getLoan_type())
+                                                            && masterTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_JLG)) {
+
+                                                        submitDataTable.setWorkflowId(WORKFLOW_ID_JLG); // TODO: WORKFLOW ID JLG
+                                                        submitDataTable.setProductId(PRODUCT_ID_JLG); // TODO: PRODUCT ID JLG
+                                                        submitDataDTO.setWorkflowId(WORKFLOW_ID_JLG); // TODO: WORKFLOW ID JLG
+                                                        submitDataDTO.setProductId(PRODUCT_ID_JLG); // TODO: PRODUCT ID JLG
+                                                    } else if (!TextUtils.isEmpty(masterTable.getLoan_type())
+                                                            && masterTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_PHL)) {
+
+                                                        submitDataTable.setWorkflowId(WORKFLOW_ID_PHL); // TODO: WORKFLOW ID PHL
+                                                        submitDataTable.setProductId(PRODUCT_ID_PHL); // TODO: PRODUCT ID PHL
+                                                        submitDataDTO.setWorkflowId(WORKFLOW_ID_PHL); // TODO: WORKFLOW ID PHL
+                                                        submitDataDTO.setProductId(PRODUCT_ID_PHL); // TODO: PRODUCT ID PHL
+                                                    } else if (!TextUtils.isEmpty(masterTable.getLoan_type())
+                                                            && masterTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_TWL)) {
+
+                                                        submitDataTable.setWorkflowId(WORKFLOW_ID_TWL); // TODO: WORKFLOW ID TWL
+                                                        submitDataTable.setProductId(PRODUCT_ID_TWL); // TODO: PRODUCT ID TWL
+                                                        submitDataDTO.setWorkflowId(WORKFLOW_ID_TWL); // TODO: WORKFLOW ID TWL
+                                                        submitDataDTO.setProductId(PRODUCT_ID_TWL); // TODO: PRODUCT ID TWL
+                                                    } else if (!TextUtils.isEmpty(masterTable.getLoan_type())
+                                                            && masterTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_EL)) {
+
+                                                        submitDataTable.setWorkflowId(WORKFLOW_ID_EL); // TODO: WORKFLOW ID PHL
+                                                        submitDataTable.setProductId(PRODUCT_ID_EL); // TODO: PRODUCT ID PHL
+                                                        submitDataDTO.setWorkflowId(WORKFLOW_ID_EL); // TODO: WORKFLOW ID PHL
+                                                        submitDataDTO.setProductId(PRODUCT_ID_EL); // TODO: PRODUCT ID PHL
+                                                    } else if (!TextUtils.isEmpty(masterTable.getLoan_type())
+                                                            && masterTable.getLoan_type().equalsIgnoreCase(LOAN_NAME_AHL)) {
+
+                                                        submitDataTable.setWorkflowId(WORKFLOW_ID_AHL); // TODO: WORKFLOW ID AHL
+                                                        submitDataTable.setProductId(PRODUCT_ID_AHL); // TODO: PRODUCT ID AHL
+                                                        submitDataDTO.setWorkflowId(WORKFLOW_ID_AHL); // TODO: WORKFLOW ID AHL
+                                                        submitDataDTO.setProductId(PRODUCT_ID_AHL); // TODO: PRODUCT ID AHL
+                                                    } else {
+                                                        submitDataTable.setWorkflowId(WORKFLOW_ID_TWL); // TODO: WORKFLOW ID PHL
+                                                        submitDataTable.setProductId(PRODUCT_ID_TWL); // TODO: PRODUCT ID PHL
+                                                        submitDataDTO.setWorkflowId(WORKFLOW_ID_TWL); // TODO: WORKFLOW ID PHL
+                                                        submitDataDTO.setProductId(PRODUCT_ID_TWL); // TODO: PRODUCT ID PHL
+                                                    }
+                                                }
+                                                JsonParser jsonParser = new JsonParser();
+                                                if (rawDataTable.getScreen_name().equalsIgnoreCase(SCREEN_NAME_DOCUMENT_UPLOAD)) {
+                                                    submitDataTable.setRawData(rawDataTable.getRawdata());
 //                                                JsonObject jsonObject = (JsonObject)jsonParser.parse(rawDataTable.getRawdata());
 //                                                JsonArray jsonArrayRawData=new JsonArray();
 //                                                jsonArrayRawData.add(jsonObject);
-                                JsonArray jsonArrayStringList = (JsonArray) jsonParser.parse(rawDataTable.getRawdata());
-                                submitDataDTO.setRawData(jsonArrayStringList);
-                            } else {
-                                stringList.add(rawDataTable.getRawdata());
-                                submitDataTable.setRawData(stringList.toString());
-                                JsonArray jsonArrayStringList = (JsonArray) jsonParser.parse(stringList.toString());
-                                submitDataDTO.setRawData(jsonArrayStringList);
+                                                    JsonArray jsonArrayStringList = (JsonArray) jsonParser.parse(rawDataTable.getRawdata());
+                                                    submitDataDTO.setRawData(jsonArrayStringList);
+                                                } else {
+                                                    stringList.add(rawDataTable.getRawdata());
+                                                    submitDataTable.setRawData(stringList.toString());
+                                                    JsonArray jsonArrayStringList = (JsonArray) jsonParser.parse(stringList.toString());
+                                                    submitDataDTO.setRawData(jsonArrayStringList);
+                                                }
+                                            }
+                                        }
+
+                                        if (submitDataTableList.size() > 0) {
+                                            boolean alreadyExist = false;
+                                            for (SubmitDataTable dataTable : submitDataTableList) {
+                                                if (dataTable.getScreenId().equalsIgnoreCase(submitDataTable.getScreenId())) {
+                                                    alreadyExist = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (!alreadyExist) {
+                                                submitDataTableList.add(submitDataTable);
+                                                submitDataDTOList.add(submitDataDTO);
+                                            }
+                                        } else {
+                                            submitDataTableList.add(submitDataTable);
+                                            submitDataDTOList.add(submitDataDTO);
+                                        }
+                                    }
+                                }
                             }
                         }
+                    }
+                }
+
+                if (submitDataTableList.size() > 0) {
+                    // TODO: Setting request xml value
+                    for (SubmitDataTable submitDataTable : submitDataTableList) {
+                        String request = new Gson().toJson(submitDataTable, SubmitDataTable.class);
+                        submitDataTable.setRequest(request);
                     }
 
-                    if (submitDataTableList.size() > 0) {
-                        boolean alreadyExist = false;
-                        for (SubmitDataTable dataTable : submitDataTableList) {
-                            if (dataTable.getScreenId().equalsIgnoreCase(submitDataTable.getScreenId())) {
-                                alreadyExist = true;
-                                break;
-                            }
-                        }
-                        if (!alreadyExist) {
-                            submitDataTableList.add(submitDataTable);
-                            submitDataDTOList.add(submitDataDTO);
-                        }
-                    } else {
-                        submitDataTableList.add(submitDataTable);
-                        submitDataDTOList.add(submitDataDTO);
+                    dynamicUIDao.insertAndDeleteSubmitDataTable(submitDataTableList, masterTable.getClientId());
+
+                    // TODO: Setting request xml value as empty
+                    for (SubmitDataTable submitDataTable : submitDataTableList) {
+                        submitDataTable.setRequest("");
                     }
-                    Log.d(TAG, "Request: " + submitDataTableList);
+                    SubmitDataDTO submitDataDTO = submitDataDTOList.get(0);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     try {
                         getEncryptToken = AES256EncryptAndDecrypt.getCipher(Cipher.ENCRYPT_MODE, null);
-                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(submitDataTableList.get(0)));
+                        encryptedValue = AES256EncryptAndDecrypt.encryptAndEncode(getEncryptToken.getCipher(), new Gson().toJson(submitDataDTO));
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
@@ -8390,6 +8464,8 @@ public class DynamicUIRepository {
                         @Override
                         public void onResponse(Call<String> call, Response<String> response) {
                             executor.execute(() -> {
+                               final SubmitDataTable submitDataTable= new SubmitDataTable();
+                               final SubmitDataDTO submitDataDTO= new SubmitDataDTO();
                                 if (response!=null) {
                                     try {
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -25744,7 +25820,7 @@ public class DynamicUIRepository {
                 if (!TextUtils.isEmpty(customerValue)) {
                     if (customerValue.equalsIgnoreCase(RADIO_BUTTON_ITEM_SELF_EMPLOYED) || customerValue.equalsIgnoreCase(RADIO_BUTTON_ITEM_SEP) || customerValue.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP)) {
                         spParametersClass.setType("2");
-                    } else if (customerValue.equalsIgnoreCase(RADIO_BUTTON_ITEM_BANK_SALARIED) || customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SALARIED)) {
+                    } else if (customerValue.equalsIgnoreCase(RADIO_BUTTON_ITEM_BANK_SALARIED) || customerValue.equalsIgnoreCase(RADIO_BUTTON_ITEM_SALARIED)) {
                         spParametersClass.setType("1");
                     }
                 }
