@@ -25,6 +25,7 @@
         android:roundIcon="@drawable/el_img"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
+        android:resizeableActivity = "true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
         <activity
@@ -388,5 +389,6 @@
             android:exported="false"
             android:theme="@style/Base.Theme.AppCompat" />
     </application>
+
 
 </manifest>

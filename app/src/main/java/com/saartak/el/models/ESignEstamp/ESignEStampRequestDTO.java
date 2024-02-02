@@ -32,6 +32,9 @@ public  class ESignEStampRequestDTO {
     @SerializedName("CreatedDate")
     private String CreatedDate;
     @Expose
+    @SerializedName("RequestFrom")
+    private String RequestFrom="APP";
+    @Expose
     @SerializedName("CreatedBy")
     private String CreatedBy;
     @Expose

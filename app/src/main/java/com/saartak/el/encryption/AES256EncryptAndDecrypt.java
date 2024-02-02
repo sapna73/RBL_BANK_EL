@@ -131,7 +131,5 @@ public class AES256EncryptAndDecrypt {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }*/
 }

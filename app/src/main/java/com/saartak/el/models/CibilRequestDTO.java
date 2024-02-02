@@ -1,6 +1,7 @@
 package com.saartak.el.models;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class CibilRequestDTO {
 
@@ -16,6 +17,9 @@ public class CibilRequestDTO {
     private String CreatedDate = "";
     @Expose
     private String CreatedBy = "";
+    @Expose
+    @SerializedName("RequestFrom")
+    private String RequestFrom="APP";
     @Expose
     private String ServiceType = "";
     @Expose
@@ -59,6 +63,9 @@ public class CibilRequestDTO {
 
     public void setCreatedDate(String createdDate) {
         CreatedDate = createdDate;
+    }
+    public void setRequestFrom(String requestFrom) {
+        RequestFrom = requestFrom;
     }
 
     public String getCreatedBy() {

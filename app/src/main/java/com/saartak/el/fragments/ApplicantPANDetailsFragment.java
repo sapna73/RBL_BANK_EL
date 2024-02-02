@@ -7,6 +7,7 @@ import static com.saartak.el.constants.AppConstant.PARAM_PROJECT_ID;
 import static com.saartak.el.constants.AppConstant.PARAM_SCREEN_NAME;
 import static com.saartak.el.constants.AppConstant.PARAM_SCREEN_NO;
 import static com.saartak.el.constants.AppConstant.PARAM_USER_ID;
+import static com.saartak.el.dynamicui.constants.ParametersConstant.SPINNER_ITEM_FIELD_NAME_PAN_CARD;
 
 import android.net.Uri;
 import android.os.Bundle;

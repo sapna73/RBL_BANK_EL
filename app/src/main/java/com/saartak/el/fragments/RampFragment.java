@@ -214,6 +214,15 @@ public class RampFragment extends LOSBaseFragment implements FragmentInterface {
 
     public void configureViewModel() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(DynamicUIViewModel.class);
+        try {
+            getName();
+            getRawData();
+            getAddressDetailRawData();
+            getKYCData();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override

@@ -15,6 +15,10 @@ public class PosidexRequestDTO {
     private String CreatedByProject = "";
 
     @Expose
+    @SerializedName("RequestFrom")
+    private String RequestFrom="APP";
+
+    @Expose
     private String ExternalCustomerId = "";
 
     @Expose
@@ -631,6 +635,9 @@ public class PosidexRequestDTO {
 
     public void setExternalCustomerId(String externalCustomerId) {
         ExternalCustomerId = externalCustomerId;
+    }
+    public void setRequestFrom(String requestFrom) {
+        RequestFrom = requestFrom;
     }
 
     public String getCreatedDate() {

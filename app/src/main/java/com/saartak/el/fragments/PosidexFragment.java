@@ -252,6 +252,9 @@ public class PosidexFragment extends LOSBaseFragment implements FragmentInterfac
                         rvPosidexGeneration.setAdapter(posidexAdapter);
                         rvPosidexGeneration.setVisibility(View.VISIBLE);
                         tv_error_message.setText("");
+                        if(posidexResponseDTO!=null&&posidexResponseDTO.getApiResponse().get(0).getUCICID().equalsIgnoreCase(" ")){
+                            callDeliquency("");
+                        }
                     } else {
                         if(posidexResponseDTO.getErrorMessage()!=null) {
                             tv_error_message.setText(posidexResponseDTO.getErrorMessage());
@@ -261,6 +264,28 @@ public class PosidexFragment extends LOSBaseFragment implements FragmentInterfac
 
 
                 });
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            appHelper.getDialogHelper().getLoadingDialog().closeDialog();
+        }
+    }
+
+    private void callDeliquency(String ucic_id) {
+        try {
+            appHelper.getDialogHelper().getLoadingDialog().showGIFLoading();
+            String uniqueId = String.valueOf(System.currentTimeMillis());
+            viewModel.getDeliquencyServiceData(ucic_id, CLIENT_ID, MODULE_TYPE, LOAN_TYPE);
+            if (viewModel.getDeliquencyResponseDTOLiveData() != null) {
+                Observer observer = new Observer() {
+                    @Override
+                    public void onChanged(Object o) {
+                        appHelper.getDialogHelper().getLoadingDialog().closeDialog();
+                        DeliquencyResponseDTO deliquencyResponseDTO = (DeliquencyResponseDTO) o;
+                        viewModel.getDeliquencyResponseDTOLiveData().removeObserver(this);
+                    }
+                };
+                viewModel.getDeliquencyResponseDTOLiveData().observe(this, observer);
             }
         } catch (Exception ex) {
             ex.printStackTrace();

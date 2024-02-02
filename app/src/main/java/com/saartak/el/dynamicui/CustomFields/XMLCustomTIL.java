@@ -144,7 +144,8 @@ public class XMLCustomTIL extends CustomTextInputLayout {
             // TODO: aadhaar mask ----------------
             if (viewParameters != null){
                 if (!TextUtils.isEmpty(viewParameters.getFieldName())&&!TextUtils.isEmpty(viewParameters.getFieldTag())) {
-                    if ((viewParameters.getFieldName().equalsIgnoreCase(TAG_NAME_KYC_ID)||viewParameters.getFieldName().equalsIgnoreCase(TAG_NAME_PERMANENT_KYC_ID)||viewParameters.getFieldName().equalsIgnoreCase(TAG_NAME_COMMUNICATION_KYC_ID)) && viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE_AADHAAR)
+                    if ((viewParameters.getFieldName().equalsIgnoreCase(TAG_NAME_KYC_ID)||viewParameters.getFieldName().equalsIgnoreCase(TAG_NAME_PERMANENT_KYC_ID)||
+                            viewParameters.getFieldName().equalsIgnoreCase(TAG_NAME_COMMUNICATION_KYC_ID)) && viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_KYC_TYPE_AADHAAR)
                             || viewParameters.getFieldName().equalsIgnoreCase(TAG_NAME_RE_ENTER_KYC_ID)) {
                         editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
                         setPasswordVisibilityToggleEnabled(true);

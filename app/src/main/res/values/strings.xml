@@ -119,4 +119,8 @@
     <string name="sod">SOD </string>
     <string name="eod">EOD </string>
     <string name="ldap">LDAP </string>
+
+
+    <string name="api_key">Your API key</string>
+    <string name="base_api_url">https://losservicesuat.rblbank.com/</string>
 </resources>

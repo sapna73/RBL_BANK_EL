@@ -2263,7 +2263,7 @@ public void syncLoanDetailsToBCM(LoanTable loanTable){
 
     public void aadhaarVaultServiceCall(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList){
         try{
-            dynamicUITableLiveData = dynamicUIRepository.aadhaarVaultServiceCall(dynamicUITable,dynamicUITableList);
+            dynamicUITableLiveData = dynamicUIRepository.aadhaarVaultServiceCall(dynamicUITable,dynamicUITableList,"");
         }catch (Exception ex){
             ex.printStackTrace();
         }

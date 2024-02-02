@@ -151,7 +151,7 @@ public class RATFragment extends LOSBaseFragment implements FragmentInterface {
                     @Override
                     public void returnValues(String s, int adapterPosition) {
                         txtcustomerType = s;
-                        getSPSourceOfIncome(customerIdList.get(adapterPosition), "0");
+                        getSPSourceOfIncome(customerIdList.get(adapterPosition), "3");
                     }
                 });
 

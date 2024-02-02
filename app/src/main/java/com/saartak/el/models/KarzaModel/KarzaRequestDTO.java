@@ -1,6 +1,7 @@
 package com.saartak.el.models.KarzaModel;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class KarzaRequestDTO {
 
@@ -12,6 +13,10 @@ public class KarzaRequestDTO {
 
     @Expose
     private String CreatedByProject = "";
+
+    @Expose
+    @SerializedName("RequestFrom")
+    private String RequestFrom="APP";
 
     @Expose
     private String ExternalCustomerId = "";

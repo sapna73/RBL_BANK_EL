@@ -3,7 +3,13 @@
     <!--Set application-wide security config using base-config tag.-->
     <base-config cleartextTrafficPermitted="true"/>
     <domain-config>
-        <domain includeSubdomains="true">losservices.rblfinserve.com</domain>
+        <domain includeSubdomains="true">*.rblbank.com</domain>
+        <pin-set>
+            <pin digest="SHA-256">yIECk6MVQIgvJdhI/iEPXSDLYkjf5WS8syeVnPbZOPI=</pin>
+        </pin-set>
+    </domain-config>
+    <domain-config>
+        <domain includeSubdomains="true">losservicesuat.rblbank.com</domain>
         <pin-set>
             <pin digest="SHA-256">yIECk6MVQIgvJdhI/iEPXSDLYkjf5WS8syeVnPbZOPI=</pin>
         </pin-set>

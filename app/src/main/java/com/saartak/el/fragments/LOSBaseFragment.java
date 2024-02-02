@@ -4643,8 +4643,7 @@ public class LOSBaseFragment extends BaseFragment {
                                             HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
                                             if (hashMap != null && hashMap.size() > 0) {
                                                 if (hashMap.containsKey(TAG_NAME_APPLICANT_FULL_NAME)) {
-                                                    Log.e("aadhaar scanned ", "666666");
-                                                    if (MODULE_TYPE.equalsIgnoreCase(MODULE_TYPE_APPLICANT)) {
+                                                   if (MODULE_TYPE.equalsIgnoreCase(MODULE_TYPE_APPLICANT)) {
                                                         applicantFullName = hashMap.get(TAG_NAME_APPLICANT_FULL_NAME).toString();
                                                     }
                                                     parameterInfoList.add(new ParameterInfo(TAG_NAME_FULL_NAME, SCREEN_ID, applicantFullName, true, true));
@@ -4743,6 +4742,283 @@ public class LOSBaseFragment extends BaseFragment {
         }
     }
 
+    public void setScreenChangesBySpinnerPanCard(List<DynamicUITable> viewParametersList) {
+
+            List<ParameterInfo> parameterInfoList = new ArrayList<>();
+            try {
+                if (moduleType.equalsIgnoreCase(MODULE_TYPE_APPLICANT)) {
+                    viewModel.getRawDataByClientIDAndModuleType(SCREEN_NAME_LEAD, CLIENT_ID, MODULE_TYPE_LEAD);
+                } else {
+                    viewModel.getRawDataByClientIDAndModuleType(SCREEN_NAME_CO_APPLICANT_KYC, CLIENT_ID, moduleType);
+                }
+                if (viewModel.getRawTableLiveData() != null) {
+                    Observer getLeadRawDataObserver = new Observer() {
+                        @Override
+                        public void onChanged(@Nullable Object o) {
+                            List<RawDataTable> rawDataTableList = (List<RawDataTable>) o;
+                            viewModel.getRawTableLiveData().removeObserver(this);
+                            if (rawDataTableList != null && rawDataTableList.size() > 0) {
+                                for (RawDataTable rawDataTable : rawDataTableList) {
+                                    if (rawDataTable != null) {
+                                        HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
+                                        if (hashMap != null && hashMap.size() > 0) {
+                                            String mobileNumber = "";
+                                            if (hashMap.containsKey(TAG_NAME_APPLICANT_FULL_NAME)) {
+                                                if (MODULE_TYPE.equalsIgnoreCase(MODULE_TYPE_APPLICANT)) {
+                                                    applicantFullName = hashMap.get(TAG_NAME_APPLICANT_FULL_NAME).toString();
+                                                }
+
+                                                splitNameValue = applicantFullName.split("\\s+");
+                                                if (MODULE_TYPE.equalsIgnoreCase(MODULE_TYPE_APPLICANT)) {
+                                                    first_FullName = (splitNameValue.length == 1) ? splitNameValue[0].toString() : (splitNameValue.length > 1) ? splitNameValue[0] : "";
+                                                    middleName = (splitNameValue.length == 3) ? splitNameValue[1].toString() : (splitNameValue.length > 2) ? splitNameValue[1].toString() : "";
+                                                    lastName = (splitNameValue.length == 3) ? splitNameValue[2].toString() : (splitNameValue.length == 2) ? splitNameValue[1].toString() : "";
+                                                }
+                                            }
+                                            if (hashMap.containsKey(TAG_NAME_MOBILENUMBER)) {
+                                                mobileNumber = hashMap.get(TAG_NAME_MOBILENUMBER).toString();
+                                            }
+                                            if (hashMap.containsKey(TAG_NAME_CUSTOMER_TYPE)) {
+                                                String customerType = hashMap.get(TAG_NAME_CUSTOMER_TYPE).toString();
+                                                String typeOfProdession = hashMap.get(TAG_NAME_TYPE_OF_PROFESSION).toString();
+                                                if (!TextUtils.isEmpty(typeOfProdession) && (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP))
+                                                        && typeOfProdession.equalsIgnoreCase(TAG_NAME_PROPRIETORSHIP)) {
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_CONTAINS_DOB, SCREEN_ID, "", false, true));
+                                                            /*if (moduleType.equalsIgnoreCase(MODULE_TYPE_APPLICANT)) {
+                                                                parameterInfoList.add(new ParameterInfo(TAG_NAME_DATE_OF_INCORPORATION, SCREEN_ID, "", true, true));
+                                                            }*/
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_CONTAINS_AGE, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GENDER, SCREEN_ID, "", false, false));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_MOBILE_NUMBER, SCREEN_ID, mobileNumber, true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_APPLICATION_DATE_OF_BIRTH, SCREEN_ID, "", false, true));
+
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PAN, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PAN_STATUS, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_FIRST_NAME, SCREEN_ID, first_FullName, false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_MIDDLE_NAME, SCREEN_ID, middleName, false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_LAST_NAME, SCREEN_ID, lastName, false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_TITLE, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_FULL_NAME, SCREEN_ID, applicantFullName, false, true));
+
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_PAN, SCREEN_ID, "", true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_FIRST_NAME, SCREEN_ID, first_FullName, true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_MIDDLE_NAME, SCREEN_ID, middleName, true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_LAST_NAME, SCREEN_ID, lastName, true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_FIRM_NAME, SCREEN_ID, "", true, true));
+
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PARTNERSHIP_PAN, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PARTNERSHIP_FIRM_NAME, SCREEN_ID, "", false, true));
+
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_COMPANY_PAN, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_COMPANYNAME, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_DATE_OF_INCORPORATION, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_CIN, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_DIN, SCREEN_ID, "", false, true));
+
+                                                } else if (!TextUtils.isEmpty(typeOfProdession) && (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP))
+                                                        && typeOfProdession.equalsIgnoreCase(TAG_NAME_PARTNER)) {
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_CONTAINS_DOB, SCREEN_ID, "", true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_CONTAINS_AGE, SCREEN_ID, "", true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GENDER, SCREEN_ID, "", true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PAN, SCREEN_ID, "", true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PAN_STATUS, SCREEN_ID, "", true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_FIRST_NAME, SCREEN_ID, first_FullName, true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_MIDDLE_NAME, SCREEN_ID, middleName, true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_LAST_NAME, SCREEN_ID, lastName, true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_TITLE, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_FULL_NAME, SCREEN_ID, applicantFullName, true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_PAN, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_FIRST_NAME, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_MIDDLE_NAME, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_LAST_NAME, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_FIRM_NAME, SCREEN_ID, "", false, true));
+
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PARTNERSHIP_PAN, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PARTNERSHIP_FIRM_NAME, SCREEN_ID, "", false, true));
+
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_COMPANY_PAN, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_COMPANYNAME, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_CIN, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_DIN, SCREEN_ID, "", false, true));
+                                                } else if (!TextUtils.isEmpty(typeOfProdession) && (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP))
+                                                        && typeOfProdession.equalsIgnoreCase(TAG_NAME_PARTNERSHIP)) {
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_CONTAINS_AGE, SCREEN_ID, "", true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GENDER, SCREEN_ID, "", true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_MOBILE_NUMBER, SCREEN_ID, mobileNumber, true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_APPLICATION_DATE_OF_BIRTH, SCREEN_ID, "", true, true));
+
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PAN, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PAN_STATUS, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_FIRST_NAME, SCREEN_ID, first_FullName, false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_MIDDLE_NAME, SCREEN_ID, middleName, false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_LAST_NAME, SCREEN_ID, lastName, false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_TITLE, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_FULL_NAME, SCREEN_ID, applicantFullName, false, true));
+
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_PAN, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_FIRST_NAME, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_MIDDLE_NAME, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_LAST_NAME, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_FIRM_NAME, SCREEN_ID, "", false, true));
+
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PARTNERSHIP_PAN, SCREEN_ID, "", true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PARTNERSHIP_FIRM_NAME, SCREEN_ID, applicantFullName, true, true));
+
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_COMPANY_PAN, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_COMPANYNAME, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_DATE_OF_INCORPORATION, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_CIN, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_DIN, SCREEN_ID, "", false, true));
+
+                                                } else if (!TextUtils.isEmpty(typeOfProdession) && (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP))
+                                                        && typeOfProdession.equalsIgnoreCase(TAG_NAME_DIRECTOR)) {
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_CONTAINS_AGE, SCREEN_ID, "", true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GENDER, SCREEN_ID, "", true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_MOBILE_NUMBER, SCREEN_ID, mobileNumber, true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_APPLICATION_DATE_OF_BIRTH, SCREEN_ID, "", true, true));
+
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PAN, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PAN_STATUS, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_FIRST_NAME, SCREEN_ID, first_FullName, false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_MIDDLE_NAME, SCREEN_ID, middleName, false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_LAST_NAME, SCREEN_ID, lastName, false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_TITLE, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_FULL_NAME, SCREEN_ID, applicantFullName, false, true));
+
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_PAN, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_FIRST_NAME, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_MIDDLE_NAME, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_LAST_NAME, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_FIRM_NAME, SCREEN_ID, "", false, true));
+
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PARTNERSHIP_PAN, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PARTNERSHIP_FIRM_NAME, SCREEN_ID, "", false, true));
+
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_COMPANY_PAN, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_COMPANYNAME, SCREEN_ID, "", true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_DATE_OF_INCORPORATION, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_CIN, SCREEN_ID, "", true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_DIN, SCREEN_ID, "", true, true));
+
+                                                } else if (!TextUtils.isEmpty(typeOfProdession) && (customerType.equalsIgnoreCase(RADIO_BUTTON_ITEM_SENP))
+                                                        && typeOfProdession.equalsIgnoreCase(TAG_NAME_PRIVATE_LIMITED)
+                                                        || typeOfProdession.equalsIgnoreCase(TAG_NAME_PUBLIC_LIMITED)
+                                                        || typeOfProdession.equalsIgnoreCase(TAG_NAME_LLP)
+                                                        || typeOfProdession.equalsIgnoreCase(TAG_NAME_HUF)) {
+
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_CONTAINS_AGE, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GENDER, SCREEN_ID, "", true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_MOBILE_NUMBER, SCREEN_ID, mobileNumber, true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_APPLICATION_DATE_OF_BIRTH, SCREEN_ID, "", false, true));
+
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PAN, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PAN_STATUS, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_FIRST_NAME, SCREEN_ID, first_FullName, false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_MIDDLE_NAME, SCREEN_ID, middleName, false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_LAST_NAME, SCREEN_ID, lastName, false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_TITLE, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_FULL_NAME, SCREEN_ID, applicantFullName, false, true));
+
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_PAN, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_FIRST_NAME, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_MIDDLE_NAME, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_LAST_NAME, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_FIRM_NAME, SCREEN_ID, "", false, true));
+
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PARTNERSHIP_PAN, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PARTNERSHIP_FIRM_NAME, SCREEN_ID, "", false, true));
+
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_COMPANY_PAN, SCREEN_ID, "", true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_COMPANYNAME, SCREEN_ID, "", true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_DATE_OF_INCORPORATION, SCREEN_ID, applicantFullName, true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_CIN, SCREEN_ID, "", true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_DIN, SCREEN_ID, "", false, true));
+
+                                                } else {
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_CONTAINS_DOB, SCREEN_ID, "", true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_DATE_OF_INCORPORATION, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_CONTAINS_AGE, SCREEN_ID, "", true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_GENDER, SCREEN_ID, "", true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PAN, SCREEN_ID, "", true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PAN_STATUS, SCREEN_ID, "", true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_FIRST_NAME, SCREEN_ID, first_FullName, true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_MIDDLE_NAME, SCREEN_ID, middleName, true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_LAST_NAME, SCREEN_ID, lastName, true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_TITLE, SCREEN_ID, "", true, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_FULL_NAME, SCREEN_ID, applicantFullName, true, true));
+
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_FIRST_NAME, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_MIDDLE_NAME, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_LAST_NAME, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_FIRM_NAME, SCREEN_ID, "", false, true));
+
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PARTNERSHIP_PAN, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_PARTNERSHIP_FIRM_NAME, SCREEN_ID, "", false, true));
+
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_COMPANY_PAN, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_COMPANYNAME, SCREEN_ID, "", false, true));
+
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_CIN, SCREEN_ID, "", false, true));
+                                                    parameterInfoList.add(new ParameterInfo(TAG_NAME_DIN, SCREEN_ID, "", false, true));
+
+                                                }
+                                                       /* if (!moduleType.equalsIgnoreCase(MODULE_TYPE_APPLICANT)) {
+                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_CONTAINS_DOB, SCREEN_ID, "", true, true));
+                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_CONTAINS_AGE, SCREEN_ID, "", true, true));
+                                                            parameterInfoList.add(new ParameterInfo(TAG_NAME_GENDER, SCREEN_ID, "", true, true));
+                                                        }*/
+                                            }else {
+                                                try {
+                                                    if(LOSBaseFragment.this instanceof ApplicantPANDetailsFragment) {
+
+                                                        parameterInfoList.add(new ParameterInfo(TAG_NAME_CONTAINS_DOB, SCREEN_ID, "", true, true));
+                                                        parameterInfoList.add(new ParameterInfo(TAG_NAME_DATE_OF_INCORPORATION, SCREEN_ID, "", false, true));
+                                                        parameterInfoList.add(new ParameterInfo(TAG_NAME_CONTAINS_AGE, SCREEN_ID, "", true, true));
+                                                        parameterInfoList.add(new ParameterInfo(TAG_NAME_GENDER, SCREEN_ID, "", true, true));
+                                                        parameterInfoList.add(new ParameterInfo(TAG_NAME_PAN, SCREEN_ID, "", true, true));
+                                                        parameterInfoList.add(new ParameterInfo(TAG_NAME_PAN_STATUS, SCREEN_ID, "", true, true));
+                                                        parameterInfoList.add(new ParameterInfo(TAG_NAME_FIRST_NAME, SCREEN_ID, first_FullName, true, true));
+                                                        parameterInfoList.add(new ParameterInfo(TAG_NAME_MIDDLE_NAME, SCREEN_ID, middleName, true, true));
+                                                        parameterInfoList.add(new ParameterInfo(TAG_NAME_LAST_NAME, SCREEN_ID, lastName, true, true));
+                                                        parameterInfoList.add(new ParameterInfo(TAG_NAME_TITLE, SCREEN_ID, "", true, true));
+                                                        parameterInfoList.add(new ParameterInfo(TAG_NAME_FULL_NAME, SCREEN_ID, applicantFullName, true, true));
+
+                                                        parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_FIRST_NAME, SCREEN_ID, "", false, true));
+                                                        parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_MIDDLE_NAME, SCREEN_ID, "", false, true));
+                                                        parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_LAST_NAME, SCREEN_ID, "", false, true));
+                                                        parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_FIRM_NAME, SCREEN_ID, "", false, true));
+                                                        parameterInfoList.add(new ParameterInfo(TAG_NAME_PROPRIETORSHIP_PAN, SCREEN_ID, "", false, true));
+
+                                                        parameterInfoList.add(new ParameterInfo(TAG_NAME_PARTNERSHIP_PAN, SCREEN_ID, "", false, true));
+                                                        parameterInfoList.add(new ParameterInfo(TAG_NAME_PARTNERSHIP_FIRM_NAME, SCREEN_ID, "", false, true));
+
+                                                        parameterInfoList.add(new ParameterInfo(TAG_NAME_COMPANY_PAN, SCREEN_ID, "", false, true));
+                                                        parameterInfoList.add(new ParameterInfo(TAG_NAME_COMPANYNAME, SCREEN_ID, "", false, true));
+
+                                                        parameterInfoList.add(new ParameterInfo(TAG_NAME_CIN, SCREEN_ID, "", false, true));
+                                                        parameterInfoList.add(new ParameterInfo(TAG_NAME_DIN, SCREEN_ID, "", false, true));
+                                                    }
+                                                } catch (Exception e) {
+                                                    throw new RuntimeException(e);
+                                                }
+                                            }
+
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    };
+                    viewModel.getRawTableLiveData().observe(this, getLeadRawDataObserver);
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+            EnableOrDisableByFieldNameInDB(parameterInfoList, viewParametersList);
+
+
+    }
     private void setGuarantorScreenChangesBySpinner(List<DynamicUITable> viewParametersList, DynamicUITable viewParameters, XMLCustomSpinner customSpinner) {
         try {
             if (!TextUtils.isEmpty(viewParameters.getFieldTag()) && viewParameters.getFieldTag().equalsIgnoreCase(TAG_NAME_GUARANTOR_KYC_DETAILS)) {
@@ -4924,7 +5200,6 @@ public class LOSBaseFragment extends BaseFragment {
                                             HashMap<String, Object> hashMap = setKeyValueForObject(rawDataTable);
                                             if (hashMap != null && hashMap.size() > 0) {
                                                 if (hashMap.containsKey(TAG_NAME_FULL_NAME)) {
-                                                    Log.e("aadhar scanned ", "666666");
                                                     if (MODULE_TYPE.equalsIgnoreCase(MODULE_TYPE_APPLICANT)) {
                                                         applicantFullName = hashMap.get(TAG_NAME_FULL_NAME).toString();
                                                     }

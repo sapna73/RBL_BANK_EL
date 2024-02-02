@@ -316,6 +316,7 @@ public class DynamicUIRepository {
     private CipherTokenPair getEncryptToken,getDecryptToken = null;
     private String encryptedValue="";
     private String decryptedValue="";
+    private String aadhaarRefKeyvalue="";
 
     @Inject
     public DynamicUIRepository(DynamicUIWebservice dynamicUIWebservice, DynamicUIDao dynamicUIDao, Executor executor, AppHelper appHelper) {
@@ -6110,12 +6111,12 @@ public class DynamicUIRepository {
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_REFERENCE_CHECK)
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_BANK_DETAILS)
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_BANK_DETAILS)
-                        ||screenName.equalsIgnoreCase(SCREEN_NAME_PERSONAL_DETAIL)
+                       /* ||screenName.equalsIgnoreCase(SCREEN_NAME_PERSONAL_DETAIL)
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_PERSONAL_DETAIL)
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_SOCIO_ECONOMIC_DETAIL)
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_SOCIO_ECONOMIC_DETAIL)
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_ADDRESS_DETAIL)
-                        ||screenName.equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL)
+                        ||screenName.equalsIgnoreCase(SCREEN_NAME_COAPPLICANT_ADDRESS_DETAIL)*/
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_NOMINEE_DETAIL)
                         ||screenName.equalsIgnoreCase(SCREEN_NAME_GUARANTOR_DETAILS)) {
                     // TODO: Need to check the raw data table and add it into list
@@ -9269,7 +9270,8 @@ public class DynamicUIRepository {
                                     }
                                 }
 
-                            } else if (moduleType.contains(MODULE_TYPE_CO_APPLICANT)) { // TODO: CO APPLICANT (note : contains)
+                            }
+                            else if (moduleType.contains(MODULE_TYPE_CO_APPLICANT)) { // TODO: CO APPLICANT (note : contains)
 
                                 for (String screenName : CO_APPLICANT_TAB_SCREEN_NAMES) {
 
@@ -9279,7 +9281,7 @@ public class DynamicUIRepository {
                                     if (rawDataTableList.size() == 0) {
                                         if (!screenName.equalsIgnoreCase(SCREEN_NAME_CO_APPLICANT_BANK_DETAILS)) {
                                             allDataCaptured = false;
-                                            message = ERROR_MESSAGE_CAPTURE_ALL_DETAILS.replace("ALL SCREEN", screenName);
+                                            message = ERROR_MESSAGE_CAPTURE_ALL_DETAILS.replace("ALL SCREEN",MODULE_TYPE_CO_APPLICANT+ screenName);
                                             break parentLoop;
                                         }
                                     } else {
@@ -16373,12 +16375,14 @@ public class DynamicUIRepository {
 
                     // TODO: Communication address ( YES )
                     if (dynamicUITable.getValue().equalsIgnoreCase("yes")) {
-
                         String permKycID = dynamicUIDao.getValueByFieldName(dynamicUITable.getScreenID(), FIELD_NAME_PERMANENT_KYC_ID);
                         if (!TextUtils.isEmpty(permKycID)) {
-
-                            dynamicUIDao.EnableOrDisableByFieldName(dynamicUITable.getScreenID(), true, FIELD_NAME_COMMUNICATION_KYC_ID,
-                                    permKycID, false);
+                            if (!permKycID.startsWith("1")&&dynamicUIDao.getValueByTAGAndScreenName(dynamicUITable.getScreenName(), TAG_NAME_PERMANENT_KYC_TYPE).equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_AADHAAR)) {
+                                aadhaarVaultServiceCall(dynamicUITable,dynamicUITableList,permKycID);
+                                dynamicUIDao.EnableOrDisableByFieldName(dynamicUITable.getScreenID(), true, FIELD_NAME_COMMUNICATION_KYC_ID, aadhaarRefKeyvalue, false);
+                            }else {
+                                dynamicUIDao.EnableOrDisableByFieldName(dynamicUITable.getScreenID(), true, FIELD_NAME_COMMUNICATION_KYC_ID, permKycID, false);
+                            }
                         } else {
                             dynamicUIDao.EnableOrDisableByFieldName(dynamicUITable.getScreenID(), false, FIELD_NAME_COMMUNICATION_KYC_ID,
                                     permKycID, false);
@@ -16787,9 +16791,12 @@ public class DynamicUIRepository {
 
                         String permKycID = dynamicUIDao.getValueByFieldName(dynamicUITable.getScreenID(), FIELD_NAME_PERMANENT_KYC_ID);
                         if (!TextUtils.isEmpty(permKycID)) {
-
-                            dynamicUIDao.EnableOrDisableByFieldName(dynamicUITable.getScreenID(), true, FIELD_NAME_COMMUNICATION_KYC_ID,
-                                    permKycID, false);
+                            if (!permKycID.startsWith("1")&&dynamicUIDao.getValueByTAGAndScreenName(dynamicUITable.getScreenName(), TAG_NAME_PERMANENT_KYC_TYPE).equalsIgnoreCase(SPINNER_ITEM_FIELD_NAME_AADHAAR)) {
+                                aadhaarVaultServiceCall(dynamicUITable,dynamicUITableList,permKycID);
+                                dynamicUIDao.EnableOrDisableByFieldName(dynamicUITable.getScreenID(), true, FIELD_NAME_COMMUNICATION_KYC_ID, aadhaarRefKeyvalue, false);
+                            }else {
+                                dynamicUIDao.EnableOrDisableByFieldName(dynamicUITable.getScreenID(), true, FIELD_NAME_COMMUNICATION_KYC_ID, permKycID, false);
+                            }
                         } else {
                             dynamicUIDao.EnableOrDisableByFieldName(dynamicUITable.getScreenID(), false, FIELD_NAME_COMMUNICATION_KYC_ID,
                                     permKycID, false);
@@ -26339,7 +26346,7 @@ public class DynamicUIRepository {
     }
 
     // TODO: AADHAAR VAULT SERVICE CALL
-    public LiveData<List<DynamicUITable>> aadhaarVaultServiceCall(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList) {
+    public LiveData<List<DynamicUITable>> aadhaarVaultServiceCall(DynamicUITable dynamicUITable, List<DynamicUITable> dynamicUITableList,String aadhaarNumber) {
         final MutableLiveData<List<DynamicUITable>> data = new MutableLiveData<>();
 
         DynamicUIWebService.changeApiBaseUrl(AADHAAR_VAULT_URL);
@@ -26356,7 +26363,11 @@ public class DynamicUIRepository {
                 aadhaarVaultRequestDTO.setUniqueId(timeStamp);
                 aadhaarVaultRequestDTO.setClientID(dynamicUITable.getClientID());
                 aadhaarVaultRequestDTO.setExternalCustomerId("");
-                aadhaarVaultRequestDTO.setKYCId(dynamicUITable.getValue());
+                if(TextUtils.isEmpty(aadhaarNumber)){
+                    aadhaarVaultRequestDTO.setKYCId(aadhaarNumber);
+                }else {
+                    aadhaarVaultRequestDTO.setKYCId(dynamicUITable.getValue());
+                }
                 aadhaarVaultRequestDTO.setCreatedDate(appHelper.getCurrentDateTime(DATE_FORMAT_YYYY_MM_DD_T_HH_MM_SS));
                 aadhaarVaultRequestDTO.setCreatedBy(dynamicUITable.getUser_id());
                 aadhaarVaultRequestDTO.setServiceType(SERVICE_TYPE_AADHAAR_VAULT);
@@ -26401,6 +26412,7 @@ public class DynamicUIRepository {
                                                     if (apiResponse != null && apiResponse.getStatus().equals("1") &&
                                                             !TextUtils.isEmpty(apiResponse.getAadhaarRefKey())) {
                                                         String aadhaarRefKey = apiResponse.getAadhaarRefKey();
+                                                         aadhaarRefKeyvalue = apiResponse.getAadhaarRefKey();
 
                                                         dynamicUIDao.updateDynamicTableOptionalValue(dynamicUITable.getFieldTag(),
                                                                 dynamicUITable.getScreenName(), aadhaarRefKey);
@@ -33535,7 +33547,8 @@ public class DynamicUIRepository {
                                     }
                                 }
                             }
-                        } else if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_NOMINEE_DETAIL)) {
+                        }
+                        else if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_NOMINEE_DETAIL)) {
                             // TODO: add applicant KYC details
                             if (applicantKYCDetailRawDataList != null && applicantKYCDetailRawDataList.size() > 0) {
                                 allKYCDetailRawDataList.addAll(applicantKYCDetailRawDataList);
@@ -33702,7 +33715,8 @@ public class DynamicUIRepository {
 
 
                 }
-            } else {
+            }
+            else {
                 // TODO: DE-DUPE VALIDATION FOR LEAD SCREENn ( MOBILE NUMBER )
                 if (dynamicUITable.getScreenName().equalsIgnoreCase(SCREEN_NAME_LEAD)) {
 

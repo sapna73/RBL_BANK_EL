@@ -30,6 +30,9 @@ public  class VKYCRequestDTO {
     @SerializedName("CreatedByProject")
     private String CreatedByProject;
     @Expose
+    @SerializedName("RequestFrom")
+    private String RequestFrom="APP";
+    @Expose
     @SerializedName("CreatedBy")
     private String CreatedBy;
     @Expose

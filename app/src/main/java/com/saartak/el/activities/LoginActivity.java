@@ -1,10 +1,20 @@
 package com.saartak.el.activities;
 
+import android.app.Activity;
+import android.app.Application;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Debug;
+import android.os.IBinder;
+import android.system.Os;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
@@ -15,6 +25,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -23,6 +34,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -33,23 +45,31 @@ import androidx.lifecycle.ViewModelProviders;
 import com.bfil.uilibrary.dialogs.ConfirmationDialog;
 import com.bfil.uilibrary.widgets.customEditText.CustomEditText;
 import com.bfil.uilibrary.widgets.textInputLayout.CustomTextInputLayout;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
+import com.saartak.el.magisk.IIsolatedService;
+import com.saartak.el.magisk.IsolatedService;
+import com.saartak.el.magisk.RootDetector;
+import com.saartak.el.magisk.RootUtil;
+import com.saartak.el.safeNet.RootShell.RootShell;
+import com.saartak.el.safeNet.RootShell.execution.Command;
+import com.saartak.el.safeNet.RootShell.execution.Shell;
 import com.scottyab.rootbeer.RootBeer;
 import com.saartak.el.App;
 import com.saartak.el.R;
 import com.saartak.el.database.entity.LogInTable;
 import com.saartak.el.database.entity.RoleNameTable;
 import com.saartak.el.models.LDAP_Login.LoginnewResponseDTO;
-import com.saartak.el.models.LeadDropDownDetails.GetLeadDropDownBankDetailsTable;
-import com.saartak.el.models.LeadDropDownDetails.GetLeadDropDownBranchNameTable;
-import com.saartak.el.models.LeadDropDownDetails.GetLeadDropDownProductNameTable;
-import com.saartak.el.models.LeadDropDownDetails.GetLeadDropDownProductTypeTable;
-import com.saartak.el.models.LeadDropDownDetails.GetLeadDropDownSqIdAndNameTable;
 import com.saartak.el.models.LoginResponseDTO;
 import com.saartak.el.models.RoleNamesRequestDTO;
 import com.saartak.el.models.UserLoginMenu.UserLoginMenuTable;
 import com.saartak.el.view_models.DynamicUIViewModel;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,6 +77,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.Inflater;
+import java.util.zip.InflaterOutputStream;
 
 import javax.inject.Inject;
 
@@ -66,7 +88,6 @@ import static com.bfil.uilibrary.helpers.AppConstants.ALL_PERMISSION_CODE;
 import static com.bfil.uilibrary.helpers.AppConstants.PERMISSION_DENIED_EXPLANATION;
 import static com.bfil.uilibrary.helpers.AppConstants.permissions;
 import static com.saartak.el.constants.AppConstant.AUTHORIZATION_TOKEN_KEY;
-import static com.saartak.el.constants.AppConstant.BCID_PHL;
 import static com.saartak.el.constants.AppConstant.LOAN_NAME_MSME;
 import static com.saartak.el.constants.AppConstant.MESSAGE_ROOTED_DEVICE_NOT_SUPPORTED;
 import static com.saartak.el.constants.AppConstant.PARAM_BRANCH_GST_CODE;
@@ -91,6 +112,8 @@ public class LoginActivity extends LOSBaseActivity implements View.OnClickListen
 
     private static final String TAG = LoginActivity.class.getCanonicalName();
     private TextView btLogin;
+
+    private GoogleApiClient mGoogleApiClient;
     private CustomTextInputLayout tilUserId, tilPassword;
     public static LogInTable loginResponseDTO;
     private TextView tvForgot, tvAppVersion;
@@ -110,6 +133,19 @@ public class LoginActivity extends LOSBaseActivity implements View.OnClickListen
     @Inject
     public ViewModelProvider.Factory viewModelFactory;
     public DynamicUIViewModel viewModel;
+
+    private IIsolatedService serviceBinder;
+    private boolean bServiceBound;
+    private static final String TAGM = "DetectMagisk";
+
+
+    private HashMap<View, View> tabs = new HashMap<View, View>();
+    private TextView scriptInput;
+    private TextView scriptOutput;
+    private AutoCompleteTextView pkgName;
+    private Shell rootShell;
+
+    private byte rt;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -211,25 +247,73 @@ public class LoginActivity extends LOSBaseActivity implements View.OnClickListen
         configureDagger();
         // TODO: Configure View Model
         configureViewModel();
-
+        //initClient();
         // TODO: Check Rooted device or not
-//        RootBeer rootBeer = new RootBeer(this);
-//        if (rootBeer.isRooted()) {
-//            //we found indication of root
-//            appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ALERT,
-//                    MESSAGE_ROOTED_DEVICE_NOT_SUPPORTED, new ConfirmationDialog.ActionCallback() {
-//                        @Override
-//                        public void onAction() {
-//                            finish();
-//                        }
-//                    });
-//        } else {
-//            //we didn't find indication of root
-//            // TODO: Check App Permission
-//            checkAllPermissions();
-//        }
-        checkAllPermissions();
+        RootBeer rootBeer = new RootBeer(this);
+       /* if (rootBeer.isRooted()) {
+            //we found indication of root
+            appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ALERT,
+                    MESSAGE_ROOTED_DEVICE_NOT_SUPPORTED, new ConfirmationDialog.ActionCallback() {
+                        @Override
+                        public void onAction() {
+                            finish();
+                        }
+                    });
+        } else {
+            //we didn't find indication of root
+            // TODO: Check App Permission
+            checkAllPermissions();
+        }*/
+        RootBeer rb = new RootBeer(getApplicationContext());
+        if(!Debug.isDebuggerConnected()||!Debug.waitingForDebugger()) {
+            if (RootDetector.isDeviceRootedOrNot(getApplicationContext()) || checkRooted() || isDeviceRooted() || checkRootMethod() ||rb.isRootedWithoutBusyBoxCheck()
+                    || rootCheckPath()||rb.isRooted() || (rb.canLoadNativeLibrary() && rb.checkForRootNative())) {
+                appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ALERT,
+                        MESSAGE_ROOTED_DEVICE_NOT_SUPPORTED, new ConfirmationDialog.ActionCallback() {
+                            @Override
+                            public void onAction() {
+                                finish();
+                            }
+                        });
+            }else {
+                checkAllPermissions();
+            }
+        }
+        if (RootDetector.isDeviceRootedOrNot(getApplicationContext()) || checkRooted() || isDeviceRooted() || checkRootMethod() ||rb.isRootedWithoutBusyBoxCheck()
+                || rootCheckPath()||rb.isRooted() || (rb.canLoadNativeLibrary() && rb.checkForRootNative())) {
+            appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ALERT,
+                    MESSAGE_ROOTED_DEVICE_NOT_SUPPORTED, new ConfirmationDialog.ActionCallback() {
+                        @Override
+                        public void onAction() {
+                            finish();
+                        }
+                    });
+        }
+
+        detectMagisk();
+
     }
+
+    private void detectMagisk() {
+
+        if(bServiceBound){
+            boolean bIsMagisk = false;
+            try {
+                Log.d(TAG, "UID:"+ Os.getuid());
+                bIsMagisk = serviceBinder.isMagiskPresent();
+                if(bIsMagisk) {
+                    Toast.makeText(getApplicationContext(), "Magisk Found", Toast.LENGTH_LONG).show();
+                    finish();
+                }
+
+                //getApplicationContext().unbindService(mIsolatedServiceConnection);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
 
     private void updateSelectedRoleNameInDB(String selectedItemText) {
         if(viewModel != null){
@@ -240,6 +324,7 @@ public class LoginActivity extends LOSBaseActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         if (v == btLogin) {
+            //validationToCheckCertificate();
             validateLogin();
         }else if (v == tvForgot) {
             validateForgot();
@@ -250,6 +335,28 @@ public class LoginActivity extends LOSBaseActivity implements View.OnClickListen
         super.onResume();
         ldapvalue = false;
         ldap.setChecked(false);
+        RootBeer rb = new RootBeer(getApplicationContext());
+        if(!Debug.isDebuggerConnected()||!Debug.waitingForDebugger()) {
+            if (RootDetector.isDeviceRootedOrNot(getApplicationContext()) || checkRooted() || isDeviceRooted() || checkRootMethod() || rootCheckPath() || rb.isRooted() || (rb.canLoadNativeLibrary() && rb.checkForRootNative())) {
+                Toast.makeText(getApplicationContext(), "11111", Toast.LENGTH_SHORT).show();
+                appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ALERT,
+                        MESSAGE_ROOTED_DEVICE_NOT_SUPPORTED, new ConfirmationDialog.ActionCallback() {
+                            @Override
+                            public void onAction() {
+                                finish();
+                            }
+                        });
+            }
+        }
+        if (RootDetector.isDeviceRootedOrNot(getApplicationContext()) || checkRooted() || isDeviceRooted() || checkRootMethod() || rootCheckPath() || rb.isRooted() || (rb.canLoadNativeLibrary() && rb.checkForRootNative())) {
+            appHelper.getDialogHelper().getConfirmationDialog().show(ConfirmationDialog.ALERT,
+                    MESSAGE_ROOTED_DEVICE_NOT_SUPPORTED, new ConfirmationDialog.ActionCallback() {
+                        @Override
+                        public void onAction() {
+                            finish();
+                        }
+                    });
+        }
         //tilUserId.getEditText().setText("C27063"); // TODO:  LO/SM
         //tilPassword.getEditText().setText("fgqf2730FG");
     }
@@ -294,7 +401,7 @@ public class LoginActivity extends LOSBaseActivity implements View.OnClickListen
 
                                 byte[] byteArrayPassword = password.getBytes();
                                 String  loginPassword = Base64.encodeToString(byteArrayPassword, Base64.DEFAULT);
-                                callLDAPLoginService(userId,loginPassword);
+                                callLDAPLoginService(userId,loginPassword.trim());
                                 /*if (selectedRoleName.equalsIgnoreCase(ROLE_NAME_LO) || selectedRoleName.equalsIgnoreCase(ROLE_NAME_RO)
                                         || selectedRoleName.equalsIgnoreCase(ROLE_NAME_SM)
                                         || selectedRoleName.equalsIgnoreCase(ROLE_NAME_BM)
@@ -682,180 +789,247 @@ public class LoginActivity extends LOSBaseActivity implements View.OnClickListen
         }
     }
 
-    private void getUserLoginMenuFromServer() {
-        try {
-            appHelper.getDialogHelper().getLoadingDialog().showGIFLoading();
-            viewModel.getUserLoginMenuFromServer(userId, "4001");
-            if (viewModel.getUserLoginMenuTableLiveDataList() != null) {
-                Observer observer = new Observer() {
-                    @Override
-                    public void onChanged(Object o) {
-                        appHelper.getDialogHelper().getLoadingDialog().closeDialog();
-                        ArrayList<UserLoginMenuTable> userLoginMenuTableList = (ArrayList<UserLoginMenuTable>) o;
-                        viewModel.getUserLoginMenuTableLiveDataList().removeObserver(this);
 
-                        if (userLoginMenuTableList != null && userLoginMenuTableList.size() > 0) {
-                              userLoginMemuList=userLoginMenuTableList;
-                        } else {
-
-                        }
-
-                    }
-                };
-                viewModel.getUserLoginMenuTableLiveDataList().observe(this, observer);
+    public void tabClicked(View v) {
+        for (Map.Entry<View, View> tab : tabs.entrySet()) {
+            View value = tab.getValue(),
+                    key = tab.getKey();
+            if (key == v) {
+                value.setVisibility(View.VISIBLE);
+                key.setBackground(getResources().getDrawable(R.drawable.bordered_view));
+            } else {
+                value.setVisibility(View.GONE);
+                key.setBackground(null);
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            appHelper.getDialogHelper().getLoadingDialog().closeDialog();
-            INSERT_LOG("getKnowledgeBankFromServer", "Exception : " + ex.getMessage());
-        }
-    }
-    private void getLeadDropDownProductNameServer() {
-        try {
-            appHelper.getDialogHelper().getLoadingDialog().showGIFLoading();
-            viewModel.getLeadDropDownProductNameServer(userId, "0",BCID_PHL,"");
-            if (viewModel.getLeadDropDownProductNameTableListLiveData() != null) {
-                Observer observer = new Observer() {
-                    @Override
-                    public void onChanged(Object o) {
-                        appHelper.getDialogHelper().getLoadingDialog().closeDialog();
-                        ArrayList<GetLeadDropDownProductNameTable> getLeadDropDownProductNameList = (ArrayList<GetLeadDropDownProductNameTable>) o;
-                        viewModel.getLeadDropDownProductNameTableListLiveData().removeObserver(this);
-
-                        if (getLeadDropDownProductNameList != null && getLeadDropDownProductNameList.size() > 0) {
-                              //userLoginMemuList=getLeadDropDownProductNameList;
-                        } else {
-
-                        }
-
-                    }
-                };
-                viewModel.getLeadDropDownProductNameTableListLiveData().observe(this, observer);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            appHelper.getDialogHelper().getLoadingDialog().closeDialog();
-            INSERT_LOG("getKnowledgeBankFromServer", "Exception : " + ex.getMessage());
         }
     }
 
-    private void getLeadDropDownProductTypeServer() {
+    public void launchClicked(View v) {
         try {
-            appHelper.getDialogHelper().getLoadingDialog().showGIFLoading();
-            viewModel.getLeadDropDownProductTypeServer(userId, "0",BCID_PHL,"");
-            if (viewModel.getLeadDropDownProductTypeTableListLiveData() != null) {
-                Observer observer = new Observer() {
-                    @Override
-                    public void onChanged(Object o) {
-                        appHelper.getDialogHelper().getLoadingDialog().closeDialog();
-                        ArrayList<GetLeadDropDownProductTypeTable> getLeadDropDownProductTypeList = (ArrayList<GetLeadDropDownProductTypeTable>) o;
-                        viewModel.getLeadDropDownProductTypeTableListLiveData().removeObserver(this);
+            scriptOutput.setText(null);
+            if (rootShell == null || !rootShell.isShellOpen())
+                rootShell = RootShell.getShell(true);
+            String dataFolder = "/data/data/" + getPackageName();
+            writeToFile(dataFolder + "/script.js", scriptInput.getText().toString());
+            showToast("Injecting to the target application...");
+            rootShell.runRootCommand(new Command(0, dataFolder + "/frida64 -s " + dataFolder +
+                    "/script.js -f " + pkgName.getText()) {
+                @Override
+                public void commandOutput(int id, String line) {
+                    scriptOutput.append(line + "\n");
+                    showToast(line);
+                }
+            });
 
-                        if (getLeadDropDownProductTypeList != null && getLeadDropDownProductTypeList.size() > 0) {
-                            //userLoginMemuList=getLeadDropDownProductNameList;
-
-                        } else {
-
-                        }
-
-                    }
-                };
-                viewModel.getLeadDropDownProductTypeTableListLiveData().observe(this, observer);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            appHelper.getDialogHelper().getLoadingDialog().closeDialog();
-            INSERT_LOG("getKnowledgeBankFromServer", "Exception : " + ex.getMessage());
+        } catch (Exception e) {
+            showToast(e.getMessage());
         }
     }
 
-
-    private void getLeadDropDownSqIdAndNameServer() {
-        try {
-            appHelper.getDialogHelper().getLoadingDialog().showGIFLoading();
-            viewModel.getLeadDropDownSqIdAndNameServer(userId, "0",BCID_PHL,"");
-            if (viewModel.getLeadDropDownSqIdAndNameTableListLiveData() != null) {
-                Observer observer = new Observer() {
+    public  void ShowDialog(String title, String msg, final boolean exit) {
+        new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(msg)
+                .setCancelable(false)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onChanged(Object o) {
-                        appHelper.getDialogHelper().getLoadingDialog().closeDialog();
-                        ArrayList<GetLeadDropDownSqIdAndNameTable> getLeadDropDownProductTypeList = (ArrayList<GetLeadDropDownSqIdAndNameTable>) o;
-                        viewModel.getLeadDropDownSqIdAndNameTableListLiveData().removeObserver(this);
-
-                        if (getLeadDropDownProductTypeList != null && getLeadDropDownProductTypeList.size() > 0) {
-                            //userLoginMemuList=getLeadDropDownProductNameList;
-                        } else {
-
-                        }
-
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (exit)
+                            finishAffinity();
                     }
-                };
-                viewModel.getLeadDropDownSqIdAndNameTableListLiveData().observe(this, observer);
+                })
+                .show();
+    }
+
+    public void showToast(String msg) {
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+    }
+
+    public ArrayAdapter<String> getInstalledAppNames() {
+        Context context = getApplicationContext();
+        PackageManager packageManager = context.getPackageManager();
+        List<ApplicationInfo> applicationInfos = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
+        List<String> appNames = new ArrayList<>();
+        for (ApplicationInfo applicationInfo : applicationInfos) {
+            if ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
+                appNames.add(applicationInfo.packageName);
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            appHelper.getDialogHelper().getLoadingDialog().closeDialog();
-            INSERT_LOG("getKnowledgeBankFromServer", "Exception : " + ex.getMessage());
+        }
+        return new ArrayAdapter<>(
+                context,
+                R.layout.item,
+                appNames
+        );
+    }
+
+    public void writeToFile(String path, String text) throws IOException {
+        File file = new File(path);
+        FileWriter writer = new FileWriter(file);
+        writer.write(text);
+        writer.close();
+    }
+
+
+    public void extractAsset(String assetName, String outputFilePath) throws IOException {
+        InputStream inputStream = null;
+        FileOutputStream fileOutputStream = null;
+        InflaterOutputStream infOutput = null;
+        try {
+            Inflater inflater = new Inflater(true);
+            inputStream = getAssets().open(assetName);
+            fileOutputStream = new FileOutputStream(outputFilePath);
+            infOutput = new InflaterOutputStream(fileOutputStream, inflater);
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) > 0) {
+                infOutput.write(buffer, 0, bytesRead);
+            }
+        } catch (IOException e) {
+            showToast("Error extracting asset: " + e.getMessage());
+        } finally {
+            if (fileOutputStream != null)
+                fileOutputStream.close();
+            if (inputStream != null)
+                inputStream.close();
+            if (infOutput != null) {
+                infOutput.close();
+            }
         }
     }
 
-    private void getLeadDropDownBankDetailsServer() {
+    private boolean isDeviceRooted() {
+
         try {
-            appHelper.getDialogHelper().getLoadingDialog().showGIFLoading();
-            viewModel.getLeadDropDownBankDetailsServer(userId, "0",BCID_PHL,"");
-            if (viewModel.getLeadDropDownBankDetailsTableListLiveData() != null) {
-                Observer observer = new Observer() {
-                    @Override
-                    public void onChanged(Object o) {
-                        appHelper.getDialogHelper().getLoadingDialog().closeDialog();
-                        ArrayList<GetLeadDropDownBankDetailsTable> getLeadDropDownProductTypeList = (ArrayList<GetLeadDropDownBankDetailsTable>) o;
-                        viewModel.getLeadDropDownBankDetailsTableListLiveData().removeObserver(this);
+            File superuserApk = new File("/system/app/Superuser.apk");
+            File KingoUserAPK = new File("/system/app/KingoUser.apk");
+            File SuperSuAPK = new File("/system/app/SuperSu.apk");
+            File suBinary = new File("/system/bin/su");
+            File busybox = new File("/system/bin/busybox");
+            File supersu = new File("/system/bin/supersu");
+            File magisk = new File("/system/bin/magisk");
+            return superuserApk.exists() ||KingoUserAPK.exists() ||SuperSuAPK.exists() ||busybox.exists() ||
+                    supersu.exists() ||magisk.exists() || suBinary.exists();
 
-                        if (getLeadDropDownProductTypeList != null && getLeadDropDownProductTypeList.size() > 0) {
-                            //userLoginMemuList=getLeadDropDownProductNameList;
-                            Log.e(TAG, "1111112223344: "+getLeadDropDownProductTypeList.get(0).getTypeofChannel() );
-                        } else {
-
-                        }
-
-                    }
-                };
-                viewModel.getLeadDropDownBankDetailsTableListLiveData().observe(this, observer);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            appHelper.getDialogHelper().getLoadingDialog().closeDialog();
-            INSERT_LOG("getKnowledgeBankFromServer", "Exception : " + ex.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
-    private void getLeadDropDownBranchNameServer() {
-        try {
-            appHelper.getDialogHelper().getLoadingDialog().showGIFLoading();
-            viewModel.getLeadDropDownBranchNameServer(userId, "0",BCID_PHL,"");
-            if (viewModel.getLeadDropDownBranchNameTableListLiveData() != null) {
-                Observer observer = new Observer() {
-                    @Override
-                    public void onChanged(Object o) {
-                        appHelper.getDialogHelper().getLoadingDialog().closeDialog();
-                        ArrayList<GetLeadDropDownBranchNameTable> getLeadDropDownProductTypeList = (ArrayList<GetLeadDropDownBranchNameTable>) o;
-                        viewModel.getLeadDropDownBranchNameTableListLiveData().removeObserver(this);
+    private boolean rootCheckPath() {
+        String[] paths = {
+                "/system/app/Superuser.apk",
+                "/system/app/KingoUser.apk",
+                "/system/app/SuperSu.apk",
 
-                        if (getLeadDropDownProductTypeList != null && getLeadDropDownProductTypeList.size() > 0) {
-                            //userLoginMemuList=getLeadDropDownProductNameList;
-                        } else {
+                "/sbin/su",
+                "/system/bin/su",
+                "/data/local/bin/su",
+                "/system/xbin/su",
+                "/data/local/xbin/su",
+                "/system/sd/xbin/su",
+                "/system/bin/failsafe/su",
+                "/data/local/su",
 
-                        }
+                "/sbin/busybox",
+                "/system/bin/busybox",
+                "/data/local/bin/busybox",
+                "/system/xbin/busybox",
+                "/data/local/xbin/busybox",
+                "/system/sd/xbin/busybox",
+                "/system/bin/failsafe/busybox",
+                "/data/local/busybox",
 
-                    }
-                };
-                viewModel.getLeadDropDownBranchNameTableListLiveData().observe(this, observer);
+                "/sbin/magisk",
+                "/system/bin/magisk",
+                "/data/local/bin/magisk",
+                "/system/xbin/magisk",
+                "/data/local/xbin/magisk",
+                "/system/sd/xbin/magisk",
+                "/system/bin/failsafe/magisk",
+                "/data/local/magisk" ,
+
+                "/sbin/supersu",
+                "/system/bin/supersu",
+                "/data/local/bin/supersu",
+                "/system/xbin/supersu",
+                "/data/local/xbin/supersu",
+                "/system/sd/xbin/supersu",
+                "/system/bin/failsafe/supersu",
+                "/data/local/supersu"
+        };
+
+        for (String path : paths) {
+            if (new File(path).exists()) {
+                return true;
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            appHelper.getDialogHelper().getLoadingDialog().closeDialog();
-            INSERT_LOG("getKnowledgeBankFromServer", "Exception : " + ex.getMessage());
         }
+        return false;
     }
 
+    public boolean checkRooted() {
+        if(RootUtil.checkRootMethod3()|| RootUtil.checkRootMethod1()|| RootUtil.checkRootMethod2())
+            return true;
+        return false;
+    }
+
+
+    private ServiceConnection mIsolatedServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            serviceBinder = IIsolatedService.Stub.asInterface(iBinder);
+            bServiceBound = true;
+            Log.d(TAGM, "Service bound");
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            bServiceBound = false;
+            Log.d(TAGM, "Service Unbound");
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent intent = new Intent(getApplicationContext(), IsolatedService.class);
+        /*Binding to an isolated service */
+        getApplicationContext().bindService(intent, mIsolatedServiceConnection, BIND_AUTO_CREATE);
+
+    }
+
+    public static boolean isAPKRooted() {
+
+        // get from build info
+        String buildTags = android.os.Build.TAGS;
+        if (buildTags != null && buildTags.contains("test-keys")) {
+            return true;
+        }
+
+        // check if /system/app/Superuser.apk is present
+        try {
+            File file = new File("/system/app/Superuser.apk");
+            if (file.exists()) {
+                return true;
+            }
+        } catch (Exception e1) {
+            // ignore
+        }
+
+        // try executing commands
+        return canExecuteCommand("/system/xbin/which su") || canExecuteCommand("/system/bin/which su") || canExecuteCommand("which su");
+    }
+
+    // executes a command on the system
+    private static boolean canExecuteCommand(String command) {
+        boolean executedSuccesfully;
+        try {
+            Runtime.getRuntime().exec(command);
+            executedSuccesfully = true;
+        } catch (Exception e) {
+            executedSuccesfully = false;
+        }
+
+        return executedSuccesfully;
+    }
 }
+

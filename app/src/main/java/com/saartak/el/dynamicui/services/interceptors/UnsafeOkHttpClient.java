@@ -26,8 +26,8 @@ public class UnsafeOkHttpClient {
         try {
 
             CertificatePinner certificatePinner = new CertificatePinner.Builder()
-                    .add("losservices.rblfinserve.com", "sha256/yIECk6MVQIgvJdhI/iEPXSDLYkjf5WS8syeVnPbZOPI=")
-                    .add("besure.rblfinserve.com", "sha256/yIECk6MVQIgvJdhI/iEPXSDLYkjf5WS8syeVnPbZOPI=")
+                    .add("losservicesuat.rblbank.com", "sha256/yIECk6MVQIgvJdhI/iEPXSDLYkjf5WS8syeVnPbZOPI=")
+                    .add("saartakuat.rblbank.com", "sha256/yIECk6MVQIgvJdhI/iEPXSDLYkjf5WS8syeVnPbZOPI=")
                     .add("rfs1.rblfinserve.com", "sha256/yIECk6MVQIgvJdhI/iEPXSDLYkjf5WS8syeVnPbZOPI=")
 //                    .add("104.211.103.21", "sha256/yIECk6MVQIgvJdhI/iEPXSDLYkjf5WS8syeVnPbZOPI=")
                     .build();

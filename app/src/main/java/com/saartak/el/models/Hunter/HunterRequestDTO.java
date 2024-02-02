@@ -18,6 +18,10 @@ public class HunterRequestDTO {
     @Expose
     @SerializedName("RequestString")
     private RequestString RequestString;
+
+    @Expose
+    @SerializedName("RequestFrom")
+    private String RequestFrom="APP";
     @Expose
     @SerializedName("KYCId")
     private String KYCId = "";
@@ -51,6 +55,10 @@ public class HunterRequestDTO {
 
     public void setRequestString(RequestString requestString) {
         RequestString = requestString;
+    }
+
+    public void setRequestFrom(String requestFrom) {
+        RequestFrom = requestFrom;
     }
 
     public void setKYCId(String KYCId) {
